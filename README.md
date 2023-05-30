@@ -1,8 +1,9 @@
-# Notes du loup
-Mon premier site web depuis un dépot git avec le thème *material* pour l'outil SSG *mkdocs*.
+# Objectif à atteindre
 
-Mon premier est de disposer de mes notes techniques sur le web, ceci sur un *générateur de site statique* (SSG).
+Créer sur GitHub un espace de documentation exploitant le thème *material* du générateur de site web statique *mkdocs*.
 
-Mon second but est également de sauvegarder si possible les articles de mon blog WordPress sur le Web.
+Mon premier but est de disposer de mes notes informatiques dans le *Cloud*.
+
+Mon second est d'y sauvegarder les articles de mon blog *WordPress* traitant de l'administration d'un petit réseau informatique local.
 
 Loup
