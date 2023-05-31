@@ -1,0 +1,37 @@
+# Fichier de configuration du site
+### Configuration minimale
+site_name: Documents du Loup
+site_url:
+
+### Configuration du dépôt
+# Ajoute en haut à droite de chaque page du site, icône, nom et lien vers le dépot GitHub du projet.
+
+### Configuration des métadonnées
+site_description: Notes techniques du Loup
+site_author: "Gérard Leloup"
+
+### Configuration de la stucture de navigation
+# Dossier source, chemin relatif au fichier mkdocs.yml
+docs_dir: docs
+# Structure du menu principal de navigation, chemins relatifs au dossier docs_dir
+#nav: 
+  #- La page d'accueil : index.md
+  #- Musiques:
+      #- Spotify: spotify.md
+  # Référencer vos autres pages ci-dessus...
+
+### Configuration du thème
+theme:
+  name: material
+  language: fr    
+
+### Palettes de couleurs jour/nuit
+  #palette:
+#### Configuration du comportement de la navigation
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.footer
+copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
+
+### Configuration des extensions MarkDown :
