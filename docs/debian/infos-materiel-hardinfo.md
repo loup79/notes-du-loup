@@ -6,7 +6,7 @@ authors:
 date: 2023-06-01
 ---
 
-### **Installationk**
+### **Installation**
 
 ```
 $ sudo apt install hardinfo -2c-tools
