@@ -1,12 +1,12 @@
 ---
 title: Debian - MkDocs
-summary: Installation de MkDocs sur Debian 11.
+summary: Installation de MkDocs sur Debian.
 authors:
     - Gerard Leloup
 date: 2023-06-01
 ---
 
-Tuto pour installer MkDocs sur une VM Debian11.
+Tuto pour installer MkDocs sur une VM Debian 11.
 
 ### **1- Installation**
 Préalable : Python version 3 installé sur la Debian.
