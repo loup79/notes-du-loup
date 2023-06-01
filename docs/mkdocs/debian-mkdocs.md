@@ -1,16 +1,22 @@
 ---
 title: Debian - MkDocs
+summary: Installation de MkDocs sur Debian 11.
+authors:
+    - Gerard Leloup
+date: 2023-06-01
 ---
+
+Tuto pour installer MkDocs sur une VM Debian11.
 
 ### **1- Installation**
 Préalable : Python version 3 installé sur la Debian.
 
-Vérifier la version :
+Vérifier la version courante de Python :
 ```
 $ python3 --version
 ```
 
-Ensuite ajouter le module *pip* de Python :
+Ensuite ajouter si manquant le module *pip* :
 ```
 $ sudo apt install python3-pip
 ```
@@ -21,17 +27,17 @@ $ sudo pip install mkdocs
 $ mkdocs --version
 ```
 
-Les fichiers MkDocs ont été installés dans :
+Les fichiers de MkDocs sont installés dans :
 ```
 /usr/local/lib/python3.x/dist-packages/
 ```
 
-### **2 - Création d'un projet + site**
+### **2 - Création d'un projet MkDocs + site Web**
 Projet ou site de développement :
 ```
 $ cd /home/user/espace-travail-user
-$ mkdocs new mkdocs-user
-$ cd mkdocs-user
+$ mkdocs new notes-du-user
+$ cd notes-du-user
 $ tree
 ```
 
@@ -45,31 +51,34 @@ Retour de la Cde *tree* :
 
 Site de production :
 ```
+$ cd /home/user/espace-travail-user/notes-du-user
 $ sudo mkdir /var/www/html/mkdocs
 $ mkdocs build -c -d /var/www/html/mkdocs/
 ```
 
-### **3 - Installation d'un thème**
-Thème multilingue *mkdocs-material* :
+Le dossier *mkdocs* est exploité par un serveur web *nginx*.
+
+### **3 - Installation d'un thème pour Mkdocs**
+Installer le thème multilingue *mkdocs-material* :
 ```
 $ sudo pip3 install mkdocs-material
 ```
 
-L'installation s'est faite dans :
+Les fichiers du thème sont installés dans :
 ```
 /usr/local/lib/python3.x/dist-packages
 ```
 
-Lien du thème : [Material pour MkDocs](https://squidfunk.github.io/mkdocs-material/)
+**Nota -** Lien GitHub du thème : [Material pour MkDocs](https://squidfunk.github.io/mkdocs-material/)
 
-Pour info, d'autres thèmes de base nommés *readthedocs* et *mkdocs* se trouvent dans :
+Pour info, 2 thèmes de base nommés *readthedocs* et *mkdocs* sont dans :
 ```
 /usr/local/lib/python3.x/dist-packages/mkdocs/themes/
 ```
 
-Modifier ensuite le fichier *mkdocs.yml* comme suit :
+Editer ensuite le fichier *mkdocs.yml* comme suit :
 ```
-$ cd mkdocs-user
+$ cd /home/user/espace-travail-user/notes-du-user
 $ nano mkdocs.yml
 ```
 
@@ -83,25 +92,26 @@ theme:
   features:
     - navigation.footer
 
-copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
+copyright: Copyright &copy; 2023 - Cartier Jacques
 ```
 
-Vérifier la version du thème :
+Pour vérifier la version du thème, utiliser cette Cde :
 ```
 $ sudo pip show mkdocs-material
 ```
 
-Mise à jour du thème :
+Pour mettre à jour le thème, utiliser cette Cde :
 ```
 $ sudo pip install --upgrade --force-reinstall mkdocs-material
 ```
 
 #### **4 - Serveur de développement**
-lancement du serveur :
+Pour lancer le serveur, procéder ainsi :
 ```
-$ cd mkdocs-user
+$ cd /home/user/espace-travail-user/notes-du-user
 $ mkdocs serve --dev-addr=192.168.1.x:8000
 ```
+L'IP 192.168.1.x est celle de la VM Debian 11.
 
 Retour normal :
 ```
@@ -117,5 +127,8 @@ Touches *CTRL+C* pour fermer le serveur.
 ### **5 - MAJ du serveur de production**
 La mise à jour s'effectue ainsi :
 ```
+$ cd /home/user/espace-travail-user/notes-du-user
 $ sudo mkdocs build -c -d /var/www/html/mkdocs/
 ```
+
+**Fin**
