@@ -26,6 +26,6 @@ Le MkDocs Server local sera utilisé pour :
 
 La première concerne mes notes dédiées informatique.
 
-La seconde concerne les articles de mon blog WordPress <linkUri>https://infoloup.no-ip.org</linkUri> traitant de la création et de l'administration d'un petit réseau informatique local virtuel ceci avec l'aide de l'outil VirtualBox.
+La seconde concerne les articles de mon blog WordPress [InfoLoup](https://infoloup.no-ip.org</linkUri) traitant de la création et de l'administration d'un petit réseau informatique local virtuel ceci avec l'aide de l'outil VirtualBox.
 
 Loup
