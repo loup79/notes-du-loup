@@ -1,7 +1,7 @@
 ---
 title: Readme
 summary: Le fichier README du projet.
-author: Gerard Leloup
+authors: Gerard Leloup
 date: 2023-06-02
 ---
 
