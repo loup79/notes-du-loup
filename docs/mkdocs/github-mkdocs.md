@@ -1,10 +1,11 @@
 ---
 title: GitHub - MkDocs
 summary: Installation de MkDocs sur GitHub.
-authors:
-    - Gerard Leloup
+authors: Gerard Leloup
 date: 2023-06-01
 ---
+
+# MkDocs sur GitHub
 
 Tuto pour installer MkDocs sur GitHub.
 

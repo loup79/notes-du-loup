@@ -14,10 +14,15 @@ site_author: "Gérard Leloup"
 # Dossier source, chemin relatif au fichier mkdocs.yml
 docs_dir: docs
 # Structure du menu principal de navigation, chemins relatifs au dossier docs_dir
-#nav: 
-  #- La page d'accueil : index.md
-  #- Musiques:
-      #- Spotify: spotify.md
+nav: 
+  - Accueil : index.md
+  - Informatique : 
+    - Debian : 
+      - informatique/debian/infos-materiel-hardinfo.md
+  - MkDocs : 
+    - mkdocs/bases-mkdocs.md
+    - mkdocs/debian-mkdocs.md
+    - mkdocs/github-mkdocs.md
   # Référencer vos autres pages ci-dessus...
 
 ### Configuration du thème
@@ -35,3 +40,7 @@ theme:
 copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
 
 ### Configuration des extensions MarkDown :
+markdown_extensions:
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true

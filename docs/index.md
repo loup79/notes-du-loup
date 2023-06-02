@@ -1,17 +1,31 @@
-# Bienvenue sur MkDocs
+---
+title: Readme
+summary: Le fichier README du projet.
+authors: Gerard Leloup
+date: 2023-06-02
+---
 
-Pour la documentation complète, visitez [mkdocs.org](https://www.mkdocs.org).
+# Objectif du Loup
 
-## Commandes
+** 1 - Découvrir et tester GitHub avec :**
 
-* `mkdocs new [dir-name]` - Pour créer un projet.
-* `mkdocs serve` - Pour lancer le serveur de développement.
-* `mkdocs build` - Pour construire la doc du site.
-* `mkdocs -h` - Pour afficher l'aide.
+- Un *MkDocs Server* local sur Debian.  
+- Le dépôt GitHub *notes-du-loup* ici présent.  
+- Un *Visual Studio Code Server* local sur Debian.
 
-## Schéma d'un projet
+Le Visual Studio Code Server sera utilisé pour :  
+- Ecrire de la documentation en Markdown et transférer celle-ci sur le dépôt GitHub.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Le dépôt GitHub sera utilisé pour :  
+- Héberger ladite documentation et présenter celle-ci sur un site web MkDocs-Material.
+
+Le MkDocs Server local sera utilisé pour :  
+- Tester le site web MkDocs-Material avant sa mise à jour sur le dépôt GitHub.
+
+** 2 - Transférer ensuite une documentation existante.**
+
+La première concerne mes notes dédiées informatique.
+
+La seconde concerne les articles de mon blog WordPress [Infoloup](infoloup.no-ip.org) traitant de la création et de l'administration d'un petit réseau informatique local virtuel ceci avec l'aide de l'outil VirtualBox.
+
+Loup
