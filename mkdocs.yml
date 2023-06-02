@@ -19,6 +19,8 @@ nav:
   - Informatique : 
     - Debian : 
       - informatique/debian/infos-materiel-hardinfo.md
+    - Synology :
+      - informatique/synology/docker-maj-de-nextcloud.md
   - MkDocs : 
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
