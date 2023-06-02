@@ -1,10 +1,10 @@
 ---
 title: Bases - MkDocs
 summary: Utilisation de MkDocs.
-authors:
-    - Gerard Leloup
+authors: Gerard Leloup
 date: 2023-06-01
 ---
+
 # Les bases de MkDocs
 
 Pour la documentation complète, visiter [mkdocs.org](https://www.mkdocs.org).

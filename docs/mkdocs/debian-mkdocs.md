@@ -1,8 +1,7 @@
 ---
 title: Debian - MkDocs
 summary: Installation de MkDocs sur Debian.
-authors:
-    - Gerard Leloup
+authors: Gerard Leloup
 date: 2023-06-01
 ---
 
