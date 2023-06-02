@@ -5,22 +5,27 @@ authors: Gerard Leloup
 date: 2023-06-02
 ---
 
-# Objet du projet
+# Objectif du Loup
 
-Découvrir et exploiter les possibilités offertes pat GitHub.
+** 1 - Découvrir et tester GitHub avec :**
 
-Les outils utilisés pour cela sont :
-- Un serveur MkDocs local sur Debian.
-- Le dépôt GitHub *notes-du-loup* ici présent.
-- Un Visual Studio Code Server local sur la même Debian.
+- Un *MkDocs Server* local sur Debian.  
+- Le dépôt GitHub *notes-du-loup* ici présent.  
+- Un *Visual Studio Code Server* local sur Debian.
 
-Visual Studio Code Server sera utilisé pour :  
+Le Visual Studio Code Server sera utilisé pour :  
+- Ecrire de la documentation en Markdown et transférer celle-ci sur le dépôt GitHub.
 
-- Ecrire et tester en local la documentation du projet.
--  
+Le dépôt GitHub sera utilisé pour :  
+- Héberger ladite documentation et présenter celle-ci sur un site web MkDocs-Material.
 
-L'un des buts est de transférer mes notes informatiques dans le *Cloud*.
+Le MkDocs Server local sera utilisé pour :  
+- Tester le site web MkDocs-Material avant sa mise à jour sur le dépôt GitHub.
 
-L'autre est d'y sauvegarder les articles de mon blog *WordPress* traitant de l'administration d'un petit réseau informatique local.
+** 2 - Transférer ensuite une documentation existante.**
+
+La première concerne mes notes dédiées informatique.
+
+La seconde concerne les articles de mon blog WordPress [InfoLoup](https://infoloup.no-ip.org) traitant de la création et de l'administration d'un petit réseau informatique local virtuel ceci avec l'aide de l'outil VirtualBox.
 
 Loup
