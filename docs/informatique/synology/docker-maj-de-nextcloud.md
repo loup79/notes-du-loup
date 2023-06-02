@@ -9,7 +9,7 @@ date: 2023-06-02
 
 Ouvrir l'application **Docker** du Synology.
 
-Par précaution, vérifier auparavant sur le hub de Docker que c'est bien la dernière version de Nextcloud qui qui est proposée.
+Par précaution, vérifier auparavant sur le hub de Docker que c'est bien la dernière version de Nextcloud qui est proposée.
 
 Chercher ensuite sur le Synology l'application **nextcloud** dans l'onglet **Registre** de Docker et télécharger la dernière version *(Latest)*.
 
@@ -19,6 +19,7 @@ Depuis ce même menu, **Réinitialier** le conteneur **nextcloud**.
 
 Le conteneur sera supprimé et recréé à partir de la nouvelle image.
 
-Redémarrer ensuite le conteneur qui ira chercher sa configuration dans **/volume1/docker/nextcloud/config**.
+Redémarrer ensuite le conteneur qui ira chercher sa configuration dans :  
+**/volume1/docker/nextcloud/config**.
 
 **Fin**
