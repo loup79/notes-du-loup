@@ -46,7 +46,7 @@ auto eth
 iface eth0 inet static
 address 192.168.x.w          \# IP libre du réseau local PC hôte
 netmask 255.255.255.0
-network 192.168.x.0           \# Réseau local du PC hôte
+network 192.168.x.0          \# Réseau local du PC hôte
 broadcast 192.168.x.255
 gateway 192.168.x.z          \# IP de la box Internet, Freebox, etc...
 ```
