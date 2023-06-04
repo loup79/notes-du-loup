@@ -25,6 +25,13 @@ nav:
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
     - mkdocs/github-mkdocs.md
+  - WP Réseau Virtuel :
+    - Pages :
+      - wp-reseau-virtuel/pages/nouveautes-du-reseau-virtuel-2018.md
+    - Articles :
+      - Hyperviseur VirtualBox :
+        - wp-reseau-virtuel/articles/virtualbox-installation.md
+        - wp-reseau-virtuel/articles/virtualbox-pont-reseau.md
   # Référencer vos autres pages ci-dessus...
 
 ### Configuration du thème
@@ -46,3 +53,5 @@ markdown_extensions:
   - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
+  - attr_list
+  - md_in_html
