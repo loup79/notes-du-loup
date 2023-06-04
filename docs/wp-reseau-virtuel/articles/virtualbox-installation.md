@@ -44,7 +44,7 @@ Ce pack inclut les guest additons, outils permettant :
 \- d'ignorer la touche CTRL droite appelée touche Hôte.  
 \- etc…
 
-![Image - Rédacteur satisfait](../../wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
+![Image - Rédacteur satisfait](../../wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
   
 C'est terminé ! Vous pouvez à  
