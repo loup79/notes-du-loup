@@ -1,5 +1,5 @@
 ---
-title: "VirtualBox - Accès réseau par pont"
+title: "Accès réseau par pont"
 date: "2020-08-07"
 categories: 
   - "hyperviseur-virtualbox"

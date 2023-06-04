@@ -1,5 +1,5 @@
 ---
-title: "VirtualBox - Installation"
+title: "Installation"
 date: "2020-08-08"
 categories: 
   - "hyperviseur-virtualbox"
