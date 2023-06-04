@@ -37,7 +37,9 @@ Redémarrez la VM.
 
 Editez le fichier réseau interfaces :
 
-`[root@srvlan:~#\] nano /etc/network/interfaces`
+```markdown
+[root@srvlan:~#\] nano /etc/network/interfaces
+```
 
 et modifiez les lignes ci-dessous comme suit :
 
@@ -53,7 +55,9 @@ gateway 192.168.x.z          \# IP de la box Internet, Freebox, etc...
 
 Relancez le service réseau sur la carte eth0 :
 
-`[root@srvlan:~#\] service network-interface restart INTERFACE=eth0`
+```markdown
+[root@srvlan:~#\] service network-interface restart INTERFACE=eth0
+```
 
 #### _3.3 - Test de la liaison entre l'hôte et srvlan_
 
