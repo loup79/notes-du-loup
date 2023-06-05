@@ -17,7 +17,7 @@ de créer des Machines
 Virtuelles (VM).  
 &nbsp;  
 
-### \- Information générale :
+### \- Information générale
 
 VirtualBox, installé sur le système d'exploitation hôte d'un ordinateur, utilisera les ressources matérielles de celui-ci pour créer des machines virtuelles _(VM)_ pouvant fonctionner simultanément sous différents systèmes d'exploitation invités.
 
@@ -25,7 +25,7 @@ Le système d'exploitation hôte accèdera seul au matériel physique de l'ordin
 
 Le tout fonctionnera de manière sécurisée, les systèmes d'exploitation invités n'interagiront pas directement avec le système d'exploitation hôte et n'interagiront pas entre eux.
 
-### \- Téléchargement de VirtualBox :
+### \- Téléchargement de VirtualBox
 
 Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et téléchargez ces 2 fichiers :
 
@@ -33,7 +33,7 @@ Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et tél
 
 \- L' extension VirtualBox x.y.z Oracle VM VirtualBox Extension Pack, toutes plateformes.
 
-### \- Installation de VirtualBox :
+### \- Installation de VirtualBox
 
 Lancez l'exécutable et ajoutez les cartes réseau qui vous seront proposées.
 
