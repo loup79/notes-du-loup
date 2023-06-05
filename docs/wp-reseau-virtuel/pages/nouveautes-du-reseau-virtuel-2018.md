@@ -7,8 +7,11 @@ date: "2018-02-27"
 
 ![Image - Lecteur des nouveautés](../wp-content/uploads/2021/12/magicien_bis.png){ align=left }
 
+&nbsp;  
 Découvrez les évolutions par  
-rapport à la maquette précédente.
+rapport à la maquette précédente.  
+&nbsp;  
+&nbsp;  
 
 Les 2 serveurs Debian 10 _(LAN/DMZ)_ sont remplacés par des Debian 11 plus récents, le rôle de pare-feu pour le réseau restant assuré par un serveur IPFire _(WAN)_.
 
