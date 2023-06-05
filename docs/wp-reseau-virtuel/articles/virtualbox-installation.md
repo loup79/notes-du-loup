@@ -5,9 +5,17 @@ categories:
   - "hyperviseur-virtualbox"
 ---
 
+![Image](../../wp-reseau-virtuel/wp-content/uploads/2022/08/virtualbox_os.jpg)
+
 ## VirtualBox est un hyperviseur de type 2
 
-<table><tbody><tr><td><a href="https://www.virtualbox.org/" target="_blank" rel="noreferrer noopener"><img class="wp-image-35" style="width: 120px" src="../../wp-content/uploads/2019/02/logo-virtualbox.jpg" alt="Logo - VirtualBox" title="https://www.virtualbox.org/"></a></td><td>VirtualBox permet de créer des Machines Virtuelles <em>(VM)</em>.</td></tr></tbody></table>
+![Logo - VirtualBox](../wp-content/uploads/2019/02/logo-virtualbox.jpg){ align=left }
+
+&nbsp;  
+VirtualBox permet  
+de créer des Machines  
+Virtuelles (VM).  
+&nbsp;  
 
 ### \- Information générale :
 
@@ -42,14 +50,16 @@ Ce pack inclut les guest additons, outils permettant :
 \- d'effectuer des copier/coller entre les VM.  
 \- d'effectuer des copier/coller entre les VM et l'hôte.  
 \- d'ignorer la touche CTRL droite appelée touche Hôte.  
-\- etc…
+\- etc…  
+&nbsp;  
 
-![Image - Rédacteur satisfait](../../wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - 
+Mohamed Hassan"){ align=left }
 
-  
+&nbsp;    
 C'est terminé ! Vous pouvez à  
 présent créer la première VM  
 du réseau virtuel. Suivez pour cela  
 la liste des mémentos du site.
 
-[Liste des mémentos](/liste-des-mementos/)
+[Liste des mémentos](/liste-des-mementos/){ .md-button }

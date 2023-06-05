@@ -5,7 +5,7 @@ date: "2018-02-27"
 
 ## Bienvenue sur InfoLoup
 
-![Image - Lecteur des nouveautés](../wp-content/uploads/2021/12/magicien_bis.png)
+![Image - Lecteur des nouveautés](../wp-content/uploads/2021/12/magicien_bis.png){ align=left }
 
 Découvrez les évolutions par  
 rapport à la maquette précédente.

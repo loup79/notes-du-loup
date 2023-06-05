@@ -5,6 +5,8 @@ categories:
   - "hyperviseur-virtualbox"
 ---
 
+
+
 ## Pont réseau entre VM et PC hôte
 
 <table><tbody><tr><td><a href="https://www.virtualbox.org/" target="_blank" rel="noreferrer noopener"><img class="wp-image-35" style="width: 120px" src="../../wp-content/uploads/2019/02/logo-virtualbox.jpg" alt="Logo - VirtualBox" title="https://www.virtualbox.org/"></a></td><td>Configuration d'un pont réseau <em>(bridge)</em></td></tr></tbody></table>
