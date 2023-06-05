@@ -30,12 +30,9 @@ Un réseau construit par ce biais est fonctionnel et si vous cassez l'une des Ma
 
 La virtualisation est un bon champ d'expérimentation pour apprendre. En ce qui me concerne, je consomme avec beaucoup de satisfaction et ne m'en lasse pas.
 
-| \- Sur ce site, vous trouverez comment : |
-| --- |
-| Créer les VM sous VirtualBox _(serveurs et clients)_. |
-| Relier celles-ci entre elles pour fonctionner en réseau. |
-| Installer des services réseau tels DNS, DHCP, etc… |
-| Vérifier le bon fonctionnement de l'ensemble. |
+### - Sur ce site, vous trouverez comment :
+
+<table class="has-background"><tbody><tr><td>Créer les VM sous VirtualBox (serveurs et clients).</td></tr><tr><td>Relier celles-ci entre elles pour fonctionner en réseau.</td></tr><tr><td>Installer des services réseau tels DNS, DHCP, etc…</td></tr><tr><td>Vérifier le bon fonctionnement de l'ensemble.</td></tr></tbody></table>
 
 Si ce travail peut servir à d'autres qu'à moi-même, j'en serai particulièrement heureux.
 
