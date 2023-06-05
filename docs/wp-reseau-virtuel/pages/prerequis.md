@@ -7,7 +7,7 @@ date: "2019-10-30"
 
 ![Image - Lecteur des nouveautés](https://familleleloup.no-ip.org/wp-content/uploads/2021/12/magicien_bis.png)
 
-Disposer d'un PC avec un VirtualBox  
+Disposer d'un PCpc avec un VirtualBox  
 récent déjà installé et fonctionnel.
 
 Le PC, hôte du réseau virtuel, doit avoir environ 200 Go d'espace de libre et de préférence être équipé des éléments suivants :
