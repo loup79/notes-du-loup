@@ -41,9 +41,9 @@ Si ce travail peut servir à d'autres qu'à moi-même, j'en serai particulièrem
 
 ### \- Remarques générales sur la maquette
 
-1) VM et conteneurs LXC sont initialisés par systemd.
+1 - VM et conteneurs LXC sont initialisés par systemd.
 
-2) Le serveur IPFire offre les services suivants :  
+2 - Le serveur IPFire offre les services suivants :  
 \- Firewall _(utilisé par le réseau virtuel)_  
 \- Serveur Proxy  
 \- Système de détection d'intrusion  
@@ -53,12 +53,12 @@ Si ce travail peut servir à d'autres qu'à moi-même, j'en serai particulièrem
 
 Rôle : Sécuriser l'architecture d'un réseau d’entreprise.
 
-3) Commutateur virtuel Open vSwitch :  
+3 - Commutateur virtuel Open vSwitch :  
 \- Installé sur une VM Debian 11 et non sur le PC hôte.
 
-4) 8 Go de RAM minimum, mémoire du PC hôte incluse.
+4 -  8 Go de RAM minimum, mémoire du PC hôte incluse.
 
-5) Environnement graphique :  
+5 - Environnement graphique :  
 \- Certaines VM disposent du bureau léger Xfce4. 
 
 ### \- Pourquoi ce nouveau réseau ?
