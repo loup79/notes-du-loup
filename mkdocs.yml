@@ -28,6 +28,7 @@ nav:
   - WP Réseau Virtuel :
     - Pages :
       - wp-reseau-virtuel/pages/nouveautes-du-reseau-virtuel-2018.md
+      - wp-reseau-virtuel/pages/prerequis.md
     - Articles :
       - Hyperviseur VirtualBox :
         - wp-reseau-virtuel/articles/virtualbox-installation.md
