@@ -5,10 +5,13 @@ date: "2019-10-30"
 
 ## Configuration matérielle et logicielle
 
-![Image - Lecteur des nouveautés](https://familleleloup.no-ip.org/wp-content/uploads/2021/12/magicien_bis.png)
+![Image - Lecteur des nouveautés](../wp-content/uploads/2021/12/magicien_bis.png){ align=left }
 
-Disposer d'un PCpc avec un VirtualBox  
-récent déjà installé et fonctionnel.
+&nbsp;  
+Disposer d'un PC avec un VirtualBox  
+récent déjà installé et fonctionnel.  
+&nbsp;  
+&nbsp;  
 
 Le PC, hôte du réseau virtuel, doit avoir environ 200 Go d'espace de libre et de préférence être équipé des éléments suivants :
 
