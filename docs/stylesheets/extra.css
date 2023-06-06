@@ -1,5 +1,7 @@
 .md-typeset h2 { color: #D93F0C; }
 .md-typeset h2, .md-typeset h3 { font-weight: bold; }
 table { background-color: rgb(251, 245, 245); }
-th {display: none;}
+th { display: none; }
 td { background-color: rgb(251, 245, 245); }
+.td-bleu { background-color:#e7f5fe; }
+.centrage { text-align: center;}

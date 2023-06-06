@@ -33,11 +33,11 @@ Un réseau construit par ce biais est fonctionnel et si vous cassez l'une des Ma
 
 La virtualisation est un bon champ d'expérimentation pour apprendre. En ce qui me concerne, je consomme avec beaucoup de satisfaction et ne m'en lasse pas.
 
-### - Sur ce site, vous trouverez comment :
+### - Sur ce site vous trouverez comment
 
 | |
 |-------------|
-| Créer les VM sous VirtualBox _(serveurs et clients)_.       |
+|Créer les VM sous VirtualBox _(serveurs et clients)_.|
 |Relier celles-ci entre elles pour fonctionner en réseau.|
 |Installer des services réseau tels DNS, DHCP, etc…|
 |Vérifier le bon fonctionnement de l'ensemble.|
@@ -64,7 +64,7 @@ Rôle : Sécuriser l'architecture d'un réseau d’entreprise.
 4 -  8 Go de RAM minimum, mémoire du PC hôte incluse.
 
 5 - Environnement graphique :  
-\- Certaines VM disposent du bureau léger Xfce4. 
+\- Certaines VM disposent du bureau léger Xfce4.
 
 ### \- Pourquoi ce nouveau réseau ?
 

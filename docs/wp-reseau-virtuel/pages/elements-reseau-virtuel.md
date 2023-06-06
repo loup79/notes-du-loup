@@ -7,31 +7,56 @@ date: "2018-03-02"
 
 Le PC ou serveur, hôte de l'hyperviseur VirtualBox, peut tourner sous Windows ou Linux.
 
-Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS Debian Linux.
+Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS Debian Linux.  
+&nbsp;  
 
-[![Logo - VirtualBox](/wp-content/uploads/2019/02/logo-virtualbox.jpg "Logo VirtualBox")](https://www.virtualbox.org)
+[![Logo - VirtualBox](../wp-content/uploads/2019/02/logo-virtualbox.jpg "Logo VirtualBox"){ align=left }](https://www.virtualbox.org)
 
-<table class="has-background" style="background-color:#e7f5fe"><tbody><tr><td class="has-text-align-left" data-align="left"><strong>Système de virtualisation :</strong></td></tr><tr><td class="has-text-align-left" data-align="left">Hyperviseur de type 2 VirtualBox</td></tr><tr><td class="has-text-align-left" data-align="left">Dernière version</td></tr></tbody></table>
+|                                  |
+| -------------------------------- |
+| **Système de virtualisation :**  |
+| Hyperviseur de type 2 VirtualBox |
+| Dernière version                 |
 
-![Image - Serveur Linux](/wp-content/uploads/2018/03/logo-serveur-linux.png "Image Pixabay - OpenClipart-Vectors")
+![Image - Serveur Linux](../wp-content/uploads/2018/03/logo-serveur-linux.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
 
-<table class="has-background" style="background-color:#e7f5fe"><tbody><tr><td class="has-text-align-left" data-align="left"><strong>Serveurs LAN/DMZ :</strong></td><td class="has-text-align-right" data-align="right">RAM min :</td></tr><tr><td class="has-text-align-left" data-align="left">VM <em>srvlan </em>et<em> srvdmz</em></td><td class="has-text-align-right" data-align="right">2 x 1024 Mo</td></tr><tr><td class="has-text-align-left" data-align="left">Bureau Xfce4 installé</td><td class="has-text-align-right" data-align="right"></td></tr></tbody></table>
+|                         |             |
+| ----------------------- | ----------: |
+| **Serveurs LAN/DMZ :**  |   RAM min : |
+| VM _srvlan_ et _srvdmz_ | 2 x 1024 Mo |
+| Bureau Xfce4 installé   |             |
 
-[![Logo - IPFire](/wp-content/uploads/2020/11/logo-ipfire.png "Logo IPFire")](https://www.ipfire.org/)
+[![Logo - IPFire](../wp-content/uploads/2020/11/logo-ipfire.png "Logo IPFire"){ align=left }](https://www.ipfire.org/)
 
-<table class="has-background" style="background-color:#e7f5fe"><tbody><tr><td class="has-text-align-left" data-align="left"><strong>Serveur WAN </strong><em>(Pare-feu)</em><strong> :</strong></td><td class="has-text-align-right" data-align="right">RAM min :</td></tr><tr><td class="has-text-align-left" data-align="left">VM <em>srvsec</em></td><td class="has-text-align-right" data-align="right">1 x 512 Mo</td></tr><tr><td class="has-text-align-left" data-align="left">OS LFS IPFire</td><td class="has-text-align-right" data-align="right"></td></tr></tbody></table>
+|                                    |            |
+| ---------------------------------- | ---------: |
+| **Serveur WAN** _(Pare-feu)_ **:** |  RAM min : |
+| VM _srvsec_                        | 1 x 512 Mo |
+| OS LFS IPFire                      |            |
 
-![Logo - Linux Mascotte Tux](/wp-content/uploads/2019/02/logo-linux.png "Image Pixabay - FreeCliparts")
+![Logo - Linux Mascotte Tux](../wp-content/uploads/2019/02/logo-linux.png "Image Pixabay - FreeCliparts"){ align=left }
 
-<table class="has-background" style="background-color:#e7f5fe"><tbody><tr><td class="has-text-align-left" data-align="left"><strong>Clients LAN :</strong></td><td class="has-text-align-right" data-align="right">RAM min :</td></tr><tr><td class="has-text-align-left" data-align="left">VM <em>debian1x-vm1 </em>et<em> vm2</em></td><td class="has-text-align-right" data-align="right">2 x 1024 Mo</td></tr><tr><td class="has-text-align-left" data-align="left">VM <em>ovs</em></td><td class="has-text-align-right" data-align="right">1 x 1024 Mo</td></tr></tbody></table>
+|                            |             |
+| -------------------------- | ----------: |
+| **Clients LAN :**          |   RAM min : |
+| VM _debian1x-vm1_ et _vm2_ | 2 x 1024 Mo |
+| VM _ovs_                   | 1 x 1024 Mo |
 
-[![Logo - LXC](/wp-content/uploads/2021/12/logo-lxc.png "Logo LXC")](https://linuxcontainers.org)
+[![Logo - LXC](../wp-content/uploads/2021/12/logo-lxc.png "Logo LXC"){ align=left }](https://linuxcontainers.org)
 
-<table class="has-background" style="background-color:#e7f5fe"><tbody><tr><td class="has-text-align-left" data-align="left"><strong>Clients LAN </strong><em>(LXC)</em><strong> :</strong></td><td class="has-text-align-right" data-align="right">RAM d'<em>ovs</em></td></tr><tr><td class="has-text-align-left" data-align="left">Conteneurs <em>ctn1</em> et <em>ctn2</em></td><td class="has-text-align-right" data-align="right">partagée&nbsp;&nbsp;&nbsp;</td></tr><tr><td class="has-text-align-left" data-align="left">sur la VM <em>ovs</em></td><td class="has-text-align-right" data-align="right"></td></tr></tbody></table>
+|                               |             |
+| ----------------------------- | ----------: |
+| **Clients LAN** _(LXC)_ **:** | RAM d'_osv_ |
+| Conteneurs _ctn1_ et _ctn2_   |    partagée |
+| sur la VM _ovs_               |             |
 
-![Image - Switch informatique](/wp-content/uploads/2019/02/logo-switch.png "Image Pixabay - OpenClipart-Vectors")
+![Image - Switch informatique](../wp-content/uploads/2019/02/logo-switch.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
 
-<table class="has-background" style="background-color:#e7f5fe"><tbody><tr><td class="has-text-align-left" data-align="left"><strong>Switch virtuel :</strong></td><td class="has-text-align-right" data-align="right">RAM d'<em>ovs</em></td></tr><tr><td class="has-text-align-left" data-align="left">Logiciel Open vSwitch</td><td class="has-text-align-right" data-align="right">partagée&nbsp;&nbsp;&nbsp;</td></tr><tr><td class="has-text-align-left" data-align="left">sur la VM <em>ovs</em></td><td class="has-text-align-right" data-align="right"></td></tr></tbody></table>
+|                       |             |
+| --------------------- | ----------: |
+| **Switch virtuel**    | RAM d'_osv_ |
+| Logiciel Open vSwitch |    partagée |
+| sur la VM _ovs_       |             |
 
 RAM minimum requise pour travailler convenablement :  
 \-- Environ 6 Go en utilisant simultanément les 6 VM --
