@@ -55,9 +55,13 @@ markdown_extensions:
   - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
   - attr_list # Ex Attribut image { align=left }
   - md_in_html
   - tables
+  - fenced_code
 
 ### Gestion des styles
 extra_css:

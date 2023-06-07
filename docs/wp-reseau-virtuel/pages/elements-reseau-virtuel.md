@@ -55,8 +55,8 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 |                       |             |
 | --------------------- | ----------: |
 | **Switch virtuel**    | RAM d'_osv_ |
-| Logiciel Open vSwitch |    partagée |
-| sur la VM _ovs_       |             |
+| Logiciel Open vSwitch {.td-bleu} |    ==partagée== {.td-bleu} |
+| sur la VM _ovs_  {.td-bleu}| &nbsp;  {.td-bleu}|
 
 RAM minimum requise pour travailler convenablement :  
 \-- Environ 6 Go en utilisant simultanément les 6 VM --
