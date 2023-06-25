@@ -5,7 +5,7 @@ authors: Gerard Leloup
 date: 2023-06-02
 ---
 
-# Docker - MAJ de Nextcloud
+## Docker - MAJ de Nextcloud
 
 Ouvrir l'application **Docker** du Synology.
 
@@ -22,4 +22,4 @@ Le conteneur sera supprimé et recréé à partir de la nouvelle image.
 Redémarrer ensuite le conteneur qui ira chercher sa configuration dans :  
 **/volume1/docker/nextcloud/config**.
 
-**Fin**
+### Fin

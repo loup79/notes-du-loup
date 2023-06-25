@@ -59,4 +59,4 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 | sur la VM _ovs_  {.td-bleu}| &nbsp;  {.td-bleu}|
 
 RAM minimum requise pour travailler convenablement :  
-\-- Environ 6 Go en utilisant simultanément les 6 VM --
+\-- Environ 6 Go en utilisant simultanément les 6 VM --  
