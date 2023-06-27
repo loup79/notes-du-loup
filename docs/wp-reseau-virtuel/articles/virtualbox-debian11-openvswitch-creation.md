@@ -1,5 +1,5 @@
 ---
-title: "Open vSwitch / Debian 11"
+title: "Open vSwitch / Deb11"
 date: "2021-09-22"
 categories: 
   - "openvswitch-lxc"
