@@ -1,5 +1,5 @@
 ---
-title: "srvlan - VBox / Debian 11"
+title: "Création srvlan - VBox/Deb11"
 date: "2021-08-27"
 categories: 
   - "serveur-srvlan"
