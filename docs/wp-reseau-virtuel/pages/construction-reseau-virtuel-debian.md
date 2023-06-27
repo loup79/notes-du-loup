@@ -13,7 +13,7 @@ La construction suit les 4 étapes titrées ci-dessous. Les 3 premières concern
 
 ### 1 ) Installation de l'outil de virtualisation
 
-&#9755; Commencez par installer le logiciel VirtualBox.
+&#9755; blabla Commencez par installer le logiciel VirtualBox.
 
 Mémento [VirtualBox](https://familleleloup.no-ip.org/virtualbox-installation/)
 
