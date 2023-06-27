@@ -7,7 +7,7 @@ date: "2023-03-18"
 
 ![Image - Evolution de l'homme](https://familleleloup.no-ip.org/wp-content/uploads/2023/03/evolution.png)
 
-4 ETAPES LOGIQUES
+4 ETAPES LOGIQUESS
 
 La construction suit les 4 étapes titrées ci-dessous. Les 3 premières concernent la création des différentes machines virtuelles et la quatrième concerne l'installation des services sur le réseau.
 
