@@ -508,4 +508,4 @@ Le mémento 5.11 vous attend pour
 l'intégration d'un switch virtuel  
 Open vSwitch.
 
-[Mémento 5.11](/wp-reseau-virtuel/articles/virtualbox-debian11-openvswitch-creation/)
+[Mémento 5.11](/notes-du-loup/wp-reseau-virtuel/articles/virtualbox-debian11-openvswitch-creation/)
