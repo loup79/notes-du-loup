@@ -450,4 +450,4 @@ Le serveur srvlan est prêt.
 Le mémento 2.1 vous attend pour  
 l'ajout du serveur srvsec_(IPFire)_.
 
-[Mémento 2.1](https://familleleloup.no-ip.org/serveur-ipfire-srvsec-creation/)
+[Mémento 2.1](/notes-du-loup/wp-reseau-virtuel/articles/serveur-ipfire-srvsec-creation/)
