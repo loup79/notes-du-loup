@@ -1,5 +1,5 @@
 ---
-title: "srvsec - VirtualBox / IPFire"
+title: "srvsec - VBox / IPFire"
 date: "2022-02-14"
 categories: 
   - "serveur-srvsec"

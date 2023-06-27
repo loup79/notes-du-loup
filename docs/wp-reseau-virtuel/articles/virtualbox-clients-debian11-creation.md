@@ -1,5 +1,5 @@
 ---
-title: "Clients - VirtualBox / Debian 11"
+title: "Clients - VBox / Debian 11"
 date: "2021-09-14"
 categories: 
   - "clients-debian"
