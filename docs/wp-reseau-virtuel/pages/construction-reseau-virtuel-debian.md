@@ -8,6 +8,7 @@ date: "2023-03-18"
 ![Image - Evolution de l'homme](../wp-content/uploads/2023/03/evolution.png){ align=left }
 
 &nbsp;
+&nbsp;
 4 ETAPES LOGIQUESS
 &nbsp;
 &nbsp;
@@ -18,7 +19,7 @@ La construction suit les 4 étapes titrées ci-dessous. Les 3 premières concern
 
 Commencez par installer le logiciel VirtualBox.
 
-&#9755; Mémento [VirtualBox](https://familleleloup.no-ip.org/virtualbox-installation/)
+&#9755; Mémento [VirtualBox](../articles/virtualbox-installation/)
 
 ### 2 ) Création des serveurs virtuels
 
