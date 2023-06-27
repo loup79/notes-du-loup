@@ -23,7 +23,7 @@ Commencez par installer le logiciel VirtualBox.
 
 ### 2 ) Création des serveurs virtuels
 
-Puis créez, comme le montre la [maquette](https://familleleloup.no-ip.org/wp-content/uploads/2018/05/maquette-base-ipfire.png), les serveurs des zones LAN, WAN et DMZ.
+Puis créez, comme le montre la [maquette](../wp-content/uploads/2018/05/maquette-base-ipfire.png), les serveurs des zones LAN, WAN et DMZ.
 
 &#9755; Mémentos [srvlan](https://familleleloup.no-ip.org/category/serveur-srvlan/) / [srvsec](https://familleleloup.no-ip.org/category/serveur-srvsec/) / [srvdmz](https://familleleloup.no-ip.org/category/serveur-srvdmz/)
 
