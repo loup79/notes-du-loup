@@ -41,7 +41,7 @@ nav:
         - wp-reseau-virtuel/articles/serveur-ipfire-srvsec-creation.md
       - Srv DMZ Debian "srvdmz" :
         - wp-reseau-virtuel/articles/serveur-debian11-srvdmz-creation.md
-      - Clients LAN Debian :
+      - Cli LAN Debian "vm1 et 2" :
         - wp-reseau-virtuel/articles/virtualbox-clients-debian11-creation.md
       - Open vSwitch + Conteneurs :
         - wp-reseau-virtuel/articles/virtualbox-debian11-openvswitch-creation.md
