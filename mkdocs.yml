@@ -35,6 +35,11 @@ nav:
       - Hyperviseur VirtualBox :
         - wp-reseau-virtuel/articles/virtualbox-installation.md
         - wp-reseau-virtuel/articles/virtualbox-pont-reseau.md
+      - Serveur LAN Debian "srvlan" :
+      - Serveur WAN IPFire "srvsec" :
+      - Serveur DMZ Debian "srvdmz" :
+      - Clients LAN Debian "vm1 et 2"
+      - Open vSwitch + LXC "ctn1 et 2"
   # Référencer vos autres pages ci-dessus...
 
 ### Configuration du thème
