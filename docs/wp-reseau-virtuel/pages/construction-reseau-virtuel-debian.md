@@ -16,27 +16,27 @@ La construction suit les 4 étapes titrées ci-dessous. Les 3 premières concern
 
 ### 1 ) Installation de l'outil de virtualisation
 
-&#9755; blabla Commencez par installer le logiciel VirtualBox.
+Commencez par installer le logiciel VirtualBox.
 
-Mémento [VirtualBox](https://familleleloup.no-ip.org/virtualbox-installation/)
+&#9755; Mémento [VirtualBox](https://familleleloup.no-ip.org/virtualbox-installation/)
 
 ### 2 ) Création des serveurs virtuels
 
 Puis créez, comme le montre la [maquette](https://familleleloup.no-ip.org/wp-content/uploads/2018/05/maquette-base-ipfire.png), les serveurs des zones LAN, WAN et DMZ.
 
-Mémentos [srvlan](https://familleleloup.no-ip.org/category/serveur-srvlan/) / [srvsec](https://familleleloup.no-ip.org/category/serveur-srvsec/) / [srvdmz](https://familleleloup.no-ip.org/category/serveur-srvdmz/)
+&#9755; Mémentos [srvlan](https://familleleloup.no-ip.org/category/serveur-srvlan/) / [srvsec](https://familleleloup.no-ip.org/category/serveur-srvsec/) / [srvdmz](https://familleleloup.no-ip.org/category/serveur-srvdmz/)
 
 ### 3 ) Création des clients virtuels situés en zone LAN
 
 L'ensemble comprend 2 VM Debian et 1 VM Open vSwitch incluant 2 conteneurs LXC.
 
-Mémentos [Clients](https://familleleloup.no-ip.org/category/clients-debian/) / [Open vSwitch](https://familleleloup.no-ip.org/category/openvswitch-lxc/)
+&#9755; Mémentos [Clients](https://familleleloup.no-ip.org/category/clients-debian/) / [Open vSwitch](https://familleleloup.no-ip.org/category/openvswitch-lxc/)
 
 ### 4 ) Installation des services DNS, DHCP, WEB ...
 
 Suivez, dans l'ordre, la liste des mémentos du blog pour au final pouvoir exploiter un petit réseau local virtuel.
 
-[Liste des mémentos](https://familleleloup.no-ip.org/liste-des-mementos/)
+&#9755; [Liste des mémentos](https://familleleloup.no-ip.org/liste-des-mementos/)
 
 * * *
 
