@@ -5,7 +5,7 @@ date: "2023-03-18"
 
 ## Machines virtuelles et services réseau
 
-![Image - Evolution de l'homme](https://familleleloup.no-ip.org/wp-content/uploads/2023/03/evolution.png)
+![Image - Evolution de l'homme](../wp-content/uploads/2023/03/evolution.png){ align=left }
 
 4 ETAPES LOGIQUESS
 
@@ -13,7 +13,7 @@ La construction suit les 4 étapes titrées ci-dessous. Les 3 premières concern
 
 ### 1 ) Installation de l'outil de virtualisation
 
-Commencez par installer le logiciel VirtualBox.
+&#9755; Commencez par installer le logiciel VirtualBox.
 
 Mémento [VirtualBox](https://familleleloup.no-ip.org/virtualbox-installation/)
 
