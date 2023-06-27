@@ -311,7 +311,7 @@ Et voilà, c'est terminé > OK
 
 IPFire finit son démarrage et affiche le login de srvsec :
 
-[![Capture - IPFire : Premier démarrage](https://familleleloup.no-ip.org/wp-content/uploads/2018/03/Ipfire_39-430x322.png "Cliquez pour agrandir l'image")](/wp-content/uploads/2018/03/Ipfire_39.png)
+[![Capture - IPFire : Premier démarrage](/notes-du-loup/wp-reseau-virtuel/wp-content/uploads/2018/03/Ipfire_39-430x322.png "Cliquez pour agrandir l'image")](/wp-content/uploads/2018/03/Ipfire_39.png)
 
 IPFire : Premier démarrage
 
@@ -378,4 +378,4 @@ IPFire est en place. Le mémento
 3.11 vous attend pour la création  
 du dernier serveur soit srvdmz.
 
-[Mémento 3.11](https://familleleloup.no-ip.org/serveur-debian11-srvdmz-creation/)
+[Mémento 3.11](/notes-du-loup/wp-reseau-virtuel/articles/serveur-debian11-srvdmz-creation/)
