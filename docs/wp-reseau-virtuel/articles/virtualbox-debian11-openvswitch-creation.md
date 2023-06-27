@@ -543,4 +543,4 @@ Le réseau virtuel de base est créé.
 Le mémento 5.12 vous attend pour  
 découvrir les conteneurs LXC.
 
-[Mémento 5.12](https://familleleloup.no-ip.org/virtualbox-debian11-lxc-partie-1/)
+[Mémento 5.12](/notes-du-loup/wp-reseau-virtuel/articles/virtualbox-debian11-lxc-partie-1/)
