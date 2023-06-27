@@ -1,5 +1,5 @@
 ---
-title: "Clients - VBox / Debian 11"
+title: "Clients vm1 et 2 - VBox/Deb11"
 date: "2021-09-14"
 categories: 
   - "clients-debian"
