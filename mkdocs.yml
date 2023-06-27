@@ -35,15 +35,15 @@ nav:
       - Hyperviseur VirtualBox :
         - wp-reseau-virtuel/articles/virtualbox-installation.md
         - wp-reseau-virtuel/articles/virtualbox-pont-reseau.md
-      - Serveur LAN Debian "srvlan" :
+      - Srv LAN Debian "srvlan" :
         - wp-reseau-virtuel/articles/serveur-debian11-srvlan-creation.md
-      - Serveur WAN IPFire "srvsec" :
+      - Srv WAN IPFire "srvsec" :
         - wp-reseau-virtuel/articles/serveur-ipfire-srvsec-creation.md
-      - Serveur DMZ Debian "srvdmz" :
+      - Srv DMZ Debian "srvdmz" :
         - wp-reseau-virtuel/articles/serveur-debian11-srvdmz-creation.md
-      - Clients LAN Debian "vm1 et 2"
+      - Clients LAN Debian "vm1 et 2" :
         - wp-reseau-virtuel/articles/virtualbox-clients-debian11-creation.md
-      - Open vSwitch + LXC "ctn1 et 2"
+      - Open vSwitch + LXC "ctn1 et 2" :
         - wp-reseau-virtuel/articles/virtualbox-debian11-openvswitch-creation.md
   # Référencer vos autres pages ci-dessus...
 
