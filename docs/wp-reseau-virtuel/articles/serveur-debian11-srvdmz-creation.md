@@ -1,5 +1,5 @@
 ---
-title: "srvdmz - VBox / Debian 11"
+title: "Création srvdmz - VBox/Deb11"
 date: "2021-09-10"
 categories: 
   - "serveur-srvdmz"
