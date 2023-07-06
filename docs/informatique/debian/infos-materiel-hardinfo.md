@@ -5,7 +5,7 @@ authors: Gerard Leloup
 date: 2023-06-01
 ---
 
-### **Installation**
+### **Installation de de**
 
 ```
 $ sudo apt install hardinfo -2c-tools
