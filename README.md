@@ -5,9 +5,9 @@ authors: Gerard Leloup
 date: 2023-06-02
 ---
 
-# Objectif du Loup malin
+# Objectif du jeune Loup
 
-** 1 - Découvrir et et tester GitHub avec :**
+** 1 - Découvrir et tester GitHub avec :**
 
 - Un *MkDocs Server* local sur Debian.  
 - Le dépôt GitHub *notes-du-loup* ici présent.  
