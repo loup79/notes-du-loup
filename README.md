@@ -5,7 +5,7 @@ authors: Gerard Leloup
 date: 2023-06-02
 ---
 
-# Objectif du jeune Loup
+# Objectif du vieux Loup
 
 ** 1 - Découvrir et tester GitHub avec :**
 
