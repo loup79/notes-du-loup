@@ -5,7 +5,7 @@ authors: Gerard Leloup
 date: 2023-06-02
 ---
 
-# Objectif du Loup fou
+# Objectif du Loup plus que fou
 
 ** 1 - Découvrir et tester GitHub avec :**
 
