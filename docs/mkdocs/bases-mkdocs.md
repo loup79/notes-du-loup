@@ -5,7 +5,7 @@ authors: Gerard Leloup
 date: 2023-06-01
 ---
 
-# Les bases de MkDocs
+## Les bases de MkDocs
 
 Pour la documentation complète, visiter [mkdocs.org](https://www.mkdocs.org).
 
@@ -25,8 +25,9 @@ Pour la documentation complète, visiter [mkdocs.org](https://www.mkdocs.org).
 
 ## Entête d'un fichier Markdown
 
-Exemple à respecter :  
-```
+Exemple à respecter :
+
+```markdown
 ---
 title: Titre du fichier
 summary: Description sommaire.
