@@ -48,7 +48,7 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 | ----------------------------- | ----------: |
 | **Clients LAN** _(LXC)_ **:** {.td-bleu} | RAM d'_osv_ {.td-bleu}|
 | Conteneurs _ctn1_ et _ctn2_  {.td-bleu}  |    partagée {.td-bleu} |
-| sur la VM _ovs_  {.td-bleu}|  &nbsp; {.td-bleu}           |
+| sur la VM _ovs_  {.td-bleu}|  &nbsp; {.td-bleu} |
 
 ![Image - Switch informatique](../wp-content/uploads/2019/02/logo-switch.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
 
