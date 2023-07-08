@@ -27,24 +27,26 @@ Le tout fonctionnera de manière sécurisée, les systèmes d'exploitation invit
 
 ### \- Téléchargement de VirtualBox
 
+_Le homelab IPFire + Debian sera créé avec VBox 7.x.y._
+
 Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et téléchargez ces 2 fichiers :
 
-\- L' exécutable VirtualBox x.y.z platform packages, adapté au PC hôte.
+\- L' exécutable VirtualBox 7.y.z platform packages, adapté au PC hôte.
 
-\- L' extension VirtualBox x.y.z Oracle VM VirtualBox Extension Pack, toutes plateformes.
+\- L' extension VirtualBox 7.y.z Oracle VM VirtualBox Extension Pack, toutes plateformes.
 
 ### \- Installation de VirtualBox
 
-Lancez l'exécutable et ajoutez les cartes réseau qui vous seront proposées.
+Lancez l'exécutable et acceptez d'ajouter les cartes réseau qui vous seront proposées.
 
 Démarrez ensuite VirtualBox et ajoutez le pack d'extension comme suit :  
 \- Menu Fichier  
-\> Paramètres...  
-\> Extensions > L'icône + "Ajoute une nouvelle extension."  
+\> Outils  
+\> Extension Pack Manager > Cliquez sur l'icône +  
 \> Sélectionnez l'extension téléchargée plus haut  
 \> Ouvrir > Installation > OK
 
-Ce pack inclut les guest additons, outils permettant :  
+Ce pack inclut les guest additons, ceux-ci permettant :  
 \- d'ouvrir depuis une VM un dossier partagé par l'hôte.  
 \- d’ajuster la taille des écrans des VM sur celui de l'hôte.  
 \- d'effectuer des copier/coller entre les VM.  
@@ -53,10 +55,10 @@ Ce pack inclut les guest additons, outils permettant :
 \- etc…  
 &nbsp;  
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - 
+![Image - Rédacteur satisfait](../wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay -
 Mohamed Hassan"){ align=left }
 
-&nbsp;    
+&nbsp;  
 C'est terminé ! Vous pouvez à  
 présent créer la première VM  
 du réseau virtuel. Suivez pour cela  
