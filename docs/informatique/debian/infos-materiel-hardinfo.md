@@ -14,4 +14,4 @@ sudo modeprobe eeprom
 
 Les informations sur le matériel *(Ex: Barettes mémoire)* seront ainsi affichées.
 
-## Fin
+### Fin
