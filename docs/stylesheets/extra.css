@@ -7,5 +7,5 @@ td { background-color: rgb(251, 245, 245); }
 
 @media (max-width: 360px) {
 /* Taille paragraphe */
-p li {font-size: 12px;}
+p, li {font-size: 12px;}
 }
