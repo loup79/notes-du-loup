@@ -12,11 +12,11 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 
 [![Logo - VirtualBox](../wp-content/uploads/2019/02/logo-virtualbox.jpg "Logo VirtualBox"){ align=left }](https://www.virtualbox.org)
 
-|                                  |
-| -------------------------------- |
-| **Système de virtualisation :** {.td-bleu}  |
-| Hyperviseur de type 2 VirtualBox {.td-bleu} |
-| Dernière version   {.td-bleu}              |
+|                                             |                            |
+| --------------------------------            | -------:                   |
+| **Système de virtualisation :** {.td-bleu}  |&nbsp;  {.td-bleu}          |
+| Hyperviseur de type 2 VirtualBox {.td-bleu} |&nbsp;  {.td-bleu}          |
+| Dernière version   {.td-bleu}               |&nbsp;  {.td-bleu}          |
 
 ![Image - Serveur Linux](../wp-content/uploads/2018/03/logo-serveur-linux.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
 
