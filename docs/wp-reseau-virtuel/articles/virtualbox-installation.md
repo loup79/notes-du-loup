@@ -27,7 +27,7 @@ Le tout fonctionnera de manière sécurisée, les systèmes d'exploitation invit
 
 ### \- Téléchargement de VirtualBox
 
-_Le homelab IPFire + Debian sera créé avec VBox 7.x.y._
+_Le Homelab IPFire + Debian sera créé avec VBox 7.x.y._
 
 Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et téléchargez ces 2 fichiers :
 
@@ -35,7 +35,7 @@ Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et tél
 
 \- L' extension VirtualBox 7.y.z Oracle VM VirtualBox Extension Pack, toutes plateformes.
 
-### \- Installation de VirtualBox
+### \- Installation de VirtualBox 7.x.y
 
 Lancez l'exécutable et acceptez d'ajouter les cartes réseau qui vous seront proposées.
 
@@ -44,7 +44,10 @@ Démarrez ensuite VirtualBox et ajoutez le pack d'extension comme suit :
 \> Outils  
 \> Extension Pack Manager > Cliquez sur l'icône +  
 \> Sélectionnez l'extension téléchargée plus haut  
-\> Ouvrir > Installation > OK
+\> Bouton Ouvrir > Bouton Installation  
+\> Acceptez la licence
+
+Le pack d'extension doit s'installer normalement.
 
 Ce pack inclut les guest additons, ceux-ci permettant :  
 \- d'ouvrir depuis une VM un dossier partagé par l'hôte.  
