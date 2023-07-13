@@ -137,10 +137,10 @@ Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intér
 Autorisez l'usage de sudo à l'utilisateur srvlan :
 
 ```bash
-[srvlan@srvlan:~$\] su root
-Mot de passe : _Votre MDP root_
-[root@srvlan:~#\] sudo usermod -aG sudo srvlan
-[root@srvlan:~#\] exit
+[srvlan@srvlan:~$] su root
+Mot de passe : Votre MDP root
+[root@srvlan:~#] sudo usermod -aG sudo srvlan
+[root@srvlan:~#] exit
 ```
 
 et redémarrez le serveur :  
@@ -157,7 +157,7 @@ Ils permettront entre autres le copier/coller et l'accès au dossier partagé pa
 Notez au préalable la version courante du noyau linux :
 
 ```bash
-[srvlan@srvlan:~$\] uname -r
+[srvlan@srvlan:~$] uname -r
 ```
 
 Exemple de retour :
@@ -169,7 +169,7 @@ Exemple de retour :
 Installez ensuite les 2 paquets suivants :
 
 ```bash
-[srvlan@srvlan:~$\] sudo apt install dkms build-essential
+[srvlan@srvlan:~$] sudo apt install dkms build-essential
 ```
 
 Debian installera automatiquement la dépendance linux-headers-6.1.0-10-amd64.
@@ -180,10 +180,10 @@ Ouvrez le menu VirtualBox situé sur la fenêtre de la VM :
 Montez l'image CD, installez les utilitaires et rebootez :
 
 ```bash
-[srvlan@srvlan:~$\] sudo mount /dev/cdrom /media/cdrom
-[srvlan@srvlan:~$\] cd /media/cdrom
-[srvlan@srvlan:~$\] sudo ./VBoxLinuxAdditions.run
-[srvlan@srvlan:~$\] sudo reboot
+[srvlan@srvlan:~$] sudo mount /dev/cdrom /media/cdrom
+[srvlan@srvlan:~$] cd /media/cdrom
+[srvlan@srvlan:~$] sudo ./VBoxLinuxAdditions.run
+[srvlan@srvlan:~$] sudo reboot
 ```
 
 Une fois fini, reconnectez-vous, la fenêtre VM srvlan peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de srvlan.
@@ -202,7 +202,7 @@ Sans fermer la VM, retirez l'image CD du lecteur virtuel :
 Supprimez ces applications non utiles sur srvlan :
 
 ```bash
-[srvlan@srvlan:~$\] sudo apt autoremove --purge \
+[srvlan@srvlan:~$] sudo apt autoremove --purge \
 libreoffice-writer libreoffice-impress \
 libreoffice-calc libreoffice-math \
 libreoffice-draw libreoffice-base-core \
@@ -210,11 +210,11 @@ libreoffice-core libreoffice-common
 ```
 
 ```bash
-[srvlan@srvlan:~$\] sudo rm -r /etc/libreoffice
+[srvlan@srvlan:~$] sudo rm -r /etc/libreoffice
 ```
 
 ```bash
-[srvlan@srvlan:~$\] sudo apt autoremove --purge \
+[srvlan@srvlan:~$] sudo apt autoremove --purge \
 exfalso quodlibet
 ```
 
@@ -230,62 +230,80 @@ La consommation RAM actuelle est d'environ 500 Mo.
 
 Créez le dossier qui permettra d'afficher le contenu partagé par le PC hôte :
 
-\[srvlan@srvlan:~$\] mkdir /home/srvlan/Partage
+```bash
+[srvlan@srvlan:~$] mkdir /home/srvlan/Partage
+```
 
 Créez le fichier de service home-srvlan-Partage.mount :
 
-\[srvlan@srvlan:~$\] cd /etc/systemd/system
-\[srvlan@srvlan:~$\] sudo touch home-srvlan-Partage.mount
+```bash
+[srvlan@srvlan:~$] cd /etc/systemd/system
+[srvlan@srvlan:~$] sudo touch home-srvlan-Partage.mount
+```
 
 Editez celui-ci :
 
-\[srvlan@srvlan:~$\] sudo nano home-srvlan-Partage.mount
+```bash
+[srvlan@srvlan:~$] sudo nano home-srvlan-Partage.mount
+```
 
 et entrez le contenu suivant :
 
-\[Unit\]
+```bash
+[Unit]
 Description = Montage dossier partagé fourni par VirtualBox
 
-\[Mount\]
-What = _Entrez le nom du dossier partagé par le PC hôte_
+[Mount]
+What = Entrez le nom du dossier partagé par le PC hôte
 Where = /home/srvlan/Partage
 Type = vboxsf
 Options=rw,uid=srvlan,gid=srvlan
 
-\[Install\]
+[Install]
 WantedBy = multi-user.target
+```
 
 Exemple pour What : What=Partage-Alfred
 
 Intégrez le service dans la configuration de systemd :
 
-\[srvlan@srvlan:~$\] sudo systemctl daemon-reload
+```bash
+[srvlan@srvlan:~$] sudo systemctl daemon-reload
+```
 
 et démarrez celui-ci :
 
-\[srvlan@srvlan:~$\] sudo systemctl start home-srvlan-Partage.mount
+```bash
+[srvlan@srvlan:~$] sudo systemctl start home-srvlan-Partage.mount
+```
 
-Vérifiez son statut :
+Vérifiez ensuite son statut :
 
-\[srvlan@srvlan:~$\] sudo systemctl status home-srvlan-Partage.mount
+```bash
+[srvlan@srvlan:~$] sudo systemctl status home-srvlan-Partage.mount
+```
 
-Si nécessaire, touche q pour quitter le résultat affiché.
+Touche q pour quitter le résultat affiché.
 
-Autorisez le lancement du service au boot de la VM :
+Si statut = active, autorisez le service au boot de la VM :
 
-\[srvlan@srvlan:~$\] sudo systemctl enable home-srvlan-Partage.mount
+```bash
+[srvlan@srvlan:~$] sudo systemctl enable home-srvlan-Partage.mount
+```
 
-Un lien symbolique est normalement créé.
+Un lien symbolique vers le service est créé.
 
-Ouvrez le gestionnaire de fichiers thunar et observez le contenu de /home/srvlan/Partage.
+Ouvrez enfin le gestionnaire de fichiers thunar et observez le contenu de /home/srvlan/Partage.
 
 ### 5 - Configuration du réseau
 
-Avant, vérifiez les IP courantes avec la Cde ip address :
+Avant, vérifiez l'IP courante avec la Cde ip address :
 
-\[srvlan@srvlan:~$\] ip address
+```bash
+[srvlan@srvlan:~$] ip address
+```
 
-Résultat :
+Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
 ![Capture - Résultat de la Cde ip address](/wp-content/uploads/2021/08/srvlan-deb11-ip-address.jpg)
 
