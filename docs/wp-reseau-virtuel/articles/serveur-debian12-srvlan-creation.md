@@ -452,49 +452,57 @@ Vérifiez l'état courant du NAT ou IP Masquerading :
 
 Résultat, NAT inactif, pas de target MASQUERADE :
 
-![Capture - iptables : Pas de règle active](../wp-content/uploads/2023/07/srvlan-deb12-iptables-inactif.webp)
+![Capture - iptables : Pas de règle active](../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-inactif.webp)
 
 iptables : Pas de règle active
 
 Activez celui-ci en utilisant une règle iptables :
 
-\[srvlan@srvlan:~$\] sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+```bash
+[srvlan@srvlan:~$] sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+```
 
 et affichez de nouveau le contenu de la table NAT :
 
-\[srvlan@srvlan:~$\] sudo iptables -L -t nat
+```bash
+[srvlan@srvlan:~$] sudo iptables -L -t nat
+```
 
 Résultat, le NAT est actif :
 
-![Capture - Le NAT (translation d'adresses) est vu activé](/wp-content/uploads/2021/08/srvlan-deb11-iptables-nat-actif.jpg)
+![Capture - iptables : Règle NAT (MASQUERADE) active) est vu activé](../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-actif.webp)
 
-Le NAT (translation d'adresses) est vu activé
+iptables : Règle NAT (MASQUERADE) active
 
 Effectuez une sauvegarde de la règle iptables :
 
-\[srvlan@srvlan:~$\] su root
-\[root@srvlan:~$\] sudo iptables-save > /etc/iptables/rules.v4
-\[root@srvlan:~$\] exit
+```bash
+[srvlan@srvlan:~$] su root
+[root@srvlan:~$] sudo iptables-save > /etc/iptables/rules.v4
+[root@srvlan:~$] exit
+```
 
 et déclarez celle-ci persistente :
 
-\[srvlan@srvlan:~$\] sudo systemctl enable netfilter-persistent
-\[srvlan@srvlan:~$\] sudo systemctl restart netfilter-persistent
+```bash
+[srvlan@srvlan:~$] sudo systemctl enable netfilter-persistent
+[srvlan@srvlan:~$] sudo systemctl restart netfilter-persistent
+```
 
 Elle sera ainsi activée à chaque boot du système.
 
 Par curiosité, lisez la table de routage avec la Cde ip r :
 
-![Capture - Table de routage courante de srvlan ](/wp-content/uploads/2021/09/srvlan-deb11-table-routage.jpg)
+![Capture - Table de routage de srvlan ](../wp-content/uploads/2023/07/srvlan-deb12-table-routage.webp)
 
-Table de routage courante de srvlan
+Table de routage de srvlan
 
-![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
+![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
-&nbsp;
+&nbsp;  
 Bravo !  
 Le serveur srvlan est prêt.  
 Le mémento 2.1 vous attend pour  
 l'ajout du serveur srvsec_(IPFire)_.
 
-[Mémento 2.1](/notes-du-loup/wp-reseau-virtuel/articles/serveur-ipfire-srvsec-creation/)
+[Mémento 2.1](/wp-reseau-virtuel/articles/serveur-ipfire-srvsec-creation/){ .md-button }
