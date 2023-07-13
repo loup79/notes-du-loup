@@ -309,7 +309,7 @@ Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
 Résultat de la Cde ip address
 
-Puis installer les 2 paquets suivants :
+Puis installez les 2 paquets suivants :
 
 ```bash
 [srvlan@srvlan:~$] sudo apt install netfilter-persistent
@@ -446,13 +446,15 @@ Il permet également de s'affranchir de la gestion des tables de routage et fonc
 
 Vérifiez l'état courant du NAT ou IP Masquerading :
 
-\[srvlan@srvlan:~$\] sudo iptables -L -t nat
+```bash
+[srvlan@srvlan:~$] sudo iptables -L -t nat
+```
 
-Résultat, le NAT est vu comme inactif :
+Résultat, NAT inactif, pas de target MASQUERADE :
 
-![Capture - Le NAT (translation d'adresses) est vu non activé](/wp-content/uploads/2021/08/srvlan-deb11-iptables-inactif.jpg)
+![Capture - iptables : Pas de règle active](../wp-content/uploads/2023/07/srvlan-deb12-iptables-inactif.webp)
 
-Le NAT (translation d'adresses) est vu non activé
+iptables : Pas de règle active
 
 Activez celui-ci en utilisant une règle iptables :
 
