@@ -420,13 +420,17 @@ L'activation du routage avec la Cde ip\_forward permet, selon les règles défin
 
 Pour l'activez, éditez le fichier sysctl.conf :
 
-\[srvlan@srvlan:~$\] sudo nano /etc/sysctl.conf
+```bash
+[srvlan@srvlan:~$] sudo nano /etc/sysctl.conf
+```
 
 et retirez le # de la ligne #net.ipv4.ip\_forward=1.
 
 Relancez ensuite le service réseau :
 
-\[srvlan@srvlan:~$\] sudo systemctl restart NetworkManager
+```bash
+[srvlan@srvlan:~$] sudo systemctl restart NetworkManager
+```
 
 #### _5.4 - Translation d'adresses NAT_
 
