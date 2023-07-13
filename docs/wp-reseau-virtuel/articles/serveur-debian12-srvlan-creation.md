@@ -1,17 +1,19 @@
 ---
-title: "srvlan - VBox/Deb11"
-date: "2021-08-27"
+title: "srvlan - VBox/Deb12"
+date: "2023-07-13"
 categories: 
   - "serveur-srvlan"
 ---
 
-## Mémento 1.11 - Serveur srvlan
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp)
 
-L'architecture du réseau virtuel proposée sous Debian 11 sera la même que sous Debian 10 mais le serveur srvlan supportera cette fois l'environnement graphique Xfce.
+## Mémento 1.12 - Serveur srvlan
 
-Ce dernier, allégé de quelques applications préinstallées, contribuera au confort d'exploitation du serveur.
+L'architecture du réseau virtuel proposée sous Debian 12 sera la même que sous Debian 11 et le serveur srvlan supportera à nouveau le bureau léger Xfce.
 
-Par souci d'homogénéité, Xfce sera installé sur les serveurs et clients graphiques du réseau.
+Ce dernier, allégé de quelques applications préinstallées par défaut, contribuera au confort d'exploitation du serveur et facilitera notamment la réalisation de certains tests sur le réseau.
+
+Par souci d'homogénéité, Xfce sera l'unique bureau graphique installé sur les VM du réseau.
 
 ### 1 - Construction de la VM depuis VirtualBox
 
@@ -21,55 +23,50 @@ A défaut, référez-vous aux mémentos suivants :
 [VirtualBox - Installation](/virtualbox-installation/)  
 [VirtualBox - Mode d’accès réseau par pont](/virtualbox-pont-reseau/)
 
-#### _1.1 - Création et configuration_
+#### _1.1 - Création et configuration de la VM_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.
 
-Téléchargez l'ISO debian-11.x.y-amd64\-netinst.iso :  
+Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
 [https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)
 
-Démarrez ensuite l'application VirtualBox, puis :
+Démarrez ensuite l'application VirtualBox, puis :  
+- - Menu de VirtualBox > Machine > Nouvelle...   
+\-> Nom : srvlan LAN  
+\-> Folder : Sélectionnez un dossier où stocker vos VM  
+\-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus  
+\-> Type : Linux  
+\-> Version : Debian (64-bit)  
+\-> Cochez Skip Unattended Installation (important)  
+\-> Bouton Suivant
 
-Menu Nouvelle de VirtualBox :  
-\- Nom srvlan LAN - Type Linux - Version Debian (64-bit)  
-\- Taille de la mémoire > 1024 Mo  
-\- Disque dur > Créer un disque dur virtuel maintenant  
-\- Type de fichier de disque dur > VDI  
-\- Stockage sur disque dur ... > Dynamiquement alloué  
-\- Emplacement du fichier et taille > 12 Go > Créer
+\-> Mémoire vive : 1024 MB  
+\-> Processors : 2 CPU si possible  
+\-> Bouton Suivant
+
+\-> Create a Virtual Hard Disk Now : Ajustez à 12 Go  
+\-> Bouton Suivant
+
+\-> Vérifiez le Récapitulatif  
+\-> Bouton Finish
 
 La VM est créée dans le panneau gauche de VirtualBox.
 
-Sélectionnez la nouvelle VM, puis :
-
-Menu Configuration de VirtualBox :  
+Sélectionnez maintenant la nouvelle VM, puis :  
+- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Général  
-\> Avancé > Presse-papier partagé > Bidirectionnel  
+\-> Avancé > Presse-papier partagé > Bidirectionnel  
   
 \- - - Onglet Système  
-\> Carte mère > Ordre d'amorçage > Décochez Disquette  
-\> Carte mère > Fonctions avancées > Cochez IO-APIC  
-\> Processeur > 2 CPU et cochez PAE/NX  
+\-> Carte mère > Ordre d'amorçage > Décochez Disquette  
+\-> Processeur > Cochez Activer PAE/NX  
   
-\- - - Onglet Affichage  
-\> Ecran > Contrôleur graphique > VMSVGA  
-  
-\- - - Onglet Stockage  
-\> Zone Unités de stockage > Sélectionnez Vide  
-\> Zone Attributs > Cliquez sur l'icône CD  
-\> Sélectionnez Choisissez un fichier de disque ...  
-\> Entrez le chemin de l'image ISO Debian > Ouvrir  
-  
-\- - - Onglet Réseau  
-\> Carte 2 > Cochez Activer la carte réseau  
-\> Mode d'accès réseau > Sélectionnez Réseau interne
-
 Facultatif, accès au dossier partagé par le PC hôte :  
 \- - - Onglet Dossiers partagés  
-\> Cliquez sur l'icône + > Ajouter un dossier partagé  
-\> Chemin du dossier > Sélectionnez Autre...  
-\> Accédez à votre dossier > Ex : C:\\Partage-Windows  
-\> Sélectionner un dossier ou Ouvrir > OK > OK
+\-> Cliquez sur l'icône + > Ajouter un dossier partagé  
+\-> Chemin du dossier > Sélectionnez Autre...  
+\-> Accédez à votre dossier > Ex : C:\\Partage-Windows  
+\-> Sélectionner un dossier ou Ouvrir > OK > OK
 
 Les autres paramètres peuvent rester inchangés.
 
@@ -78,8 +75,8 @@ Les autres paramètres peuvent rester inchangés.
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
 
-Menu Démarrer de VirtualBox :  
-La VM créée s'exécute.
+\- - Menu de VirtualBox > Machine > Démarrer  
+\-> Démarrage normal (La VM s'exécute)
 
 Sélectionnez Graphical Install et appliquez ce qui suit :  
 \- Language > Français  
@@ -100,7 +97,7 @@ Sélectionnez Graphical Install et appliquez ce qui suit :
 \- Table des partitions > Terminer le partitionnement ..  
 \- Faut-il appliquer les changements ... disques ? > Oui
 
-L'installation de base commence :  
+L'installation commence :  
 \- Faut-il analyser d'autres supports ... ? > Non  
 \- Pays du miroir de l'archive Debian > France  
 \- Miroir de l'archive Debian > deb.debian.org  
@@ -109,10 +106,10 @@ L'installation de base commence :
 L'installation continue :  
 \- Souhaitez-vous participer à l'étude statistique ... > Non  
 \- Logiciels à installer  
-\> Décochez environnement de bureau Debian  
-\> Décochez ... GNOME  
-\> Cochez ... Xfce  
-\> Conservez utilitaires usuels du système
+\-> Décochez environnement de bureau Debian  
+\-> Décochez ... GNOME  
+\-> Cochez ... Xfce  
+\-> Conservez utilitaires usuels du système
 
 L'installation se termine :  
 \- Installer ... de démarrage GRUB sur le disque ... > Oui  
@@ -121,13 +118,13 @@ L'installation se termine :
 
 Le système reboot et une fenêtre de connexion s'ouvre :
 
-[![Capture - Fenêtre de connexion Xfce](/wp-content/uploads/2021/08/srvlan-deb11-login-430x372.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/08/srvlan-deb11-login.jpg)
+[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/07/srvlan-deb12-login-430x362.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-login.webp)
 
 Fenêtre de connexion Xfce
 
-\- Premier champ : Entrez srvlan  
-\- Second champ : Entrez Votre MDP srvlan  
-\> Bouton Se connecter
+\-> Premier champ > Entrez srvlan  
+\-> Second champ > Entrez Votre MDP srvlan  
+\-> Bouton Se connecter
 
 Le bureau Xfce s'ouvre :
 
