@@ -305,94 +305,109 @@ Avant, vérifiez l'IP courante avec la Cde ip address :
 
 Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
-![Capture - Résultat de la Cde ip address](/wp-content/uploads/2021/08/srvlan-deb11-ip-address.jpg)
+![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/07/srvlan-deb12-ip-address.webp)
 
 Résultat de la Cde ip address
 
 Puis installer les 2 paquets suivants :
 
-\[srvlan@srvlan:~$\] sudo apt install netfilter-persistent
+```bash
+[srvlan@srvlan:~$] sudo apt install netfilter-persistent
+```
 
-\[srvlan@srvlan:~$\] sudo apt install iptables-persistent
+```bash
+[srvlan@srvlan:~$] sudo apt install iptables-persistent
+```
 
 Une fenêtre Config... iptables-persistent s'ouvre :  
-\> Faut-il enregistrer les règles IPv4 actuelles ? > Oui  
-\> Faut-il enregistrer les règles IPv6 actuelles ? > Oui
+\-> Faut-il enregistrer les règles IPv4 actuelles ? > Oui  
+\-> Faut-il enregistrer les règles IPv6 actuelles ? > Oui
 
 2 fichiers rules.v4/v6 ont été créés dans /etc/iptables/.  
 Ils serviront à déclarer persistantes des règles iptables.
 
-La VM srvlan, prévue en zone LAN, exige de changer le mode d'accès réseau de la carte enp0s3.
+La VM srvlan étant prévue en zone LAN, il faut changer le mode d'accès réseau de sa carte réseau enp0s3.
 
-Pour cela, allez au menu Configuration de VirtualBox :  
+Pour cela, sélectionnez la VM srvlan dans VirtualBox :  
+\- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Réseau  
-\> Carte 1 > Mode d'accès réseau > Réseau interne  
-\> OK
+\-> Adapter 1 > Mode d'accès réseau > Réseau interne  
+\-> OK
 
 #### _5.1 - Adressage IP fixe carte enp0s3_
 
 Configurez à présent une IP fixe sur la carte enp0s3 :  
 \- - Bureau Xfce, barre du haut  
-\> Clic droit sur l'icône Réseau située à droite  
-\> Sélectionnez Modifier les connexions...  
+\-> Clic droit sur l'icône Réseau située à droite  
+\-> Sélectionnez Modifier les connexions...  
   
 Une fenêtre Connexions réseau s'ouvre :  
-\> Sélectionnez la connexion Wired connection 1  
-\> Cliquez sur l'icône roue dentée située en bas à gauche  
+\-> Sélectionnez la connexion Wired connection 1  
+\-> Cliquez sur l'icône roue dentée de la fenêtre  
   
 Une fenêtre Modification de ... s'ouvre :  
-\> Nom de la connexion > Connexion Ethernet 1  
+\-> Nom de la connexion > Entrez Connexion carte 1  
   
 \- - - Onglet Ethernet  
-\> Périphérique > Sélectionnez enp0s3  
+\-> Périphérique > Sélectionnez enp0s3  
   
 \- - - Onglet Paramètres IPv4  
-\> Méthode > Sélectionnez Manuel > Bouton Ajouter  
-\> Champ Adresse : Entrez 192.168.2.2  
-\> Champ Masque de réseau : Entrez 255.255.255.0  
-\> Champ Passerelle : Entrez 192.168.2.1  
-\> Serveurs DNS > Entrez l'IP locale de votre Box Internet  
-\> Bouton Enregistrer  
+\-> Méthode > Sélectionnez Manuel > Bouton Ajouter  
+\-> Champ Adresse : Entrez 192.168.2.2  
+\-> Champ Masque de réseau : Entrez 255.255.255.0  
+\-> Champ Passerelle : Entrez 192.168.2.1  
+\-> Serveurs DNS > Entrez l'IP locale de votre Box Internet  
+\-> Bouton Enregistrer  
   
 Fermez ensuite la fenêtre Connexions réseau.  
-Le service réseau redémarre automatiquement.
 
-Pour finir, vérifiez le résultat avec la Cde ip address.
+Pour finir, stoppez la VM srvlan :  
+\- - Menu Applications de Xfce situé en haut à gauche  
+\-> Déconnexion > Une fenêtre s'ouvre  
+\-> Bouton Eteindre
 
-#### _5.2 - Adressage IP fixe carte enp0s8_
+#### _5.2 - Création et adressage IP fixe carte enp0s8_
+
+Le raccordement de la VM srvlan nécessite de créer une seconde carte réseau sur celle-ci.
+
+Pour cela, sélectionnez la VM srvlan dans VirtualBox :  
+\- - Menu de VirtualBox > Machine > Configuration...  
+\- - - Onglet Réseau  
+\-> Adapter 2 > Cochez Activer l'interface réseau  
+\-> Mode d'accès réseau > Sélectionnez Réseau interne  
+\-> OK
+
+Redémarrez la VM srvlan.
 
 Configurez également une IP fixe sur la carte enp0s8 :  
 \- - Bureau Xfce, barre du haut  
-\> Clic droit sur l'icône Réseau située à droite  
-\> Sélectionnez Modifier les connexions...  
+\-> Clic droit sur l'icône Réseau située à droite  
+\-> Sélectionnez Modifier les connexions...  
   
-La fenêtre Connexions réseau s'ouvre :  
-\> Cliquez sur l'icône + située en bas à gauche  
-  
-Une fenêtre Sélectionner ... de connexion s'ouvre :  
-\> Sélectionnez Ethernet > Bouton Créer...  
+Une fenêtre Connexions réseau s'ouvre :  
+\-> Sélectionnez la nouvelle connexion affichée
+\-> Cliquez sur l'icône roue dentée de la fenêtre  
   
 Une fenêtre Modification de ... s'ouvre :  
-\> Nom de la connexion > Connexion Ethernet 2  
+\-> Nom de la connexion > Connexion carte 2  
   
 \- - - Onglet Ethernet  
-\> Périphérique > Sélectionnez enp0s8  
+\-> Périphérique > Sélectionnez enp0s8  
   
 \- - - Onglet Paramètres IPv4  
-\> Méthode > Sélectionnez Manuel > Bouton Ajouter  
-\> Champ Adresse : Entrez 192.168.3.1  
-\> Champ Masque de réseau : Entrez 255.255.255.0  
-\> Bouton Enregistrer  
+\-> Méthode > Sélectionnez Manuel > Bouton Ajouter  
+\-> Champ Adresse : Entrez 192.168.3.1  
+\-> Champ Masque de réseau : Entrez 255.255.255.0  
+\-> Bouton Enregistrer  
   
-Fermez ensuite la fenêtre Connexions réseau.  
-Le service réseau redémarre automatiquement.
+Fermez ensuite la fenêtre Connexions réseau.
 
-Vous venez de créer 2 adresses IP fixes.
+Redémarrez srvlan et vérifiez la configuration réseau :
 
-Vérifiez par prudence la bonne configuration du réseau :
-
-\[srvlan@srvlan:~$\] ip address
-\[srvlan@srvlan:~$\] nmcli  \# Cde NetworkManager
+```bash
+[srvlan@srvlan:~$] ip address
+[srvlan@srvlan:~$] nmcli  # Cde NetworkManager
+```
 
 Les fichiers configurés avec NetworkManager sont ici :  
 /etc/NetworkManager/system-connections/
