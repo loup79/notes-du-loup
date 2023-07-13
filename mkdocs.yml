@@ -36,7 +36,7 @@ nav:
         - wp-reseau-virtuel/articles/virtualbox-installation.md
         - wp-reseau-virtuel/articles/virtualbox-pont-reseau.md
       - Srv LAN Debian "srvlan" :
-        - wp-reseau-virtuel/articles/serveur-debian11-srvlan-creation.md
+        - wp-reseau-virtuel/articles/serveur-debian12-srvlan-creation.md
       - Srv WAN IPFire "srvsec" :
         - wp-reseau-virtuel/articles/serveur-ipfire-srvsec-creation.md
       - Srv DMZ Debian "srvdmz" :
