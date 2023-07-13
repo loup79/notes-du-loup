@@ -31,7 +31,7 @@ Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :
 [https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)
 
 Démarrez ensuite l'application VirtualBox, puis :  
-- - Menu de VirtualBox > Machine > Nouvelle...   
+\- - Menu de VirtualBox > Machine > Nouvelle...
 \-> Nom : srvlan LAN  
 \-> Folder : Sélectionnez un dossier où stocker vos VM  
 \-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus  
@@ -53,7 +53,7 @@ Démarrez ensuite l'application VirtualBox, puis :
 La VM est créée dans le panneau gauche de VirtualBox.
 
 Sélectionnez maintenant la nouvelle VM, puis :  
-- - Menu de VirtualBox > Machine > Configuration...  
+\- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Général  
 \-> Avancé > Presse-papier partagé > Bidirectionnel  
   
@@ -128,7 +128,7 @@ Fenêtre de connexion Xfce
 
 Le bureau Xfce s'ouvre :
 
-[![Capture - bureau Xfce](/wp-content/uploads/2021/08/srvlan-deb11-bureau1-xfce-430x368.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/08/srvlan-deb11-bureau1-xfce.jpg)
+[![Capture - bureau Xfce](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-430x363.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce.webp)
 
 Bureau Xfce
 
@@ -136,15 +136,17 @@ Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intér
 
 Autorisez l'usage de sudo à l'utilisateur srvlan :
 
-\[srvlan@srvlan:~$\] su root
+```bash
+[srvlan@srvlan:~$\] su root
 Mot de passe : _Votre MDP root_
-\[root@srvlan:~#\] sudo usermod -aG sudo srvlan
-\[root@srvlan:~#\] exit
+[root@srvlan:~#\] sudo usermod -aG sudo srvlan
+[root@srvlan:~#\] exit
+```
 
 et redémarrez le serveur :  
-\> Menu Applications de Xfce situé en haut à gauche  
-\> Déconnexion > Une fenêtre s'ouvre  
-\> Bouton Redémarrer
+\- - Menu Applications de Xfce situé en haut à gauche  
+\-> Déconnexion _(Une fenêtre s'ouvre)_  
+\-> Bouton Redémarrer
 
 Reconnectez-vous ensuite en tant qu'utilisateur srvlan et rouvrez le terminal de Cdes.
 
@@ -154,64 +156,73 @@ Ils permettront entre autres le copier/coller et l'accès au dossier partagé pa
 
 Notez au préalable la version courante du noyau linux :
 
-\[srvlan@srvlan:~$\] uname -r
+```bash
+[srvlan@srvlan:~$\] uname -r
+```
 
-Retour = 5.10.0-x\-amd64
+Exemple de retour :
+
+```bash
+6.1.0-10-amd64
+```
 
 Installez ensuite les 2 paquets suivants :
 
-\[srvlan@srvlan:~$\] sudo apt install dkms build-essential
+```bash
+[srvlan@srvlan:~$\] sudo apt install dkms build-essential
+```
 
-et si nécessaire le paquet linux-headers approprié :
+Debian installera automatiquement la dépendance linux-headers-6.1.0-10-amd64.
 
-\[srvlan@srvlan:~$\] sudo apt install linux-headers-5.10.0-x\-amd64
-
-puis accédez au menu VirtualBox de la fenêtre VM :  
-\> Périphériques > Insérer l'image CD des Additions inv...
+Ouvrez le menu VirtualBox situé sur la fenêtre de la VM :  
+\-> Périphériques > Insérer l'image CD des Additions inv...
 
 Montez l'image CD, installez les utilitaires et rebootez :
 
-\[srvlan@srvlan:~$\] sudo mount /dev/cdrom /media/cdrom
-\[srvlan@srvlan:~$\] cd /media/cdrom
-\[srvlan@srvlan:~$\] sudo ./VBoxLinuxAdditions.run
-\[srvlan@srvlan:~$\] sudo reboot
+```bash
+[srvlan@srvlan:~$\] sudo mount /dev/cdrom /media/cdrom
+[srvlan@srvlan:~$\] cd /media/cdrom
+[srvlan@srvlan:~$\] sudo ./VBoxLinuxAdditions.run
+[srvlan@srvlan:~$\] sudo reboot
+```
 
-Une fois fini, reconnectez-vous, la fenêtre VM srvlan peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de la VM.
+Une fois fini, reconnectez-vous, la fenêtre VM srvlan peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de srvlan.
 
 Le pratique copier/coller entre le PC hôte et srvlan doit maintenant fonctionner dans les 2 sens.
 
 Sans fermer la VM, retirez l'image CD du lecteur virtuel :  
-Menu Configuration de VirtualBox :  
+\- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Stockage  
-\> Zone Unités de stockage > VBoxGuestAdditions.iso  
-\> Zone Attributs > Cliquez sur l'icône CD  
-\> Retirer le disque du lecteur virtuel > OK
+\-> Zone Unités de stockage > Sélectionnez VBoxGuest...  
+\-> Zone Attributs > Cliquez sur l'icône CD  
+\-> Retirer le disque du lecteur virtuel > OK
 
-### 3 - Suppression d'applications préinstallées, etc...
+### 3 - Suppression d'applications préinstallées
 
-Supprimez les applications non utiles sur srvlan :
+Supprimez ces applications non utiles sur srvlan :
 
-\[srvlan@srvlan:~$\] sudo apt autoremove --purge \\
-libreoffice-writer libreoffice-impress \\
-libreoffice-calc libreoffice-math \\
-libreoffice-draw libreoffice-base-core \\
+```bash
+[srvlan@srvlan:~$\] sudo apt autoremove --purge \
+libreoffice-writer libreoffice-impress \
+libreoffice-calc libreoffice-math \
+libreoffice-draw libreoffice-base-core \
 libreoffice-core libreoffice-common
+```
 
-\[srvlan@srvlan:~$\] sudo rm -r /etc/libreoffice
-\[srvlan@srvlan:~$\] sudo rm -r /usr/share/fonts/truetype/libreoffice
+```bash
+[srvlan@srvlan:~$\] sudo rm -r /etc/libreoffice
+```
 
-\[srvlan@srvlan:~$\] sudo apt autoremove --purge \\
+```bash
+[srvlan@srvlan:~$\] sudo apt autoremove --purge \
 exfalso quodlibet
+```
 
-et mettez le navigateur firefox en français :
+La configuration de base est presque terminée :
 
-\[srvlan@srvlan:~$\] sudo apt install firefox-esr-l10n-fr
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp)
 
-La configuration de base est presque terminé :
-
-[![Capture - Debian 11 : Bureau Xfce personnalisé](/wp-content/uploads/2021/08/srvlan-deb11-bureau-xfce-bis-430x288.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/08/srvlan-deb11-bureau-xfce-bis.jpg)
-
-Debian 11 : Bureau Xfce personnalisé
+Debian 12 : Bureau Xfce personnalisé
 
 La consommation RAM actuelle est d'environ 500 Mo.
 
@@ -386,7 +397,7 @@ Relancez ensuite le service réseau :
 
 #### _5.4 - Translation d'adresses NAT_
 
-\-- Définition de WIKIBOOKS -- 
+\-- Définition de WIKIBOOKS --
 Objectif du NAT _(Network Address Translation)_ :  
 Faire que les PC d'un réseau interne n'apparaissent que sous l'identifiant d'une seule IP pour les réseaux externes _(c'est un masquage ou IP Masquerading)_.
 
@@ -441,7 +452,7 @@ Table de routage courante de srvlan
 
 ![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
 
-  
+&nbsp;
 Bravo !  
 Le serveur srvlan est prêt.  
 Le mémento 2.1 vous attend pour  

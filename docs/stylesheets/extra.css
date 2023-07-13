@@ -6,6 +6,7 @@ table { background-color: rgb(251, 245, 245); }
 th { display: none; }
 td { background-color: rgb(251, 245, 245); }
 .td-bleu { background-color:#e7f5fe; }
+.code-retour { background-color:#e7f5fe; }
 
 @media (max-width: 360px) {
 /* Taille paragraphe */
