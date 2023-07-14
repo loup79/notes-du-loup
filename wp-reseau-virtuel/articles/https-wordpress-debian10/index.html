@@ -1,0 +1,1421 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/https-wordpress-debian10/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>LAMP HTTPS CMS / Debian 10 : 2/2 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-82-https-avec-openssl" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              LAMP HTTPS CMS / Debian 10 : 2/2
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-82-https-avec-openssl" class="md-nav__link">
+    Mémento 8.2 - HTTPS avec openssl
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 8.2 - HTTPS avec openssl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-mise-en-place-du-protocole-https" class="md-nav__link">
+    5 - Mise en place du protocole HTTPS
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Mise en place du protocole HTTPS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-cle-et-certificat-pem-du-certificate-auth" class="md-nav__link">
+    5.1 - Clé et certificat PEM du Certificate Auth...
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-cle-et-certificats-csrcrt-de-apache" class="md-nav__link">
+    5.2 - Clé et certificats CSR/CRT de Apache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-ajout-du-certificat-ca-dans-chromium" class="md-nav__link">
+    5.3 - Ajout du certificat CA dans Chromium
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-hote-virtuel-du-site-web-et-test-https" class="md-nav__link">
+    5.4 - Hôte virtuel du site Web et test HTTPS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-tests-https-depuis-la-vm-srvlan-etc" class="md-nav__link">
+    5.5 - Tests HTTPS depuis la VM srvlan, etc...
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-installation-du-cms-wordpress" class="md-nav__link">
+    6 - Installation du CMS WordPress
+  </a>
+  
+    <nav class="md-nav" aria-label="6 - Installation du CMS WordPress">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-telechargement-et-extraction-du-cms" class="md-nav__link">
+    6.1 - Téléchargement et extraction du CMS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-preparation-de-linstallation" class="md-nav__link">
+    6.2 - Préparation de l'installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-installation-et-test" class="md-nav__link">
+    6.3 - Installation et test
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>LAMP HTTPS CMS / Debian 10 : 2/2</h1>
+
+<h2 id="memento-82-https-avec-openssl">Mémento 8.2 - HTTPS avec openssl</h2>
+<h3 id="5-mise-en-place-du-protocole-https">5 - Mise en place du protocole HTTPS</h3>
+<p>Ce protocole servira à garantir la sécurité et l’intégrité des informations échangées entre le site loupvirtuel.fr et les navigateurs Web.</p>
+<p>HTTPS combinera le HTTP avec une couche de chiffrement SSL/TLS.</p>
+<p>Vous utiliserez, pour le chiffrement, l'outil openssl installé avec Apache.</p>
+<p>Les clés et certificats dédiés au HTTPS seront créés dans le dossier /etc/ssl/.</p>
+<p>Le domaine loupvirtuel.fr étant fictif, impossible de demander à une Autorité de Certification existante de le valider. Il faudra en créer une localement.</p>
+<h4 id="51-cle-et-certificat-pem-du-certificate-auth"><em>5.1 - Clé et certificat PEM du Certificate Auth...</em></h4>
+<p>PEM = Format texte codé en Base64. 
+CA = Certificate Authority.</p>
+<p>Créez une clé privée avec un MDP pour le CA :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/ssl 
+[srvdmz@srvdmz:~$] sudo openssl genrsa -aes128 -out loupvirtuel-ca.key 2048 </p>
+<p>Retour :</p>
+<pre><code>[sudo] Mot de passe de srvdmz : 
+Generating RSA private key, 2048 bit ... (2 primes)
+........+++++
+....................+++++
+e is 65537 (0x010001)
+Enter pass ... loupvirtuel-ca.key: Choisissez un MPD
+Verifying - Enter pass ... for loupvirtuel-ca.key:
+</code></pre>
+<p>et générez le certificat CA associé à cette clé :</p>
+<p>[srvdmz@srvdmz:~$] sudo openssl req -x509 -new -nodes -key loupvirtuel-ca.key -sha256 -days 3650 -out loupvirtuel.pem </p>
+<p>Retour pour le Certificate Authority <em>(CA)</em> :</p>
+<pre><code>[sudo] Mot de passe de srvdmz : 
+Enter pass ... loupvirtuel-ca.key: MDP clé privée CA
+You are about ...
+-----
+Country Name (2 letter code) [AU]:FR
+State or Prov... Name (full name) [Some-State]:Paris
+Locality Name (eg, city) []:Paris
+Organization Name (eg...) [Interne... Ltd]:InfoLoup
+Organizational Unit Name (eg...) []:Laboratoire-CA
+Common Name (e.g. server FQDN or ...) []:InfoLoup CA
+Email Address []:Rien &gt; Touche Entrée
+</code></pre>
+<h4 id="52-cle-et-certificats-csrcrt-de-apache"><em>5.2 - Clé et certificats CSR/CRT de Apache</em></h4>
+<p>Créez une clé privée pour le serveur Apache :</p>
+<p>[srvdmz@srvdmz:~$] sudo openssl  genrsa -out loupvirtuel.key 2048 </p>
+<p>Retour :</p>
+<pre><code>[sudo] Mot de passe de srvdmz : 
+Generating RSA private key, 2048 bit ... (2 primes)
+...............+++++
+..................+++++
+e is 65537 (0x010001)
+</code></pre>
+<p>et générez le certificat CSR associé à cette clé :</p>
+<p>[srvdmz@srvdmz:~$] sudo openssl req -new -key loupvirtuel.key -out loupvirtuel.csr </p>
+<p>Retour pour le Certificate Signing Request <em>(CSR)</em> :</p>
+<pre><code>[sudo] Mot de passe de srvdmz : 
+You are about ...
+-----
+Country Name (2 letter code) [AU]:FR
+State or ... Name (full name) [Some...]:Deux-Sevres
+Locality Name (eg, city) []:Parthenay
+Organization Name (eg...) [Interne... Ltd]:InfoLoup
+Organizational Unit Name (eg...) []:Services-Divers
+Common Name (e.g. server FQDN ...) []:loupvirtuel.fr
+Email Address []:Votre adresse mail
+
+Please enter ...
+A challenge password []:Rien &gt; Touche Entrée
+An optional company name []:Rien &gt; Touche Entrée
+</code></pre>
+<p>Ce certificat sera traité par le CA comme une demande de signature.</p>
+<p>Il est recommandé aujourd'hui d'ajouter l'extension d'identification de noms de domaines alternatifs subjectAltName à la demande de signature.</p>
+<p>Pour cela, créez un fichier d'extension de nom csr.ext :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano csr.ext</p>
+<p>et entrez ce contenu répondant à la norme X509v3 :</p>
+<p>authorityKeyIdentifier=keyid,issuer 
+basicConstraints=CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names</p>
+<p>[alt_names]
+DNS.1 = loupvirtuel.fr
+DNS.2 = localhost
+IP.1 = 127.0.0.1</p>
+<p>Ce fichier d'extension sera ajoutée au CSR pour la demande de signature.</p>
+<p>Enfin, traitez le CSR et son extension en générant un certificat CRT final signé pour Apache :</p>
+<p>[srvdmz@srvdmz:~$] sudo openssl x509 -req -in loupvirtuel.csr -CA loupvirtuel.pem -CAkey loupvirtuel-ca.key -CAcreateserial  -out loupvirtuel.crt -days 3650 -sha256 -extfile csr.ext </p>
+<p>Retour pour le certificat final <em>(CRT)</em> :</p>
+<pre><code>[sudo] Mot de passe de srvdmz : 
+Signature ok
+subject=C = FR, ST = Deux-Sevres, L = Parthenay, O = InfoLoup, OU = Services-Divers, CN = loupvirtuel.fr, emailAddress = Votre adresse mail
+Getting CA Private Key
+Enter pass ... loupvirtuel-ca.key:MDP clé privée CA
+</code></pre>
+<p><em>Nota : C'est en tant que CA (autorité de certification) que vous venez de générer le certificat CRT.</em></p>
+<h4 id="53-ajout-du-certificat-ca-dans-chromium"><em>5.3 - Ajout du certificat CA dans Chromium</em></h4>
+<p>Pour que le HTTPS fonctionne, il est nécessaire d'importer le certificat CA dans la configuration du navigateur Web Chromium.</p>
+<p>Accédez aux Paramètres du navigateur Web, ensuite :<br />
+> Confidentialité et sécurité &gt; Sécurité<br />
+> Gérer les certificats<br />
+> Onglet Autorités &gt; Bouton Importer</p>
+<p>Le gestionnaire de fichiers s'ouvre :<br />
+> Sélectionnez dans /etc/ssl/ le fichier loupvirtuel.pem<br />
+> Ouvrir</p>
+<p>Une fenêtre Autorité de certification s'ouvre :<br />
+> Cochez les 2 premiers paramètres de confiance<br />
+> OK</p>
+<p>Vous devriez à présent trouver dans le magasin des autorités gérées par Chromium l'Autorité de Certification de nom InfoLoup.</p>
+<h4 id="54-hote-virtuel-du-site-web-et-test-https"><em>5.4 - Hôte virtuel du site Web et test HTTPS</em></h4>
+<p>Au préalable, demandez à Apache de prendre en compte son module ssl :</p>
+<p>[srvdmz@srvdmz:~$] sudo a2enmod ssl</p>
+<p>Retour :</p>
+<pre><code>[sudo] Mot de passe de srvdmz : 
+Considering dependency setenvif for ssl:
+Module setenvif already enabled
+Considering dependency mime for ssl:
+Module mime already enabled
+Considering dependency socache_shmcb for ssl:
+Enabling module socache_shmcb.
+Enabling module ssl.
+See /usr/share/doc/apache2/README.Debian.gz on ...
+To activate the new configuration, you need to run:
+  systemctl restart apache2
+</code></pre>
+<p>Créez maintenant un hôte virtuel de nom loupvirtuel :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/apache2/sites-available
+[srvdmz@srvdmz:~$] sudo touch loupvirtuel.conf</p>
+<p>Editez celui-ci :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano loupvirtuel.conf </p>
+<p>et entrez le contenu suivant :</p>
+<p><VirtualHost \*:80>
+ServerName loupvirtuel.fr
+ServerAlias www.loupvirtuel.fr srvdmz.loupvirtuel.fr
+Redirect permanent / https://loupvirtuel.fr/
+</VirtualHost></p>
+<p><VirtualHost \*:443></p>
+<p>DocumentRoot /var/www/html/
+ServerName loupvirtuel.fr</p>
+<p><Directory /var/www/html/>
+     Options -Indexes +FollowSymlinks +MultiViews
+     AllowOverride None
+     Require all granted
+</Directory></p>
+<p>ErrorLog /var/log/apache2/loupvirtuel.error.log
+CustomLog /var/log/apache2/loupvirtuel.access.log combined</p>
+<p>SSLEngine On
+SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
+SSLCertificateFile /etc/ssl/loupvirtuel.crt
+SSLCertificateKeyFile /etc/ssl/loupvirtuel.key</p>
+<p></VirtualHost> </p>
+<p>Demandez ensuite à Apache de traiter cet hôte virtuel :</p>
+<p>[srvdmz@srvdmz:~$] sudo a2ensite loupvirtuel</p>
+<p>et redémarrez celui-ci :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart apache2</p>
+<p>Enfin, testez depuis le navigateur Chromium l'URL :<br />
+https://loupvirtuel.fr</p>
+<p><a href="/wp-content/uploads/2019/12/srvdmz_https_loupvirtuel_1.jpg"><img alt="Capture - HTTPS : Site loupvirtuel.fr sécurisé" src="/wp-content/uploads/2019/12/srvdmz_https_loupvirtuel_1-430x208.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>HTTPS : Site loupvirtuel.fr sécurisé</p>
+<p><a href="/wp-content/uploads/2019/12/srvdmz_https_loupvirtuel_2.jpg"><img alt="Capture - HTTPS : Détail du certificat pour le site loupvirtuel.fr" src="/wp-content/uploads/2019/12/srvdmz_https_loupvirtuel_2-430x237.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>HTTPS : Détail du certificat pour le site loupvirtuel.fr</p>
+<p>Les 2 captures ci-dessus montrent le site loupvirtuel.fr validé HTTPS.</p>
+<p>Par curiosité, complétez la vérification SSL :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/ssl
+[srvdmz@srvdmz:~$] sudo openssl s_client \
+             -CAfile loupvirtuel.pem -connect loupvirtuel.fr:443</p>
+<p>Le caractère \ indique d'écrire la Cde sur une seule ligne.</p>
+<p>Vous devriez trouver dans le retour et dans l'ordre :<br />
+- depth =1 &gt; verifiy return :1<br />
+- depth =0 &gt; verifiy return :1<br />
+- SSL handshake &gt; Vérification : OK<br />
+- New, TLSv1.3 &gt; Verify return code: 0 (ok)<br />
+- Post handshake &gt; Verify return code: 0 (ok)<br />
+- Post handshake &gt; Verify return code: 0 (ok)</p>
+<p>Aucun message d'erreur ne doit apparaitre.</p>
+<h4 id="55-tests-https-depuis-la-vm-srvlan-etc"><em>5.5 - Tests HTTPS depuis la VM srvlan, etc...</em></h4>
+<p>La configuration actuelle exige, pour joindre le domaine loupvirtuel.fr depuis les VM srvlan et debian10-vm*, de modifier leurs fichiers DNS respectifs /etc/hosts.</p>
+<p>Editez chacun des 3 fichiers DNS et ajoutez cette ligne :</p>
+<p>192.168.4.2     loupvirtuel.fr</p>
+<p>Exemple pour le fichier hosts de la VM srvlan :</p>
+<pre><code>127.0.0.1   localhost
+127.0.1.1   srvlan
+192.168.3.1     srvlan.intra.loupipfire.fr srvlan
+192.168.4.2     loupvirtuel.fr
+</code></pre>
+<p>Puis, copiez le certificat CA dans le dossier partagé :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/ssl
+[srvdmz@srvdmz:~$] sudo cp loupvirtuel.pem /home/srvdmz/Partages/</p>
+<p>et importez celui-ci dans les navigateurs Web des VM :</p>
+<p>- Pour srvlan, procédez comme ci-dessus avec srvdmz mais en pensant à sélectionner le fichier loupvirtuel.pem dans /home/srvlan/Partages/.  </p>
+<p>- Pour debian10-vm*, procédez comme ceci :<br />
+Accédez aux Préférences du navigateur Web Firefox<br />
+> Vie privée et sécurité &gt; Certificats<br />
+> Bouton Afficher les certificats...</p>
+<p>Une fenêtre Gestionnaire de certificats s'ouvre :<br />
+> Onglet Autorités &gt; Bouton Importer...</p>
+<p>Le gestionnaire de fichiers s'ouvre :<br />
+> Ouvrez le dossier /home/clientx2dlinux/Partages/<br />
+> Sélectionnez le fichier loupvirtuel.pem<br />
+> Ouvrir</p>
+<p>Une fenêtre Téléchargement du certificat s'ouvre :<br />
+> Cochez les 2 demandes de confirmation<br />
+> OK &gt; OK</p>
+<p>Pour finir, testez pour chacune des VM l'accès à l'URL :<br />
+https://loupvirtuel.fr</p>
+<h3 id="6-installation-du-cms-wordpress">6 - Installation du CMS WordPress</h3>
+<p>CMS = Content Management System</p>
+<h4 id="61-telechargement-et-extraction-du-cms"><em>6.1 - Téléchargement et extraction du CMS</em></h4>
+<p>[srvdmz@srvdmz:~$] cd /var/www
+[srvdmz@srvdmz:~$] sudo wget https://fr.wordpress.org/latest-fr_FR.tar.gz</p>
+<p>[srvdmz@srvdmz:~$] sudo tar zxvf latest-fr_FR.tar.gz
+[srvdmz@srvdmz:~$] sudo rm latest-fr_FR.tar.gz    </p>
+<p>Un dossier wordpress a été créé dans /var/www/.</p>
+<h4 id="62-preparation-de-linstallation"><em>6.2 - Préparation de l'installation</em></h4>
+<p>Créez avec le gestionnaire Adminer une Bdd loupvirtuel d'interclassement utf8_general_ci :</p>
+<p><a href="/wp-content/uploads/2019/12/srvdmz_creation_bdd_loupvirtuel.jpg"><img alt="Capture - Adminer : Création d'une Bdd loupvirtuel" src="/wp-content/uploads/2019/12/srvdmz_creation_bdd_loupvirtuel-430x181.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Adminer : Création d'une Bdd loupvirtuel</p>
+<p>et ajoutez les modules PHP suivants :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install php7.3-curl php7.3-mbstring php-imagick php7.3-zip php7.3-gd php7.3-xml</p>
+<p>Créez un fichier de configuration wp-config.php :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/www/wordpress
+[srvdmz@srvdmz:~$] sudo cp wp-config-sample.php wp-config.php </p>
+<p>Editez celui-ci :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano wp-config.php</p>
+<p>Modifiez les valeurs de DB_* comme suit :</p>
+<p>** Réglages MySQL - Votre hébergeur doit ... informations. **
+ ** Nom de la base de données de WordPress. *
+ define('DB_NAME', 'loupvirtuel');</p>
+<p>** Utilisateur de la base de données MySQL. *
+ define('DB_USER', 'root');</p>
+<p>** Mot de passe de la base de données MySQL. *
+ define('DB_PASSWORD', 'Votre MDP pour le root de MySQL');</p>
+<p>** Adresse de l’hébergement MySQL. *
+ define('DB_HOST', 'localhost');</p>
+<p>et ajoutez ceci sous la ligne define('DB_COLLATE' ...); :</p>
+<p># Mises à jour de Wordpress sans utiliser le FTP
+ define('FS_METHOD', 'direct');</p>
+<p>Modifiez le propriétaire et le groupe du dossier WP :</p>
+<p>[srvdmz@srvdmz:~$]  sudo chown -R www-data:www-data /var/www/wordpress </p>
+<p>Editez à présent l'hôte virtuel loupvirtuel créé ci-dessus :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/apache2/sites-available
+[srvdmz@srvdmz:~$] sudo nano loupvirtuel.conf  </p>
+<p>et modifiez la section <VirtualHost \*:443> comme suit :</p>
+<p><VirtualHost \*:443></p>
+<p>DocumentRoot /var/www/wordpress/
+ServerName loupvirtuel.fr</p>
+<p><Directory /var/www/wordpress/>
+     Options -Indexes +FollowSymlinks +MultiViews
+     AllowOverride ALL
+     Require all granted
+</Directory></p>
+<p>ErrorLog /var/log/apache2/loupvirtuel.error.log
+CustomLog /var/log/apache2/loupvirtuel.access.log combined</p>
+<p>SSLEngine On
+SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
+SSLCertificateFile /etc/ssl/loupvirtuel.crt
+SSLCertificateKeyFile /etc/ssl/loupvirtuel.key</p>
+<p></VirtualHost>  </p>
+<p>Rechargez la configuration de Apache :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl reload apache2</p>
+<p>Vous êtes prêt pour une installation normalement sans incident.</p>
+<h4 id="63-installation-et-test"><em>6.3 - Installation et test</em></h4>
+<p>Ouvrez Chromium et lancez l'URL https://loupvirtuel.fr.</p>
+<p>Puis, remplissez la page présentée par WP :<br />
+> Titre du site &gt; Loup Virtuel<br />
+> Identifiant &gt; Un nom qui servira à administrer WP<br />
+> Mot de passe &gt; Ce que vous voulez<br />
+> Confirmation du mot de passe si jugé faible<br />
+> Votre adresse de messagerie &gt; Votre e-mail<br />
+> Visibilité ... recherche &gt; Cochez la case ne pas indexer<br />
+> Bouton Installer Wordpress</p>
+<p>Si tout est OK, une page de titre Quel succès ! s'affiche.</p>
+<p>Cliquez sur Se connecter pour ouvrir l'administration :</p>
+<p><a href="/wp-content/uploads/2019/12/srvdmz_wordpress_admin.jpg"><img alt="Capture - WordPress : Panneau d'administration" src="/wp-content/uploads/2019/12/srvdmz_wordpress_admin-430x231.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>WordPress : Panneau d'administration</p>
+<p>Le menu pour se déconnecter se situe en haut à droite.</p>
+<p>Les URL à retenir :<br />
+https://loupvirtuel.fr/wp-admin/ pour administrer le site.<br />
+https://loupvirtuel.fr pour parcourir le site.</p>
+<p>Amusez-vous maintenant avec WordPress et créez votre propre page d'accueil.</p>
+<p>Exemple de page d'accueil :</p>
+<p><a href="/wp-content/uploads/2019/12/srvdmz_wordpress_accueil.jpg"><img alt="Capture - Wordpress : Page accueil de loupvirtuel.fr" src="/wp-content/uploads/2019/12/srvdmz_wordpress_accueil-430x237.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>WordPress : Page d'accueil de loupvirtuel.fr</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2019/02/redacteur_satisfait_bis.png" title="Image Pixabay - Sanalinsan" /></p>
+<p>Ouf ! Enfin terminé pour ce grand<br />
+chapitre. Le mémento 9.1<br />
+consacré à l'usage du protocole<br />
+SFTP vous attend.</p>
+<p><a href="/sftp-acces-site-wordpress/">Mémento 9.1</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

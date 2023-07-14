@@ -1,0 +1,2126 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/postfix-debian11/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>E-mail / Debian11 : 1/3 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-1111-postfix-et-dovecot" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              E-mail / Debian11 : 1/3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-1111-postfix-et-dovecot" class="md-nav__link">
+    Mémento 11.11 - Postfix et Dovecot
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 11.11 - Postfix et Dovecot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preambule" class="md-nav__link">
+    1 - Préambule
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-role-du-serveur-de-courrier" class="md-nav__link">
+    1.1 - Rôle du serveur de courrier
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-principe-de-fonctionnement" class="md-nav__link">
+    1.2 - Principe de fonctionnement
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-installation-de-postfix-dovecot-et-mail" class="md-nav__link">
+    2 - Installation de Postfix, Dovecot et Mail
+  </a>
+  
+    <nav class="md-nav" aria-label="2 - Installation de Postfix, Dovecot et Mail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-postfix-mta-ou-serveur-smtp" class="md-nav__link">
+    2.1 - Postfix (MTA ou serveur SMTP)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-dovecot-mda-ou-serveur-popimap" class="md-nav__link">
+    2.2 - Dovecot (MDA ou serveur POP/IMAP)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-mail-mua-ou-client-en-mode-console" class="md-nav__link">
+    2.3 - Mail (MUA ou client en mode console)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-service-dns-et-courriers-adresses-a-root" class="md-nav__link">
+    3 - Service DNS et courriers adressés à root
+  </a>
+  
+    <nav class="md-nav" aria-label="3 - Service DNS et courriers adressés à root">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-ajout-denregistrements-type-mxcname" class="md-nav__link">
+    3.1 - Ajout d'enregistrements type MX/CNAME
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-redirection-des-courriers-adresses-a-root" class="md-nav__link">
+    3.2 - Redirection des courriers adressés à root
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-test-denvoireception-de-courriers" class="md-nav__link">
+    4 - Test d'envoi/réception de courriers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-ajout-des-couches-de-securite-ssl-et-sasl" class="md-nav__link">
+    5 - Ajout des couches de sécurité SSL et SASL
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Ajout des couches de sécurité SSL et SASL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-couche-ssl-authentificationchiffrement" class="md-nav__link">
+    5.1 - Couche SSL authentification/chiffrement
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-configuration-ssl-de-postfix" class="md-nav__link">
+    5.2 - Configuration SSL de Postfix
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-couche-sasl-authentification-utilisateurs" class="md-nav__link">
+    5.3 - Couche SASL authentification utilisateurs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-configuration-sasl-de-postfix-et-dovecot" class="md-nav__link">
+    5.4 - Configuration SASL de Postfix et Dovecot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-test-de-la-configuration-ssl-et-sasl" class="md-nav__link">
+    5.5 - Test de la configuration SSL et SASL
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-chiffrage-tls-des-connexions-smtp" class="md-nav__link">
+    5.6 - Chiffrage TLS des connexions SMTP
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-envoi-de-courriers-vers-internet-relais-smtp" class="md-nav__link">
+    6 - Envoi de courriers vers Internet (relais SMTP)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desactivation-du-smtputf8-non-gere-par-le-relais-orange" class="md-nav__link">
+    Désactivation du smtputf8 non géré par le relais Orange
+  </a>
+  
+    <nav class="md-nav" aria-label="Désactivation du smtputf8 non géré par le relais Orange">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-interface-web-dadministration-postfixadmin" class="md-nav__link">
+    7 - Interface Web d'administration PostfixAdmin
+  </a>
+  
+    <nav class="md-nav" aria-label="7 - Interface Web d'administration PostfixAdmin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-installation" class="md-nav__link">
+    7.1 - Installation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-hote-virtuel-et-redirection-https" class="md-nav__link">
+    7.2 - Hôte virtuel et redirection HTTPS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-acces-de-postfix-sur-bdd-postfixadmin" class="md-nav__link">
+    7.3 - Accès de Postfix sur Bdd PostfixAdmin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-acces-de-dovecot-sur-bdd-postfixadmin" class="md-nav__link">
+    7.4 - Accès de Dovecot sur Bdd PostfixAdmin
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-auth-denyconfext" class="md-nav__link">
+    !include auth-deny.conf.ext
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-auth-masterconfext" class="md-nav__link">
+    !include auth-master.conf.ext
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-auth-systemconfext-ligne-system-a-commenter" class="md-nav__link">
+    !include auth-system.conf.ext  # Ligne system à commenter
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-auth-ldapconfext" class="md-nav__link">
+    !include auth-ldap.conf.ext
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-auth-passwdfileconfext" class="md-nav__link">
+    !include auth-passwdfile.conf.ext
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-auth-checkpasswordconfext" class="md-nav__link">
+    !include auth-checkpassword.conf.ext
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-auth-staticconfext" class="md-nav__link">
+    !include auth-static.conf.ext
+  </a>
+  
+    <nav class="md-nav" aria-label="!include auth-static.conf.ext">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#75-utilisation-par-postfix-du-lda-de-dovecot" class="md-nav__link">
+    7.5 - Utilisation par Postfix du LDA de Dovecot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-envoireleve-de-mails-depuis-le-lan" class="md-nav__link">
+    8 - Envoi/Relève d'e-mails depuis le LAN
+  </a>
+  
+    <nav class="md-nav" aria-label="8 - Envoi/Relève d'e-mails depuis le LAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-envoi-depuis-le-client-mua-mail" class="md-nav__link">
+    8.1 - Envoi depuis le client MUA Mail
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-releve-depuis-le-client-mua-thunderbird" class="md-nav__link">
+    8.2 - Relève depuis le client MUA Thunderbird
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-envoireleve-depuis-internet-spf-dkim" class="md-nav__link">
+    9 - Envoi/Relève depuis Internet (SPF, DKIM ...)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-1111-postfix-et-dovecot">Mémento 11.11 - Postfix et Dovecot</h2>
+<p>Le serveur de courrier sera installé sur srvdmz.</p>
+<p>L'installation de base inclura l'utilisation des logiciels Postfix, Dovecot, Mail et PostfixAdmin ainsi que l'utilisation d'outils de sécurité tels SSL/TLS, SASL, HTTPS, SPF, DKIM et DMARC.</p>
+<h3 id="1-preambule">1 - Préambule</h3>
+<p>Documentation de Postfix en français <a href="https://postfix.traduc.org">sur cette page</a>.</p>
+<p>Noms d'hôte et de domaine actifs sur la VM srvdmz :<br />
+Nom d'hôte <em>($ hostname)</em> = srvdmz<br />
+Nom de domaine <em>($ hostname -d)</em> = loupvirtuel.fr</p>
+<p>Lors de la rédaction du mémento sous Debian 10, les outils SPF, DKIM et DMARC n'étaient pas traités mais ceux-ci prennent de plus en plus de place de nos jours.</p>
+<h4 id="11-role-du-serveur-de-courrier"><em>1.1 - Rôle</em> du serveur de courrier</h4>
+<p>Il consiste tout simplement à transmettre des messages électroniques ou e-mails à destination.</p>
+<h4 id="12-principe-de-fonctionnement"><em>1.2 - Principe de fonctionnement</em></h4>
+<p>Le traitement du courrier respecte les étapes suivantes :</p>
+<p>1) Départ depuis le client e-mail MUA de l'expéditeur<br />
+> Un serveur d'envoi MTA <em>(SMTP)</em></p>
+<p>2) Acheminement au travers d'un ou plusieurs MTA<br />
+> Un serveur de réception MDA <em>(POP/IMAP)</em></p>
+<p>3) Demande de relève depuis le MUA du destinataire<br />
+> Le serveur de réception MDA</p>
+<p>4) Acheminement final depuis le MDA<br />
+> Le MUA du destinataire</p>
+<p>Le MUA <em>(Mail User Agent)</em> ou client e-mail s'occupe d'émettre et relever le courrier.</p>
+<p>Le MTA <em>(Mail Transfer Agent)</em> gère le transfert du courrier émis jusqu'à sa destination.</p>
+<p>Le MDA <em>(Mail Delivery Agent)</em> stocke le courrier reçu en attendant une relève par le destinataire.</p>
+<p>Le protocole SMTP est utilisé par les MUA et MTA pour envoyer le courrier à destination.<br />
+Les protocoles POP/IMAP le sont par les MDA et MUA pour relever le courrier.</p>
+<p>Liste des logiciels auxquels vous ferez appel :<br />
+- Le trio apache + php + mysql déjà présent sur srvdmz.<br />
+- postfix comme MTA ou serveur SMTP.<br />
+- dovecot comme MDA ou serveur POP/IMAP.<br />
+- mail comme MUA en mode console.<br />
+- thunderbird comme MUA en mode graphique.<br />
+- postfixAdmin comme interface Web d'administration.</p>
+<p>Vous l'aurez compris, la mise en place d'un serveur de courrier est relativement compliquée.</p>
+<p>Schéma récapitulant l'envoi d'un courrier :</p>
+<p><img alt="Synoptique - Postfix : Envoi d'un courrier de A vers B et B vers A" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfix-envoi-courrier.webp" /></p>
+<h3 id="2-installation-de-postfix-dovecot-et-mail">2 - Installation de Postfix, Dovecot et Mail</h3>
+<h4 id="21-postfix-mta-ou-serveur-smtp"><em>2.1 - Postfix (MTA ou serveur SMTP)</em></h4>
+<p>Au préalable, mettez à jour la distribution Debian :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt update             # MAJ paquets
+[srvdmz@srvdmz:~$] sudo apt upgrade     # MAJ distribution
+[srvdmz@srvdmz:~$] sudo reboot
+[srvdmz@srvdmz:~$] sudo apt autoremove</p>
+<p>et installez le paquet postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install postfix</p>
+<p>Une fenêtre Postfix Configuration s'ouvre :<br />
+> OK &gt; Sélectionnez Site Internet &gt; OK<br />
+> OK &gt; Nom du courrier &gt; Entrez loupvirtuel.fr &gt; OK</p>
+<p>Editez ensuite son fichier de configuration main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>Vérifiez les valeurs des paramètres ci-dessous :</p>
+<p>myhostname = srvdmz.loupvirtuel.fr</p>
+<p>mydestination = $myhostname, loupvirtuel.fr, srvdmz.loupvirtuel.fr, localhost.loupvirtuel.fr, localhost</p>
+<p>- myhostname = Nom FQDN du serveur Postfix.<br />
+- $myhostname = Valeur de myhostname.<br />
+- mydestination = Noms des domaines entrant valides.</p>
+<p>et décommentez la ligne suivante :</p>
+<p>myorigin = /etc/mailname     # Nom du domaine sortant valide</p>
+<p>- myorigin = Contenu de mailname soit loupvirtuel.fr.</p>
+<p>Testez par sécurité la bonne configuration de Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo postfix check</p>
+<p>Si OK, aucun retour.</p>
+<p>Redémarrez Postix :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<p>et testez une connexion sur celui-ci avec la Cde telnet :</p>
+<p>[srvdmz@srvdmz:~$]  telnet localhost 25        # 25 = port SMTP</p>
+<p>Retour observé :</p>
+<pre><code>Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+220 srvdmz.loupvirtuel.fr ESMTP Postfix (Debian/GNU)
+</code></pre>
+<p>Puis touches Ctrl droite + AltGr + ] &gt; prompt telnet &gt; quit</p>
+<p><em>Nota : L'installation a généré un utilisateur postfix et un groupe de même nom sur srvdmz.</em></p>
+<h4 id="22-dovecot-mda-ou-serveur-popimap"><em>2.2 - Dovecot (MDA ou serveur POP/IMAP)</em></h4>
+<p>Installez les paquets dovecot suivants :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install dovecot-mysql \
+                                       dovecot-imapd dovecot-pop3d</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Etendez ensuite les possibilités de filtrage du courrier entrant en installant le plugin sieve :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install dovecot-managesieved</p>
+<p>Les filtres fournis par le plugin permettront de traiter un courrier entrant en fonction d’un certain nombre de règles <em>(scripts)</em> définies par le destinataire.</p>
+<p>Les règles seront enregistrées et traitées sur le serveur.</p>
+<p>Le plugin permettra entre autres de gérer de la réponse automatique en cas d'absence, de réexpédier des courriers dès leur réception sur le serveur, etc...</p>
+<p>Les règles sont généralement définies via des interfaces de gestion respectant le protocole de filtrage telles que celles fournies par les plugins Sieve de Thunderbird, RoundCube et Rainloop_._</p>
+<p>Activez maintenant la prise en compte du plugin :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart dovecot</p>
+<p>et testez une connexion POP3 sur Dovecot :</p>
+<p>[srvdmz@srvdmz:~$] telnet localhost 110    # 110 = port POP3</p>
+<p>Retour observé :</p>
+<pre><code>Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
++OK Dovecot (Debian) ready.
+</code></pre>
+<p>Puis touches Ctrl droite + AltGr + ] &gt; prompt telnet &gt; quit</p>
+<p>Testez également le résultat d'une connexion IMAP :</p>
+<p>[srvdmz@srvdmz:~$] telnet localhost 143   # 143 = port IMAP4</p>
+<p><em>Nota : L'installation a généré un utilisateur dovecot et un groupe de même nom sur srvdmz.</em></p>
+<h4 id="23-mail-mua-ou-client-en-mode-console"><em>2.3 - Mail (MUA ou client en mode console)</em></h4>
+<p>Installez le paquet mailutils :</p>
+<p>[srvdmz@srvdmz:~$]  sudo apt install mailutils</p>
+<h3 id="3-service-dns-et-courriers-adresses-a-root">3 - Service DNS et courriers adressés à root</h3>
+<h4 id="31-ajout-denregistrements-type-mxcname"><em>3.1 - Ajout d'enregistrements type MX/CNAME</em></h4>
+<p>Vous allez ajouter un enregistrement de type MX <em>(Mail eXchanger)</em> qui associera le domaine loupvirtuel.fr au serveur de courrier installé sur srvdmz.</p>
+<p>Cet enregistrement permettra de déterminer vers quel serveur un courrier doit être acheminé lorsque le protocole SMTP est utilisé, ceci en associant la partie à droite de l'@ des adresses e-mail au serveur de courrier.</p>
+<p>Vous en ajouterez aussi de type CNAME <em>(alias)</em> pour les serveurs SMTP <em>(Postfix)</em> et POP/IMAP <em>(Dovecot)</em>.</p>
+<p>Editez pour cela le fichier DNS db.loupvirtuel.fr.directe :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/lib/bind
+[srvdmz@srvdmz:~$] sudo nano db.loupvirtuel.fr.directe</p>
+<p>et ajoutez ceci juste avant www IN CNAME srvdmz :</p>
+<p>@  IN   MX 10   srvdmz.loupvirtuel.fr.
+smtp  IN   CNAME   srvdmz
+pop    IN   CNAME   srvdmz
+imap  IN   CNAME   srvdmz</p>
+<p>Faites de même avec db.loupvirtuel.fr.directe.externe.</p>
+<p>Redémarrez les services DNS et Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart bind9
+[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<p>ainsi que le DNS sur srvlan.</p>
+<p>Puis testez le bon fonctionnement du DNS comme suit :</p>
+<p>[srvdmz@srvdmz:~$] ping smtp.loupvirtuel.fr
+[srvdmz@srvdmz:~$] ping pop.loupvirtuel.fr
+[srvdmz@srvdmz:~$] ping imap.loupvirtuel.fr
+[srvdmz@srvdmz:~$] dig mx loupvirtuel.fr</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfix-enregistrement-mx-debian11.webp"><img alt="Capture - Postfix : Retour de la Cde dig mx loupvirtuel.fr" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfix-enregistrement-mx-debian11-430x321.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Postfix : Retour de la Cde dig mx loupvirtuel.fr</p>
+<p>Les 4 Cdes ci-dessus doivent fonctionner depuis srvlan.</p>
+<h4 id="32-redirection-des-courriers-adresses-a-root"><em>3.2 - Redirection des courriers adressés à root</em></h4>
+<p>La redirection des courriers se gère depuis le fichier Bdd /etc/aliases.db qui peut être mis à jour depuis le ficher texte /etc/aliases.</p>
+<p>Editez ce dernier :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/aliases</p>
+<p>et redirigez le courrier adressé à root en ajoutant ceci :</p>
+<p>root: srvdmz</p>
+<p>srvdmz étant l'utilisateur principal du serveur de courrier de nom d'hôte srvdmz.loupvirtuel.fr.</p>
+<p>Terminez en mettant à jour le fichier Bdd aliases.db :</p>
+<p>[srvdmz@srvdmz:~$] sudo newaliases</p>
+<h3 id="4-test-denvoireception-de-courriers">4 - Test d'envoi/réception de courriers</h3>
+<p>Dans l'immédiat, l'envoi d'un courrier vers un utilisateur quelconque tel clientmail-vm1 nécessite la création de celui-ci comme utilisateur local de l'hôte srvdmz.</p>
+<p>Créez donc un utilisateur local UNIX clientmail-vm1:</p>
+<p>[srvdmz@srvdmz:~$] sudo adduser clientmail-vm1</p>
+<p>Puis envoyez un courrier de root vers clientmail-vm1:</p>
+<p>[srvdmz@srvdmz:~$] su root
+[root@srvdmz:~$]  mail clientmail-vm1@loupvirtuel.fr
+Cc:                                                                        >Touche Entrée
+Subject: Test d'envoi depuis root                    >Touche Entrée
+Texte de mon premier courrier. Fin.   &gt;Touche Entrée
+CTRL+D                                    = Envoyer et quitter</p>
+<p>et vérifiez la création dans /var/mail d'un fichier clientmail-vm1 stockant le contenu du courrier :</p>
+<p>[root@srvdmz:~$] exit</p>
+<p>[srvdmz@srvdmz:~$] cd /var/mail
+[srvdmz@srvdmz:~$] sudo cat clientmail-vm1</p>
+<p>Connectez-vous maintenant en tant que clientmail-vm1 et lancez le MUA mail :</p>
+<p>[srvdmz@srvdmz:~$] su clientmail-vm1
+[clientmail-vm1@srvdmz:~$] mail</p>
+<p>Relevez ensuite le courrier avec la Cde t 1 suivie de quit :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfix-premier-courrier-debian11.webp"><img alt="Capture - Postfix : Relève de l'e-mail n°1 adressé à clientmail-vm1" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfix-premier-courrier-debian11-430x219.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Postfix : Relève de l'e-mail n°1 adressé à clientmail-vm1</p>
+<p>Reconnectez-vous en tant que srvdmz avec la Cde exit et vérifiez la création dans /home/clientmail-vm1 d'un fichier mbox stockant le contenu du courrier relevé.</p>
+<p>Vérifiez le vidage consécutif du contenu de ce courrier dans le fichier /var/mail/clientmail-vm1.</p>
+<p>Finissez en envoyant un e-mail de clientmail-vm1 vers root et vérifiez la bonne redirection du courrier en relevant celui-ci depuis l'utilisateur srvdmz.</p>
+<h3 id="5-ajout-des-couches-de-securite-ssl-et-sasl">5 - Ajout des couches de sécurité SSL et SASL</h3>
+<h4 id="51-couche-ssl-authentificationchiffrement"><em>5.1 - Couche SSL authentification/chiffrement</em></h4>
+<p>- SSL/TLS<br />
+Couche Secure Sockets Layer/Transport Layer Security.</p>
+<p>Cette couche fournit des authentifications basées sur des certificats ainsi que le chiffrement des sessions de transport. Une session chiffrée protège le contenu des messages SMTP ainsi que celui des authentifications SASL.</p>
+<p>Vous utiliserez pour Postfix les certificats loupvirtuel.crt et loupvirtuel.key créés au <a href="/https-dotclear-debian11/#5_-_Mise_en_place_du_protocole_HTTPS">§ 5 du mémento LAMP ...</a></p>
+<p>Ces 2 fichiers peuvent servir à toutes applications faisant appel au chiffrage SSL.</p>
+<h4 id="52-configuration-ssl-de-postfix"><em>5.2 - Configuration SSL de Postfix</em></h4>
+<p>Indiquez-lui le chemin des certificats en éditant main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et en modifiant les lignes ci-dessous comme suit :</p>
+<p>smtpd_tls_cert_file=/etc/ssl/loupvirtuel.crt
+smtpd_tls_key_file=/etc/ssl/loupvirtuel.key</p>
+<p>Activez la modification :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<h4 id="53-couche-sasl-authentification-utilisateurs"><em>5.3 - Couche SASL authentification utilisateurs</em></h4>
+<p>- SASL<br />
+Couche Simple Authentication and Security Layer.</p>
+<p>Cette couche, utilisable avec des protocoles fonctionnant en mode connecté comme le SMTP, permet d'authentifier les utilisateurs cherchant à envoyer des messages par le biais du serveur de courrier et ainsi éviter que celui-ci ne soit notamment exploité pour diffuser du spam.</p>
+<p>Installez les paquets suivants :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install sasl2-bin db-util</p>
+<p>Les dépendances libsasl2-2 et libsasl2-modules sont déjà présentes sur srvdmz.</p>
+<p>Pour activer automatiquement le service SASL au boot du système, éditez le fichier saslauthd :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/default/saslauthd</p>
+<p>et changez la valeur du paramètre START comme suit :</p>
+<p>START=yes</p>
+<p>Démarrez le service :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl start saslauthd</p>
+<h4 id="54-configuration-sasl-de-postfix-et-dovecot"><em>5.4 - Configuration SASL de Postfix et Dovecot</em></h4>
+<p>Vous allez maintenant configurer le système afin que Postix utilise l'authentification SMTP en faisant appel au support SASL fourni de base avec Dovecot.</p>
+<p><strong>a)</strong> Configuration côté Dovecot</p>
+<p>Editez, le fichier 10-master.conf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/dovecot/conf.d
+[srvdmz@srvdmz:~$] sudo nano 10-master.conf</p>
+<p>et modifiez la section Postfix smtp-auth comme suit :</p>
+<p># Postfix smtp-auth<br />
+unix_listener /var/spool/postfix/private/auth {<br />
+mode = 0666<br />
+user = postfix<br />
+group = postfix<br />
+}</p>
+<p>Editez ensuite le fichier 10-auth.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano 10-auth.conf</p>
+<p>et modifiez la valeur de auth_mechanisms comme suit :</p>
+<p>auth_mechanisms = plain login</p>
+<p>Redémarrez Dovecot :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart dovecot</p>
+<p><strong>b)</strong> Configuration côté Postfix</p>
+<p>Editez le fichier de configuration main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et ajoutez les lignes suivantes en fin de fichier :</p>
+<p># Activation du protocole SASL partie serveur SMTP de Postfix
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = permit_sasl_authenticated,\
+                       permit_mynetworks,reject_unauth_destination</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Redémarrez Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<h4 id="55-test-de-la-configuration-ssl-et-sasl"><em>5.5 - Test de la configuration SSL et SASL</em></h4>
+<p>Vérifiez la prise en compte des 2 protocoles de sécurisation à l'aide de la Cde suivante :</p>
+<p>[srvdmz@srvdmz:~$] telnet localhost 25    # 25 = n° port SMTP</p>
+<p>Retour :</p>
+<pre><code>Trying ::1...
+Connected to localhost.
+Escape character is '^]'.
+220 srvdmz.loupvirtuel.fr ESMTP Postfix (Debian/GNU)
+</code></pre>
+<p>Entrez sous la ligne 220 srvdmz... l'instruction suivante :</p>
+<p>ehlo srvdmz.loupvirtuel.fr</p>
+<p>et observez le retour :</p>
+<pre><code>250-srvdmz.loupvirtuel.fr
+250-PIPELINING
+250-SIZE 10240000
+250-VRFY
+250-ETRN
+250-STARTTLS
+250-AUTH PLAIN LOGIN
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250-DSN
+250-SMTPUTF8
+250 CHUNKING
+</code></pre>
+<p>Doivent être présents STARTTLS et AUTH PLAIN LOGIN.</p>
+<p>Fermez la connexion à l'aide de la Cde quit.</p>
+<h4 id="56-chiffrage-tls-des-connexions-smtp"><em>5.6 - Chiffrage TLS des connexions SMTP</em></h4>
+<p>SASL avec son MDP diffusé en clair sur le réseau, impose par sécurité, de chiffrer la phase d'authentification et également d'utiliser le port de soumission 587 à la place du port 25.</p>
+<p>Vous allez donc forcer les clients MUA du réseau comme l'application thunderbird à établir des sessions SMTP entièrement chiffrées TLS <em>(pas uniquement l'authentification SASL).</em></p>
+<p>Editez pour cela le fichier de configuration master.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/master.cf</p>
+<p>et activez le port 587 en décommentant cette ligne :</p>
+<p>submission inet n - y - - smtpd</p>
+<p>Editez ensuite le fichier principal main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et modifiez le smtpd_tls_security_level comme suit :</p>
+<p>smtpd_tls_key_file=/etc/ssl/loupvirtuel.key # Ligne existante
+smtpd_tls_security_level = encrypt </p>
+<p>Les échanges entre MUA et Postix seront ainsi cryptés.</p>
+<p>Relancez Postfix pour traiter la nouvelle configuration :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<h3 id="6-envoi-de-courriers-vers-internet-relais-smtp">6 - Envoi de courriers vers Internet <em>(relais SMTP)</em></h3>
+<p>Vous accédez généralement à Internet au travers d'une box de FAI telle celle d'Orange ou autre.</p>
+<p>Malgré le côté fictif du nom de domaine loupvirtuel.fr, vous allez envoyer du courrier au travers d'Internet en demandant à Postfix d'utiliser le serveur de courrier du FAI comme relais SMTP.</p>
+<p>La configuration ci-dessous concerne le FAI Orange qui accepte de jouer le rôle de relais SMTP après validation d'une demande par authentification SASL chiffrée TLS sur le port 587.</p>
+<p>Commencez par créer un fichier texte sasl_passwd :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/postfix/sasl
+[srvdmz@srvdmz:~$] sudo nano sasl_passwd</p>
+<p>et entrez le contenu suivant :</p>
+<p>[smtp.orange.fr]:587 utilisateur_orange:MDP_orange</p>
+<p>Chiffrez ensuite le contenu :</p>
+<p>[srvdmz@srvdmz:~$] sudo postmap hash:sasl_passwd</p>
+<p>Un fichier Bdd sasl_passwd.db est alors créé.</p>
+<p>Protégez le fichier texte en modifiant ses permissions :</p>
+<p>[srvdmz@srvdmz:~$] sudo chmod 600 sasl_passwd</p>
+<p>Editez maintenant le fichier main.cf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/postfix
+[srvdmz@srvdmz:~$] sudo nano main.cf</p>
+<p>Modifiez son paramètre relayhost comme suit :</p>
+<p>relayhost = [smtp.orange.fr]:587</p>
+<p>et ajoutez ces lignes à la fin du fichier :</p>
+<p># Activation du protocole SASL partie client SMTP de Postfix
+smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtpd_client_restrictions = permit_sasl_authenticated,reject_unknown_client_hostname</p>
+<h1 id="desactivation-du-smtputf8-non-gere-par-le-relais-orange">Désactivation du smtputf8 non géré par le relais Orange</h1>
+<p>smtputf8_enable = no</p>
+<p>Redémarrez Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<p>L'envoi vers Internet nécessite, pour éviter l'alerte Emetteur invalide, que l'adresse d'émission du courrier contienne un nom de domaine connu tel que xxx@orange.fr, xxx@yahoo.fr, etc...</p>
+<p>Ci-dessous, l'exemple d'un envoi depuis une adresse mail Orange vers une adresse mail Google :</p>
+<p>[srvdmz@srvdmz:~$] mail -s "Test relayhost" -a "From: xxx@orange.fr" xxx@gmail.com
+Cc: <Entrée>
+Test relayhost depuis le serveur du courrier hébergé. <Entrée>
+CTRL+D
+[srvdmz@srvdmz:~$]</p>
+<p>Le courrier doit arriver à l'adresse Gmail de destination.<br />
+Ce test devrait fonctionner avec un FAI autre qu'Orange.</p>
+<h3 id="7-interface-web-dadministration-postfixadmin">7 - Interface Web d'administration PostfixAdmin</h3>
+<p>L'interface demande, pour fonctionner, de modifier la configuration des serveurs Apache-PHP, MySQL, Postfix et Dovecot.</p>
+<p>Elle permettra de gérer le domaine loupvirtuel.fr et les utilisateurs du serveur de courrier sans être obligé de créer sur srvdmz un compte Unix par utilisateur. Le domaine et les utilisateurs seront virtuels et contenus dans une Bdd.</p>
+<p>La gestion multi-domaines sera également possible.</p>
+<p>Par sécurité, la liaison entre l'interface Web et le serveur Apache sera chiffrée SSL/TLS.</p>
+<h4 id="71-installation"><em>7.1 - Installation</em></h4>
+<p>Rappel : Le module ssl pour Apache a déjà été activé au <a href="/https-dotclear-debian11/#54_-_Hote_virtuel_pour_lacces_au_site_Web_et_test_HTTPS">§ 5.4 du mémento LAMP HTTPS ...</a></p>
+<p>Installez postfixadmin comme suit :</p>
+<p>$ cd /home/srvdmz/Téléchargements</p>
+<p>$ sudo wget https://github.com/postfixadmin/postfixadmin/archive/postfixadmin-3.3.11.tar.gz</p>
+<p>$ sudo tar xvf postfixadmin-3.3.11.tar.gz -C /var/www/html/</p>
+<p>$ sudo mv /var/www/html/postfixadmin-postfixadmin-3.3.11 /var/www/html/postfixadmin</p>
+<p>$ sudo mkdir /var/www/html/postfixadmin/templates_c</p>
+<p>$ sudo setfacl -R -m u:www-data:rwx /var/www/html/postfixadmin/templates_c/</p>
+<p>$ sudo apt install postfix-mysql</p>
+<p>Connectez-vous ensuite sur le serveur MySQL :</p>
+<p>[srvdmz@srvdmz:~$] sudo mariadb -u root -p</p>
+<p>et créez la Bdd qui sera utilisée par PostfixAdmin :</p>
+<p>> CREATE DATABASE postfixadmindb;</p>
+<blockquote>
+<p>CREATE USER 'postfixdb'@'192.168.4.2' IDENTIFIED BY 'mdp_postfixdb';</p>
+<p>GRANT ALL PRIVILEGES ON `postfixadmindb` . * TO 'postfixdb'@'192.168.4.2';</p>
+<p>FLUSH PRIVILEGES;</p>
+<p>QUIT;</p>
+</blockquote>
+<p>L'utilisateur postfixdb = lecture/écriture sur la bdd.</p>
+<p>Installez les modules PHP nécessaires à PostfixAdmin :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install php7.4-fpm php7.4-imap    php7.4-curl php7.4-zip  php7.4-bz2 php7.4-intl php7.4-gmp</p>
+<p>et modifiez comme indiqué la configuration d'Apache :</p>
+<p>[srvdmz@srvdmz:~$] sudo a2enmod proxy_fcgi setenvif
+[srvdmz@srvdmz:~$] sudo a2enconf php7.4-fpm
+[srvdmz@srvdmz:~$] sudo systemctl restart apache2</p>
+<p><em>Nota : Les modules PHP suivants sont déjà installés :</em></p>
+<p>php7.4-json, php7.4-mbstring, php7.4-mysql, php7.4-xml</p>
+<p>Créez un fichier de configuration config.local.php :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/www/html/postfixadmin
+[srvdmz@srvdmz:~$] sudo nano config.local.php</p>
+<p>et entrez le contenu PHP suivant pour PostfixAdmin :</p>
+<?php
+$CONF\['configured'\] = true;
+$CONF\['default\_language'\] = 'fr';
+$CONF\['database\_type'\] = 'mysqli';
+$CONF\['database\_host'\] = '192.168.4.2';
+$CONF\['database\_user'\] = 'postfixdb';
+$CONF\['database\_password'\] = 'mdp\_postfixdb';
+$CONF\['database\_name'\] = 'postfixadmindb';
+$CONF\['dovecotpw'\] = "/usr/bin/doveadm pw -r 5";
+$CONF\['admin\_email'\] = 'postmaster@loupvirtuel.fr';
+?>
+
+<h4 id="72-hote-virtuel-et-redirection-https"><em>7.2 - Hôte virtuel et redirection HTTPS</em></h4>
+<p>La redirection HTTP du domaine loupvirtuel.fr vers HTTPS est assurée depuis cette section située au début du fichier /etc/apache2/sites-available/loupvirtuel.conf :</p>
+<p><VirtualHost \*:80>
+ServerName loupvirtuel.fr
+ServerAlias www.loupvirtuel.fr srvdmz.loupvirtuel.fr
+Redirect permanent / https://loupvirtuel.fr/
+</VirtualHost></p>
+<p>Si vous avez exécuté le <a href="/https-dotclear-debian11/#54_-_Hote_virtuel_pour_lacces_au_site_Web_et_test_HTTPS">mémento 8.</a><a href="/https-dotclear-debian11/#54_-_Hote_virtuel_pour_lacces_au_site_Web_et_test_HTTPS">2</a><a href="/https-dotclear-debian11/#54_-_Hote_virtuel_pour_lacces_au_site_Web_et_test_HTTPS">1</a>, les 3 URL HTTP ci-dessous seront redirigées automatiquement vers HTTPS sans faire l'objet d'une alerte de sécurité.</p>
+<p>- http://loupvirtuel.fr/postfixadmin<br />
+- http://www.loupvirtuel.fr/postfixadmin<br />
+- http://srvdmz.loupvirtuel.fr/postfixadmin</p>
+<p>Editez maintenant l'hôte virtuel Apache loupvirtuel.conf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/apache2/sites-available
+[srvdmz@srvdmz:~$] sudo nano loupvirtuel.conf</p>
+<p>et ajoutez cet alias dans la section <VirtualHost \*:443> :</p>
+<p><VirtualHost \*:443></p>
+<p>SSLCertificateKeyFile /etc/ssl/loupvirtuel.key # Ligne existante</p>
+<p>Alias /postfixadmin /var/www/html/postfixadmin/public</p>
+<p>ErrorLog ${APACHE_LOG_DIR}/postfixadmin_error.log
+CustomLog ${APACHE_LOG_DIR}/postfixadmin_access.log combined</p>
+<p><Directory /var/www/html/postfixadmin/public>
+Options FollowSymLinks MultiViews
+AllowOverride None
+Require all granted
+</Directory></p>
+<p></VirtualHost> # Ligne existante</p>
+<p>Redémarrez le serveur Web Apache :</p>
+<p>[srvdmz@srvdmz:~$]  sudo systemctl restart apache2</p>
+<p>Ensuite, depuis srvlan, lancez l'URL suivante :<br />
+https://loupvirtuel.fr/postfixadmin/setup.php</p>
+<p>Une fois la page setup.php ouverte, actualisez-la pour obtenir le contenu ci-dessous, celui-ci précisant si toutes les dépendances sont installées et configurées :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-page-setup-debian11.webp"><img alt="Capture - PostfixAdmin : Page setup.php" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-page-setup-debian11-430x334.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>PostfixAdmin : Page setup.php</p>
+<p>Fournissez, comme demandé, un Setup password :<br />
+> Entrez le MDP mdp_setup &gt; Confirmez le MDP<br />
+> Cliquez sur le bouton Generate setup_password hash</p>
+<p>> La page Web s'actualise et montre le hash du MDP<br />
+> Gardez la page ouverte</p>
+<p>Editez à présent, sur srvdmz, le fichier config.local.php :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/www/html/postfixadmin
+[srvdmz@srvdmz:~$] sudo nano config.local.php</p>
+<p>et ajoutez le paramètre ci-dessous comme suit :</p>
+<p>$CONF['setup_password'] = 'Entrez le hash affiché sur srvlan';</p>
+<p>Revenez sur srvlan, actualisez et créez, comme demandé, le compte super-administrateur :<br />
+> Setup password &gt; mdp_setup<br />
+> Administrateur &gt; postmaster@loupvirtuel.fr<br />
+> Mot de passe &gt; mdp_postmaster &gt; Confirmez<br />
+> Cliquez sur le bouton Ajouter un administrateur</p>
+<p>Le texte de validation suivant apparaît si tout est OK :</p>
+<pre><code> L'administrateur postmaster@loupvirtuel.fr a été ajouté !
+</code></pre>
+<p>Fermez la page Web et entrez maintenant l'URL :<br />
+https://loupvirtuel.fr/postfixadmin/</p>
+<p>La page de connexion de PostfixAdmin doit s'ouvrir :<br />
+- Adresse &gt; postmaster@loupvirtuel.fr<br />
+- Mot de passe &gt; mdp_postmaster</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-page-login-debian11.webp"><img alt="Capture - Postfixadmin : Vue de la page de connexion " src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-page-login-debian11-430x243.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>PostfixAdmin : Vue de la page de connexion</p>
+<p>Créez loupvirtuel.fr depuis le menu Liste des domaines :<br />
+> Sélectionnez Nouveau domaine<br />
+> Champ Domaine = loupvirtuel.fr<br />
+> Décochez Ajouter les alias par défaut<br />
+> Bouton Ajouter un domaine</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-domaine-debian11.webp"><img alt="Capture - Postfixadmin : Page montrant le domaine virtuel créé" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-domaine-debian11-430x216.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>PostfixAdmin : Page montrant le domaine virtuel créé</p>
+<p>Créez ces 7 comptes mail depuis Liste des virtuels :<br />
+> Sélectionnez Ajouter un compte courriel<br />
+> Champ Nom d'utilisateur = clientmail-vm1<br />
+> Mot de passe &gt; Votre MDP<br />
+> Mot de passe (confirmation) &gt; Votre MDP<br />
+> Nom &gt; debian11-vm1<br />
+> Bouton Ajouter un compte courriel</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-comptes-debian11.webp"><img alt="Capture - Postfixadmin : Page montrant les comptes virtuels créés" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-comptes-debian11-430x336.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>PostfixAdmin : Page montrant les comptes virtuels créés</p>
+<p>ainsi qu'un alias de root vers postmaster :<br />
+> Sélectionnez Ajouter un alias<br />
+> Champ Alias = root<br />
+> Champ A = postmaster@loupvirtuel.fr<br />
+> Bouton Ajouter un alias</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-alias-root-debian11.webp"><img alt="Capture - Postfixadmin : Page montrant l'alias créé" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/postfixadmin-alias-root-debian11-430x103.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>PostfixAdmin : Page montrant l'alias créé</p>
+<h4 id="73-acces-de-postfix-sur-bdd-postfixadmin"><em>7.3 - Accès de Postfix sur Bdd PostfixAdmin</em></h4>
+<p>Revenez sur srvdmz.</p>
+<p>Vous allez créer un utilisateur local vmail qui n'aura pas de MDP associé et se verra donc interdit de connexion.</p>
+<p>Un dossier /var/mail/vmail affecté à cet utilisateur et à un groupe de même nom servira de racine aux comptes e-mail virtuels.</p>
+<p>Commencez par créer le groupe/utilisateur vmail :</p>
+<p>[srvdmz@srvdmz:~$] sudo groupadd -g 5000 vmail
+[srvdmz@srvdmz:~$] sudo useradd -g vmail -u 5000 vmail -d /home/vmail -s /bin/false</p>
+<p>GID/UID 5000 = identifiants groupe/utilisateur.</p>
+<p>et le répertoire ou seront stockés les e-mails :</p>
+<p>[srvdmz@srvdmz:~$] sudo mkdir -p /var/mail/vmail
+[srvdmz@srvdmz:~$] cd /var/mail
+[srvdmz@srvdmz:~$] sudo chown -R 5000:5000 vmail
+[srvdmz@srvdmz:~$] sudo chmod -R 770 vmail</p>
+<p>L'utilisateur MySQL postfixdb créé ci-dessus au <a href="/postfix-debian11/#71_-_Installation">§ 7.1</a> sera utilisé par Postfix pour accéder à la base de données postfixadmindb.</p>
+<p>Créez le fichier qui assurera la recherche des domaines virtuels créés sous PostfixAdmin :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/postfix
+[srvdmz@srvdmz:~$] sudo nano mysql_virtual_mailbox_domains_maps.cf</p>
+<p>et entrez le contenu ci-dessous :</p>
+<p>user = postfixdb
+password = mdp_postfixdb
+hosts = 192.168.4.2     # bind address de mysql
+dbname = postfixadmindb<br />
+query = SELECT domain FROM domain WHERE domain='%s' AND active = 1</p>
+<p>Déclarez ensuite ce fichier dans /etc/postfix/main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo postconf -e \
+                                       virtual_mailbox_domains=\
+   mysql:/etc/postfix/mysql_virtual_mailbox_domains_maps.cf  </p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>et vérifiez que loupvirtuel.fr existe dans PostfixAdmin :</p>
+<p>[srvdmz@srvdmz:~$] sudo postmap -q loupvirtuel.fr mysql:\
+           /etc/postfix/mysql_virtual_mailbox_domains_maps.cf</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Si OK, la Cde retourne loupvirtuel.fr, sinon rien.</p>
+<p>Créez le fichier qui assurera la recherche des comptes mail virtuels créés sous PostfixAdmin :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano mysql_virtual_mailbox_maps.cf</p>
+<p>et entrez les lignes ci-dessous :</p>
+<p>user = postfixdb
+password = mdp_postfixdb
+hosts = 192.168.4.2     # bind address de mysql
+dbname = postfixadmindb
+query = SELECT maildir FROM mailbox WHERE username='%s' AND active = 1</p>
+<p>Déclarez ensuite ce fichier dans /etc/postfix/main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo postconf -e \
+                                       virtual_mailbox_maps=\
+           mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>et testez l'existence de srvlan dans PostfixAdmin :</p>
+<p>[srvdmz@srvdmz:~$] sudo postmap -q srvlan@loupvirtuel.fr \
+                   mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Si OK, la Cde retourne loupvirtuel.fr/srvlan/, sinon rien.</p>
+<p>Créez le fichier qui assurera la recherche des alias virtuels créés sous PostfixAdmin :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano mysql_virtual_mailbox_aliases_maps.cf</p>
+<p>et entrez les lignes ci-dessous :</p>
+<p>user = postfixdb
+password = mdp_postfixdb
+hosts = 192.168.4.2     # bind address de mysql
+dbname = postfixadmindb
+query = SELECT goto FROM alias WHERE address='%s' AND active = 1</p>
+<p>Déclarez ensuite ce fichier dans /etc/postfix/main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo postconf -e \
+                                       virtual_alias_maps=mysql:\
+       /etc/postfix/mysql_virtual_mailbox_aliases_maps.cf</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>et testez l'existence d'un alias pour root :</p>
+<p>[srvdmz@srvdmz:~$] sudo postmap -q root@loupvirtuel.fr \
+     mysql:/etc/postfix/mysql_virtual_mailbox_aliases_maps.cf</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Si OK, la Cde retourne postmaster@loupvirtuel.fr.</p>
+<p>Sécurisez les droits d'accès sur les 3 fichiers de recherche dont les MDP sont écrits en clair :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/postfix
+[srvdmz@srvdmz:~$] sudo chgrp postfix mysql_*.cf
+[srvdmz@srvdmz:~$] sudo chmod u=rw,g=r,o= mysql_*.cf</p>
+<p>Editez maintenant le fichier main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et ajoutez ceci en fin de fichier juste au dessus des lignes déclarant les 3 fichiers de recherche :</p>
+<p># Paramètres pour utiliser domaines et utilisateurs virtuels
+local_transport = virtual
+virtual_gid_maps = static:5000
+virtual_uid_maps = static:5000
+virtual_mailbox_base = /var/mail/vmail</p>
+<p># Lignes existantes déclarant les 3 fichiers de recherche
+virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_mailbox_domains_maps.cf</p>
+<p>virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf</p>
+<p>virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_mailbox_aliases_maps.cf </p>
+<p>Le domaine loupvirtuel.fr créé dans PostfixAdmin impose de supprimer sa référence dans main.cf, en effet un domaine virtuel ne doit jamais se trouver dans la liste du paramètre mydestination.</p>
+<p>Editez pour cela de nouveau main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et modifiez le paramètre mydestination comme suit :</p>
+<p>mydestination = srvdmz, localhost</p>
+<p>Terminez en redémarrant Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<h4 id="74-acces-de-dovecot-sur-bdd-postfixadmin"><em>7.4 - Accès de Dovecot sur Bdd PostfixAdmin</em></h4>
+<p>Par défaut, Dovecot utilise les utilisateurs réels du système et non les utilisateurs virtuels.</p>
+<p>Pour corriger cela, éditez le fichier 10-auth.conf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/dovecot
+[srvdmz@srvdmz:~$] sudo nano conf.d/10-auth.conf</p>
+<p>et modifiez le groupe !include comme suit :</p>
+<h1 id="include-auth-denyconfext">!include auth-deny.conf.ext</h1>
+<h1 id="include-auth-masterconfext">!include auth-master.conf.ext</h1>
+<h1 id="include-auth-systemconfext-ligne-system-a-commenter">!include auth-system.conf.ext  # Ligne system à commenter</h1>
+<p>!include auth-sql.conf.ext # Ligne sql à décommenter</p>
+<h1 id="include-auth-ldapconfext">!include auth-ldap.conf.ext</h1>
+<h1 id="include-auth-passwdfileconfext">!include auth-passwdfile.conf.ext</h1>
+<h1 id="include-auth-checkpasswordconfext">!include auth-checkpassword.conf.ext</h1>
+<h1 id="include-auth-staticconfext">!include auth-static.conf.ext</h1>
+<p>Pour l'accès aux e-mails, éditez auth-sql.conf.ext :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano conf.d/auth-sql.conf.ext</p>
+<p>Commentez la 2ème section userdb puis modifiez la 3ème section comme suit :</p>
+<p>userdb {  <br />
+     driver = static  <br />
+     args = uid=vmail gid=vmail home=/var/mail/vmail/%d/%n  <br />
+     }</p>
+<p>Pour l'accès à la Bdd, éditez dovecot-sql.conf.ext :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano dovecot-sql.conf.ext</p>
+<p>et ajoutez ces lignes à la fin du fichier :</p>
+<p>driver = mysql</p>
+<p>connect = host=192.168.4.2 dbname=postfixadmindb user=postfixdb password=mdp_postfixdb</p>
+<p>password_query = SELECT username,domain,password FROM mailbox WHERE username='%u';</p>
+<p>Pour compléter l'accès aux e-mails, éditez 10-mail.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano conf.d/10-mail.conf</p>
+<p>et modifiez le paramètre mail_location comme suit :</p>
+<p>mail_location = maildir:/var/mail/vmail/%d/%n/Maildir</p>
+<p>Les e-mails sont ainsi déclarés stockés sous la forme :<br />
+/var/mail/vmail/[domaine]/[utilisateur]/Maildir</p>
+<p>Pour traiter l'authentification TLS, éditez 10-ssl.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano conf.d/10-ssl.conf</p>
+<p>et modifiez les 3 paramètres ci-dessous comme suit :</p>
+<p>ssl = required
+ssl_cert = &lt;/etc/ssl/loupvirtuel.crt
+ssl_key = &lt;/etc/ssl/loupvirtuel.key</p>
+<p>Les certificats SSL sont ceux déclarés au <a href="/postfix-debian11/#52_-_Configuration_SSL_de_Postfix">§ 5.2</a>.</p>
+<p>Pour compléter la partie TLS, éditez 10-auth.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano conf.d/10-auth.conf</p>
+<p>et n'autorisez le login que si la couche TLS est chargée en décommentant la ligne disable_plaintext_auth = yes.</p>
+<p>Pour traiter le Local Delivery Agent, éditez 15-lda.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano conf.d/15-lda.conf</p>
+<p>Décommentez le paramètre postmaster_address puis modifiez-le comme suit :</p>
+<p>postmaster_address = postmaster@loupvirtuel.fr</p>
+<p>Modifiez aussi le bloc protocol lda comme ci-dessous :</p>
+<p>protocol lda {<br />
+     # Space separated list of plugins to load (default is glob...).<br />
+     mail_plugins = $mail_plugins sieve 
+     }</p>
+<p>Ceci activera le plugin de filtrage des e-mails soit sieve.</p>
+<p>Dovecot qui inclut un module de statistiques signalera une erreur si jamais celui-ci n’est pas défini dans sa configuration.</p>
+<p>Pour éviter cela, éditez le fichier 10-master.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano conf.d/10-master.conf</p>
+<p>et ajoutez ce bloc d'instructions en fin de celui-ci :</p>
+<p>service stats {
+ unix_listener stats-reader {
+ user = vmail
+ group = vmail
+ mode = 0660
+ }
+ unix_listener stats-writer {
+ user = vmail
+ group = vmail
+ mode = 0660
+ }
+ }</p>
+<p>Terminez en redémarrant Dovecot :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart dovecot</p>
+<h4 id="75-utilisation-par-postfix-du-lda-de-dovecot"><em>7.5 - Utilisation par Postfix du LDA de Dovecot</em></h4>
+<p>Vous allez demander à Postfix de ne pas utiliser son propre LDA <em>(Local Delivery Agent)</em> pour trier les e-mails dans leurs dossiers de destination respectifs mais plutôt celui de Dovecot plus performant et permettant de profiter des avantages du plugin Sieve.</p>
+<p>Pour cela, éditez le fichier master.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/master.cf</p>
+<p>et ajoutez à la fin de celui-ci les lignes suivantes :</p>
+<p># Configuration pour une utilisation du LDA de Dovecot
+dovecot     unix     - n     n     - - pipe<br />
+     flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient}</p>
+<p>Attention :<br />
+2ème ligne = tabulation entre chaque champ<br />
+3ème ligne = début indenté de 2 espaces</p>
+<p>Editez ensuite le fichier main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et ajoutez les lignes suivantes afin que Postifx exploite ce que vous venez de configurer :</p>
+<p># Déclaration d'utilisation du LDA de Dovecot
+virtual_transport=dovecot
+dovecot_destination_recipient_limit=1</p>
+<p>Redémarrez à présent srvdmz :</p>
+<p>[srvdmz@srvdmz:~$] sudo reboot</p>
+<h3 id="8-envoireleve-de-mails-depuis-le-lan">8 - Envoi/Relève d'e-mails depuis le LAN</h3>
+<h4 id="81-envoi-depuis-le-client-mua-mail"><em>8.1 - Envoi depuis le client MUA Mail</em></h4>
+<p>Envoyez un mail de clientmail-vm1 vers postmaster :</p>
+<p>[srvdmz@srvdmz:~$] echo "Testé et approuvé" | mail \
+-s "Envoyé par clientmail-vm1" postmaster@loupvirtuel.fr \
+-a From:clientmail-vm1@loupvirtuel.fr  </p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>et observez les contenus suivants du fichier syslog :</p>
+<p>[srvdmz@srvdmz:~$] sudo cat /var/log/syslog | grep postfix</p>
+<p>Retour pour Postfix :</p>
+<pre><code>postfix/pickup..F7A6: uid=.. from=&lt;clientmail-vm1..&gt;
+postfix/cleanup..F7A6: message-id=&lt;..F7A6@srvdmz..&gt;
+postfix/qmgrF7A6: from=&lt;clientmail-vm1..&gt;.. active)
+postfix/pipe..F7.. to=&lt;postmaster..&gt;.. status=sent
+postfix/qmgr..F7.. removed
+</code></pre>
+<p>Pas d'erreur signalée, courrier émis <em>(status sent)</em>.</p>
+<p>[srvdmz@srvdmz:~$] sudo cat /var/log/syslog | grep dovecot</p>
+<p>Retour pour Dovecot :</p>
+<pre><code>dovecot: lda(postmaster..).. msgid=&lt;..F7A6..&gt;: saved
+</code></pre>
+<p>Pas d'erreur signalée, courrier reçu et stocké <em>(saved)</em>.</p>
+<h4 id="82-releve-depuis-le-client-mua-thunderbird"><em>8.2 - Relève depuis le client MUA Thunderbird</em></h4>
+<p>Installez sur srvlan le client de messagerie thunderbird :</p>
+<p>[srvlan@srvlan:~$] sudo apt install thunderbird
+[srvlan@srvlan:~$] sudo apt install thunderbird-l10n-fr</p>
+<p>Puis copiez le certificat CA /etc/ssl/loupvirtuel-ca.pem situé sur la VM srvdmz dans le dossier partagé par le PC hôte de VirtualBox.</p>
+<p>Lancez enfin le client Thunderbird depuis le menu Xfce.</p>
+<p>- Onglet Accueil<br />
+> Menu de Thunderbird <em>(Les 3 barres en haut à droite)</em><br />
+> Préférences &gt; Vie privée et sécurité<br />
+> Certificats &gt; Gérer les certificats...</p>
+<p>Une fenêtre Gestionnaire de certificats s'ouvre :<br />
+> Onglet Autorités &gt; Bouton Importer...<br />
+> Accédez au dossier partagé par le PC hôte<br />
+> Sélectionnez le certificat SSL loupvirtuel-ca.pem<br />
+> Ouvrir</p>
+<p>Une fenêtre Téléchargement du certificat s'ouvre :<br />
+> Cochez Confirmer ... AC pour identifier ... web.<br />
+> Cochez Confirmer ... AC pour identifier ... courrier.<br />
+> OK &gt; OK</p>
+<p>Ceci évitera d'avoir à traiter une exception de sécurité due à l'usage d'un certificat auto-signé. En fait on simule un certificat vérifié par une autorité <em>(CA)</em> publique.</p>
+<p>- Onglet Configuration du compte<br />
+> Votre nom complet<br />
+> Entrez Le Postmaster du site loupvirtuel.fr<br />
+> Adresse électronique<br />
+> Entrez postmaster@loupvirtuel.fr<br />
+> Mot de passe<br />
+> Entrez le mdp_postmaster <em>(Ref: <a href="/postfix-debian11/#72_-_Hote_virtuel_et_redirection_HTTPS">§ 7.2</a>)</em></p>
+<p>> Ligne Configuration manuelle</p>
+<p>Appliquez la configuration de la capture ci-dessous :<br />
+- Champs Serveur : Enlevez le . situé avant loupvirtuel.fr.<br />
+- Bouton Retester pour vérifier si tout est OK.</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/thunderbird-config-compte-debian11.webp"><img alt="Capture - thunderbird : Compte Postmaster" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/thunderbird-config-compte-debian11-256x430.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Thunderbird : Compte Postmaster</p>
+<p>> Bouton Terminé, le compte est créé dans Thunderbird.</p>
+<p>Vous pouvez lire le mail de clientmail-vm1 <em>(Ref: <a href="/postfix-debian11/#81_-_Envoi_dun_courrier_depuis_le_client_MUA_Mail">§ 8.1</a>)</em> :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/thunderbird-reception-courrier-debian11.webp"><img alt="Capture - Thunderbird : Réception du courrier de clientmail-vm1" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/thunderbird-reception-courrier-debian11-430x213.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Thunderbird : Réception du courrier de clientmail-vm1</p>
+<p>Pour aller plus loin, créez sur les VM debian11-vm* et srvdmz les comptes appropriés en ayant préalablement installé thunderbird et importer le certificat CA.</p>
+<p>Créez sur srvlan, en complément du compte postmaster, un compte srvlan@loupvirtuel.fr.</p>
+<p>Réalisez ensuite des tests d'envois/réceptions entre les VM pour vérifier le bon fonctionnement.</p>
+<p>Un envoi vers root doit parvenir à postmaster.</p>
+<h3 id="9-envoireleve-depuis-internet-spf-dkim">9 - Envoi/Relève depuis Internet (SPF, DKIM ...)</h3>
+<p>Le domaine loupvirtuel.fr n'existant pas, il est possible de procéder ainsi en utilisant de nouveau le relais SMTP du FAI Orange configuré ci-dessus <em>(Ref: <a href="/postfix-debian11/#6_-_Envoi_de_courriers_vers_Internet_relais_SMTP">§ 6</a>)</em> :</p>
+<p><strong>A)</strong> Enregistrez par exemple sur dynu.com un domaine gratuit zzz.freeddns.org et créez un 1er enregistrement DNS de type MX avec ce même nom de domaine.</p>
+<p>Créez, toujours sur dynu.com, un 2ème enregistrement DNS de type TXT pour SPF comme suit :</p>
+<p>Sous-domaine : Laissez vide
+Type : TXT
+Texte : v=spf1 a mx include:orange.fr -all</p>
+<p>Le SPF <em>(_S_ender Policy Framework)</em> permet à un serveur qui reçoit un e-mail de s’assurer que ce dernier a bien été envoyé par un serveur qui en a le droit.</p>
+<p>A défaut, l'e-mail pourrait être considéré comme du SPAM ou rejeté avant d'arriver à destination.</p>
+<p>Utilisez ensuite l'Assistant DKIM de dynu.com pour générer une paire de clés publiques/privées :<br />
+> Nom de domaine = zzz.freeddns.org<br />
+> Sélecteur de clé de domaine = secudkim<br />
+> Bouton Générer <em>(Sauvegardez les 2 clés affichées)</em><br />
+> Créez le 3ème enregistrement DNS décrit en étape 1</p>
+<p>Celui-ci doit ressembler à ceci :</p>
+<p>Sous-domaine : secudkim._domainkey
+Type : TXT
+Texte : k=rsa; p=......clé publique sauvegardée....</p>
+<p>Le DKIM <em>(Domain Keys Identified Mail)</em> permet au destinataire de vérifier qu’un e-mail a bien été envoyé par le propriétaire du domaine de l'adresse e-mail.</p>
+<p>Pour l'étape 2, commencez par installer opendkim :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install opendkim</p>
+<p>Copiez ensuite la clé privée sauvegardée secudkim.zzz.freeddns.org.pem dans /etc/dkimkeys/.</p>
+<p>Editez le fichier de configuration opendkim.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/opendkim.conf</p>
+<p>Modifiez ce contenu existant comme suit :</p>
+<p>Mode           sv
+Domain       zzz.freeddns.org
+Selector      secudkim
+KeyFile        /etc/dkimkeys/secudkim.zzz.freeddns.org.pem
+Socket        inet:8891@localhost</p>
+<p>et ajoutez celui-ci en fin de fichier :</p>
+<p># Hôtes pouvant émettre comme raspleger.freeddns.org
+ExternalIgnoreList refile:/etc/dkimkeys/TrustedHosts
+InternalHosts refile:/etc/dkimkeys/TrustedHosts</p>
+<p>Créez maintenant le fichier TrustedHosts :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/dkimkeys/TrustedHosts</p>
+<p>et entrez le contenu suivant :</p>
+<p>127.0.0.1
+::1
+localhost</p>
+<p>192.168.4.2      # IP serveur srvdmz
+192.168.2.2      # IP serveur srvlan</p>
+<p>Appliquez les permissions comme suit :</p>
+<p>[srvdmz@srvdmz:~$] sudo chmod -R 0600 /etc/dkimkeys</p>
+<p>[srvdmz@srvdmz:~$] sudo chown -R opendkim:opendkim /etc/dkimkeys</p>
+<p>Relancez et contrôlez le statut du service opendkim :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart opendkim
+[srvdmz@srvdmz:~$] sudo systemctl status opendkim</p>
+<p>Pour connectez OpenDKIM à Postfix, éditez main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>Ajoutez ce qui suit en fin de fichier :</p>
+<p># Application Milter (DKIM)
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = $smtpd_milters</p>
+<p>et pour terminer, rechargez la nouvelle configuration :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl reload postfix</p>
+<p>Enfin, sur dynu.com, créez un 4ème enregistrement DNS de type TXT pour DMARC comme suit :</p>
+<p>Sous-domaine : _dmarc
+Type : TXT
+Texte : v=DMARC1; p=reject; pct=100</p>
+<p>Le DMARC <em>(Domain-based Message Authentication, Reporting and Conformance)</em> indique la conduite à tenir si le mail ne répond pas aux normes SPF ou DKIM.</p>
+<p><strong>B)</strong> Créez sur Postfixadmin le domaine virtuel zzz.freeddns.org ainsi qu'un compte virtuel x.y@zzz.freeddns.org de MDP y42.</p>
+<p><strong>C)</strong> Modifiez la configuration de votre Box Internet afin d'activer et diriger le port 25 vers l'IP de la carte enp0s3 de srvsec qui est le point d'entrée du réseau local virtuel.</p>
+<p><strong>D)</strong> Ouvrez sur le pare-feu d'IPFire le port 25 vers srvdmz.</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/ipfire-port25-debian11.webp"><img alt="Capture - IPFire : Port 25 ouvert d'Internet vers srvdmz" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/ipfire-port25-debian11-380x430.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>IPFire : Port 25 ouvert d'Internet vers srvdmz</p>
+<p><strong>E)</strong> Procédez de même pour les ports 587 et 993.</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/ipfire-serveur-courrier-debian11.webp"><img alt="Capture - IPFire : Ports 25, 587 et 993 ouverts" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/ipfire-serveur-courrier-debian11-430x66.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>IPFire : Ports 25, 587 et 993 ouverts</p>
+<p><strong>F)</strong> Créez ensuite sur le Thunderbird de srvlan un compte x.y@zzz.freeddns.org avec les mêmes paramètres IMAP/SMTP que le compte postmaster, attention :<br />
+Nom d'hôte : loupvirtuel.fr<br />
+Nom d'utilisateur : x.y@zzz.freeddns.org</p>
+<p><strong>G)</strong> Pour finir, envoyez un e-mail depuis le MUA de votre mobile vers l'adresse x.y@zzz.freeddns.org et relevez celui-ci depuis le Thunderbird de srvlan et inversement.</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/thunderbird-internet-debian11.webp"><img alt="Capture - Thunderbird : Envoi d'un courrier vers Internet" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/thunderbird-internet-debian11-430x206.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Thunderbird : Envoi d'un courrier vers Internet</p>
+<p>Les e-mails sortants doivent arriver à destination mais certains finiront selon la politique anti-spam des FAI destinataires dans le dossier SPAM <em>(JUNK)</em> de ceux-ci.</p>
+<p>En effet, la source de ces e-mails laisse notamment apparaître le domaine loupvirtuel.fr qui n'existe pas.</p>
+<p>Le test permet toutefois de vérifier le fonctionnement en émission/réception du serveur de courrier sur Internet.</p>
+<p>Vous pouvez tester la validité des sécurités SSL/TLS, SPF, DKIM et DMARC depuis ces 2 sites :<br />
+<a href="https://www.mail-tester.com">https://www.mail-tester.com</a><br />
+<a href="https://www.appmaildev.com">https://www.appmaildev.com</a></p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>Ouf, fini, pas simple.<br />
+Postfix est maintenant opérationnel.<br />
+La partie 2 vous attend pour gérer le<br />
+traitement du SPAM et des VIRUS.</p>
+<p><a href="https://familleleloup.no-ip.org/postfix-spam-virus-debian11/">Partie 2</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

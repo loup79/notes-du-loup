@@ -1,0 +1,1647 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/dhcp-isc-dhcp-server-debian11/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>DHCP / Debian 11 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-721-isc-dhcp-server" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DHCP / Debian 11
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-721-isc-dhcp-server" class="md-nav__link">
+    Mémento 7.21 - ISC DHCP Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 7.21 - ISC DHCP Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preambule" class="md-nav__link">
+    1 - Préambule
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-role-dun-serveur-dhcp" class="md-nav__link">
+    1.1 - Rôle d'un serveur DHCP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-fonctionnement-du-protocole-dhcp" class="md-nav__link">
+    1.2 - Fonctionnement du protocole DHCP
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-installation-et-configuration-du-service-dhcp" class="md-nav__link">
+    2 - Installation et configuration du service DHCP
+  </a>
+  
+    <nav class="md-nav" aria-label="2 - Installation et configuration du service DHCP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-installation-du-serveur-isc-dhcp-server" class="md-nav__link">
+    2.1 - Installation du serveur isc-dhcp-server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-configuration" class="md-nav__link">
+    2.2 - Configuration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#declarations-optionnelles" class="md-nav__link">
+    Déclarations optionnelles :
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#domaine-que-les-clients-doivent-utiliser-pour-resoudre" class="md-nav__link">
+    Domaine que les clients doivent utiliser pour résoudre
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#les-noms-dhote-via-le-dns" class="md-nav__link">
+    les noms d'hôte via le DNS.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#liste-des-serveurs-dns-disponibles-pour-les-clients" class="md-nav__link">
+    Liste des serveurs DNS disponibles pour les clients.
+  </a>
+  
+    <nav class="md-nav" aria-label="Liste des serveurs DNS disponibles pour les clients.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bail" class="md-nav__link">
+    Bail :
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-du-bail-lease-time-si-le-client-ne-specifie-rien" class="md-nav__link">
+    Durée du bail (lease time) si le client ne spécifie rien.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ex-1-jour-86400-secondes" class="md-nav__link">
+    Ex : 1 jour = 86400 secondes.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duree-maxi-du-bail-que-peut-demander-le-client" class="md-nav__link">
+    Durée maxi du bail que peut demander le client.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ex-7-jours-604800-secondes" class="md-nav__link">
+    Ex : 7 jours = 604800 secondes.
+  </a>
+  
+    <nav class="md-nav" aria-label="Ex : 7 jours = 604800 secondes.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#caracteristiques-du-serveur-dhcp" class="md-nav__link">
+    Caractéristiques du serveur DHCP :
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pas-de-mise-a-jour-dynamique-du-service-dns" class="md-nav__link">
+    Pas de mise à jour dynamique du service DNS.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serveur-dhcp-faisant-autorite-pour-le-sous-reseau-local" class="md-nav__link">
+    Serveur DHCP faisant autorité pour le sous-réseau local.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#envoi-des-logs-dhcp-sur-un-fichier-autre-que" class="md-nav__link">
+    Envoi des logs DHCP sur un fichier autre que
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#le-fichier-varlogsyslog" class="md-nav__link">
+    le fichier /var/log/syslog.
+  </a>
+  
+    <nav class="md-nav" aria-label="le fichier /var/log/syslog.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#declaration-du-sous-reseau-local-a-traiter" class="md-nav__link">
+    Déclaration du sous-réseau local à traiter :
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sous-reseau-et-masque-de-sous-reseau" class="md-nav__link">
+    Sous-réseau et masque de sous-réseau.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etendue-de-la-plage-dadresse-ip" class="md-nav__link">
+    Etendue de la plage d'adresse IP.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#passerelle-par-defaut" class="md-nav__link">
+    Passerelle par défaut.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reservation-dune-ip-fixe-pour-le-conteneur-lxc-ctn1" class="md-nav__link">
+    Réservation d'une IP fixe pour le conteneur LXC ctn1 :
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cde-ip-address-sur-ctn1-pour-relever-ladresse-mac-de-eth0" class="md-nav__link">
+    Cde "ip address" sur ctn1 pour relever l'adresse MAC de eth0.
+  </a>
+  
+    <nav class="md-nav" aria-label="Cde "ip address" sur ctn1 pour relever l'adresse MAC de eth0.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-gestion-des-logs-du-service-dhcp" class="md-nav__link">
+    3 - Gestion des logs du service DHCP
+  </a>
+  
+    <nav class="md-nav" aria-label="3 - Gestion des logs du service DHCP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-creation-dun-fichier-log" class="md-nav__link">
+    3.1 - Création d'un fichier log
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-traitement-du-fichier-avec-rsyslog" class="md-nav__link">
+    3.2 - Traitement du fichier avec rsyslog
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametre-log-facility-local7-active-dans-etcdhcpdconf" class="md-nav__link">
+    paramètre "log-facility local7" activé dans /etc/dhcpd.conf.
+  </a>
+  
+    <nav class="md-nav" aria-label="paramètre "log-facility local7" activé dans /etc/dhcpd.conf.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-modification-de-la-configuration-dns-statique" class="md-nav__link">
+    4 - Modification de la configuration DNS statique
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-tests-de-bon-fonctionnement-du-dhcp" class="md-nav__link">
+    5 - Tests de bon fonctionnement du DHCP
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Tests de bon fonctionnement du DHCP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-vm-debian11-vm1-et-2" class="md-nav__link">
+    5.1 - VM debian11-vm1 et 2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-conteneurs-lxc-ctn1-et-2" class="md-nav__link">
+    5.2 - Conteneurs LXC ctn1 et 2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-bilan" class="md-nav__link">
+    6 - Bilan
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-721-isc-dhcp-server">Mémento 7.21 - ISC DHCP Server</h2>
+<p>DHCP = Dynamic Host Configuration Protocol</p>
+<p>Le DHCP sera activé sur la VM srvlan pour la zone LAN.</p>
+<h3 id="1-preambule">1 - Préambule</h3>
+<p>Référence : <a href="/dhcp-isc-dhcp-server-debian10/">DHCP / Debian 10</a>.</p>
+<h4 id="11-role-dun-serveur-dhcp"><em>1.1 - Rôle d'un serveur DHCP</em></h4>
+<p>Il permet à un hôte qui se connecte sur un réseau local d'obtenir automatiquement sa configuration IP. Le but étant de simplifier l'administration d'un réseau.</p>
+<p>Les hôtes enregistrés via un serveur DHCP peuvent aussi être ajoutés dynamiquement à un serveur DNS.</p>
+<p>DHCP représente donc une suite logique au DNS dans la construction du réseau local virtuel.</p>
+<h4 id="12-fonctionnement-du-protocole-dhcp"><em>1.2 - Fonctionnement du protocole DHCP</em></h4>
+<p>Le DHCP repose sur des requêtes UDP émises par les clients et traitées par le serveur.</p>
+<p>Exemple d'échange de requêtes client/serveur :</p>
+<ul>
+<li>
+<p>DHCPDISCOVER - Le client cherche un serveur</p>
+</li>
+<li>
+<p>DHCPOFFER - le 1er trouvé soumet une IP</p>
+</li>
+<li>
+<p>DHCPREQUEST - Le client traite et valide l'IP</p>
+</li>
+<li>
+<p>DHCPACK - Le serveur confirme la configuration</p>
+</li>
+</ul>
+<p>Les requêtes UDP circulent sur les ports 67 et 68.</p>
+<p>Le client au final reçoit une confirmation de son IP temporaire <em>(bail)</em> ainsi que souvent en complément l'IP de sa passerelle ainsi que les IP de ses serveurs DNS.</p>
+<p><em>Nota : Si pas de serveur DHCP, le client s'attribue une adresse IP dans la plage 169.254.0.0/16.</em></p>
+<p>Le serveur DHCP isc-dhcp-server utilisé ci-dessous est issu du même organisme que le serveur DNS bind soit l'Internet Software Consortium <em>(ISC)</em>.</p>
+<h3 id="2-installation-et-configuration-du-service-dhcp">2 - Installation et configuration du service DHCP</h3>
+<h4 id="21-installation-du-serveur-isc-dhcp-server"><em>2.1 - Installation du serveur isc-dhcp-server</em></h4>
+<p>Installez le paquet isc-dhcp-server :</p>
+<p>[srvlan@srvlan:~$] sudo apt install isc-dhcp-server</p>
+<p>Retour :</p>
+<pre><code>...
+Generating /etc/default/isc-dhcp-server...
+Job for isc-dhcp-server.service failed because ...
+See &quot;systemctl status isc-dhcp-server.service&quot; ...
+invoke-rc.d: initscript isc-dhcp-server, ... failed.
+● isc-dhcp-server.service - LSB: DHCP server
+     Loaded: loaded (/etc/init.d/isc-dhcp-serve...
+     Active: failed (Result: exit-code) ... 2022-...
+       Docs: man:systemd-sysv-generator(8)
+    Process: ...isc-dhcp-server start (.../FAILURE)
+        CPU: 142ms
+
+janv. 24 13:50:44 srvlan dhcpd[1563]: before subm...
+janv. 24 13:50:44 srvlan dhcpd[1563]: process an...
+janv. 24 13:50:44 srvlan dhcpd[1563]: 
+janv. 24 13:50:44 srvlan dhcpd[1563]: exiting.
+janv. 24 13:50:46 srvlan isc-dhcp-server[...
+janv. 24 13:50:46 srvlan isc-dhcp-...  failed!
+janv. 24 13:50:46 srvlan isc-dhcp-...  failed!
+janv. 24 13:50:46 srvlan systemd[1]: .../FAILURE&gt;
+janv. 24 13:50:46 srvlan systemd[1]: ... Failed ...
+janv. 24 13:50:46 srvlan systemd[1]: Failed to st...
+Traitement ... (« triggers ») pour libc-bin (2...
+Traitement ... (« triggers ») pour man-db (2...
+</code></pre>
+<p>Constat : Le démarrage automatique du service plante, une configuration post-installation est nécessaire avant de pouvoir redémarrer sans échec.</p>
+<h4 id="22-configuration"><em>2.2 - Configuration</em></h4>
+<p>3 fichiers de configuration ont été créés :<br />
+- isc-dhcp-server dans le dossier /etc/default/.<br />
+- dhcpd.conf et dhcpd6.conf dans le dossier /etc/dhcp/.</p>
+<p>Editez en premier le fichier isc-dhcp-server :</p>
+<p>[srvlant@srvlan:~$] sudo nano /etc/default/isc-dhcp-server</p>
+<p>et modifiez la ligne INTERFACESv4="" comme suit :</p>
+<p>INTERFACESv4="enp0s8"</p>
+<p>La carte enp0s8, située côté LAN, sera ainsi surveillée par le serveur DHCP.</p>
+<p>Editez maintenant le fichier dhcpd.conf :</p>
+<p>[srvlant@srvlan:~$] sudo nano /etc/dhcp/dhcpd.conf</p>
+<p>et remplacez tout son contenu par celui-ci :</p>
+<p>### Fichier /etc/dhcpd/dhcpd.conf</p>
+<h2 id="declarations-optionnelles">Déclarations optionnelles :</h2>
+<h1 id="domaine-que-les-clients-doivent-utiliser-pour-resoudre">Domaine que les clients doivent utiliser pour résoudre</h1>
+<h1 id="les-noms-dhote-via-le-dns">les noms d'hôte via le DNS.</h1>
+<p>option domain-name "intra.loupipfire.fr";</p>
+<h1 id="liste-des-serveurs-dns-disponibles-pour-les-clients">Liste des serveurs DNS disponibles pour les clients.</h1>
+<p>option domain-name-servers srvlan.intra.loupipfire.fr;</p>
+<h2 id="bail">Bail :</h2>
+<h1 id="duree-du-bail-lease-time-si-le-client-ne-specifie-rien">Durée du bail (lease time) si le client ne spécifie rien.</h1>
+<h1 id="ex-1-jour-86400-secondes">Ex : 1 jour = 86400 secondes.</h1>
+<p>default-lease-time 86400;</p>
+<h1 id="duree-maxi-du-bail-que-peut-demander-le-client">Durée maxi du bail que peut demander le client.</h1>
+<h1 id="ex-7-jours-604800-secondes">Ex : 7 jours = 604800 secondes.</h1>
+<p>max-lease-time 604800;</p>
+<h2 id="caracteristiques-du-serveur-dhcp">Caractéristiques du serveur DHCP :</h2>
+<h1 id="pas-de-mise-a-jour-dynamique-du-service-dns">Pas de mise à jour dynamique du service DNS.</h1>
+<p>ddns-update-style none;</p>
+<h1 id="serveur-dhcp-faisant-autorite-pour-le-sous-reseau-local">Serveur DHCP faisant autorité pour le sous-réseau local.</h1>
+<p>authoritative;</p>
+<h1 id="envoi-des-logs-dhcp-sur-un-fichier-autre-que">Envoi des logs DHCP sur un fichier autre que</h1>
+<h1 id="le-fichier-varlogsyslog">le fichier /var/log/syslog.</h1>
+<p>log-facility local7;</p>
+<h2 id="declaration-du-sous-reseau-local-a-traiter">Déclaration du sous-réseau local à traiter :</h2>
+<h1 id="sous-reseau-et-masque-de-sous-reseau">Sous-réseau et masque de sous-réseau.</h1>
+<p>subnet 192.168.3.0 netmask 255.255.255.0 {</p>
+<h1 id="etendue-de-la-plage-dadresse-ip">Etendue de la plage d'adresse IP.</h1>
+<p>range 192.168.3.30 192.168.3.50;</p>
+<h1 id="passerelle-par-defaut">Passerelle par défaut.</h1>
+<p>option routers srvlan.intra.loupipfire.fr;
+}</p>
+<h1 id="reservation-dune-ip-fixe-pour-le-conteneur-lxc-ctn1">Réservation d'une IP fixe pour le conteneur LXC ctn1 :</h1>
+<h1 id="cde-ip-address-sur-ctn1-pour-relever-ladresse-mac-de-eth0">Cde "ip address" sur ctn1 pour relever l'adresse MAC de eth0.</h1>
+<p>host ctn1 {
+       hardware ethernet 4a:49:43:49:79:bf;
+       fixed-address 192.168.3.20;
+}</p>
+<p>- A la moitié du bail, le client demandera la prolongation ou renouvellement de celui-ci.</p>
+<p>- L'IP fixe réservée pour ctn1 se situe en dehors de la plage des IP dédiée aux autres clients.</p>
+<p>- Attention, l'adresse MAC de ctn1 actuellement dynamique devra être déclarée fixe ci-dessous.</p>
+<p>Redémarrez le service DHCP et vérifiez son statut :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart isc-dhcp-server 
+[srvlan@srvlan:~$] sudo systemctl status isc-dhcp-server </p>
+<p>Retour du statut :</p>
+<pre><code>● isc-dhcp-server.service - LSB: DHCP server
+     Loaded: loaded (/etc/init.d/isc-dhcp-server...
+     Active: active (running) since Mon 2022-01-...
+       Docs: man:systemd-sysv-generator(8)
+    Process: 2185 ExecStart=/etc/init.d/... SUCCESS)
+      Tasks: 4 (limit: 1116)
+     Memory: 5.5M
+        CPU: 183ms
+     CGroup: /system.slice/isc-dhcp-server.service
+        └─2201 /usr/sbin/dhcpd -4 -q ... enp0s8
+
+janv. 24 ... srvlan dhcpd[2201]: Wrote 0 deleted ...
+janv. 24 ... srvlan dhcpd[2201]: Wrote 0 new dyna...
+janv. 24 ... srvlan dhcpd[2201]: Wrote 0 leases t...
+janv. 24 ... srvlan dhcpd[2201]: Server starting ...
+janv. 24 ... srvlan isc-dhcp-server[2185]: Start...
+janv. 24 ... srvlan systemd[1]: Started LSB: DHCP ..
+...
+</code></pre>
+<p>Celui-ci ne montre pas d'erreur et le service sera lancé automatiquement au boot de srvlan.</p>
+<p>Vérifiez le port utilisé par le service DHCP :</p>
+<p>[srvlan@srvlan:~$] sudo ss -anup | grep dhcp</p>
+<p>Retour :</p>
+<pre><code>UN... 0  0  0.0.0.0:67  ...:*  users:((&quot;dhcpd&quot;,...))
+</code></pre>
+<h3 id="3-gestion-des-logs-du-service-dhcp">3 - Gestion des logs du service DHCP</h3>
+<h4 id="31-creation-dun-fichier-log"><em>3.1 - Création d'un fichier log</em></h4>
+<p>Créez un fichier de nom isc-dhcp-server.log :</p>
+<p>[srvlan@srvlan:~$] sudo mkdir /var/log/dhcp
+[srvlan@srvlan:~$] cd /var/log/dhcp
+[srvlan@srvlan:~$] sudo touch isc-dhcp-server.log</p>
+<p>puis modifiez ses propriétés comme suit :</p>
+<p>[srvlan@srvlan:~$] sudo chown root:adm isc-dhcp-server.log</p>
+<p>Propriétaire = root, Groupe = adm</p>
+<p>ainsi que ses droits d'accès comme suit :</p>
+<p>[srvlan@srvlan:~$] sudo chmod 640 isc-dhcp-server.log  </p>
+<p>6 = Lecture/Ecriture pour le propriétaire/utilisateur root<br />
+4 = Lecture pour les utilisateurs du groupe adm<br />
+0 = Accès interdits pour les autres utilisateurs</p>
+<h4 id="32-traitement-du-fichier-avec-rsyslog"><em>3.2 - Traitement du fichier avec rsyslog</em></h4>
+<p>Vérifiez le statut du démon rsyslogd :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl status rsyslog </p>
+<p>Les instructions de configuration du démon se trouvent dans le fichier /etc/rsyslog.conf.</p>
+<p>L'une d'entre elles spécifie de traiter tous les fichiers inclus dans le dossier /etc/rsyslog.d/.</p>
+<p>Créez alors un fichier de nom isc-dhcp-server-log.conf :</p>
+<p>[srvlan@srvlan:~$] cd /etc/rsyslog.d
+[srvlan@srvlan:~$] sudo nano isc-dhcp-server-log.conf</p>
+<p>et entrez les 3 lignes suivantes :</p>
+<p># Envoi des logs vers le fichier isc-dhcp-server.log, sachant le</p>
+<h1 id="parametre-log-facility-local7-active-dans-etcdhcpdconf">paramètre "log-facility local7" activé dans /etc/dhcpd.conf.</h1>
+<p>local7.* /var/log/dhcp/isc-dhcp-server.log</p>
+<p>Puis éditez /etc/rsyslog.conf et modifiez la ligne :</p>
+<p>*<em>.*</em>;auth,authpriv.none        -/var/log/syslog </p>
+<p>comme suit :</p>
+<p>*<em>.*</em>;auth,authpriv.none;local7.none        -/var/log/syslog </p>
+<p>Les logs DHCP iront ainsi vers le fichier isc-dhcp-server.log et non vers le fichier syslog.</p>
+<p>Relancez le démon rsyslogd pour traiter la modification :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart rsyslog
+[srvlan@srvlan:~$] sudo systemctl status rsyslog </p>
+<h3 id="4-modification-de-la-configuration-dns-statique">4 - Modification de la configuration DNS statique</h3>
+<p>Ref : <a href="/dns-statique-debian11/">Mémento 7.11</a></p>
+<p>Ouvrez le fichier DNS de zone directe intra.loupipfire.fr :</p>
+<p>[srvlan@srvlan:~$] cd /etc/bind
+[srvlan@srvlan:~$] sudo nano db.intra.loupipfire.fr.directe   </p>
+<p>et supprimez ou commentez <em>(;)</em> les 4 lignes suivantes :</p>
+<p>debian11-vm1 IN A 192.168.3.2
+debian11-vm2 IN A 192.168.3.4
+ctn1 IN A 192.168.3.6
+ctn2 IN A 192.168.3.8</p>
+<p>Ouvrez le fichier DNS de zone inverse intra.loupipfire.fr :</p>
+<p>[srvlan@srvlan:~$] sudo nano db.intra.loupipfire.fr.inverse   </p>
+<p>et supprimez ou commentez <em>(;)</em> les 4 lignes suivantes :</p>
+<p>2 IN PTR debian11-vm1.intra.loupipfire.fr. 
+4 IN PTR debian11-vm2.intra.loupipfire.fr.
+6 IN PTR ctn1.intra.loupipfire.fr.
+8 IN PTR ctn2.intra.loupipfire.fr.</p>
+<p>Relancez le service DNS :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart bind9</p>
+<p><em>Nota : Ne modifiez pas les lignes des hôtes srvlan/ovs.</em></p>
+<h3 id="5-tests-de-bon-fonctionnement-du-dhcp">5 - Tests de bon fonctionnement du DHCP</h3>
+<p>Il faut, pour terminer la configuration DHCP, modifier les paramètres réseau des VM et conteneurs LXC.</p>
+<p>Au préalable, ouvrez sur srvlan un second terminal et connectez-vous sur celui-ci en tant qu'utilisateur root <em>(Cde : su root)</em>.</p>
+<p>Entrez maintenant la demande de traçage suivante :</p>
+<p>[root@srvlan:~#] tail -f /var/log/dhcp/isc-dhcp-server.log</p>
+<p>Cela permettra d'observer en temps réel les logs DHCP.</p>
+<h4 id="51-vm-debian11-vm1-et-2"><em>5.1 - VM debian11-vm1 et 2</em></h4>
+<p>Référez-vous au <a href="/virtualbox-clients-debian11-creation/#16_-_Configuration_du_reseau_et_adressage_IP_fixe">Mémento 4.11</a> pour modifier les paramètres réseau.</p>
+<p>- VM debian11-vm1</p>
+<p>Ajustez la Méthode de l'onglet Paramètres IPv4 sur Automatique (DHCP).</p>
+<p>Supprimez ensuite l'adresse IP statique et enregistrez.</p>
+<p>Redémarrez la VM Debian :</p>
+<p>[client-linux@debian11-vm1:~$] sudo reboot</p>
+<p>et contrôlez l'affectation d'une nouvelle adresse IP :</p>
+<p>[client-linux@debian11-vm1 :~$ ] ip address</p>
+<p>qui doit faire partie de la plage DHCP du serveur DHCP.</p>
+<p>Démarrez Firefox et vérifiez le bon accès à Internet.</p>
+<p>- VM srvlan<br />
+Vérifiez que le terminal de traçage contient ces lignes :</p>
+<pre><code>dhcpd ... DHCPDISCOVER from ...:86:70 via enp0s8
+dhcpd ... DHCPOFFER on 192.168.3.31 to ...:86:70 ...
+dhcpd ... DHCPREQUEST for 192.168.3.31 ...:86:70 ...
+dhcpd ... Wrote 0 deleted host decls to leases file.
+dhcpd ... Wrote 0 new dynamic host decls to leas...
+dhcpd ... Wrote 2 leases to leases file.
+dhcpd ... DHCPACK on ...3.31 ... (debian11-vm1) ...
+</code></pre>
+<p>et que le fichier des baux /var/lib/dhcp/dhcpd.leases contient celles-ci :</p>
+<pre><code>lease 192.168.3.31 {
+  starts 3 2022/01/26 12:18:37;    (bail de 1 jour)
+  ends 4 2022/01/27 12:18:37;
+  cltt 3 2022/01/26 12:18:37;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet ...:86:70;
+  uid &quot;\001\010\000'\210\206p&quot;;
+  client-hostname &quot;debian11-vm1&quot;;
+}
+</code></pre>
+<p><em>- VM debian11-vm2</em></p>
+<p>Procédez de la même manière que pour debian11-vm1.</p>
+<h4 id="52-conteneurs-lxc-ctn1-et-2"><em>5.2 - Conteneurs LXC ctn1 et 2</em></h4>
+<p>- Conteneur ctn1 sur la VM ovs</p>
+<p>Editez la configuration réseau du conteneur :</p>
+<p>[switch@ovs:~$] sudo nano /var/lib/lxc/ctn1/config</p>
+<p>Supprimez ou commentez les 2 lignes ci-dessous :</p>
+<p>lxc.net.0.ipv4.address = 192.168.3.6/24
+lxc.net.0.ipv4.gateway = 192.168.3.15</p>
+<p>et ajoutez une ligne contenant cette adresse MAC fixe :</p>
+<p>lxc.net.0.hwaddr = 4a:49:43:49:79:bf    # Adresse MAC fixe</p>
+<p><em>Nota : L'adresse MAC doit être celle entrée ci-dessus dans le fichier /etc/dhcpd.conf de srvlan.</em></p>
+<p>Pour la suite, ctn1 est déjà déclaré client DHCP dans son fichier /etc/network/interfaces.</p>
+<p><strong>Remarque</strong> : Si ctn1 a été créé avec Debian 11.3 ou +, le DHCP ne fonctionnera que si vous réactivez le service systemd-networkd désactivé dans le mémento 5.12.</p>
+<p>Pour réactiver le service, procédez ainsi :</p>
+<p>[switch@ovs:~$] sudo lxc-attach -n ctn1</p>
+<p>[root@ctn1:/#] systemctl start systemd-networkd
+[root@ctn1:/#] systemctl enable systemd-networkd
+[root@ctn1:/#] exit</p>
+<p>[switch@ovs:~$] </p>
+<p>- Conteneur ctn2 sur la VM ovs</p>
+<p>Au préalable, connectez-vous sur celui-ci :</p>
+<p>[switch@ovs:~$] su - switchctn2
+[switchctn2@ovs:~$] lxc-unpriv-attach -n ctn2</p>
+<p>et relevez son adresse MAC dynamique actuelle :</p>
+<p>[root@ctn2:/#] ip address
+[root@ctn2:/#] exit</p>
+<p><img alt="Capture : DHCP : Adresse MAC du conteneur ctn2" src="/wp-content/uploads/2022/01/lxc-ctn2-adresse-mac.webp" /></p>
+<p>DHCP : Adresse MAC du conteneur ctn2</p>
+<p>Editez ensuite sa configuration réseau :</p>
+<p>[switchctn2@ovs:~$] nano .local/share/lxc/ctn2/config</p>
+<p>Supprimez ou commentez les 2 lignes ci-dessous :</p>
+<p>lxc.net.0.ipv4.address = 192.168.3.8/24
+lxc.net.0.ipv4.gateway = 192.168.3.15</p>
+<p>et ajoutez une ligne contenant l'adresse MAC relevée :</p>
+<p>lxc.net.0.hwaddr = 6e:91:f3:dc:32:f0    # Adresse MAC fixe</p>
+<p>Pour la suite, ctn2 est également déclaré client DHCP.</p>
+<p><strong>Remarque</strong> : Si ctn2 a été créé avec Debian 11.3 ou +, le DHCP ne fonctionnera que si vous réactivez le service systemd-networkd désactivé dans le mémento 5.12.</p>
+<p>Pour réactiver le service, procédez ainsi :</p>
+<p>[switchctn2@ovs:~$] lxc-unpriv-attach -n ctn2</p>
+<p>[root@ctn2:/#] systemctl start systemd-networkd
+[root@ctn2:/#] systemctl enable systemd-networkd
+[root@ctn2:/#] exit</p>
+<p>Redémarrez enfin la VM ovs :</p>
+<p>[switchctn2@ovs:~$] exit
+[switch@ovs:~$] sudo reboot</p>
+<p>et contrôlez que l'IP affectée automatiquement :<br />
+- est fixe pour ctn1 : 192.168.3.20. 
+- est dynamique pour ctn2 : IP dans la plage DHCP.</p>
+<h3 id="6-bilan">6 - Bilan</h3>
+<p>Le DHCP remplit son rôle mais la résolution DNS locale sur les VM debian11-vm* et les conteneurs ctn* est perdue suite aux modifications du DNS statique.</p>
+<p>Il est, pour corriger cela et disposer à l'avenir d'une modification automatique des fichiers DNS, nécessaire de mettre en place un DNS dynamique.</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>Nouvelle étape franchie.<br />
+Le mémento 7.31 vous attend à<br />
+présent pour modifier le DNS statique<br />
+en DNS dynamique.</p>
+<p><a href="https://familleleloup.no-ip.org/dns-dynamique-debian11/">Mémento 7.31</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

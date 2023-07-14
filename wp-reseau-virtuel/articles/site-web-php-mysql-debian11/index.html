@@ -1,0 +1,1541 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/site-web-php-mysql-debian11/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>LAMP HTTPS CMS / Debian 11 : 1/2 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-811-apache-php-mysql" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              LAMP HTTPS CMS / Debian 11 : 1/2
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-811-apache-php-mysql" class="md-nav__link">
+    Mémento 8.11 - Apache PHP MySQL
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 8.11 - Apache PHP MySQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preambule" class="md-nav__link">
+    1 - Préambule
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-configuration-du-fichier-dns-hosts" class="md-nav__link">
+    1.1 - Configuration du fichier DNS hosts
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ip-de-srvdmz-fqdn-nom-dhote-domaine" class="md-nav__link">
+    IP de srvdmz  +  FQDN  +  nom d'hôte  +  domaine
+  </a>
+  
+    <nav class="md-nav" aria-label="IP de srvdmz + FQDN + nom d'hôte + domaine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#2-installation-et-configuration-du-service-lamp" class="md-nav__link">
+    2 - Installation et configuration du service LAMP
+  </a>
+  
+    <nav class="md-nav" aria-label="2 - Installation et configuration du service LAMP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-mise-a-jour-du-systeme-debian" class="md-nav__link">
+    2.1 - Mise à jour du système Debian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-apache" class="md-nav__link">
+    2.2 - Apache
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-php" class="md-nav__link">
+    2.3 - PHP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-mysql" class="md-nav__link">
+    2.4 - MySQL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-installation-du-gestionnaire-de-bdd-adminer" class="md-nav__link">
+    3 - Installation du gestionnaire de Bdd Adminer
+  </a>
+  
+    <nav class="md-nav" aria-label="3 - Installation du gestionnaire de Bdd Adminer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-connexion-distante-sur-les-bdd-mysql" class="md-nav__link">
+    3.1 - Connexion distante sur les Bdd MySQL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-test-global-du-serveur-web-php-mysql" class="md-nav__link">
+    4 - Test global du serveur Web PHP MySQL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-811-apache-php-mysql">Mémento 8.11 - Apache PHP MySQL</h2>
+<p>Le service LAMP sera installé sur la VM srvdmz.</p>
+<p>Il permettra de créer un site Web reposant sur :<br />
+Linux + Apache + MySQL + PHP <em>(LAMP)</em></p>
+<h3 id="1-preambule">1 - Préambule</h3>
+<p>Référence : <a href="/site-web-php-mysql-debian10/">LAMP HTTPS CMS / Debian 10 : Partie 1</a>.</p>
+<p>Outils réutilisés :<br />
+- Apache pour diffuser les pages web.<br />
+- PHP pour générer les pages web dynamiques.<br />
+- MySQL/MariaDB pour stocker le contenu des pages.<br />
+- OpenSSL pour sécuriser le protocole HTTP <em>(HTTP S)</em>.<br />
+- Adminer pour gérer la base de données MySQL.</p>
+<p>Nouveautés :<br />
+- Dotclear pour créer facilement un blog complet.</p>
+<h4 id="11-configuration-du-fichier-dns-hosts"><em>1.1 - Configuration du fichier DNS hosts</em></h4>
+<p>FQDN <em>(Fully Qualified Domain Name)</em> = Nom de domaine pleinement qualifié.</p>
+<p>Créez celui de srvdmz en éditant son fichier DNS hosts :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/hosts</p>
+<p>et en le modifiant comme ci-dessous :</p>
+<p>127.0.0.1    localhost
+127.0.1.1    srvdmz.loupvirtuel.fr srvdmz</p>
+<h1 id="ip-de-srvdmz-fqdn-nom-dhote-domaine">IP de srvdmz  +  FQDN  +  nom d'hôte  +  domaine</h1>
+<p>192.168.4.2      srvdmz.loupvirtuel.fr      srvdmz      loupvirtuel.fr      </p>
+<p>Ne touchez pas au bloc de lignes concernant l'IPv6.</p>
+<p>Testez la prise en compte du FQDN :</p>
+<p>[srvdmz@srvdmz:~$] hostname --fqdn</p>
+<p>Retour :</p>
+<pre><code>srvdmz.loupvirtuel.fr
+</code></pre>
+<p>Apache aura besoin du FQDN de srvdmz pour s'installer sans erreur.</p>
+<h3 id="2-installation-et-configuration-du-service-lamp">2 - Installation et configuration du service LAMP</h3>
+<h4 id="21-mise-a-jour-du-systeme-debian"><em>2.1 - Mise à jour du système Debian</em></h4>
+<p>[srvdmz@srvdmz:~$] sudo apt update
+[srvdmz@srvdmz:~$] sudo apt full-upgrade
+[srvdmz@srvdmz:~$] sudo reboot
+[srvdmz@srvdmz:~$] cat /etc/debian_version</p>
+<p>La dernière Cde doit retourner le numéro de la version Debian courante.</p>
+<h4 id="22-apache"><em>2.2 - Apache</em></h4>
+<p>Installez le paquet apache2 :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install apache2</p>
+<p>et contrôlez le numéro de la version installée :</p>
+<p>[srvdmz@srvdmz:~$] sudo apache2 -v </p>
+<p>Retour :</p>
+<pre><code>Server version: Apache/2.4.52 (Debian)
+Server built:   2022-01-03T21:27:14
+</code></pre>
+<p>Puis vérifiez le démarrage automatique du serveur :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl status apache2  </p>
+<p>Retour :</p>
+<pre><code>● apache2.service - The Apache HTTP Server
+     Loaded: loaded (/lib/systemd/system/apache2...
+     Active: active (running) since Mon 2022-03...
+       Docs: https://httpd.apache.org/docs/2.4/
+   Main PID: 2290 (apache2)
+      Tasks: 55 (limit: 1116)
+     Memory: 11.2M
+        CPU: 3.525s
+     CGroup: /system.slice/apache2.service
+             ├─2290 /usr/sbin/apache2 -k start
+             ├─2292 /usr/sbin/apache2 -k start
+             └─2293 /usr/sbin/apache2 -k start
+
+mars 14 16:49:45 srvdmz-u820 systemd[1]: Starting ..
+mars 14 16:49:45 srvdmz-u820 systemd[1]: Started ...
+</code></pre>
+<p>et la bonne syntaxe de ses fichiers de configuration :</p>
+<p>[srvdmz@srvdmz:~$] sudo apache2ctl -t</p>
+<p>Retour :</p>
+<pre><code>Syntax OK
+</code></pre>
+<p>Enfin, depuis la VM Debian11-vm1, testez l'URL :<br />
+http://192.168.4.2</p>
+<p><a href="/wp-content/uploads/2022/03/srvdmz_apache_accueil_debian11.webp"><img alt="Capture - Apache : Page d'accueil index.html " src="/wp-content/uploads/2022/03/srvdmz_apache_accueil_debian11-430x289.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Apache : Accueil /var/www/html/index.html</p>
+<p>Pour jouer, remplacez l'accueil ci-dessus comme suit :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/www/html 
+[srvdmz@srvdmz:~$] sudo  mv index.html index.html.origine
+[srvdmz@srvdmz:~$] sudo  touch index.html
+[srvdmz@srvdmz:~$] sudo  nano index.html</p>
+<p>et remplissez le nouvel index.html avec ce contenu :</p>
+<!DOCTYPE html>
+<p><html>
+<head><meta charset="utf-8"></head>
+<title>Loup Virtuel</title></p>
+<body style="background-color:#ADEAFF">
+
+<h1 style="color:#000000">
+Accueil Web du site Loup Virtuel
+</h1>
+
+<p style="font-size:30px;color:#CE6D39">
+Cette page Web remplace celle fournie par Apache.
+</p>
+
+<p>Fin</p>
+
+</body>
+<p></html></p>
+<p>Pour finir, testez de nouveau l'URL :<br />
+http://192.168.4.2</p>
+<p><a href="/wp-content/uploads/2022/03/srvdmz_apache_nouvel_accueil_debian11.webp"><img alt="Capture - Apache : Page d'accueil personnalisée" src="/wp-content/uploads/2022/03/srvdmz_apache_nouvel_accueil_debian11-430x213.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Apache : Page d'accueil personnalisée</p>
+<h4 id="23-php"><em>2.3 - PHP</em></h4>
+<p>Installez le paquet php :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install php</p>
+<p>Créez ensuite un fichier de contrôle phpinfo.php :</p>
+<p>[srvdmz@srvdmz:~$] sudo touch /var/www/html/phpinfo.php</p>
+<p>Editez celui-ci :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /var/www/html/phpinfo.php</p>
+<p>et entrez le contenu ci-dessous :</p>
+<?php phpinfo(); ?>
+
+<p>Puis, depuis la VM srvlan, testez l'URL :<br />
+http://192.168.4.2/phpinfo.php</p>
+<p><a href="/wp-content/uploads/2022/03/srvdmz_infos_php_debian11.webp"><img alt="Capture - PHP : Page Web Infos PHP" src="/wp-content/uploads/2022/03/srvdmz_infos_php_debian11-430x265.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>PHP : Page Web Infos PHP</p>
+<p>Les Cdes suivantes afficheront la version PHP ainsi que la liste des modules PHP installés :</p>
+<p>[srvdmz@srvdmz:~$] php -v
+[srvdmz@srvdmz:~$] php -m</p>
+<h4 id="24-mysql"><em>2.4 - MySQL</em></h4>
+<p>MariaDB est un moteur de Bdd reposant sur MySQL.</p>
+<p>Installez les 2 paquets mariadb suivants :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install mariadb-server 
+[srvdmz@srvdmz:~$] sudo apt install mariadb-client </p>
+<p>Vérifiez le démarrage automatique du serveur MySQL :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl status mariadb </p>
+<p>Retour :</p>
+<pre><code>● mariadb.service - MariaDB 10.5.12 database server
+   Loaded: loaded (/lib/systemd/system/mariadb.se...
+   Active: active (running) since Tue 2022-03... ago
+     Docs: man:mariadbd(8)
+           https://mariadb.com/kb/en/library/syst...
+  Process: 9470 ExecStartPre=/usr/bin/install -m ...
+  Process: 9471 ExecStartPre=/bin/sh -c systemctl ..
+  Process: 9473 ExecStartPre=/bin/sh -c [ ! -e /us..
+  Process: 9532 ExecStartPost=/bin/sh -c systemct...
+  Process: 9534 ExecStartPost=/etc/mysql/debian-st..
+ Main PID: 9520 (mariadbd)
+   Status: &quot;Taking your SQL requests now...&quot;
+   Tasks: 13 (limit: 1117)
+   Memory: 82.6M
+      CPU: 845ms
+   CGroup: /system.slice/mariadb.service
+             └─9520 /usr/sbin/mariadbd
+
+... srvdmz ...: information_schema
+... srvdmz ...: mysql
+... srvdmz ...: performance_schema
+... srvdmz ...: Phase 6/7: Checking and up... tables
+... srvdmz ...: Processing database
+... srvdmz ...: information_schema
+... srvdmz ...: performance_schema
+... srvdmz ...: Phase 7/7: Running 'FLUSH PRIVILE...
+... srvdmz ...: OK
+... srvdmz ...: Triggering myis...
+lines 1-28/28 (END)
+</code></pre>
+<p>puis modifiez en partie ses paramètres de sécurité :</p>
+<p>[srvdmz@srvdmz:~$] sudo mysql_secure_installation </p>
+<p>en traitant le retour de la Cde ci-dessus comme suit :</p>
+<pre><code>NOTE: RUNNING ALL PARTS OF THIS ... FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE! PLEAS... CAREFULLY!
+
+In order to log into MariaDB to secur... the current
+password ...  If you've just installed MariaDB, and
+you haven't set the root password yet, ... be blank,
+so you should just press enter here.
+
+Enter ... password for root ... : Appuyez sur Entrée
+OK, successfully used password, moving on...
+
+Setting the root password ... log into the MariaDB
+root user without the proper authorisation.
+
+You already ... root ... protected, ... answer 'n'.
+
+Switch to unix_socket authentication [Y/n] n
+
+Change the root password? [Y/N] y      
+New password: Votre MDP pour le root de MySQL
+Re-enter new password: 
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installa..., allowing anyone
+to log into MariaDB without ... account created for
+them.  This is intended ... to make the installation
+go a bit smoother.  You shou... before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] y
+ ... Success! Accès anonymous désactivé
+
+Normally, root should ... from 'localhost'.  This
+ensures that ... the root password from the network.
+
+Disallow root login remotely? [Y/n] n
+ ... skipping. Accès root distant conservé
+
+By default, MariaDB ... named 'test' that anyone can
+access.  This is also ...ting, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] n 
+ ... skipping. Bdd test conservée pour des tests
+
+Reloading the privilege tables ... made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed ... your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+</code></pre>
+<p>Testez une connexion locale en tant que root MySQL :</p>
+<p>[srvdmz@srvdmz:~$] sudo mysql -u root -p
+[sudo] Mot de passe de srvdmz :
+Enter password: <em>Peu importe, MariaDB gérant par défaut root avec son plugin unix_socket</em></p>
+<p>Retour :</p>
+<pre><code>Welcome to the MariaDB monitor.  Commands end wit...
+Your MariaDB connection id is 50
+Server version: 10.5.12-MariaDB-0+deb11u1 Debian 11 
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corpora...
+
+Type 'help;' or '\h' for help. Type '\c' to clear ..
+
+MariaDB [(none)]&gt; \q
+Bye
+</code></pre>
+<p>Un prompt d'accès à la console MysQL s'affiche.<br />
+Utilisez la Cde \q pour quitter.</p>
+<p>Pour tester une connexion distante, commencez par éditez le fichier 50-server.cnf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/mysql/mariadb.conf.d
+[srvdmz@srvdmz:~$] sudo nano 50-server.cnf</p>
+<p>et remplacez la ligne bind-address = 127.0.0.1 par :</p>
+<p>bind-address = 192.168.4.2            # IP du serveur MySQL </p>
+<p>Reconnectez-vous localement et créez une Bdd parc :</p>
+<p>MariaDB [(none)]&gt; CREATE DATABASE parc;</p>
+<p>Touche Entrée après le point-virgule.</p>
+<p>Retour :</p>
+<pre><code>Query OK, 1 row affected (0.001sec)
+
+MariaDB [(none)]&gt; 
+</code></pre>
+<p>Créez maintenant un utilisateur mysqluserdist autorisé à gérer celle-ci depuis la VM srvlan :</p>
+<p>MariaDB [(none)]&gt; GRANT ALL PRIVILEGES ON parc.* TO mysqluserdist@'192.168.2.2' IDENTIFIED BY '<em>le MDP que vous voulez</em> ';</p>
+<p>Touche Entrée après le point-virgule.</p>
+<p>Retour :</p>
+<pre><code>Query OK, 0 row affected (0.003sec)
+
+MariaDB [(none)]&gt; quit
+</code></pre>
+<p>Redémarrez MySQL :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart mariadb   </p>
+<p>Allez sur srvlan, installez le paquet mariadb-client :</p>
+<p>[srvlan@srvlan:~$] sudo apt install mariadb-client</p>
+<p>et testez une connexion distante sur le serveur MySQL :</p>
+<p>[srvlan@srvlan:~$] mysql -u mysqluserdist -p -h 192.168.4.2
+Enter password: <em>Entrez le MDP de l'utilisateur mysqluserdist</em></p>
+<p>Retour :</p>
+<pre><code>Welcome to the MariaDB monitor.  Commands end wit...
+Your MariaDB connection id is 31
+Server version: 10.5.12-MariaDB-0+deb11u1 Debian 11
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corpora...
+
+Type 'help;' or '\h' for help. Type '\c' to clear ..
+
+MariaDB [(none)]&gt;
+</code></pre>
+<p>Listez les Bdd visibles pour mysqluserdist :</p>
+<p><img alt="Image - MySQL : Retour de la Cde SHOW DATABASES" src="/wp-content/uploads/2022/03/liste_bdd_srvlan.webp" /></p>
+<h3 id="3-installation-du-gestionnaire-de-bdd-adminer">3 - Installation du gestionnaire de Bdd Adminer</h3>
+<p>Cet outil plus léger que phpMyAdmin permettra d'administrer les Bdd du serveur MySQL facilement, ceci en local ou à distance via une interface Web.</p>
+<p>Installez le paquet adminer :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install adminer</p>
+<p>Un fichier de configuration adminer.conf a été créé dans /etc/apache2/conf-available/.</p>
+<p>Demandez à Apache de prendre en compte le fichier :</p>
+<p>[srvdmz@srvdmz:~$] sudo a2enconf adminer.conf </p>
+<p>et rechargez la configuration pour traitement :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl reload apache2</p>
+<h4 id="31-connexion-distante-sur-les-bdd-mysql"><em>3.1 - Connexion distante sur les Bdd MySQL</em></h4>
+<p>Depuis la VM debian11-vm1, testez l'URL :<br />
+http://192.168.4.2/adminer</p>
+<p><a href="/wp-content/uploads/2022/03/srvdmz_adminer1_debian11.webp"><img alt="Capture - Adminer : Fenêtre de connexion" src="/wp-content/uploads/2022/03/srvdmz_adminer1_debian11-430x272.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Adminer : Fenêtre de connexion</p>
+<p>Utilisez pour l'utilisateur root le MDP créé au <a href="/site-web-php-mysql-debian11/#24_-_MySQL">§ 2.4</a> avec mysql_secure_installation.</p>
+<p><a href="/wp-content/uploads/2022/03/srvdmz_adminer2_debian11.webp"><img alt="Capture - Adminer : Fenêtre d'administration" src="/wp-content/uploads/2022/03/srvdmz_adminer2_debian11-430x276.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Adminer : Fenêtre d'administration</p>
+<h3 id="4-test-global-du-serveur-web-php-mysql">4 - Test global du serveur Web PHP MySQL</h3>
+<p>Ce test fera appel à un script PHP que vous allez écrire et exécuter.</p>
+<p>Le script ouvrira une connexion sur la Bdd parc créée ci-dessus et permettra d'afficher sur une page Web le contenu d'une table de nom PC.</p>
+<p>Connectez-vous localement sans utiliser la Cde sudo :</p>
+<p>[srvdmz@srvdmz:~$] mysql -u root -p
+Enter password : <em>MDP root créé au paragraphe 2.4</em></p>
+<p>et entrez les Cdes SQL suivantes pour créer, remplir et afficher la table PC :</p>
+<p>MariaDB [none]&gt; USE parc;</p>
+<p>MariaDB [parc]&gt; CREATE TABLE PC (Ligne INTEGER NOT NULL PRIMARY KEY);</p>
+<p>MariaDB [parc]&gt; ALTER TABLE PC ADD COLUMN Hôte VARCHAR(20);
+MariaDB [parc]&gt; ALTER TABLE PC ADD COLUMN OS VARCHAR(20);
+MariaDB [parc]&gt; ALTER TABLE PC ADD COLUMN Zone VARCHAR(10); </p>
+<p>MariaDB [parc]&gt; INSERT INTO PC VALUES (1,'srvsec','Linux From Scratch','WAN');
+MariaDB [parc]&gt; INSERT INTO PC VALUES (2,'srvdmz','Debian 11','DMZ');
+MariaDB [parc]&gt; INSERT INTO PC VALUES (3,'srvlan','Debian 11','LAN');
+MariaDB [parc]&gt; INSERT INTO PC VALUES (4,'ovs','Debian 11','LAN');
+MariaDB [parc]&gt; INSERT INTO PC VALUES (5,'debian11-vm1','Debian 11','LAN');
+MariaDB [parc]&gt; INSERT INTO PC VALUES (6,'debian11-vm2','Debian 11','LAN');
+MariaDB [parc]&gt; INSERT INTO PC VALUES (7,'ctn1','Debian 11','LAN');
+MariaDB [parc]&gt; INSERT INTO PC VALUES (8,'ctn2','Debian 11','LAN');</p>
+<p>MariaDB [parc]&gt; SELECT * FROM PC;</p>
+<p>Retour de la dernière requête SQL :</p>
+<p><img alt="Image - MySQL : Retour de la Cde SELECT * FROM PC" src="/wp-content/uploads/2022/03/contenu_table_pc.webp" /></p>
+<p>Maintenant, créez et éditez le script testweb.php :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/www/html
+[srvdmz@srvdmz:~$] sudo touch testweb.php
+[srvdmz@srvdmz:~$] sudo nano testweb.php  </p>
+<p>puis entrez le code HTML et PHP suivant :</p>
+<!DOCTYPE html>
+<p><html>
+<head>
+<meta charset="utf-8">
+<title>Test Web-Php-Mysql VM srvdmz</title>
+</head></p>
+<body style="background-color:lightyellow">
+<h2 style="color:blue">Test global du serveur Apache</h2>
+<p>Exemple d'une page Web dynamique :</p>
+<p>Apache affiche les réponses de MySQL à propos<br />
+de la Bdd 'parc' interrogée par PHP.</p><br />
+<table border=1>
+
+<caption>Affichage de la table 'PC'</caption>
+<tr>
+<th>Ligne :</th><th>Hôte :</th><th>OS :</th> <th>Zone :</th>
+</tr>
+
+<?php
+// Connexion sur le serveur MySQL
+$srv = "localhost"; $user = "root";
+$pass = "votre MDP pour root"; $bdd = "parc";
+$conn = mysqli\_connect($srv,$user,$pass,$bdd,) or die ("Connexion MySQL impossible...");
+
+// Gestion correcte des accents inclus dans les requêtes
+mysqli\_set\_charset($conn,"utf8");
+
+// Sélection des enregistrements de la table 'PC' et
+// envoi du résultat
+$query = "SELECT \* FROM PC";
+$result = mysqli\_query($conn,$query) or die ("Echec sur la table PC...");
+
+// Insertion des lignes d'enregistrements trouvées
+// dans un tableau HTML
+while ($ligne = mysqli\_fetch\_array ($result))
+{
+echo "<tr><td>" . $ligne \["Ligne"\] . "</td>";
+echo "<td>" . $ligne \["Hôte"\] . "</td>";
+echo "<td>" . $ligne \["OS"\] . "</td>";
+echo "<td>" . $ligne \["Zone"\] . "</td></tr>"; 
+}
+
+// Fermeture de la connexion
+mysqli\_close($conn);
+?>
+
+</table>
+</body>
+<p></html></p>
+<p>Testez, cette fois depuis la VM srvlan, l'URL :<br />
+http://192.168.4.2/testweb.php</p>
+<p><a href="/wp-content/uploads/2022/03/srvdmz_test_global_web_debian11.webp"><img alt="Capture - Apache : Résultat de l'exécution du script testweb.php" src="/wp-content/uploads/2022/03/srvdmz_test_global_web_debian11-430x393.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Apache : Résultat de l'exécution du script testweb.php</p>
+<p><em>Nota : Un mémento futur traitera de l'accès au serveur Web depuis Internet.</em></p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>Voilà pour la création de base d'un<br />
+site Web PHP MySQL. La partie 2<br />
+vous attend pour la création d'un<br />
+blog Dotclear sécurisé HTTPS.</p>
+<p><a href="https://familleleloup.no-ip.org/https-dotclear-debian11/">Partie 2</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

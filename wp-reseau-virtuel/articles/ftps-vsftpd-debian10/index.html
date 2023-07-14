@@ -1,0 +1,1799 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/ftps-vsftpd-debian10/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>FTPS - VsFTPd / Debian 10 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-92-ftp-chiffre-ssl" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              FTPS - VsFTPd / Debian 10
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-92-ftp-chiffre-ssl" class="md-nav__link">
+    Mémento 9.2 - FTP chiffré SSL
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 9.2 - FTP chiffré SSL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preambule" class="md-nav__link">
+    1 - Préambule
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-role-dun-serveur-ftp" class="md-nav__link">
+    1.1 - Rôle d'un serveur FTP
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-installation" class="md-nav__link">
+    2 - Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="2 - Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-serveur-vsftpd" class="md-nav__link">
+    2.1 - Serveur vsftpd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-securisation-des-echanges-ftp-via-ssl" class="md-nav__link">
+    2.2 - Sécurisation des échanges FTP via SSL
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encrypted-connections" class="md-nav__link">
+    encrypted connections.
+  </a>
+  
+    <nav class="md-nav" aria-label="encrypted connections.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#23-activation-sur-vsftpd-du-mode-passif" class="md-nav__link">
+    2.3 - Activation sur vsftpd du mode passif
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-connexions-anonymes" class="md-nav__link">
+    3 - Connexions anonymes
+  </a>
+  
+    <nav class="md-nav" aria-label="3 - Connexions anonymes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-configuration-de-base" class="md-nav__link">
+    3.1 - Configuration de base
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-connexion-distante-depuis-une-console" class="md-nav__link">
+    3.2 - Connexion distante depuis une console
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-connexion-distante-depuis-filezilla" class="md-nav__link">
+    3.3 - Connexion distante depuis FileZilla
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-configuration-ouvrant-lupload-de-fichiers" class="md-nav__link">
+    3.4 - Configuration ouvrant l'Upload de fichiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-test-de-bon-fonctionnement-de-lupload" class="md-nav__link">
+    3.5 - Test de bon fonctionnement de l'Upload
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-connexions-authentifiees-dutilisateurs-locaux" class="md-nav__link">
+    4 - Connexions authentifiées d'utilisateurs locaux
+  </a>
+  
+    <nav class="md-nav" aria-label="4 - Connexions authentifiées d'utilisateurs locaux">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-acces-ftp-limite-a-un-dossier-commun" class="md-nav__link">
+    4.1 - Accès FTP limité à un dossier commun
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-connexion-sur-le-dossier-commun" class="md-nav__link">
+    4.2 - Connexion sur le dossier commun
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-acces-ftp-a-tous-les-dossiers" class="md-nav__link">
+    4.3 - Accès FTP à tous les dossiers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-connexions-authentifiees-dutilisateurs-virtuels" class="md-nav__link">
+    5 - Connexions authentifiées d'utilisateurs virtuels
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Connexions authentifiées d'utilisateurs virtuels">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-bdd-berkeley-des-utilisateurs-virtuels" class="md-nav__link">
+    5.1 - Bdd Berkeley des utilisateurs virtuels
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-liaison-bdd-avec-le-module-pam-vsftpd" class="md-nav__link">
+    5.2 - Liaison Bdd avec le module PAM vsftpd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-permissions-et-dossiers-des-utilisateurs" class="md-nav__link">
+    5.3 - Permissions et dossiers des utilisateurs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrage-pour-les-memes-droits-quun-utilisateur-local" class="md-nav__link">
+    Paramétrage pour les mêmes droits qu'un utilisateur local
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#activation-de-lutilisateur-comme-utilisateur-virtuel" class="md-nav__link">
+    Activation de l'utilisateur comme utilisateur virtuel
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ecriture-autorisee" class="md-nav__link">
+    Ecriture autorisée
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modification-et-suppression-autorisees" class="md-nav__link">
+    Modification et suppression autorisées
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-autorise-meme-si-un-fichier" class="md-nav__link">
+    Download autorisé même si un fichier
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nest-pas-en-lecture-pour-tous" class="md-nav__link">
+    n'est pas en lecture pour tous
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dossier-dans-lequel-sera-enferme-lutilisateur" class="md-nav__link">
+    Dossier dans lequel sera enfermé l'utilisateur
+  </a>
+  
+    <nav class="md-nav" aria-label="Dossier dans lequel sera enfermé l'utilisateur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#54-reglage-de-vsftpd-et-test-de-connexion" class="md-nav__link">
+    5.4 - Réglage de vsftpd et test de connexion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-configuration-preferentielle" class="md-nav__link">
+    6 - Configuration préférentielle
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-common-session" class="md-nav__link">
+    @include common-session
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-common-auth" class="md-nav__link">
+    @include common-auth
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#auth-required-pam_shellsso" class="md-nav__link">
+    auth      required      pam_shells.so
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-92-ftp-chiffre-ssl">Mémento 9.2 - FTP chiffré SSL</h2>
+<p>Le serveur VsFTPd sera installé sur la VM srvlan.</p>
+<p>Le FTP est un protocole de communication dédié au transfert de fichiers sur un réseau TCP/IP.</p>
+<p>Les utilisateurs des VM debian10-vm* <em>(clients)</em> utiliseront la VM srvlan <em>(serveur)</em> pour déposer ou s'échanger des fichiers.</p>
+<p>Selon le paramétrage FTP, un utilisateur pourra ou non Déposer, Télécharger, Lire, Modifier ou Supprimer des dossiers/fichiers.</p>
+<h3 id="1-preambule">1 - Préambule</h3>
+<p>Outils réutilisés :<br />
+- Serveur VsFTPd <em>(Very secure FTP daemon)</em>.</p>
+<p>Nouveautés :<br />
+- Usage du FTPS <em>(FTP via SSL)</em>.<br />
+- Utilisation du mode passif.<br />
+- Usage en console du client lftp à la place de ftp.</p>
+<h4 id="11-role-dun-serveur-ftp"><em>1.1 - Rôle d'un serveur FTP</em></h4>
+<p>Il permet le transfert de dossiers/fichiers avec un client distant, par Internet ou par le réseau informatique local. Le transfert, selon un modèle client/serveur, peut se faire dans les 2 sens.</p>
+<p>Le serveur FTP d'un hébergeur permet par exemple à un client distant de déposer ou télécharger les fichiers de son site web.</p>
+<p>En général, deux modes de connexion sont utilisés :<br />
+Le mode anonyme qui autorise l'accès au dossier public du serveur sans fournir de nom d'utilisateur ni de MDP. Les fichiers de ce dossier sont souvent en lecteur seule.  </p>
+<p>Le mode authentifié qui permet à un utilisateur local ou virtuel, après contrôle de son nom et de son MDP, d'accéder en lecture/écriture à ses propres fichiers.</p>
+<h3 id="2-installation">2 - Installation</h3>
+<h4 id="21-serveur-vsftpd"><em>2.1 - Serveur vsftpd</em></h4>
+<p>Au préalable, mettez à jour la distribution Debian 10 :</p>
+<p>[srvlan@srvlan:~$] sudo apt update
+[srvlan@srvlan:~$] sudo apt upgrade
+[srvlan@srvlan:~$] sudo reboot</p>
+<p>et installez vsftpd pour son côté léger et sécurisé :</p>
+<p>[srvlan@srvlan:~$] sudo apt install vsftpd</p>
+<p>Vérifiez le bon démarrage de celui-ci :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl status vsftpd</p>
+<p>Retour :</p>
+<pre><code>● vsftpd.service - vsftpd FTP server
+   Loaded: loaded (/lib/systemd/system/vsftpd...
+   Active: active (running) since Fri 2020-... ago
+ Main PID: 693 (vsftpd)
+    Tasks: 1 (limit: 544)
+   Memory: 632.0K
+   CGroup: /system.slice/vsftpd.service
+           └─693 /usr/sbin/vsftpd /etc/vsftpd.conf
+
+avril 24 ... srvlan systemd[1]: Starting vsftpd ...
+avril 24 ... srvlan systemd[1]: Started vsftpd ...
+</code></pre>
+<p>Un utilisateur de nom ftp a été créé lors de l'installation.<br />
+Un dossier personnel /srv/ftp/ lui a été associé.<br />
+Il s'agit du dossier public FTP par défaut du serveur.</p>
+<p>Pour les tests, copiez ces 2 fichiers dans ce dossier :</p>
+<p>[srvlan@srvlan:~$] cd /usr/share/doc/vsftpd
+[srvlan@srvlan:~$] sudo cp README /srv/ftp/README
+[srvlan@srvlan:~$] sudo cp TODO /srv/ftp/TODO</p>
+<h4 id="22-securisation-des-echanges-ftp-via-ssl"><em>2.2 - Sécurisation des échanges FTP via SSL</em></h4>
+<p>De base le serveur vsftpd ne chiffre rien mais il peut utiliser le protocole FTPS <em>(FTP via SSL)</em> pour chiffrer ses communications avec les clients.</p>
+<p>Pour information, différences entre le SFTP et le FTPS :<br />
+- SFTP plus récent utilise par défaut le port 22 pour traiter l’authentification, les Cdes FTP et le transfert de données.</p>
+<p>La gestion d'un pare-feu est facilitée, un seul port.</p>
+<p>- FTPS utilise par défaut le port 21 pour traiter l'authentification et les Cdes FTP ainsi que le port 20 <em>(en mode actif)</em> ou une tranche de ports <em>(en mode passif)</em> pour le transfert de données.</p>
+<p>Un pare-feu sera donc plus compliqué à gérer.</p>
+<p>Pour le FTPS, installez si absent le paquet openssl :</p>
+<p>[srvlan@srvlan:~$] sudo apt install openssl</p>
+<p>Puis connectez-vous en tant que root et créez un certificat CA <em>(Certificate Authority)</em> auto-signé :</p>
+<p>[srvlan@srvlan:~$] su root</p>
+<p>[root@srvlan:~#] cd /etc/ssl/private
+[root@srvlan:~#] openssl req -x509 -nodes -newkey rsa:2048 -keyout vsftpd.pem -out vsftpd.pem -days 3650</p>
+<p>en répondant aux questions posées comme suit :</p>
+<pre><code>Country Name (2 letter code) [AU]:FR
+State or Pro... Name (full name) [Some-State]:Paris
+Locality Name (eg, city) []:Paris
+Organization Name (e...) [Interne...]:Intra-InfoLoup            
+Organizational Uni... (e...) []:Intra-Laboratoire-CA
+Common Name (... server FQDN or YOUR name) []:srvlan
+Email Address []:Rien &gt; Touche Entrée
+</code></pre>
+<p>Editez ensuite le fichier de configuration vsftpd.conf :</p>
+<p>[root@srvlan:~#] exit</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd.conf</p>
+<p>et ajustez vers la ligne 147 les paramètres SSL :</p>
+<p># This option specifies the location of the RSA certificate ...</p>
+<h1 id="encrypted-connections">encrypted connections.</h1>
+<p>rsa_cert_file=/etc/ssl/private/vsftpd.pem
+rsa_private_key_file=/etc/ssl/private/vsftpd.pem
+ssl_enable=YES</p>
+<p>ssl_ciphers=HIGH
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+force_local_data_ssl=YES
+force_local_logins_ssl=YES
+allow_anon_ssl=NO</p>
+<p>Le contenu des 7 dernières lignes ajoutées signifie :<br />
+- Niveau de chiffrement élevé imposé.<br />
+- Protocole ssl_tlsv1 autorisé.<br />
+- Protocole ssl_sslv2 refusé car moins sécurisé.<br />
+- Protocole ssl_sslv3 refusé car moins sécurisé.<br />
+- Login non anonyme forcé SSL pour l'envoi des Data.<br />
+- Login non anonyme forcé SSL pour l'envoi du MDP.<br />
+- Login anonyme non forcé SSL.</p>
+<h4 id="23-activation-sur-vsftpd-du-mode-passif"><em>2.3 - Activation sur vsftpd du mode passif</em></h4>
+<p>Le serveur fonctionne par défaut en mode actif. Il vaut mieux, pour éventuellement éviter que le pare-feu d'un client distant situé sur Internet ne bloque la liaison FTPS, passer celui-ci en mode passif.</p>
+<p>Ouvrez le <a href="/wp-content/uploads/2022/05/ftp-ftps-serveur-vsftpd-memento-9.2.webp">synoptique du mémento</a> pour découvrir la différence entre les 2 modes.</p>
+<p>Activez l'usage du mode passif en fin de vsftpd.conf :</p>
+<p># Activation du mode passif
+pasv_enable=YES
+pasv_min_port=12500         # La tranche de ports  aléatoires 
+pasv_max_port=12550        # doit être &gt; à 1024</p>
+<p>et redémarrez le serveur FTP :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart vsftpd
+[srvlan@srvlan:~$] sudo systemctl status vsftpd</p>
+<h3 id="3-connexions-anonymes">3 - Connexions anonymes</h3>
+<h4 id="31-configuration-de-base"><em>3.1 - Configuration de base</em></h4>
+<p>Par défaut, vsftpd refuse les connexions anonymes.<br />
+Pour changer cela, éditez son fichier de configuration :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd.conf</p>
+<p>et réglez les valeurs de ces 3 paramètres comme suit :</p>
+<p>anonymous_enable=YES                    # Accès anonyme autorisé
+anon_upload_enable=NO                         # Dépôt fichiers interdit
+anon_mkdir_write_enable=NO        # Création dossiers interdite</p>
+<p>N'oubliez pas de retirer si besoin le # de début de ligne.</p>
+<p>Redémarrez le serveur FTP :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart vsftpd</p>
+<h4 id="32-connexion-distante-depuis-une-console"><em>3.2 - Connexion distante depuis une console</em></h4>
+<p>Installez le client FTP de nom lftp sur debian10-vm2 :</p>
+<p>[client-linux@debian10-vm2:~$] sudo apt install lftp</p>
+<p>Ce programme permet d'envoyer des lignes de Cdes vers un serveur FTP/FTPS/SFTP.</p>
+<p>Créez un fichier caché .lftprc qui sera utilisé par lftp :</p>
+<p>[client-linux@debian10-vm2:~$] cd /home/client-linux
+[client-linux@debian10-vm2:~$] nano .lftprc</p>
+<p>et entrez la configuration suivante :</p>
+<p># Configuration traitée au démarrage du client lftp
+set ftp:passive-mode true
+set ftp:ssl-auth TLS
+set ftp:ssl-force true
+set ftp:ssl-protect-data true
+set ftp:ssl-protect-list true
+set ssl:verify-certificate no</p>
+<p>Enfin, connectez-vous sur le serveur vsftpd de srvlan :</p>
+<p>[client-linux@debian10-vm2:~$] lftp srvlan
+lftp srvlan:~&gt; ls</p>
+<p>La Cde ls renvoie le contenu du dossier public /srv/ftp/ :</p>
+<pre><code>lftp srvlan:~&gt; ls
+-rw-r--r-- 1 0      0  1361 Apr 28 15:46 README
+-rw-r--r-- 1 0      0  1833 Apr 28 15:47 TODO
+lftp srvlan:/&gt; quit
+</code></pre>
+<p>Utilisez la Cde quit pour fermer la connexion distante.</p>
+<p>Testez ensuite un téléchargement FTP :</p>
+<p>[client-linux@debian10-vm2:~$] cd Documents
+[client-linux@debian10-vm2:~$] lftp srvlan
+lftp srvlan:~&gt; get TODO</p>
+<p>Retour :</p>
+<pre><code>lftp srvlan:~&gt; get TODO
+1833 octets transférés                        
+lftp srvlan:/&gt; quit
+</code></pre>
+<p>Créez enfin un fichier de test test-ftp-vm2 comme suit :</p>
+<p>[client-linux@debian10-vm2:~$] touch test-ftp-vm2
+[client-linux@debian10-vm2:~$] echo "Test Upload FTP" &gt; test-ftp-vm2</p>
+<p>et testez un envoi FTP dans le dossier public de srvlan :</p>
+<p>[client-linux@debian10-vm2:~$] lftp srvlan
+lftp srvlan:~&gt; put test-ftp-vm2</p>
+<p>Retour :</p>
+<pre><code>lftp srvlan:~&gt; put test-ftp-vm2
+put: L'accès a échoué : 550 Permission denied. (te...
+lftp srvlan:/&gt; quit
+</code></pre>
+<p>Echec normal puisque nous avons plus haut interdit le dépôt anonyme de fichiers.</p>
+<h4 id="33-connexion-distante-depuis-filezilla"><em>3.3 - Connexion distante depuis FileZilla</em></h4>
+<p>Installez sur debian10-vm2 le client FTP/SFTP FileZilla :</p>
+<p>[client-linux@debian10-vm2:~$] sudo apt install filezilla</p>
+<p>FileZilla fonctionne en mode passif par défaut.</p>
+<p>Ouvrez ensuite l'application graphique :<br />
+- Menu Applications &gt; Internet &gt; Icône FileZilla</p>
+<p>Cliquez sur l'icône située la plus à gauche de la barre des icônes afin d'ouvrir le Gestionnaire de Sites et cliquez sur le bouton Nouveau site.</p>
+<p>Créez un site de nom srvlan-anonymous comme suit :<br />
+- Onglet Général</p>
+<p><a href="/wp-content/uploads/2022/05/ftps-deb11-anonymous-1.webp"><img alt="Capture - FileZilla : Réglages généraux FTP Anonymous" src="/wp-content/uploads/2022/05/ftps-deb11-anonymous-1-430x237.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Réglages généraux FTP Anonymous</p>
+<p>- Onglet Avancé</p>
+<p><a href="/wp-content/uploads/2022/05/ftps-deb11-anonymous-2.webp"><img alt="Capture - FileZilla : Réglages avancés FTP Anonymous" src="/wp-content/uploads/2022/05/ftps-deb11-anonymous-2-430x236.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Réglages avancés FTP Anonymous</p>
+<p>Une fenêtre Se souvenir des mots de passe ? s'ouvre :<br />
+> Cochez Sauvegarder les mots de passe &gt; Valider</p>
+<p>Le site srvlan-anonymous est à présent créé. Cliquez sur la flèche située à droite de l'icône du Gestionnaire de Sites et sélectionnez celui-ci.</p>
+<p>Une fenêtre Connexion FTP non sécurisée s'ouvre :<br />
+> Cochez Toujours autoriser FTP non sécurisé pour ...<br />
+> Valider</p>
+<p>La connexion s'établit et la zone Site distant doit montrer le contenu du dossier public de srvlan.</p>
+<p><a href="/wp-content/uploads/2022/05/ftps-deb11-anonymous-3.webp"><img alt="Capture - FileZilla : Connexion FTP Anonymous établie" src="/wp-content/uploads/2022/05/ftps-deb11-anonymous-3-430x247.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Connexion FTP Anonymous établie</p>
+<p>Pour Afficher/Editer les fichiers texte, procédez ainsi :<br />
+> Menu Edition de FileZilla &gt; Paramètres...<br />
+> Edition des fichiers<br />
+> Cochez Utiliser l'éditeur person... &gt; /usr/bin/pluma<br />
+> Cochez Toujours utiliser l'éditeur par défaut<br />
+> Valider</p>
+<p>Vérifiez à présent que vous pouvez :<br />
+- En zone Site local<br />
+Télécharger un fichier mais non en Envoyer <em>(Upload)</em>.</p>
+<p>- En zone Site distant<br />
+Afficher/Editer un fichier mais non le Renommer ni le Supprimer.</p>
+<p>Cliquez sur l'icône serveur/croix-rouge pour fermer la connexion.</p>
+<h4 id="34-configuration-ouvrant-lupload-de-fichiers"><em>3.4 - Configuration ouvrant l'Upload de fichiers</em></h4>
+<p>Choix déconseillé pour raison de sécurité, un anonyme pouvant déposer un fichier infecté.</p>
+<p>Créez et affectez un dossier uploads à l'utilisateur ftp :</p>
+<p>[srvlan@srvlan:~$] sudo mkdir /srv/ftp/uploads
+[srvlan@srvlan:~$] sudo chown ftp:ftp /srv/ftp/uploads</p>
+<p>Donnez à l'utilisateur ftp le droit d'écriture sur celui-ci :</p>
+<p>[srvlan@srvlan:~$] sudo chmod 755 /srv/ftp/uploads</p>
+<p>et retirez lui ce droit sur le dossier racine /srv/ftp/ :</p>
+<p>[srvlan@srvlan:~$] sudo chmod 555 /srv/ftp</p>
+<p>Editez ensuite le fichier de configuration vsftpd.conf :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd.conf</p>
+<p>puis ajustez les paramètres ci-dessous comme suit :</p>
+<p>write_enable=YES                   # Ecriture autorisée
+anon_upload_enable=YES              # Dépôt fichiers autorisé
+anon_mkdir_write_enable=YES # Création dossiers autorisée</p>
+<p>et ajoutez les 2 lignes suivantes en fin de fichier :</p>
+<p># Permissions affectées au contenu du dossier uploads 
+anon_umask=022               # 644 fichiers et 755 dossiers</p>
+<p>Pour finir, redémarrez le serveur FTP :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart vsftpd</p>
+<h4 id="35-test-de-bon-fonctionnement-de-lupload"><em>3.5 - Test de bon fonctionnement de l'Upload</em></h4>
+<p>Accédez au dossier suivant de la VM debian10-vm2 :</p>
+<p>client-linux@debian10-vm2:~$] cd /home/client-linux
+client-linux@debian10-vm2:~$] cd Documents</p>
+<p>et testez le dépôt <em>(upload)</em> suivant avec la Cde lftp :</p>
+<pre><code>client-linux@debian10-vm2:~/Documents$ lftp srvlan
+lftp srvlan:~&gt; ls
+-rw-r--r-- 1 0    0      1361 Apr 28 15:46 README
+-rw-r--r-- 1 0    0      1833 Apr 28 15:47 TODO
+drwxr-xr-x    2 107  115    4096 Apr 30 ... uploads
+lftp srvlan:/&gt; cd uploads
+lftp srvlan:/uploads&gt; put test-ftp-vm2
+36 octets transférés                                               
+lftp srvlan:/uploads&gt; ls
+-rw-r--r-- 1 107  115    36 Apr... test-ftp-vm2
+lftp srvlan:/uploads&gt; quit
+client-linux@debian10-vm2:~/Documents$ 
+</code></pre>
+<p>Testez ensuite le dépôt avec l'outil graphique FileZilla.</p>
+<p>Vérifiez l'impossibilité de Supprimer, Renommer et Modifier un fichier/dossier déposé dans le dossier uploads.</p>
+<p>Vérifiez également l'impossibilité maintenant de réaliser un envoi FTP en dehors du dossier uploads <em>(droits du dossier racine /srv/ftp/ fixés ci-dessus à 555)</em>.</p>
+<h3 id="4-connexions-authentifiees-dutilisateurs-locaux">4 - Connexions authentifiées d'utilisateurs locaux</h3>
+<h4 id="41-acces-ftp-limite-a-un-dossier-commun"><em>4.1 - Accès FTP limité à un dossier commun</em></h4>
+<p>C'est actuellement l'utilisateur nobody de Linux qui permet au démon vsftpd d'exécuter ses processus enfants. L'inconvénient est que d'autres démons peuvent également utiliser nobody.</p>
+<p>Il est donc, par sécurité, conseillé de créer un utilisateur qui aura des permissions dédiées au démon vsftpd et de le déclarer dans vsftpd.conf à l'aide du paramètre nopriv_user.</p>
+<p>Pour cela, vous allez créer un utilisateur local de nom userftps sans MDP associé, ce qui par sécurité, interdira toute tentative de connexion avec ce nom sur srvlan.</p>
+<p>Un dossier /home/ftp/ affecté à cet utilisateur et au groupe grftps servira de racine aux utilisateurs locaux et plus tard aux utilisateurs virtuels.</p>
+<p>Créez le dossier/groupe/utilisateur et les permissions :</p>
+<p>[srvlan@srvlan:~$] sudo mkdir -p /home/ftp
+[srvlan@srvlan:~$] sudo groupadd grftps</p>
+<p>[srvlan@srvlan:~$] sudo useradd -g grftps -d /home/ftp userftps</p>
+<p>[srvlan@srvlan:~$] sudo chown userftps:grftps /home/ftp
+[srvlan@srvlan:~$] sudo chmod 555 /home/ftp</p>
+<p>Créez ensuite les utilisateurs locaux clientvm* suivants :</p>
+<p>[srvlan@srvlan:~$] sudo adduser clientvm1
+[srvlan@srvlan:~$] sudo adduser clientvm2</p>
+<p>Un MDP UNIX sera demandé pour chacun d'eux. Vous pouvez utiliser ceux des VM debian10-vm* mais ce n'est pas obligatoire. Vous êtes également libre de répondre ou non aux demandes d'information qui apparaîtront.</p>
+<p>Ajoutez les 2 utilisateurs au groupe grftps :</p>
+<p>[srvlan@srvlan:~$] sudo adduser clientvm1 grftps
+[srvlan@srvlan:~$] sudo adduser clientvm2 grftps</p>
+<p>et créez pour ceux-ci le dossier commun_locaux :</p>
+<p>[srvlan@srvlan:~$] cd /home/ftp
+[srvlan@srvlan:~$] sudo mkdir commun_locaux</p>
+<p>[srvlan@srvlan:~$] sudo chown userftps:grftps commun_locaux</p>
+<p>[srvlan@srvlan:~$] sudo chmod 775 commun_locaux
+[srvlan@srvlan:~$] sudo chmod +t commun_locaux # sticky bit</p>
+<p>L'activation du stiky bit interdira aux utilisateurs locaux de Supprimer/Modifier les fichiers situés dans le dossier commun_locaux dont ils ne sont pas propriétaires.</p>
+<p>Vérifiez toutes les créations dans /home/ ainsi que le contenu de ces 3 fichiers :</p>
+<p>[srvlan@srvlan:~$] sudo cat /etc/group
+[srvlan@srvlan:~$] sudo cat /etc/passwd
+[srvlan@srvlan:~$] sudo cat /etc/shadow</p>
+<p>Editez à présent le fichier de configuration vsftpd.conf :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd.conf</p>
+<p>puis ajustez les paramètres suivants comme affichés :</p>
+<p>local_enable=YES                          # Accès utilisateur local=YES
+write_enable=YES                       # Ecriture utilisateur local=YES
+local_umask=022       # 644 fichiers reçus, 755 dossiers reçus
+nopriv_user=userftps        # Utilisateur non privilégié de vsftpd
+ftpd_banner=Serveur FTP de ...                    # Accueil de vsftpd
+chroot_local_user=YES      # Utilisateur local limité à sa racine
+secure_chroot_dir=/home/ftp  # Racine utilisateur de userftps</p>
+<p>- ftpd_banner : Permet de cacher la version de vsftpd.</p>
+<p>et ajoutez ces 3 lignes en fin de fichier :</p>
+<p># Gestion des utilisateurs locaux
+local_root=/home/ftp/commun_locaux      # Racine utilisateurs
+allow_writeable_chroot=YES     # Ecriture dans racine autorisée</p>
+<p>Redémarrez le serveur FTP :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart vsftpd</p>
+<p>Créez la note suivante dans le dossier commun_locaux :</p>
+<p>[srvlan@srvlan:~$] cd /home/ftp/commun_locaux
+[srvlan@srvlan:~$] sudo nano note-ftp-utilisateurs-locaux</p>
+<p>et entrez ce texte précisant le rôle du dossier :</p>
+<p>Ici, dossier FTP dédié aux utilisateurs locaux.</p>
+<h4 id="42-connexion-sur-le-dossier-commun"><em>4.2 - Connexion sur le dossier commun</em></h4>
+<p>Créez sur le client FileZilla de debian10-vm2 un site de nom srvlan-commun.</p>
+<p>Paramétrez celui-ci comme montré ci-dessous :<br />
+- Onglet Général</p>
+<p><a href="/wp-content/uploads/2022/05/ftps-deb11-commun-1.webp"><img alt="FileZilla : Création du site FTPS srvlan-commun" src="/wp-content/uploads/2022/05/ftps-deb11-commun-1-430x237.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Création du site FTPS srvlan-commun</p>
+<p>- Onglet Avancé<br />
+> Dossier local par défaut &gt; Parcourir...<br />
+> Sélectionnez /home/client-linux/Documents<br />
+> Valider</p>
+<p>Lancez ensuite une connexion FTPS sur le site.</p>
+<p>1 ) Traitez le certificat SSL présenté comme suit :</p>
+<p><a href="/wp-content/uploads/2020/05/ftps-anonymous-3.jpg"><img alt="Capture - FileZilla : Certificat SSL émis par le serveur vsftpd" src="/wp-content/uploads/2020/05/ftps-anonymous-3-430x411.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Certificat SSL émis par le serveur vsftpd</p>
+<p>2 ) La connexion FTPS est établie :</p>
+<p><a href="/wp-content/uploads/2020/05/ftps-locaux-2.jpg"><img alt="Capture - FileZilla : Connexion sécurisée FTPS établie" src="/wp-content/uploads/2020/05/ftps-locaux-2-430x235.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Connexion sécurisée FTPS établie</p>
+<p>Le transfert FTP doit fonctionner dans les 2 sens.</p>
+<p>Mais vous ne devez pas pouvoir, zone Site distant, Supprimer, Renommer et Modifier les fichiers déposés sur srvlan par d'autres utilisateurs, cas du fichier note-ftp-utilisateurs-locaux.</p>
+<p>Vous devez en revanche pouvoir lire leur contenu.</p>
+<p>Pour finir, créez sur le client FileZilla de debian10-vm1 le site srvlan-commun avec comme utilisateur local clientvm1 et contrôlez après connexion que vous retrouvez bien les mêmes permissions que ci-dessus.</p>
+<h4 id="43-acces-ftp-a-tous-les-dossiers"><em>4.3 - Accès FTP à tous les dossiers</em></h4>
+<p>Choix déconseillé, l'utilisateur du FTP pouvant accéder à des fichiers sensibles.</p>
+<p>La configuration actuelle enferme les utilisateurs locaux tels clientvm* dans le dossier racine commun_locaux, ceux-ci ne peuvent donc pas accéder au dossier parent donc à l'arborescence complète de srvlan.</p>
+<p>Ce comportement sécurisé vient de ces paramètres :</p>
+<p>chroot_local_user=YES       # Utilisateur local limité à sa racine 
+local_root=/home/ftp/commun_locaux                         # Racine</p>
+<p>Mais vous pouvez avoir besoin qu'un utilisateur local accède à toute l'arborescence de srvlan ceci avec des permissions différentes de celles de son dossier personnel et du dossier racine commun_locaux.</p>
+<p>Editez pour cela le fichier vsftpd.conf :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd.conf</p>
+<p>puis décommentez les 2 lignes suivantes :</p>
+<p>chroot_list_enable=YES<br />
+chroot_list_file=/etc/vsftpd.chroot_list</p>
+<p>et redémarrez le serveur FTP :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart vsftpd</p>
+<p>Créez maintenant un utilisateur local de nom indiscret :</p>
+<p>[srvlan@srvlan:~$] sudo adduser indiscret</p>
+<p>Pour simplifier, donnez lui le MDP indiscret.</p>
+<p>Affectez ensuite celui-ci au groupe grftps :</p>
+<p>[srvlan@srvlan:~$] sudo adduser indiscret grftps</p>
+<p>Pour finir, créez le fichier vsftpd.chroot_list :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd.chroot_list</p>
+<p>et entrez l'utilisateur indiscret en début de celui-ci :</p>
+<p>indiscret</p>
+<p>Si d'autres noms, placez ceux-ci les uns sous les autres.</p>
+<p>Créez sur le FileZilla de debian10-vm1 le site srvlan-complet et attribuez lui ces paramètres :</p>
+<p>- Onglet Général<br />
+> Hôte &gt; srvlan<br />
+> Chiffrement &gt; Connexion FTP explicite sur TLS si dis...<br />
+> Type d'authentification &gt; Normale<br />
+> Identifiant &gt; indiscret<br />
+> Mot de passe &gt; indiscret</p>
+<p>- Onglet Avancé<br />
+> Dossier local par défaut &gt; Parcourir...<br />
+> Sélectionnez /home/client-linux/Documents<br />
+> Dossier distant par défaut<br />
+> Entrez /home/indiscret<br />
+> Valider</p>
+<p>Lancez une connexion sur le site srvlan-complet :</p>
+<p><a href="/wp-content/uploads/2020/05/ftps-acces-complet.jpg"><img alt="Capture - FileZilla : Accès complet aux dossiers/fichiers de srvlan" src="/wp-content/uploads/2020/05/ftps-acces-complet-430x237.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Accès complet aux dossiers/fichiers de srvlan</p>
+<p>et vérifiez que rien, en dehors de /home/indiscret/ et /home/ftp/commun_locaux/, ne peut être supprimé ou modifié mais le droit de lire et télécharger tous les fichiers de srvlan représente un risque de sécurité.</p>
+<h3 id="5-connexions-authentifiees-dutilisateurs-virtuels">5 - Connexions authentifiées d'utilisateurs virtuels</h3>
+<p>Choix conseillé pour raison de sécurité.</p>
+<p>Les utilisateurs virtuels non déclarés avec la Cde adduser seront comme l'utilisateur local userftps inconnus du système mais verront leurs demandes de connexion mappées vers celui-ci, chacun dans leur dossier respectif.</p>
+<p>Il s’agit là d’une protection plus efficace que la création d'utilisateurs locaux.</p>
+<p>La configuration s’opère en 4 étapes :<br />
+- Création d’une Bdd Berkeley utilisateurs virtuels<br />
+- Liaison de la Bdd avec le module PAM de vsftpd<br />
+- Création des permissions et dossiers des utilisateurs<br />
+- Configuration de vsftpd et test de connexion</p>
+<h4 id="51-bdd-berkeley-des-utilisateurs-virtuels"><em>5.1 - Bdd Berkeley des utilisateurs virtuels</em></h4>
+<p>Installez au préalable le paquet db5.3-util :</p>
+<p>[srvlan@srvlan:~$] sudo apt install db5.3-util</p>
+<p>puis créez ensuite le dossier et le fichier suivants :</p>
+<p>[srvlan@srvlan:~$] sudo mkdir /etc/vsftpd
+[srvlan@srvlan:~$] sudo touch /etc/vsftpd/virtuels.txt </p>
+<p>Editez le fichier créé virtuels.txt :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd/virtuels.txt</p>
+<p>et entrez, l'un sous l'autre, ces utilisateurs et MDP :</p>
+<p>clientvm1-virtuel                    # Utilisateur inconnu de srvlan
+MDP de clientvm1-virtuel # ≠ ou non de celui de debian10-vm1
+clientvm2-virtuel # Utilisateur inconnu de srvlan
+MDP de clientvm2-virtuel  # ≠ ou non de celui de debian10-vm2</p>
+<p>Terminez la liste par un retour de chariot.</p>
+<p>Créez enfin la Bdd virtuels.db pour le module PAM :</p>
+<p>[srvlan@srvlan:~$] cd /etc/vsftpd
+[srvlan@srvlan:~$] sudo db5.3_load -T -t hash -f virtuels.txt virtuels.db </p>
+<p>et autorisez la lecture des 2 fichiers à root uniquement :</p>
+<p>[srvlan@srvlan:~$] sudo chmod 600 /etc/vsftpd/virtuels.db
+[srvlan@srvlan:~$] sudo chmod 600 /etc/vsftpd/virtuels.txt </p>
+<h4 id="52-liaison-bdd-avec-le-module-pam-vsftpd"><em>5.2 - Liaison Bdd avec le module PAM vsftpd</em></h4>
+<p>Editez le fichier de configuration PAM suivant :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/pam.d/vsftpd</p>
+<p>et ajoutez, sous # Note : vsftpd..., ces 2 instructions :</p>
+<p>auth sufficient /lib/i386-linux-gnu/security/pam_userdb.so db=/etc/vsftpd/virtuels</p>
+<p>account sufficient /lib/i386-linux-gnu/security/pam_userdb.so db=/etc/vsftpd/virtuels</p>
+<p>Mettre x86_64-linux-gnu à la place de i386-linux-gnu pour un système 64 bits.</p>
+<p>Le module pam_userdb <em>(Pluggable Authentication Modules)</em> vérifiera les authentifications utilisateurs virtuels/MDP avec les valeurs stockées dans la Bdd Berkeley.</p>
+<h4 id="53-permissions-et-dossiers-des-utilisateurs"><em>5.3 - Permissions et dossiers des utilisateurs</em></h4>
+<p>Créez le dossier qui contiendra les permissions :</p>
+<p>[srvlan@srvlan:~$] cd /etc/vsftpd
+[srvlan@srvlan:~$] sudo mkdir vsftpd_user_conf</p>
+<p>Créez le fichier des permissions pour clientvm1-virtuel :</p>
+<p>[srvlan@srvlan:~$] cd vsftpd_user_conf
+[srvlan@srvlan:~$] sudo nano clientvm1-virtuel</p>
+<p>et entrez pour cet utilisateur les permissions suivantes :</p>
+<p># Configuration vsftpd pour l'utilisateur "clientvm1-virtuel"</p>
+<h1 id="parametrage-pour-les-memes-droits-quun-utilisateur-local">Paramétrage pour les mêmes droits qu'un utilisateur local</h1>
+<h1 id="activation-de-lutilisateur-comme-utilisateur-virtuel">Activation de l'utilisateur comme utilisateur virtuel</h1>
+<p>guest_enable=YES</p>
+<h1 id="ecriture-autorisee">Ecriture autorisée</h1>
+<p>write_enable=YES</p>
+<h1 id="modification-et-suppression-autorisees">Modification et suppression autorisées</h1>
+<p>anon_other_write_enable=YES</p>
+<h1 id="download-autorise-meme-si-un-fichier">Download autorisé même si un fichier</h1>
+<h1 id="nest-pas-en-lecture-pour-tous">n'est pas en lecture pour tous</h1>
+<p>anon_world_readable_only=NO</p>
+<h1 id="dossier-dans-lequel-sera-enferme-lutilisateur">Dossier dans lequel sera enfermé l'utilisateur</h1>
+<p>local_root=/home/ftp/clientvm1-virtuel </p>
+<p>Créez maintenant son dossier personnel :</p>
+<p>[srvlan@... ~$] cd /home/ftp
+[srvlan@... ~$] sudo mkdir clientvm1-virtuel</p>
+<p>[srvlan@... ~$] sudo chown userftps:grftps clientvm1-virtuel
+[srvlan@... ~$] sudo chmod 755 clientvm1-virtuel </p>
+<p>Créez une note qui permettra d'identifier le dossier :</p>
+<p>[srvlan@srvlan:~$] cd /home/ftp/clientvm1-virtuel
+[srvlan@srvlan:~$] sudo nano note-clientvm1-virtuel </p>
+<p>et entrez le texte suivant :</p>
+<p>Ici, dossier FTP personnel de "clientvm1-virtuel".</p>
+<p>Effectuez les mêmes opérations que ci-dessus pour l'utilisateur virtuel clientvm2-virtuel.</p>
+<h4 id="54-reglage-de-vsftpd-et-test-de-connexion"><em>5.4 - Réglage de vsftpd et test de connexion</em></h4>
+<p>Editez le fichier de configuration de serveur FTP :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/vsftpd.conf</p>
+<p>et ajoutez les lignes suivantes à la fin de celui-ci :</p>
+<p># Gestion des utilisateurs virtuels
+guest_username=userftps     # Valide le mappage vers userftps
+user_config_dir=/etc/vsftpd/vsftpd_user_conf # Configurations
+virtual_use_local_privs=YES # Mêmes droits utilisateurs locaux</p>
+<p>Redémarrez le serveur :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart vsftpd</p>
+<p>Créez depuis FileZilla les sites srvlan-clientvm*-virtuel sur les VM debian10-vm* comme suit :</p>
+<p>- Onglet Général<br />
+> Hôte &gt; srvlan<br />
+> Chiffrement &gt; Connexion FTP explicite sur TLS si dis...<br />
+> Type d'authentification &gt; Normale<br />
+> Identifiant &gt; clientvm1-virtuel ou clientvm2-virtuel<br />
+> Mot de passe &gt; MDP de clientvm1-virtuel ou clientv...</p>
+<p>Pour les MDP, voir le § 5.1.</p>
+<p>- Onglet Avancé<br />
+> Dossier local par défaut &gt; Parcourir...<br />
+> Sélectionnez /home/client-linux/Documents<br />
+> Valider</p>
+<p>Vérifiez après connexion que chaque utilisateur virtuel :<br />
+- Peut Transférer des fichiers dans les 2 sens.<br />
+- Peut Supprimer/Modifier ses dépôts sur srvlan.<br />
+- Reste bien enfermé dans son dossier personnel.</p>
+<p>Vérifiez que chaque dossier/fichier déposé sur srvlan est bien mappé sur l'utilisateur userftps.</p>
+<p>[srvlan@srvlan:~$] ls -l /home/ftp/clientvm1-virtuel
+[srvlan@srvlan:~$] ls -l /home/ftp/clientvm2-virtuel</p>
+<h3 id="6-configuration-preferentielle">6 - Configuration préférentielle</h3>
+<p>En l'état, le serveur FTP accepte les connexions d'utilisateurs anonymes, locaux et virtuels.</p>
+<p>Vous l'avez compris, la connexion authentifiée d'utilisateurs virtuels est la plus sécurisée des 3.</p>
+<p>Pour ne traiter que celle-ci, appliquez dans vsftpd.conf :</p>
+<p>anonymous_enable=NO              # Accès anonyme interdit</p>
+<p>Editez ensuite le fichier de configuration PAM :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/pam.d/vsftpd</p>
+<p>et commentez ces 4 lignes dédiées utilisateurs locaux :</p>
+<p># @include common-account</p>
+<h1 id="include-common-session">@include common-session</h1>
+<h1 id="include-common-auth">@include common-auth</h1>
+<h1 id="auth-required-pam_shellsso">auth      required      pam_shells.so</h1>
+<p>La 2ème ligne de ce fichier fait référence au fichier /etc/ftpusers. Pour info, celui-ci contient une liste par défaut d'utilisateurs locaux n'ayant pas le droit de se connecter sur le service FTP.</p>
+<p>On pourrait encore augmenter la sécurité <em>(changement de n° de port FTP, filtrage IP, adresses IP virtuelles, etc...)</em> mais la connexion authentifiée d'utilisateurs virtuels est un bon début.</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2019/02/redacteur_satisfait_bis.png" title="Image Pixabay - Sanalinsan" /></p>
+<p>Repos mérité, respirez !<br />
+Le mémento 10.1 propose de rendre<br />
+le réseau plus cohérent avec entre<br />
+autres la création d'un DNS split.</p>
+<p><a href="/dns-split-debian10/">Mémento 10.1</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

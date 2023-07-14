@@ -1,0 +1,1779 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/dns-statique-debian11/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>DNS statique / Debian 11 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-711-dns-avec-bind-9" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DNS statique / Debian 11
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-711-dns-avec-bind-9" class="md-nav__link">
+    Mémento 7.11 - DNS avec BIND 9
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 7.11 - DNS avec BIND 9">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preambule" class="md-nav__link">
+    1 - Préambule
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-configuration-actuelle-de-la-zone-lan" class="md-nav__link">
+    1.1 - Configuration actuelle de la zone LAN
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mise-en-place-du-service-dns-statique" class="md-nav__link">
+    2 - Mise en place du service DNS statique
+  </a>
+  
+    <nav class="md-nav" aria-label="2 - Mise en place du service DNS statique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-installation-de-bind9" class="md-nav__link">
+    2.1 - Installation de bind9
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-configuration-de-base" class="md-nav__link">
+    3 - Configuration de base
+  </a>
+  
+    <nav class="md-nav" aria-label="3 - Configuration de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-definition-des-zones-de-recherche" class="md-nav__link">
+    3.1 - Définition des zones de recherche
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-des-zones-de-recherche-directe-et-inverse" class="md-nav__link">
+    Définition des zones de recherche directe et inverse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serveur-dns-maitre-pour-le-domaine-type" class="md-nav__link">
+    Serveur DNS maître pour le domaine (type)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fichiers-de-zones-associes-dans-etcbind-file" class="md-nav__link">
+    Fichiers de zones associés dans /etc/bind (file)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#maj-dynamique-des-fichiers-de-zones-none-allow-update" class="md-nav__link">
+    MAJ dynamique des fichiers de zones &gt; none (allow-update)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-directe" class="md-nav__link">
+    zone de recherche directe
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-inverse" class="md-nav__link">
+    zone de recherche inverse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#le-reseau-19216830-aura-pour-adresse-inverse" class="md-nav__link">
+    Le réseau 192.168.3.0 aura pour adresse inverse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3168192in-addrarpa" class="md-nav__link">
+    3.168.192.in-addr.arpa
+  </a>
+  
+    <nav class="md-nav" aria-label="3.168.192.in-addr.arpa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#32-construction-des-zones-de-recherche" class="md-nav__link">
+    3.2 - Construction des zones de recherche
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-prise-en-compte-des-modifications" class="md-nav__link">
+    3.3 - Prise en compte des modifications
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-configuration-finale-et-tests-du-dns-statique" class="md-nav__link">
+    4 - Configuration finale et tests du DNS statique
+  </a>
+  
+    <nav class="md-nav" aria-label="4 - Configuration finale et tests du DNS statique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-configuration-du-fichier-hosts" class="md-nav__link">
+    4.1 - Configuration du fichier hosts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-configuration-du-fichier-resolvconf" class="md-nav__link">
+    4.2 - Configuration du fichier resolv.conf
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-tests-dns-depuis-la-vm-srvlan" class="md-nav__link">
+    4.3 - Tests DNS depuis la VM srvlan
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-declaration-dun-serveur-dns-externe" class="md-nav__link">
+    5 - Déclaration d'un serveur DNS externe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-tests-dns-depuis-les-vmctn-de-la-zone-lan" class="md-nav__link">
+    6 - Tests DNS depuis les VM/CTN de la zone LAN
+  </a>
+  
+    <nav class="md-nav" aria-label="6 - Tests DNS depuis les VM/CTN de la zone LAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-vm-ovs-et-ctn-ctn1ctn2" class="md-nav__link">
+    6.1 - VM ovs et CTN ctn1/ctn2
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nom-du-domaine-local" class="md-nav__link">
+    Nom du domaine local
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ajout-auto-du-nom-de-domaine-local-aux" class="md-nav__link">
+    Ajout auto du nom de domaine local aux
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#noms-dhotes-non-pleinement-qualifies" class="md-nav__link">
+    noms d'hôtes non pleinement qualifiés
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adresses-ip-du-ou-des-serveurs-dns-a-interroger" class="md-nav__link">
+    Adresses IP du ou des serveurs DNS à interroger
+  </a>
+  
+    <nav class="md-nav" aria-label="Adresses IP du ou des serveurs DNS à interroger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#62-vm-debian11-vm1-et-debian11-vm2" class="md-nav__link">
+    6.2 - VM debian11-vm1 et debian11-vm2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-simulation-de-panne" class="md-nav__link">
+    7 - Simulation de panne
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-711-dns-avec-bind-9">Mémento 7.11 - DNS avec BIND 9</h2>
+<p>Le service DNS statique reposera sur bind 9 et sera installé sur srvlan pour gérer la zone LAN.</p>
+<h3 id="1-preambule">1 - Préambule</h3>
+<p>Référence : <a href="/dns-statique-debian10/">DNS statique / Debian 10</a>.</p>
+<p>Le service gérera un sous-domaine de loupipfire.fr nommé intra.loupipfire.fr. Le nom de ce sous-domaine sera associé aux adresses IP de la zone LAN.</p>
+<p>La VM srvlan doit conserver son IP fixe 192.168.3.1.</p>
+<p>Commencez par une MAJ des VM/CTN de la zone LAN :</p>
+<p>$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt dist-upgrade</p>
+<p>VM = Machine virtuelle et CTN = Conteneur LXC</p>
+<h4 id="11-configuration-actuelle-de-la-zone-lan"><em>1.1 - Configuration actuelle de la zone LAN</em></h4>
+<p>a) Une IP fixe et un nom d'hôte pour chaque VM/CTN.<br />
+Ex : IP fixe 192.168.3.2 pour l'hôte debian11-vm1</p>
+<p>Cde utile pour découvrir les adresses IP :</p>
+<p>[user@hostname:~$] ip address</p>
+<p>Cdes utiles pour découvrir les noms d'hôtes :</p>
+<p>[user@hostname:~$] cat /etc/hostname
+[user@hostname:~$] cat /etc/hosts</p>
+<p>b) Une Box Internet déclarée comme serveur DNS.</p>
+<p>Cde utile pour découvrir les serveurs DNS exploités :</p>
+<p>[user@hostname:~$] cat /etc/resolv.conf</p>
+<p>c) Des pings qui émis depuis le LAN montrent un retour :<br />
+- Positif sur un nom de domaine Internet<br />
+Ex : ping www.google.fr</p>
+<p>- Positif sur leur propre nom d'hôte<br />
+Ex : ping debian11-vm1 depuis la VM debian11-vm1</p>
+<p>- Négatif sur les autres noms d'hôtes de la zone LAN</p>
+<p>Exemple de retour :</p>
+<pre><code>client-linux@debian11-vm1:~$ ping srvlan
+ping: srvlan: Aucune adresse associée ... l'hôte
+client-linux@debian11-vm1:~$
+</code></pre>
+<p>Un serveur DNS local solutionnera le retour négatif.</p>
+<h3 id="2-mise-en-place-du-service-dns-statique">2 - Mise en place du service DNS statique</h3>
+<p>Le système fournit bind et unbound soit les 2 serveurs DNS les plus utilisés sous Debian.</p>
+<p>Le choix se portera sur bind qui contrairement à unbound peut être utilisé à la fois comme serveur de noms récursif et serveur de noms faisant autorité.  </p>
+<p>Un serveur DNS récursif recherchera le résultat d'une requête DNS dans son cache ou à défaut interrogera un serveur DNS faisant autorité pour obtenir le résultat.  </p>
+<p>Un serveur DNS faisant autorité contiendra le résultat, il n'interrogera pas d'autres serveurs et sera l’autorité finale contenant tous les noms d'hôtes et adresses IP d'une zone donnée.</p>
+<p>Le service DNS sera statique car les données seront pour l'instant renseignées manuellement.</p>
+<h4 id="21-installation-de-bind9"><em>2.1 - Installation de bind9</em></h4>
+<p>Installez le paquet bind9 :</p>
+<p>[srvlan@srvlan:~$] sudo apt install bind9</p>
+<p>et vérifiez le démarrage de celui-ci :</p>
+<p>[srvlan@srvlan:~$] systemctl status bind9</p>
+<p>Retour :</p>
+<pre><code>● named.service - BIND Domain Name Server
+   Loaded: loaded (/lib/systemd/system/named.ser...
+     Active: active (running) since Wed 2022-01-...
+       Docs: man:named(8)
+   Main PID: 5568 (named)
+      Tasks: 8 (limit: 1116)
+     Memory: 17.1M
+        CPU: 230ms
+     CGroup: /system.slice/named.service
+        └─5568 /usr/sbin/named -f -u bind
+</code></pre>
+<p>Vérifiez son lancement automatique au boot de la VM :</p>
+<p>[srvlan@srvlan:~$] systemctl is-enabled named</p>
+<p>Retour :</p>
+<pre><code>enabled 
+</code></pre>
+<p>Vérifiez la version installée :</p>
+<p>[srvlan@srvlan:~$] sudo named -v    </p>
+<p>Retour :</p>
+<pre><code>BIND 9.16.22-Debian (Extended Support V...) &lt;id:...&gt;
+</code></pre>
+<p>Vérifiez l'utilisation des ports TCP/UDP 53 et 953 :</p>
+<p>[srvlan@srvlan:~$] sudo ss -tulpn | grep named </p>
+<p>Retour :</p>
+<pre><code>udp UNC... 0 0     192.168.3.1:53      ...&quot;named&quot;...      
+udp UNC... 0 0     192.168.2.2:53      ...&quot;named&quot;...      
+udp UNC... 0 0     127.0.0.1:53        ...&quot;named&quot;...      
+udp UNC... 0 0     [::1]:53            ...&quot;named&quot;...      
+udp UNC... 0 0     [fe80::...enp0s3:53 ...&quot;named&quot;...     
+udp UNC... 0 0     [fe80::...enp0s8:53 ...&quot;named&quot;...      
+tcp LIS... 0 10    192.168.3.1:53      ...&quot;named&quot;...      
+tcp LIS... 0 10    192.168.2.2:53      ...&quot;named&quot;...      
+tcp LIS... 0 10    127.0.0.1:53        ...&quot;named&quot;...      
+tcp LIS... 0 4096  127.0.0.1:953       ...&quot;named&quot;...      
+tcp LIS... 0 10    [::1]:53            ...&quot;named&quot;...      
+tcp LIS... 0 10    [fe80::...enp0s3:53 ...&quot;named&quot;...      
+tcp LIS... 0 10    [fe80::...enp0s8:53 ...&quot;named&quot;...      
+tcp LIS... 0 4096  [::1]:953           ...&quot;named&quot;...
+</code></pre>
+<p>53 = Port DNS TCP/UDP par défaut<br />
+953 = Port des Cdes rndc pour gérer le démon named</p>
+<p>Vérifiez l'activation de l'outil associé rndc :</p>
+<p>[srvlan@srvlan:~$] sudo rndc status </p>
+<p>Retour :</p>
+<pre><code>version: BIND 9.16.22-Debian (Extended Supp...
+running on srvlan: Linux x86_64 5.10.0-10-a...
+boot time: Thu, 13 Jan 2022 10:34:21 GMT
+last configured: Thu, 13 Jan 2022 10:34:21 GMT
+configuration file: /etc/bind/named.conf
+CPUs found: 1
+worker threads: 1
+UDP listeners per interface: 1
+number of zones: 102 (97 automatic)
+debug level: 0
+xfers running: 0
+xfers deferred: 0
+soa queries in progress: 0
+query logging is OFF
+recursive clients: 0/900/1000
+tcp clients: 0/150
+TCP high-water: 0
+server is up and running
+</code></pre>
+<p>L'interface en ligne de Cde rndc permet de gérer le démon named localement ou à distance.</p>
+<p>Pour finir, observez les fichiers de configuration DNS présents dans les dossiers suivants :</p>
+<p>[srvlan@srvlan:~$] ls /etc/bind
+[srvlan@srvlan:~$] ls /var/cache/bind   </p>
+<h3 id="3-configuration-de-base">3 - Configuration de base</h3>
+<h4 id="31-definition-des-zones-de-recherche"><em>3.1 - Définition des zones de recherche</em></h4>
+<p>Une zone de recherche directe permet à un service DNS interrogé de renvoyer une adresse IP associée à un nom alors qu'une zone de recherche inverse fera le contraire.  </p>
+<p>Le fichier named.conf.local contient la configuration locale du serveur DNS bind9, vous y déclarerez donc les zones de recherche pour intra.loupipfire.fr.</p>
+<p>Editez le fichier de configuration named.conf.local :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/bind/named.conf.local</p>
+<p>et ajoutez les lignes suivantes à la fin de celui-ci :</p>
+<p># Zone ou Domaine intra.loupipfire.fr</p>
+<h1 id="definition-des-zones-de-recherche-directe-et-inverse">Définition des zones de recherche directe et inverse</h1>
+<h1 id="serveur-dns-maitre-pour-le-domaine-type">Serveur DNS maître pour le domaine <em>(type)</em></h1>
+<h1 id="fichiers-de-zones-associes-dans-etcbind-file">Fichiers de zones associés dans /etc/bind <em>(file)</em></h1>
+<h1 id="maj-dynamique-des-fichiers-de-zones-none-allow-update">MAJ dynamique des fichiers de zones &gt; none <em>(allow-update)</em></h1>
+<h1 id="zone-de-recherche-directe">zone de recherche directe</h1>
+<p>zone "intra.loupipfire.fr" {
+type master;
+file "/etc/bind/db.intra.loupipfire.fr.directe";
+allow-update { none; };
+};</p>
+<h1 id="zone-de-recherche-inverse">zone de recherche inverse</h1>
+<h1 id="le-reseau-19216830-aura-pour-adresse-inverse">Le réseau 192.168.3.0 aura pour adresse inverse</h1>
+<h1 id="3168192in-addrarpa">3.168.192.in-addr.arpa</h1>
+<p>zone "3.168.192.in-addr.arpa" {
+type master;
+file "/etc/bind/db.intra.loupipfire.fr.inverse";
+allow-update { none; };
+};</p>
+<h4 id="32-construction-des-zones-de-recherche"><em>3.2 - Construction des zones de recherche</em></h4>
+<p>Les fichiers de zones de recherche contiendront les directives et enregistrements de ressources pour le domaine intra.loupipfire.fr.</p>
+<p>Créez le fichier pour la zone directe :</p>
+<p>[srvlan@srvlan:~$] cd /etc/bind
+[srvlan@srvlan:~$] sudo nano db.intra.loupipfire.fr.directe</p>
+<p>et insérez les lignes suivantes :</p>
+<p>;
+; DNS - Fichier de zone pour la résolution directe
+;
+$TTL 86400
+@ IN SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. (
+1                             ; Serial
+604800                  ; Refresh - 1w (1 semaine)
+84600                    ; Retry - 1d (1 jour)
+2419200               ; Expire - 4w 
+604800 )               ; Negative Cache TTL - 1w
+;
+@ IN NS srvlan.intra.loupipfire.fr.
+srvlan IN A 192.168.3.1
+ovs IN A 192.168.3.15
+debian11-vm1 IN A 192.168.3.2
+debian11-vm2 IN A 192.168.3.4
+ctn1 IN A 192.168.3.6
+ctn2 IN A 192.168.3.8</p>
+<p>- Détail des paramètres - 
+a) Directives SOA <em>(Start of Authority)</em> :</p>
+<table class="has-fixed-layout"><tbody><tr><td>@</td><td class="has-text-align-left" data-align="left">Représente le nom de domaine de la zone soit <mark style="background-color:var(--base-3)" class="has-inline-color has-global-color-8-color">intra.loupipfire.fr</mark></td></tr><tr><td>IN SOA</td><td class="has-text-align-left" data-align="left">Désigne <mark style="background-color:var(--base-3)" class="has-inline-color has-global-color-10-color">srvlan</mark> comme autorité pour la zone <mark style="background-color:var(--base-3)" class="has-inline-color has-global-color-8-color">intra.loupipfire.fr</mark></td></tr><tr><td>1</td><td class="has-text-align-left" data-align="left"><mark style="background-color:var(--base-3)" class="has-inline-color has-global-color-8-color">N° de série</mark> du fichier, à changer à chaque modification de celui-ci</td></tr><tr><td>604800</td><td class="has-text-align-left" data-align="left">Un <mark style="background-color:var(--base-3)" class="has-inline-color has-global-color-8-color">DNS esclave</mark> attendra 1w avant de rafraichir ses données</td></tr><tr><td>84600</td><td class="has-text-align-left" data-align="left">Si échec, il réessaiera 1d après</td></tr><tr><td>2419200</td><td class="has-text-align-left" data-align="left">Si échec durant 4w, il cessera de répondre en tant qu'autorité</td></tr><tr><td>604800</td><td class="has-text-align-left" data-align="left">Mise en cache des <mark style="background-color:var(--base-3)" class="has-inline-color has-global-color-8-color">réponses négatives</mark> durant 1w</td></tr></tbody></table>
+
+<p>Le n° de série peut être une date suivie d'un n° d'ordre :<br />
+Ex : AAAAMMJJxx</p>
+<p>b) Enregistrements de type NS et A :</p>
+<table class="has-fixed-layout"><tbody><tr><td>IN NS</td><td>Indique le nom du serveur DNS pour la zone</td></tr><tr><td>IN A</td><td>Relie un nom d’hôte <em>(domaine - s/domaine)</em>&nbsp;à une adresse IPv4</td></tr></tbody></table>
+
+<p>Créez maintenant le fichier pour la zone inverse :</p>
+<p>[srvlan@srvlan:~$] cd /etc/bind
+[srvlan@srvlan:~$] sudo nano db.intra.loupipfire.fr.inverse</p>
+<p>et insérez les lignes suivantes :</p>
+<p>;
+;  DNS - Fichier de zone pour la résolution inverse
+;
+$TTL 86400
+@ IN SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. (
+1
+1w
+1d
+4w
+1w )
+;
+@ IN NS srvlan.intra.loupipfire.fr.
+1 IN PTR srvlan.intra.loupipfire.fr.
+15 IN PTR ovs.intra.loupipfire.fr. 
+2 IN PTR debian11-vm1.intra.loupipfire.fr. 
+4 IN PTR debian11-vm2.intra.loupipfire.fr.
+6 IN PTR ctn1.intra.loupipfire.fr.
+8 IN PTR ctn2.intra.loupipfire.fr.</p>
+<p>- Détail des paramètres - 
+a) Directives SOA <em>(Start of Authority)</em> :<br />
+Idem fichier de zone pour la résolution directe.</p>
+<p>b) Enregistrements de type PTR :</p>
+<table class="has-fixed-layout"><tbody><tr><td>IN PTR</td><td>Relie une adresse IP à un nom d'hôte</td></tr></tbody></table>
+
+<h4 id="33-prise-en-compte-des-modifications"><em>3.3 - Prise en compte des modifications</em></h4>
+<p>Redémarrez le service DNS :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart bind9</p>
+<h3 id="4-configuration-finale-et-tests-du-dns-statique">4 - Configuration finale et tests du DNS statique</h3>
+<h4 id="41-configuration-du-fichier-hosts"><em>4.1 - Configuration du fichier hosts</em></h4>
+<p>Editez le fichier DNS hosts :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/hosts</p>
+<p>et ajoutez le FQDN de srvlan <em>(nom d'hôte + nom de domaine)</em> comme suit :</p>
+<p>127.0.0.1        localhost
+127.0.1.1        srvlan
+192.168.3.1    srvlan.intra.loupipfire.fr srvlan</p>
+<p>Ce fichier est consulté avant l'accès au serveur bind et peut donc être utilisé pour un minimum de résolution de noms en cas de panne du serveur DNS.  </p>
+<p>N'effacez pas le groupe de lignes dédié à l'IPv6.</p>
+<h4 id="42-configuration-du-fichier-resolvconf"><em>4.2 - Configuration du fichier resolv.conf</em></h4>
+<p>Vous allez modifier ce fichier actuellement traité dynamiquement par l'outil NetworkManager et qui indique à srvlan quel serveur DNS interroger.  </p>
+<p>Faites un clic droit sur l'applet réseau NetworkManager :<br />
+> Modifier les connexions...  </p>
+<p>Une fenêtre Connexions réseau s'ouvre :<br />
+> Sélectionnez la Connexion Ethernet 2<br />
+> Cliquez sur la roue dentée située en bas à gauche  </p>
+<p>Une fenêtre Modification de la Connexion ... s'ouvre :<br />
+> Onglet Paramètres IPv4  </p>
+<p>Modifiez ensuite la valeur des champs suivants :<br />
+> Serveurs DNS &gt; 192.168.3.1<br />
+> Domaines de recherche &gt; intra.loupipfire.fr<br />
+> Bouton Enregistrer<br />
+> Authentifiez-vous si une demande est affichée  </p>
+<p>Modifiez ensuite la connexion Ethernet 1 en effaçant le contenu du champ Serveurs DNS.  </p>
+<p>Puis redémarrez le réseau pour une MAJ des nouveaux paramètres nameserver et search :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart NetworkManager</p>
+<p>Affichez pour finir le contenu du fichier resolv.conf :</p>
+<p>[srvlan@srvlan:~$] cat /etc/resolv.conf</p>
+<p>qui doit montrer ceci :</p>
+<pre><code># Generated by NetworkManager
+search intra.loupipfire.fr
+nameserver 192.168.3.1
+</code></pre>
+<h4 id="43-tests-dns-depuis-la-vm-srvlan"><em>4.3 - Tests DNS depuis la VM srvlan</em></h4>
+<p>a) Vérifiez la syntaxe du fichier /etc/bind/named.conf :</p>
+<p>[srvlan@srvlan:~$] sudo named-checkconf</p>
+<p>Sont inclus dans la vérification les fichiers DNS :<br />
+- named.conf.options<br />
+- named.conf.local<br />
+- named.conf.default-zones<br />
+Aucune erreur ne sera retournée en cas de résultat OK.</p>
+<p>b) Vérifiez la validité du fichier de zone directe :</p>
+<p>[srvlan@srvlan:~$] cd /etc/bind
+[srvlan@srvlan:~$] sudo named-checkzone -d intra.loupipfire.fr db.intra.loupipfire.fr.directe</p>
+<p>La Cde retourne normalement :</p>
+<pre><code>loading &quot;intra.loupipfire.fr&quot; from &quot;db.intra.loupipfire.fr.directe&quot; class &quot;IN&quot;
+zone intra.loupipfire.fr/IN: loaded serial 1
+OK
+</code></pre>
+<p>c) Vérifiez la validité du fichier de zone inverse :</p>
+<p>[srlan@srvlan:~$] sudo named-checkzone -d 3.168.192.in-addr.arpa  db.intra.loupipfire.fr.inverse  </p>
+<p>La Cde retourne normalement :</p>
+<pre><code>loading &quot;3.168.192.in-addr.arpa&quot; from &quot;db.intra.loupipfire.fr.inverse&quot; class &quot;IN&quot;
+zone 3.168.192.in-addr.arpa/IN: loaded serial 1
+OK
+</code></pre>
+<p>d) Testez les outils de vérification host et dig :<br />
+Ceux-ci peuvent aider à détecter des problèmes dans la résolution de noms.</p>
+<p>La Cde host est incluse dans le paquet bind9-host installé de base :</p>
+<p>[srvlan@srvlan:~$] sudo host -v srvlan.intra.loupipfire.fr</p>
+<p>Celle-ci retourne normalement :</p>
+<pre><code>Trying &quot;srvlan.intra.loupipfire.fr&quot;
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 5876
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;srvlan.intra.loupipfire.fr.    IN  A
+
+;; ANSWER SECTION:
+srvlan.intra.loupipfire.fr. 86400 IN    A   192.168.3.1
+
+Received 60 bytes from 192.168.3.1#53 in 0 ms
+Trying &quot;srvlan.intra.loupipfire.fr&quot;
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 44378
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;srvlan.intra.loupipfire.fr.    IN  AAAA
+
+;; AUTHORITY SECTION:
+intra.loupipfire.fr.    86400   IN  SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. 1 604800 84600 2419200 604800
+
+Received 85 bytes from 192.168.3.1#53 in 0 ms
+Trying &quot;srvlan.intra.loupipfire.fr&quot;
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 47526
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;srvlan.intra.loupipfire.fr.    IN  MX
+
+;; AUTHORITY SECTION:
+intra.loupipfire.fr.    86400   IN  SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. 1 604800 84600 2419200 604800
+
+Received 85 bytes from 192.168.3.1#53 in 0 ms
+</code></pre>
+<p>La Cde dig est incluse dans le paquet bind9-dnsutils installé de base :</p>
+<p>[srvlan@srvlan:~$] sudo dig SOA srvlan.intra.loupipfire.fr</p>
+<p>Celle-ci retourne normalement :</p>
+<pre><code>; &lt;&lt;&gt;&gt; DiG 9.16.22-Debian &lt;&lt;&gt;&gt; SOA srvlan.intra.loupipfire.fr
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 48494
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 4c171f8ad64d5b8a0100000061e176a94780476180eac2c4 (good)
+;; QUESTION SECTION:
+;srvlan.intra.loupipfire.fr.    IN  SOA
+
+;; AUTHORITY SECTION:
+intra.loupipfire.fr.    86400   IN  SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. 1 604800 84600 2419200 604800
+
+;; Query time: 0 msec
+;; SERVER: 192.168.3.1#53(192.168.3.1)
+;; WHEN: Fri Jan 14 14:12:09 CET 2022
+;; MSG SIZE  rcvd: 124
+</code></pre>
+<p>e) Testez la résolution DNS interne et externe :</p>
+<p>[srvlan@srvlan:~$] ping debian11-vm1
+[srvlan@srvlan:~$] ping debian11-vm2.intra.loupipfire.fr
+[srvlan@srvlan:~$] ping srvlan
+[srvlan@srvlan:~$] ping srvlan.intra.loupipfire.fr
+[srvlan@srvlan:~$] ping ctn2
+[srvlan@srvlan:~$] ping mappy.fr</p>
+<p>Le ping srvlan renvoie 127.0.0.1. 
+Le ping srvlan.intra.loupipfire.fr renvoie 192.168.3.1.</p>
+<p>f) Pour finir, vérifiez le chargement des zones :</p>
+<p>$ sudo named-checkconf -z   # Liste des zones chargées</p>
+<h3 id="5-declaration-dun-serveur-dns-externe">5 - Déclaration d'un serveur DNS externe</h3>
+<p>Le DNS utilise 13 destinations de serveurs racines pour gérer les requêtes d'accès à Internet. Ces serveurs sont chargés de renvoyer lesdites requêtes vers des serveurs DNS de premier niveau appropriés <em>(.com, .fr, etc...)</em>.</p>
+<p>Le résolveur bind9 exploite par défaut le fichier /usr/share/dns/root.hints pour interroger ces serveurs racines <em>(adresses de a.root-servers.net à m.root-servers.net)</em> et obtenir les réponses aux requêtes d'accès à Internet.</p>
+<p>Actuellement bind9 traite les requêtes locales <em>(Ex : ping debian11-vm1.intra.loupipfire.fr)</em> ainsi que les requêtes d'accès à Internet <em>(Ex : ping www.yahoo.fr)</em> et construit son cache en fonction.</p>
+<p>Test d'une requête locale :</p>
+<p>[srvlan@srvlan:~$] nslookup ovs.intra.loupipfire.fr</p>
+<p>Retour :</p>
+<pre><code>Server:     192.168.3.1  (IP du DNS soit srvlan)
+Address:    192.168.3.1#53
+
+Name:   ovs.intra.loupipfire.fr
+Address: 192.168.3.15
+</code></pre>
+<p>La VM srvlan est l'autorité pour la réponse.</p>
+<p>Test d'une requête d'accès à Internet :</p>
+<p>[srvlan@srvlan:~$] nslookup mappy.fr</p>
+<p>Retour :</p>
+<pre><code>Server:      192.168.3.1  (IP du DNS soit srvlan)
+Address:     192.168.3.1#53
+
+Non-authoritative answer:
+Name:    mappy.fr
+Address: 193.203.32.57
+</code></pre>
+<p>Constat, srvlan n'est plus l'autorité pour la réponse.</p>
+<p>Vous allez à présent, pour alléger le travail de srvlan, demander que les requêtes d'accès à Internet <em>(les demandes de résolutions externes)</em> soient dorénavant traitées par le serveur DNS de votre box Internet.</p>
+<p>Editez pour cela le fichier DNS named.conf.options :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/bind/named.conf.options</p>
+<p>et modifiez celui-ci afin qu'il contienne ces lignes :</p>
+<p>options {
+     directory "/var/cache/bind";</p>
+<pre><code> dnssec-validation auto;
+
+ // Limiter les réponses récursives aux
+ // réseaux/IP des interfaces du serveur DNS srvlan
+ allow-recursion { localnets; };
+
+ // Pour les autres réseaux/IP,
+ // transfert des requêtes DNS vers la box Internet
+ forward only;
+ forwarders { 192.168.x.z; };      # IP de la box Internet
+
+ listen-on-v6 { any; };
+</code></pre>
+<p>};    </p>
+<p>Redémarrez maintenant le service bind9 :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart bind9 </p>
+<p>et testez une requête d'accès à Internet :</p>
+<p>[srvlan@srvlan:~$] nslookup yahoo.fr</p>
+<p>Résultat :</p>
+<pre><code>Server:     192.168.3.1
+Address:    192.168.3.1#53
+
+Non-authoritative answer:
+Name:   yahoo.fr
+Address: 74.6.136.150
+Name:   yahoo.fr
+Address: 106.10.248.150
+Name:   yahoo.fr
+Address: 212.82.100.150
+Name:   yahoo.fr
+Address: 98.136.103.23
+Name:   yahoo.fr
+Address: 124.108.115.100
+</code></pre>
+<p>La résolution externe se fait toujours mais utilisez-vous le DNS de la Box ?  </p>
+<p>Pour le savoir, remplacez l'IP du paramètre forwarders par une IP quelconque, redémarrez le service bind9 afin de vider le cache DNS actif et relancez la requête :</p>
+<p>[srvlan@srvlan:~$] nslookup yahoo.fr </p>
+<p>Résultat :</p>
+<pre><code>Server:     192.168.3.1
+Address:    192.168.3.1#53
+
+** server can't find yahoo.fr: SERVFAIL
+</code></pre>
+<p>La résolution externe ne fonctionne plus, vous utilisiez bien le DNS de la Box.</p>
+<p>Remettez maintenant la bonne adresse IP.</p>
+<h3 id="6-tests-dns-depuis-les-vmctn-de-la-zone-lan">6 - Tests DNS depuis les VM/CTN de la zone LAN</h3>
+<h4 id="61-vm-ovs-et-ctn-ctn1ctn2"><em>6.1 - VM ovs et CTN ctn1/ctn2</em></h4>
+<p>Se connecter en SSH sur les 3 systèmes <em>(<a href="/acces-locaux-distants-debian11/#5_-_Acces_distant_SSH_sur_la_VM_OpenvSwitch">Mémento 6.11</a>)</em> facilitera les tests en particulier pour les 2 CTN.</p>
+<p>Editez les 3 fichier DNS resolv.conf :</p>
+<p>[...@... :~$] sudo nano /etc/resolv.conf</p>
+<p>et remplacez les contenus existants par celui-ci :</p>
+<p># Fichier resolv.conf - Client DNS</p>
+<h1 id="nom-du-domaine-local">Nom du domaine local</h1>
+<p>domain intra.loupipfire.fr </p>
+<h1 id="ajout-auto-du-nom-de-domaine-local-aux">Ajout auto du nom de domaine local aux</h1>
+<h1 id="noms-dhotes-non-pleinement-qualifies">noms d'hôtes non pleinement qualifiés</h1>
+<p>search intra.loupipfire.fr</p>
+<h1 id="adresses-ip-du-ou-des-serveurs-dns-a-interroger">Adresses IP du ou des serveurs DNS à interroger</h1>
+<p>nameserver 192.168.3.1</p>
+<p>Installez ensuite sur les 3 systèmes la Cde DNS dig :</p>
+<p>[...@... :~$] sudo apt install dnsutils </p>
+<p>et vérifiez l'ID du Name Server pour intra.loupipfire.fr :</p>
+<p>[...@... :~$] dig NS intra.loupipfire.fr +short </p>
+<p>Retour :</p>
+<pre><code>srvlan.intra.loupipfire.fr.
+</code></pre>
+<p>Enfin, pinguez depuis les 3 systèmes les VM suivantes :</p>
+<p>[...@... :~$] ping srvlan
+[...@... :~$] ping debian11-vm1.intra.loupipfire.fr
+[...@... :~$] ping debian11-vm2</p>
+<p>et observez les FQDN <em>(hôte+domaine)</em> retournés.</p>
+<h4 id="62-vm-debian11-vm1-et-debian11-vm2"><em>6.2 - VM debian11-vm1 et debian11-vm2</em></h4>
+<p>Idem srvlan.</p>
+<p>Faites un clic droit sur l'applet réseau NetworkManager :<br />
+> Modifier les connexions...  </p>
+<p>Une fenêtre Connexions réseau s'ouvre :<br />
+> Sélectionnez la connexion réseau affichée<br />
+> Cliquez sur la roue dentée située en bas à gauche  </p>
+<p>Une fenêtre Modification de la Connexion ... s'ouvre :<br />
+> Onglet Paramètres IPv4  </p>
+<p>Modifiez ensuite la valeur des champs suivants :<br />
+> Serveurs DNS &gt; 192.168.3.1<br />
+> Domaines de recherche &gt; intra.loupipfire.fr<br />
+> Bouton Enregistrer<br />
+> Authentifiez-vous si une demande est affichée  </p>
+<p>Puis effectuez une MAJ des paramètres nameserver et search du fichier DNS /etc/resolv.conf :</p>
+<p>[client-linux@debian11-vm*:~$] sudo systemctl restart NetworkManager</p>
+<p>Installez le paquet incluant la Cde DNS nslookup :</p>
+<p>[client-linux@debian11-vm*:~$]  sudo apt install dnsutils  </p>
+<p>et vérifiez l'IP du Name Server pour intra.loupipfire.fr :</p>
+<p>[client-linux@debian11-vm*:~$] nslookup ovs.intra.loupipfire.fr</p>
+<p>Retour :</p>
+<pre><code>Server:     192.168.3.1
+Address:    192.168.3.1#53
+
+Name:   ovs.intra.loupipfire.fr
+Address: 192.168.3.15
+</code></pre>
+<p>Pinguez les VM suivantes :</p>
+<p>[client-linux@debian11-vm*:~$] ping srvlan.intra.loupipfire.fr
+[client-linux@debian11-vm*:~$] ping ovs</p>
+<p>et observez les FQDN <em>(hôte+domaine)</em> retournés.</p>
+<p>Pour terminer, lancez le navigateur Web et vérifiez le bon accès à Internet.</p>
+<h3 id="7-simulation-de-panne">7 - Simulation de panne</h3>
+<p>Arrêtez le service DNS fourni par srvlan :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl stop bind9</p>
+<p>Redémarrez les clients debian11-vm* et ovs afin de vider leurs caches DNS.</p>
+<p>Les pings depuis les VM debian11-vm* du <a href="/dns-statique-debian11/#62_-_VM_debian11-vm1_et_debian11-vm2">§ 6.2</a> devraient échouer.</p>
+<p>Redémarrez le service DNS et vérifiez que les pings fonctionnent à nouveau.</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>Voilà, c'est fini pour le DNS statique.<br />
+Le mémento 7.21 vous attend à<br />
+présent pour installer un serveur<br />
+DHCP.</p>
+<p><a href="https://familleleloup.no-ip.org/dhcp-isc-dhcp-server-debian11/">Mémento 7.21</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

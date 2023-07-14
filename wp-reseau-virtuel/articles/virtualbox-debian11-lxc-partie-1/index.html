@@ -1,0 +1,1340 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/virtualbox-debian11-lxc-partie-1/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>OVS - LXC / Debian 11 : 1/2 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-512-conteneurs-lxc" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OVS - LXC / Debian 11 : 1/2
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-512-conteneurs-lxc" class="md-nav__link">
+    Mémento 5.12 - Conteneurs LXC
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 5.12 - Conteneurs LXC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-lxc-creation-dun-conteneur-privilegie" class="md-nav__link">
+    1 - LXC (Création d'un conteneur privilégié)
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - LXC (Création d'un conteneur privilégié)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-installation-de-lxc" class="md-nav__link">
+    1.1 - Installation de LXC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-creation-dun-conteneur-de-nom-ctn1" class="md-nav__link">
+    1.2 - Création d'un conteneur de nom ctn1
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-configuration-reseau-du-conteneur" class="md-nav__link">
+    1.3 - Configuration réseau du conteneur
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lxcnet0link-lxcbr0" class="md-nav__link">
+    lxc.net.0.link = lxcbr0
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binbash" class="md-nav__link">
+    !/bin/bash
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binbash_1" class="md-nav__link">
+    !/bin/bash
+  </a>
+  
+    <nav class="md-nav" aria-label="!/bin/bash">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#14-demarrage-du-conteneur" class="md-nav__link">
+    1.4 - Démarrage du conteneur
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-execution-de-cdes-dans-le-conteneur" class="md-nav__link">
+    1.5 - Exécution de Cdes dans le conteneur
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#16-demarrage-automatique-du-conteneur" class="md-nav__link">
+    1.6 - Démarrage automatique du conteneur
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#17-quelques-cdes-lxc-utiles" class="md-nav__link">
+    1.7 - Quelques Cdes LXC utiles
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#18-tests-divers-sur-le-reseau-virtuel" class="md-nav__link">
+    1.8 - Tests divers sur le réseau virtuel
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-512-conteneurs-lxc">Mémento 5.12 - Conteneurs LXC</h2>
+<p>LXC = LinuX Container</p>
+<p>En virtualisation, l’isolation des VM se fait au niveau matériel <em>(CPU/RAM/Disque ...)</em> avec un accès virtuel aux ressources de l'hôte via un hyperviseur tel VirtualBox.  </p>
+<p>En conteneurisation type LXC, l'isolation des conteneurs se fait au niveau de l'OS. Ceux-ci s'exécuteront de manière native en utilisant le noyau de l'hôte et en ne prenant pas plus de mémoire que tout autre exécutable.  </p>
+<p>LXC va permettre d'approcher l'architecture standard d'Open vSwitch en utilisant des interfaces réseau virtuelles de type Veth pour la liaison des conteneurs avec le switch virtuel.</p>
+<p>La <strong>partie 1</strong> aborde le conteneur LXC de base dit privilégié dont root sera l'utilisateur interne.</p>
+<p>La <strong>partie 2</strong> aborde un conteneur plus sécurisé dit non privilégié, celui-ci devant éviter qu'une faille de sécurité donne à l'utilisateur root du conteneur la possibilité d'obtenir les privilèges complets sur l'hôte LXC.</p>
+<h3 id="1-lxc-creation-dun-conteneur-privilegie">1 - LXC <em>(Création d'un conteneur privilégié)</em></h3>
+<h4 id="11-installation-de-lxc"><em>1.1 - Installation de LXC</em></h4>
+<p>Installez les paquets lxc et lxc-templates :</p>
+<p>[switch@ovs:~$] sudo apt install lxc lxc-templates</p>
+<p>Vérifiez ensuite l'activation du routage au sein de la VM :</p>
+<p>[switch@ovs:~$] sudo sysctl net.ipv4.ip_forward</p>
+<p>La valeur retournée doit être égale à 1.</p>
+<p>Vérifiez aussi la bonne activation des services LXC :</p>
+<p>[switch@ovs:~$] sudo systemctl status lxc 
+[switch@ovs:~$] sudo systemctl status lxc-net</p>
+<p>Les statuts retournés doivent être : active(exited).</p>
+<p>LXC a besoin que cgroup soit monté pour fonctionner.  </p>
+<p>Control groups <em>(cgroup)</em> est une fonctionnalité du noyau Linux pour limiter, compter et isoler l'utilisation des ressources <em>(processeur, mémoire, disque, etc...)</em>.  </p>
+<p>Vérifiez le montage automatique de cgroup version 2 :</p>
+<p>[switch@ovs:~$] mount | grep cgroup</p>
+<p>Retour :</p>
+<pre><code>cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid...)
+</code></pre>
+<p>Pour finir, vérifiez la nouvelle configuration réseau :</p>
+<p>[switch@ovs:~$] ip address</p>
+<p>Un nouveau bridge de nom lxcbr0 a fait son apparition :</p>
+<p><img alt="Capture - LXC : Bridge lxcbr0 ajouté sur la VM ovs" src="/wp-content/uploads/2021/11/lxc-ip-address-lxcbr0.jpg" /></p>
+<p>LXC : Bridge lxcbr0 ajouté sur la VM ovs</p>
+<p>Ce bridge fourni par défaut avec LXC sera non exploité au profit des bridges br0 et br2 d'OVS.</p>
+<h4 id="12-creation-dun-conteneur-de-nom-ctn1"><em>1.2 - Création d'un conteneur de nom ctn1</em></h4>
+<p>Préambule :<br />
+Les configurations LXC seront stockées dans /etc/lxc qui contient pour l'instant un unique default.conf.  </p>
+<p>Des modèles de configuration sont disponibles dans /usr/share/doc/lxc/examples/.  </p>
+<p>La création de conteneurs peut être réalisée à l'aide de templates situés dans /usr/share/lxc/templates/ ou en téléchargeant une distribution spécifique sur Internet.  </p>
+<p>C'est la méthode de téléchargement qui sera utilisée ici.</p>
+<p>Créez le conteneur de nom ctn1 comme suit :</p>
+<p>[switch@ovs:~$] sudo lxc-create -n ctn1 -t download -- \
+-d debian -r bullseye -a amd64</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Si Unable to fetch GPG key ..., utilisez le dépôt Ubuntu :</p>
+<p>[switch@ovs:~$] sudo \
+DOWNLOAD_KEYSERVER="keyserver.ubuntu.com" \
+lxc-create -n ctn1 -t download -- -d debian -r bullseye -a amd64</p>
+<p>Le résultat de la Cde lxc-create doit donner ceci :</p>
+<p><img alt="Capture - LXC : Conteneur créé sans échec" src="/wp-content/uploads/2021/11/lxc-creation-ctn1.jpg" /></p>
+<p>LXC : Conteneur ctn1 créé sans échec</p>
+<p>La distribution téléchargée a été mise en cache dans /var/cache/lxc/download/.</p>
+<p>Vérifiez la création et le statut stoppé du conteneur :</p>
+<p>[switch@ovs:~$] sudo lxc-ls -f</p>
+<p><img alt="Capture - LXC : Statut du conteneur ctn1" src="/wp-content/uploads/2021/11/lxc-statut-ctn1.jpg" /></p>
+<p>LXC : Statut du conteneur ctn1</p>
+<p>et afficher sa configuration par défaut :</p>
+<p>[switch@ovs:~$] sudo cat /var/lib/lxc/ctn1/config</p>
+<p><img alt="Capture - LXC : Configuration de base du conteneur ctn1" src="/wp-content/uploads/2021/11/lxc-config-base-ctn1.jpg" /></p>
+<p>LXC : Configuration de base du conteneur ctn1</p>
+<h4 id="13-configuration-reseau-du-conteneur"><em>1.3 - Configuration réseau du conteneur</em></h4>
+<p>La partie réseau doit être traitée avant de démarrer ctn1.</p>
+<p>LXC configure de base une connexion virtuelle de type veth pour raccorder ctn1 au bridge lxcbr0.</p>
+<p>Le type veth permet de créer une interface réseau sur le bridge lxcbr0 et une autre sur ctn1.</p>
+<p>La configuration de ctn1 doit être modifiée pour raccorder celui-ci sur le bridge br0 d'OVS.</p>
+<p>Configuration à créer :</p>
+<p><img alt="Image - LXC : Configuration conteneur ctn1 vers bridge br0 d'OVS" src="/wp-content/uploads/2021/11/lxc-ctn1-veth-ovs.jpg" /></p>
+<p>LXC : Configuration conteneur ctn1 vers bridge br0 d'OVS</p>
+<p>Pour cela, éditez la configuration du conteneur :</p>
+<p>[switch@ovs:~$] sudo nano /var/lib/lxc/ctn1/config</p>
+<p>et modifiez la partie réseau comme suit :</p>
+<p># Network configuration
+lxc.net.0.type = veth</p>
+<h1 id="lxcnet0link-lxcbr0">lxc.net.0.link = lxcbr0</h1>
+<p>lxc.net.0.flags = up
+lxc.net.0.script.up = /etc/lxc/ovsup-ctn1
+lxc.net.0.script.down = /etc/lxc/ovsdown-ctn1
+lxc.net.0.ipv4.address = 192.168.3.6/24
+lxc.net.0.ipv4.gateway = 192.168.3.15       # IP enp0s3 VM ovs</p>
+<p>Créez ensuite le script ovsup-ctn1 :</p>
+<p>[switch@ovs:~$] sudo nano /etc/lxc/ovsup-ctn1</p>
+<p>et entrez le contenu suivant :</p>
+<h1 id="binbash">!/bin/bash</h1>
+<p>BRIDGE="br0"
+ovs-vsctl --may-exist add-br $BRIDGE
+ovs-vsctl --if-exists del-port $BRIDGE $5
+ovs-vsctl --may-exist add-port $BRIDGE $5</p>
+<p>Au démarrage de ctn1, le script attachera celui-ci à OVS.</p>
+<p>Créez le script ovsdown-ctn1 :</p>
+<p>[switch@ovs:~$] sudo nano /etc/lxc/ovsdown-ctn1</p>
+<p>et entrez le contenu suivant :</p>
+<h1 id="binbash_1">!/bin/bash</h1>
+<p>BRIDGE="br0"
+ovs-vsctl --if-exists del-port $BRIDGE $5</p>
+<p>A l'arrêt de ctn1, le script détachera celui-ci d'OVS.</p>
+<p>Rendez les 2 scripts exécutables :</p>
+<p>[switch@ovs:~$] sudo chmod +x /etc/lxc/ovs*</p>
+<p>La configuration réseau de ctn1 est maintenant prête.</p>
+<h4 id="14-demarrage-du-conteneur"><em>1.4 - Démarrage du conteneur</em></h4>
+<p>Pour démarrer ctn1, lancez la Cde suivante :</p>
+<p>[switch@ovs:~$] sudo lxc-start -n ctn1</p>
+<p>et vérifiez ensuite le statut du conteneur :</p>
+<p>[switch@ovs:~$] sudo lxc-ls -f</p>
+<p><img alt="Capture - LXC : Conteneur ctn1 démarré" src="/wp-content/uploads/2021/11/lxc-demarrage-ctn1.jpg" /></p>
+<p>LXC : Conteneur ctn1 démarré</p>
+<p>Vérifiez aussi la création d'une interface réseau veth :</p>
+<p>[switch@ovs:~$] ip address</p>
+<p><img alt="Capture - LXC : Interface réseau veth...@if2 créée sur la VM ovs" src="/wp-content/uploads/2021/11/lxc-ovs-carte-veth.jpg" /></p>
+<p>LXC : Interface réseau veth...@if2 créée sur la VM ovs</p>
+<p><strong>Remarque</strong> : Depuis Debian 11.3, l'adresse IPv4 peut ne pas apparaître du fait de l'intervention du service systemd-networkd activé par défaut dans le conteneur.</p>
+<p>Pour régler ce problème, procédez comme suit :</p>
+<p>[switch@ovs:~$] sudo lxc-attach -n ctn1</p>
+<p>[root@ctn1:/#] systemctl stop systemd-networkd
+[root@ctn1:/#] systemctl disable systemd-networkd
+[root@ctn1:/#] exit</p>
+<p>[switch@ovs:~$] sudo reboot
+[switch@ovs:~$] sudo lxc-start -n ctn1
+[switch@ovs:~$] sudo lxc-ls -f</p>
+<p>L'adresse IPv4 192.168.3.6 doit cette fois apparaître.</p>
+<h4 id="15-execution-de-cdes-dans-le-conteneur"><em>1.5 - Exécution de Cdes dans le conteneur</em></h4>
+<p>Le conteneur a été créé par défaut sans MDP root.</p>
+<p>La Cde lxc-attach permet d’exécuter des Cdes dans un conteneur, ceci en tant que root.</p>
+<p>Utilisez celle-ci pour vous connecter sur ctn1 :</p>
+<p>[switch@ovs:~$] sudo lxc-attach -n ctn1</p>
+<p>Un prompt root@ctn1:/# doit s'afficher.</p>
+<p>Affichez ensuite la configuration réseau de ctn1 :</p>
+<p>[root@ctn1:/#] ip address</p>
+<p><img alt="Capture - LXC : Le conteneur montre une interface réseau eth0@if10" src="/wp-content/uploads/2021/11/lxc-ctn1-carte-eth0.jpg" /></p>
+<p>LXC : Le conteneur montre une interface réseau eth0@if10</p>
+<p>Il faut, afin que ctn1 accède à Internet, lui préciser l'IP du serveur DNS à utiliser.</p>
+<p>Pour cela, éditez le fichier DNS resolv.conf de ctn1 :</p>
+<p>[root@ctn1:/#] vim /etc/resolv.conf</p>
+<p>et ajoutez la ligne suivante :</p>
+<p>nameserver 192.168.x.z    # IP de votre Box Internet</p>
+<p>Instructions pour utiliser l'éditeur de textes vim :<br />
+Touche i <em>(mode insertion)</em> &gt; Pour entrez nameserv... .<br />
+Touche Escape &gt; Pour quitter le mode insertion.<br />
+Touches :wq suivies de Entrée &gt; Pour sauvegarder.</p>
+<p>Pour tester l'accès à Internet, installez l'éditeur nano :</p>
+<p>[root@ctn1:/#] apt install nano</p>
+<p>Enfin, utilisez la Cde exit pour quitter le conteneur.</p>
+<p><strong>Remarque</strong> : Depuis Debian 11.3, le nameserver peut être par la suite écrasé du fait de l'intervention du service systemd-resolved activé par défaut dans le conteneur.</p>
+<p>Pour régler ce problème, procédez comme suit :</p>
+<p>[switch@ovs:~$] sudo lxc-attach -n ctn1</p>
+<p>[root@ctn1:/#] systemctl stop systemd-resolved
+[root@ctn1:/#] systemctl disable systemd-resolved</p>
+<p>[root@ctn1:/#] rm /etc/resolv.conf
+[root@ctn1:/#] nano /etc/resolv.conf</p>
+<p>Entrez ce contenu dans le nouveau fichier resolv.conf :</p>
+<p>nameserver 192.168.x.z    # IP de votre Box Internet</p>
+<p>Puis, quittez ctn1, rebootez ovs et redémarrez ctn1 :</p>
+<p>[root@ctn1:/#] exit</p>
+<p>[switch@ovs:~$] sudo reboot
+[switch@ovs:~$] sudo lxc-start -n ctn1
+[switch@ovs:~$] sudo lxc-ls -f</p>
+<p>Entrez ensuite dans ctn1 et vérifiez si le nameserver du fichier resolv.conf est correct.</p>
+<h4 id="16-demarrage-automatique-du-conteneur"><em>1.6 - Démarrage automatique du conteneur</em></h4>
+<p>Il est possible de démarrer automatiquement ctn1 au boot de l'hôte LXC soit la VM ovs.</p>
+<p>Pour cela, éditez la configuration du conteneur :</p>
+<p>[switch@ovs:~$] sudo nano /var/lib/lxc/ctn1/config</p>
+<p>et ajoutez ce contenu à la fin du fichier :</p>
+<p># Démarrage auto du conteneur au bout de 10s
+lxc.start.auto = 1
+lxc.start.delay = 10</p>
+<p>Puis rebootez la VM ovs et contrôlez le statut de ctn1 :</p>
+<p>[switch@ovs:~$] sudo lxc-ls -f</p>
+<p>Retour :</p>
+<p><img alt="Capture - LXC : Démarrage automatique  du conteneur ctn1" src="/wp-content/uploads/2021/11/lxc-ctn1-demarrage-auto.jpg" /></p>
+<p>LXC : Démarrage automatique du conteneur ctn1</p>
+<h4 id="17-quelques-cdes-lxc-utiles"><em>1.7 - Quelques Cdes LXC utiles</em></h4>
+<p>lxc-stop -n ctn1 &gt; Stoppe ctn1<br />
+lxc-snapshot -n ctn1 &gt; Crée un snapshot de ctn1<br />
+lxc-destroy -s -n ctn1 &gt; Détruit ctn1 et ses snapshots<br />
+lxc-info -n ctn1 &gt; Fournit des informations sur ctn1<br />
+lxc-copy -n ctn1 &gt; Crée un clone de ctn1</p>
+<p>Utilisez la Cde man lxc pour en découvrir d'autres.</p>
+<h4 id="18-tests-divers-sur-le-reseau-virtuel"><em>1.8 - Tests divers sur le réseau virtuel</em></h4>
+<p>Testez depuis l'intérieur de ctn1 les pings suivants :</p>
+<p>[root@ctn1:/#] ping mappy.fr               # Internet
+[root@ctn1:/#] ping 192.168.2.1         # VM srvsec
+[root@ctn1:/#] ping 192.168.4.2         # VM srvdmz
+[root@ctn1:/#] ping 192.168.3.4         # VM debian11-vm2</p>
+<p>Tous doivent recevoir une réponse positive.</p>
+<p>Pour finir, testez un ping depuis la VM srvsec sur ctn1 :</p>
+<p>[root@srvsec:~#] ping 192.168.3.6              # Conteneur ctn1</p>
+<p>Si retour OK, la partie 1 est alors terminée.</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>Voilà, première étape franchie !<br />
+La partie 2 vous attend à présent<br />
+pour la création d'un conteneur<br />
+LXC dit non privilégié.</p>
+<p><a href="https://familleleloup.no-ip.org/virtualbox-debian11-lxc-partie-2/">Partie 2</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

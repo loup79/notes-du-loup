@@ -1,0 +1,1647 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/serveur-debian12-srvlan-creation/">
+      
+      
+        <link rel="prev" href="../virtualbox-pont-reseau/">
+      
+      
+        <link rel="next" href="../serveur-ipfire-srvsec-creation/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>srvlan - VBox/Deb12 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-112-serveur-srvlan" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              srvlan - VBox/Deb12
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link md-tabs__link--active">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          srvlan - VBox/Deb12
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        srvlan - VBox/Deb12
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-112-serveur-srvlan" class="md-nav__link">
+    Mémento 1.12 - Serveur srvlan
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 1.12 - Serveur srvlan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-construction-de-la-vm-depuis-virtualbox" class="md-nav__link">
+    1 - Construction de la VM depuis VirtualBox
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Construction de la VM depuis VirtualBox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-creation-et-configuration-de-la-vm" class="md-nav__link">
+    1.1 - Création et configuration de la VM
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-installation-de-la-distribution-debian" class="md-nav__link">
+    1.2 - Installation de la distribution Debian
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-installation-des-utilitaires-de-virtualbox" class="md-nav__link">
+    2 - Installation des utilitaires de VirtualBox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-suppression-dapplications-preinstallees" class="md-nav__link">
+    3 - Suppression d'applications préinstallées
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-montage-du-dossier-partage-par-le-pc-hote" class="md-nav__link">
+    4 - Montage du dossier partagé par le PC hôte
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-configuration-du-reseau" class="md-nav__link">
+    5 - Configuration du réseau
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Configuration du réseau">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-adressage-ip-fixe-carte-enp0s3" class="md-nav__link">
+    5.1 - Adressage IP fixe carte enp0s3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-creation-et-adressage-ip-fixe-carte-enp0s8" class="md-nav__link">
+    5.2 - Création et adressage IP fixe carte enp0s8
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-routage-interne-au-serveur" class="md-nav__link">
+    5.3 - Routage interne au serveur
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-translation-dadresses-nat" class="md-nav__link">
+    5.4 - Translation d'adresses NAT
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-112-serveur-srvlan" class="md-nav__link">
+    Mémento 1.12 - Serveur srvlan
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 1.12 - Serveur srvlan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-construction-de-la-vm-depuis-virtualbox" class="md-nav__link">
+    1 - Construction de la VM depuis VirtualBox
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Construction de la VM depuis VirtualBox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-creation-et-configuration-de-la-vm" class="md-nav__link">
+    1.1 - Création et configuration de la VM
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-installation-de-la-distribution-debian" class="md-nav__link">
+    1.2 - Installation de la distribution Debian
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-installation-des-utilitaires-de-virtualbox" class="md-nav__link">
+    2 - Installation des utilitaires de VirtualBox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-suppression-dapplications-preinstallees" class="md-nav__link">
+    3 - Suppression d'applications préinstallées
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-montage-du-dossier-partage-par-le-pc-hote" class="md-nav__link">
+    4 - Montage du dossier partagé par le PC hôte
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-configuration-du-reseau" class="md-nav__link">
+    5 - Configuration du réseau
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Configuration du réseau">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-adressage-ip-fixe-carte-enp0s3" class="md-nav__link">
+    5.1 - Adressage IP fixe carte enp0s3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-creation-et-adressage-ip-fixe-carte-enp0s8" class="md-nav__link">
+    5.2 - Création et adressage IP fixe carte enp0s8
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-routage-interne-au-serveur" class="md-nav__link">
+    5.3 - Routage interne au serveur
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-translation-dadresses-nat" class="md-nav__link">
+    5.4 - Translation d'adresses NAT
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>srvlan - VBox/Deb12</h1>
+
+<p><a href="../../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp"><img alt="Capture - Debian 12 : Bureau Xfce personnalisé" src="../../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<h2 id="memento-112-serveur-srvlan">Mémento 1.12 - Serveur srvlan</h2>
+<p>L'architecture du réseau virtuel proposée sous Debian 12 sera la même que sous Debian 11 et le serveur srvlan supportera à nouveau le bureau léger Xfce.</p>
+<p>Ce dernier, allégé de quelques applications préinstallées par défaut, contribuera au confort d'exploitation du serveur et facilitera notamment la réalisation de certains tests sur le réseau.</p>
+<p>Par souci d'homogénéité, Xfce sera l'unique bureau graphique installé sur les VM du réseau.</p>
+<h3 id="1-construction-de-la-vm-depuis-virtualbox">1 - Construction de la VM depuis VirtualBox</h3>
+<p>L'utilisation de VirtualBox est considérée acquise.</p>
+<p>A défaut, référez-vous aux mémentos suivants :<br />
+<a href="/virtualbox-installation/">VirtualBox - Installation</a><br />
+<a href="/virtualbox-pont-reseau/">VirtualBox - Mode d’accès réseau par pont</a></p>
+<h4 id="11-creation-et-configuration-de-la-vm"><em>1.1 - Création et configuration de la VM</em></h4>
+<p>Le PC hôte doit être un PC 64 bits, courant de nos jours.</p>
+<p>Téléchargez l'ISO debian-12.x.y-amd64-netinst.iso :<br />
+<a href="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/">https://cdimage.debian.org/.../current/amd64/iso-cd/</a></p>
+<p>Démarrez ensuite l'application VirtualBox, puis :<br />
+- - Menu de VirtualBox &gt; Machine &gt; Nouvelle...
+-&gt; Nom : srvlan LAN<br />
+-&gt; Folder : Sélectionnez un dossier où stocker vos VM<br />
+-&gt; ISO Image : Sélectionnez l'ISO téléchargée ci-dessus<br />
+-&gt; Type : Linux<br />
+-&gt; Version : Debian (64-bit)<br />
+-&gt; Cochez Skip Unattended Installation (important)<br />
+-&gt; Bouton Suivant</p>
+<p>-&gt; Mémoire vive : 1024 MB<br />
+-&gt; Processors : 2 CPU si possible<br />
+-&gt; Bouton Suivant</p>
+<p>-&gt; Create a Virtual Hard Disk Now : Ajustez à 12 Go<br />
+-&gt; Bouton Suivant</p>
+<p>-&gt; Vérifiez le Récapitulatif<br />
+-&gt; Bouton Finish</p>
+<p>La VM est créée dans le panneau gauche de VirtualBox.</p>
+<p>Sélectionnez maintenant la nouvelle VM, puis :<br />
+- - Menu de VirtualBox &gt; Machine &gt; Configuration...<br />
+- - - Onglet Général<br />
+-&gt; Avancé &gt; Presse-papier partagé &gt; Bidirectionnel  </p>
+<p>- - - Onglet Système<br />
+-&gt; Carte mère &gt; Ordre d'amorçage &gt; Décochez Disquette<br />
+-&gt; Processeur &gt; Cochez Activer PAE/NX  </p>
+<p>Facultatif, accès au dossier partagé par le PC hôte :<br />
+- - - Onglet Dossiers partagés<br />
+-&gt; Cliquez sur l'icône + &gt; Ajouter un dossier partagé<br />
+-&gt; Chemin du dossier &gt; Sélectionnez Autre...<br />
+-&gt; Accédez à votre dossier &gt; Ex : C:\Partage-Windows<br />
+-&gt; Sélectionner un dossier ou Ouvrir &gt; OK &gt; OK</p>
+<p>Les autres paramètres peuvent rester inchangés.</p>
+<h4 id="12-installation-de-la-distribution-debian"><em>1.2 - Installation de la distribution Debian</em></h4>
+<p>Conseil pratique avant de démarrer la nouvelle VM :<br />
+Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.</p>
+<p>- - Menu de VirtualBox &gt; Machine &gt; Démarrer<br />
+-&gt; Démarrage normal (La VM s'exécute)</p>
+<p>Sélectionnez Graphical Install et appliquez ce qui suit :<br />
+- Language &gt; Français<br />
+- Pays <em>(territoire ou région)</em> > France<br />
+- Disposition de clavier à utiliser &gt; Français<br />
+- Interface réseau principale &gt; enp0s3<br />
+- Nom de machine &gt; srvlan<br />
+- Domaine &gt; Laissez le champ vide<br />
+- MDP du super utilisateur root &gt; Votre MDP root<br />
+- Confirmation du MDP &gt; Votre MDP root<br />
+- Nom complet du nouvel utilisateur &gt; Ex: srvlan<br />
+- Identifiant pour le compte utilisateur &gt; srvlan<br />
+- MDP pour le nouvel utilisateur &gt; Votre MDP srvlan<br />
+- Confirmation du MDP &gt; Votre MDP srvlan<br />
+- Méthode de partitionnement &gt; Assisté - utili... entier<br />
+- Disque à partitionner &gt; Celui proposé de 12 Go<br />
+- Schéma de partitionnement &gt; Tout ... seule partition<br />
+- Table des partitions &gt; Terminer le partitionnement ..<br />
+- Faut-il appliquer les changements ... disques ? &gt; Oui</p>
+<p>L'installation commence :<br />
+- Faut-il analyser d'autres supports ... ? &gt; Non<br />
+- Pays du miroir de l'archive Debian &gt; France<br />
+- Miroir de l'archive Debian &gt; deb.debian.org<br />
+- Mandataire HTTP (lais...) &gt; Laissez vide</p>
+<p>L'installation continue :<br />
+- Souhaitez-vous participer à l'étude statistique ... &gt; Non<br />
+- Logiciels à installer<br />
+-&gt; Décochez environnement de bureau Debian<br />
+-&gt; Décochez ... GNOME<br />
+-&gt; Cochez ... Xfce<br />
+-&gt; Conservez utilitaires usuels du système</p>
+<p>L'installation se termine :<br />
+- Installer ... de démarrage GRUB sur le disque ... &gt; Oui<br />
+- Périphérique ... programme de démarrage &gt; /dev/sda<br />
+- Installation terminée &gt; Continuer <em>(sans retrait du CD)</em></p>
+<p>Le système reboot et une fenêtre de connexion s'ouvre :</p>
+<p><a href="../../wp-content/uploads/2023/07/srvlan-deb12-login.webp"><img alt="Capture - Fenêtre de connexion Xfce" src="../../wp-content/uploads/2023/07/srvlan-deb12-login-430x362.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Fenêtre de connexion Xfce</p>
+<p>-&gt; Premier champ &gt; Entrez srvlan<br />
+-&gt; Second champ &gt; Entrez Votre MDP srvlan<br />
+-&gt; Bouton Se connecter</p>
+<p>Le bureau Xfce s'ouvre :</p>
+<p><a href="../../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce.webp"><img alt="Capture - bureau Xfce" src="../../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-430x363.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Bureau Xfce</p>
+<p>Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intérieur du dock.</p>
+<p>Autorisez l'usage de sudo à l'utilisateur srvlan :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] su root
+Mot de passe : Votre MDP root
+[root@srvlan:~#] sudo usermod -aG sudo srvlan
+[root@srvlan:~#] exit
+</code></pre>
+<p>et redémarrez le serveur :<br />
+- - Menu Applications de Xfce situé en haut à gauche<br />
+-&gt; Déconnexion <em>(Une fenêtre s'ouvre)</em><br />
+-&gt; Bouton Redémarrer</p>
+<p>Reconnectez-vous ensuite en tant qu'utilisateur srvlan et rouvrez le terminal de Cdes.</p>
+<h3 id="2-installation-des-utilitaires-de-virtualbox">2 - Installation des utilitaires de VirtualBox</h3>
+<p>Ils permettront entre autres le copier/coller et l'accès au dossier partagé par le PC hôte.</p>
+<p>Notez au préalable la version courante du noyau linux :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] uname -r
+</code></pre>
+<p>Exemple de retour :</p>
+<pre><code class="language-bash">6.1.0-10-amd64
+</code></pre>
+<p>Installez ensuite les 2 paquets suivants :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo apt install dkms build-essential
+</code></pre>
+<p>Debian installera automatiquement la dépendance linux-headers-6.1.0-10-amd64.</p>
+<p>Ouvrez le menu VirtualBox situé sur la fenêtre de la VM :<br />
+-&gt; Périphériques &gt; Insérer l'image CD des Additions inv...</p>
+<p>Montez l'image CD, installez les utilitaires et rebootez :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo mount /dev/cdrom /media/cdrom
+[srvlan@srvlan:~$] cd /media/cdrom
+[srvlan@srvlan:~$] sudo ./VBoxLinuxAdditions.run
+[srvlan@srvlan:~$] sudo reboot
+</code></pre>
+<p>Une fois fini, reconnectez-vous, la fenêtre VM srvlan peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de srvlan.</p>
+<p>Le pratique copier/coller entre le PC hôte et srvlan doit maintenant fonctionner dans les 2 sens.</p>
+<p>Sans fermer la VM, retirez l'image CD du lecteur virtuel :<br />
+- - Menu de VirtualBox &gt; Machine &gt; Configuration...<br />
+- - - Onglet Stockage<br />
+-&gt; Zone Unités de stockage &gt; Sélectionnez VBoxGuest...<br />
+-&gt; Zone Attributs &gt; Cliquez sur l'icône CD<br />
+-&gt; Retirer le disque du lecteur virtuel &gt; OK</p>
+<h3 id="3-suppression-dapplications-preinstallees">3 - Suppression d'applications préinstallées</h3>
+<p>Supprimez ces applications non utiles sur srvlan :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo apt autoremove --purge \
+libreoffice-writer libreoffice-impress \
+libreoffice-calc libreoffice-math \
+libreoffice-draw libreoffice-base-core \
+libreoffice-core libreoffice-common
+</code></pre>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo rm -r /etc/libreoffice
+</code></pre>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo apt autoremove --purge \
+exfalso quodlibet
+</code></pre>
+<p>La configuration de base est presque terminée :</p>
+<p><a href="../../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp"><img alt="Capture - Debian 12 : Bureau Xfce personnalisé" src="../../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Debian 12 : Bureau Xfce personnalisé</p>
+<p>La consommation RAM actuelle est d'environ 500 Mo.</p>
+<h3 id="4-montage-du-dossier-partage-par-le-pc-hote">4 - Montage du dossier partagé par le PC hôte</h3>
+<p>Créez le dossier qui permettra d'afficher le contenu partagé par le PC hôte :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] mkdir /home/srvlan/Partage
+</code></pre>
+<p>Créez le fichier de service home-srvlan-Partage.mount :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] cd /etc/systemd/system
+[srvlan@srvlan:~$] sudo touch home-srvlan-Partage.mount
+</code></pre>
+<p>Editez celui-ci :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo nano home-srvlan-Partage.mount
+</code></pre>
+<p>et entrez le contenu suivant :</p>
+<pre><code class="language-bash">[Unit]
+Description = Montage dossier partagé fourni par VirtualBox
+
+[Mount]
+What = Entrez le nom du dossier partagé par le PC hôte
+Where = /home/srvlan/Partage
+Type = vboxsf
+Options=rw,uid=srvlan,gid=srvlan
+
+[Install]
+WantedBy = multi-user.target
+</code></pre>
+<p>Exemple pour What : What=Partage-Alfred</p>
+<p>Intégrez le service dans la configuration de systemd :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo systemctl daemon-reload
+</code></pre>
+<p>et démarrez celui-ci :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo systemctl start home-srvlan-Partage.mount
+</code></pre>
+<p>Vérifiez ensuite son statut :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo systemctl status home-srvlan-Partage.mount
+</code></pre>
+<p>Touche q pour quitter le résultat affiché.</p>
+<p>Si statut = active, autorisez le service au boot de la VM :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo systemctl enable home-srvlan-Partage.mount
+</code></pre>
+<p>Un lien symbolique vers le service est créé.</p>
+<p>Ouvrez enfin le gestionnaire de fichiers thunar et observez le contenu de /home/srvlan/Partage.</p>
+<h3 id="5-configuration-du-reseau">5 - Configuration du réseau</h3>
+<p>Avant, vérifiez l'IP courante avec la Cde ip address :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] ip address
+</code></pre>
+<p>Résultat, IP 10.0.2.15, IP fournie par VirtualBox :</p>
+<p><img alt="Capture - Résultat de la Cde ip address" src="../../wp-content/uploads/2023/07/srvlan-deb12-ip-address.webp" /></p>
+<p>Résultat de la Cde ip address</p>
+<p>Puis installez les 2 paquets suivants :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo apt install netfilter-persistent
+</code></pre>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo apt install iptables-persistent
+</code></pre>
+<p>Une fenêtre Config... iptables-persistent s'ouvre :<br />
+-&gt; Faut-il enregistrer les règles IPv4 actuelles ? &gt; Oui<br />
+-&gt; Faut-il enregistrer les règles IPv6 actuelles ? &gt; Oui</p>
+<p>2 fichiers rules.v4/v6 ont été créés dans /etc/iptables/.<br />
+Ils serviront à déclarer persistantes des règles iptables.</p>
+<p>La VM srvlan étant prévue en zone LAN, il faut changer le mode d'accès réseau de sa carte réseau enp0s3.</p>
+<p>Pour cela, sélectionnez la VM srvlan dans VirtualBox :<br />
+- - Menu de VirtualBox &gt; Machine &gt; Configuration...<br />
+- - - Onglet Réseau<br />
+-&gt; Adapter 1 &gt; Mode d'accès réseau &gt; Réseau interne<br />
+-&gt; OK</p>
+<h4 id="51-adressage-ip-fixe-carte-enp0s3"><em>5.1 - Adressage IP fixe carte enp0s3</em></h4>
+<p>Configurez à présent une IP fixe sur la carte enp0s3 :<br />
+- - Bureau Xfce, barre du haut<br />
+-&gt; Clic droit sur l'icône Réseau située à droite<br />
+-&gt; Sélectionnez Modifier les connexions...  </p>
+<p>Une fenêtre Connexions réseau s'ouvre :<br />
+-&gt; Sélectionnez la connexion Wired connection 1<br />
+-&gt; Cliquez sur l'icône roue dentée de la fenêtre  </p>
+<p>Une fenêtre Modification de ... s'ouvre :<br />
+-&gt; Nom de la connexion &gt; Entrez Connexion carte 1  </p>
+<p>- - - Onglet Ethernet<br />
+-&gt; Périphérique &gt; Sélectionnez enp0s3  </p>
+<p>- - - Onglet Paramètres IPv4<br />
+-&gt; Méthode &gt; Sélectionnez Manuel &gt; Bouton Ajouter<br />
+-&gt; Champ Adresse : Entrez 192.168.2.2<br />
+-&gt; Champ Masque de réseau : Entrez 255.255.255.0<br />
+-&gt; Champ Passerelle : Entrez 192.168.2.1<br />
+-&gt; Serveurs DNS &gt; Entrez l'IP locale de votre Box Internet<br />
+-&gt; Bouton Enregistrer  </p>
+<p>Fermez ensuite la fenêtre Connexions réseau.  </p>
+<p>Pour finir, stoppez la VM srvlan :<br />
+- - Menu Applications de Xfce situé en haut à gauche<br />
+-&gt; Déconnexion &gt; Une fenêtre s'ouvre<br />
+-&gt; Bouton Eteindre</p>
+<h4 id="52-creation-et-adressage-ip-fixe-carte-enp0s8"><em>5.2 - Création et adressage IP fixe carte enp0s8</em></h4>
+<p>Le raccordement de la VM srvlan nécessite de créer une seconde carte réseau sur celle-ci.</p>
+<p>Pour cela, sélectionnez la VM srvlan dans VirtualBox :<br />
+- - Menu de VirtualBox &gt; Machine &gt; Configuration...<br />
+- - - Onglet Réseau<br />
+-&gt; Adapter 2 &gt; Cochez Activer l'interface réseau<br />
+-&gt; Mode d'accès réseau &gt; Sélectionnez Réseau interne<br />
+-&gt; OK</p>
+<p>Redémarrez la VM srvlan.</p>
+<p>Configurez également une IP fixe sur la carte enp0s8 :<br />
+- - Bureau Xfce, barre du haut<br />
+-&gt; Clic droit sur l'icône Réseau située à droite<br />
+-&gt; Sélectionnez Modifier les connexions...  </p>
+<p>Une fenêtre Connexions réseau s'ouvre :<br />
+-&gt; Sélectionnez la nouvelle connexion affichée
+-&gt; Cliquez sur l'icône roue dentée de la fenêtre  </p>
+<p>Une fenêtre Modification de ... s'ouvre :<br />
+-&gt; Nom de la connexion &gt; Connexion carte 2  </p>
+<p>- - - Onglet Ethernet<br />
+-&gt; Périphérique &gt; Sélectionnez enp0s8  </p>
+<p>- - - Onglet Paramètres IPv4<br />
+-&gt; Méthode &gt; Sélectionnez Manuel &gt; Bouton Ajouter<br />
+-&gt; Champ Adresse : Entrez 192.168.3.1<br />
+-&gt; Champ Masque de réseau : Entrez 255.255.255.0<br />
+-&gt; Bouton Enregistrer  </p>
+<p>Fermez ensuite la fenêtre Connexions réseau.</p>
+<p>Redémarrez srvlan et vérifiez la configuration réseau :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] ip address
+[srvlan@srvlan:~$] nmcli  # Cde NetworkManager
+</code></pre>
+<p>Les fichiers configurés avec NetworkManager sont ici :<br />
+/etc/NetworkManager/system-connections/</p>
+<p><em>Nota : La VM srvlan n'accède plus à Internet, la VM suivante permettra de retrouver cet accès.</em></p>
+<h4 id="53-routage-interne-au-serveur"><em>5.3 - Routage interne au serveur</em></h4>
+<p>L'activation du routage avec la Cde ip_forward permet, selon les règles définies dans la table de routage du serveur, le renvoi de paquets de données arrivés par une interface réseau vers une autre interface réseau.</p>
+<p>Pour l'activez, éditez le fichier sysctl.conf :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo nano /etc/sysctl.conf
+</code></pre>
+<p>et retirez le # de la ligne #net.ipv4.ip_forward=1.</p>
+<p>Relancez ensuite le service réseau :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo systemctl restart NetworkManager
+</code></pre>
+<h4 id="54-translation-dadresses-nat"><em>5.4 - Translation d'adresses NAT</em></h4>
+<p>-- Définition de WIKIBOOKS --
+Objectif du NAT <em>(Network Address Translation)</em> :<br />
+Faire que les PC d'un réseau interne n'apparaissent que sous l'identifiant d'une seule IP pour les réseaux externes <em>(c'est un masquage ou IP Masquerading)</em>.</p>
+<p>Votre box Internet <em>(passerelle)</em> fait du NAT entre votre réseau privé et le réseau Internet et de ce fait votre fournisseur d'accès <em>(FAI)</em> ne vous donne qu'une seule IP alors que vous pouvez très bien avoir plusieurs PC connectés à Internet à partir de votre réseau local.</p>
+<p>Le NAT répond principalement au manque d'adresses IP dans le plan d'adressage ipV4 pour l'accès à Internet.</p>
+<p>Il permet également de s'affranchir de la gestion des tables de routage et fonctionne avec le service iptables installé par défaut avec Debian.</p>
+<p>Vérifiez l'état courant du NAT ou IP Masquerading :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo iptables -L -t nat
+</code></pre>
+<p>Résultat, NAT inactif, pas de target MASQUERADE :</p>
+<p><img alt="Capture - iptables : Pas de règle active" src="../../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-inactif.webp" /></p>
+<p>iptables : Pas de règle active</p>
+<p>Activez celui-ci en utilisant une règle iptables :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo iptables -t nat -A POSTROUTING -o enp0s3 -j MASQUERADE
+</code></pre>
+<p>et affichez de nouveau le contenu de la table NAT :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo iptables -L -t nat
+</code></pre>
+<p>Résultat, le NAT est actif :</p>
+<p><img alt="Capture - iptables : Règle NAT (MASQUERADE) active) est vu activé" src="../../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-actif.webp" /></p>
+<p>iptables : Règle NAT (MASQUERADE) active</p>
+<p>Effectuez une sauvegarde de la règle iptables :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] su root
+[root@srvlan:~$] sudo iptables-save &gt; /etc/iptables/rules.v4
+[root@srvlan:~$] exit
+</code></pre>
+<p>et déclarez celle-ci persistente :</p>
+<pre><code class="language-bash">[srvlan@srvlan:~$] sudo systemctl enable netfilter-persistent
+[srvlan@srvlan:~$] sudo systemctl restart netfilter-persistent
+</code></pre>
+<p>Elle sera ainsi activée à chaque boot du système.</p>
+<p>Par curiosité, lisez la table de routage avec la Cde ip r :</p>
+<p><img alt="Capture - Table de routage de srvlan " src="../../wp-content/uploads/2023/07/srvlan-deb12-table-routage.webp" /></p>
+<p>Table de routage de srvlan</p>
+<p><img align="left" alt="Image - Rédacteur satisfait" src="../../wp-content/uploads/2023/07/redacteur_satisfait.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>&nbsp;<br />
+Bravo !<br />
+Le serveur srvlan est prêt.<br />
+Le mémento 2.1 vous attend pour<br />
+l'ajout du serveur srvsec <em>(IPFire)</em>.</p>
+<p><a class="md-button" href="../serveur-ipfire-srvsec-creation">Mémento 2.1</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page" >
+        
+          
+          <a href="../virtualbox-pont-reseau/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Accès réseau par pont" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                Accès réseau par pont
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../serveur-ipfire-srvsec-creation/" class="md-footer__link md-footer__link--next" aria-label="Suivant: srvsec - VBox/IPFire" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                srvsec - VBox/IPFire
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

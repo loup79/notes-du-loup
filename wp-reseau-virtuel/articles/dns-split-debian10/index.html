@@ -1,0 +1,2359 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/dns-split-debian10/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>DNS split / Debian 10 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-101-dns-split-brain" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DNS split / Debian 10
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-101-dns-split-brain" class="md-nav__link">
+    Mémento 10.1 - DNS Split-Brain
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 10.1 - DNS Split-Brain">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preambule" class="md-nav__link">
+    1 - Préambule
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-role-du-dns-split" class="md-nav__link">
+    1.1 - Rôle du DNS split
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-role-de-la-delegation-de-zone" class="md-nav__link">
+    1.2 - Rôle de la délégation de zone
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-role-du-proxy-inverse" class="md-nav__link">
+    1.3 - Rôle du proxy inverse
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mise-en-place-du-service-dns-sur-srvdmz" class="md-nav__link">
+    2 - Mise en place du service DNS sur srvdmz
+  </a>
+  
+    <nav class="md-nav" aria-label="2 - Mise en place du service DNS sur srvdmz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-installation-dun-serveur-bind" class="md-nav__link">
+    2.1 - Installation d'un serveur Bind
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-creation-acl-vueszones-de-recherche" class="md-nav__link">
+    2.2 - Création ACL, vues/zones de recherche
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-etcbindnamedconfdefault-zones" class="md-nav__link">
+    include "/etc/bind/named.conf.default-zones";
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-vue-interne-zones-loupvirtuelfrintraloupvirtuelfr" class="md-nav__link">
+    Définition vue interne, zones loupvirtuel.fr/intra.loupvirtuel.fr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-directe-loupvirtuelfr" class="md-nav__link">
+    zone de recherche directe loupvirtuel.fr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-inverse-loupvirtuelfr" class="md-nav__link">
+    zone de recherche inverse loupvirtuel.fr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-directe-sous-domaine-intraloupvirtuelfr" class="md-nav__link">
+    zone de recherche directe sous-domaine intra.loupvirtuel.fr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-deleguee-au-serveur-dns-srvlan" class="md-nav__link">
+    Zone déléguée au serveur DNS srvlan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-inverse-sous-domaine-intraloupvirtuelfr" class="md-nav__link">
+    zone de recherche inverse sous-domaine intra.loupvirtuel.fr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-deleguee-au-serveur-dns-srvlan_1" class="md-nav__link">
+    Zone déléguée au serveur DNS srvlan
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reinsertion-des-zones-par-defaut-fournies-par-bind9" class="md-nav__link">
+    Réinsertion des zones par défaut fournies par bind9
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#definition-vue-externe-zone-internet-zone-loupvirtuelfr" class="md-nav__link">
+    Définition vue externe, zone Internet &gt; zone loupvirtuel.fr
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-directe-loupvirtuelfr_1" class="md-nav__link">
+    zone de recherche directe loupvirtuel.fr
+  </a>
+  
+    <nav class="md-nav" aria-label="zone de recherche directe loupvirtuel.fr">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#23-creation-des-fichiers-de-zone-vue-interne" class="md-nav__link">
+    2.3 - Création des fichiers de zone vue interne
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-creation-du-fichier-de-zone-vue-externe" class="md-nav__link">
+    2.4 - Création du fichier de zone vue externe
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-reglage-des-permissions-sur-les-fichiers" class="md-nav__link">
+    2.5 - Réglage des permissions sur les fichiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#26-reglage-des-fichiers-hosts-et-resolvconf" class="md-nav__link">
+    2.6 - Réglage des fichiers hosts et resolv.conf
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nom-du-domaine-local" class="md-nav__link">
+    Nom du domaine local
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ajout-automatique-du-nom-de-domaine-aux-hotes" class="md-nav__link">
+    Ajout automatique du nom de domaine aux hôtes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-pleinement-qualifies" class="md-nav__link">
+    non pleinement qualifiés
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adresses-ip-du-ou-des-serveurs-dns-a-interroger" class="md-nav__link">
+    Adresses IP du ou des serveurs DNS à interroger
+  </a>
+  
+    <nav class="md-nav" aria-label="Adresses IP du ou des serveurs DNS à interroger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#27-reglage-de-la-resolution-dns-externe" class="md-nav__link">
+    2.7 - Réglage de la résolution DNS externe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pas-dutilisation-du-protocole-dnssec" class="md-nav__link">
+    Pas d'utilisation du protocole DNSSEC
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#si-reponse-locale-impossible-envoi-des-requetes-dns" class="md-nav__link">
+    Si réponse locale impossible, envoi des requêtes DNS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vers-la-box-internet" class="md-nav__link">
+    vers la box Internet.
+  </a>
+  
+    <nav class="md-nav" aria-label="vers la box Internet.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#28-securisation-des-services-fournis-par-bind" class="md-nav__link">
+    2.8 - Sécurisation des services fournis par Bind
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#29-securisation-des-liaisons-dns-avec-tsig" class="md-nav__link">
+    2.9 - Sécurisation des liaisons DNS avec TSIG
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ip-du-serveur-dns-en-delegation-pour-intraloupvirtuelfr" class="md-nav__link">
+    IP du serveur DNS en délégation pour intra.loupvirtuel.fr
+  </a>
+  
+    <nav class="md-nav" aria-label="IP du serveur DNS en délégation pour intra.loupvirtuel.fr">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3-modification-du-pare-feu-ipfire" class="md-nav__link">
+    3 - Modification du pare-feu IPFire
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-modification-du-service-dns-sur-srvlan" class="md-nav__link">
+    4 - Modification du service DNS sur srvlan
+  </a>
+  
+    <nav class="md-nav" aria-label="4 - Modification du service DNS sur srvlan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-creation-des-zones-de-recherche-intra" class="md-nav__link">
+    4.1 - Création des zones de recherche intra...
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#zone-de-recherche-inverse" class="md-nav__link">
+    zone de recherche inverse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#le-reseau-19216830-aura-pour-adresse-inverse" class="md-nav__link">
+    Le réseau 192.168.3.0 aura pour adresse inverse
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3168192in-addrarpa" class="md-nav__link">
+    3.168.192.in-addr.arpa
+  </a>
+  
+    <nav class="md-nav" aria-label="3.168.192.in-addr.arpa">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#42-creation-des-fichiers-de-zone-intra" class="md-nav__link">
+    4.2 - Création des fichiers de zone intra...
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-reglage-des-permissions-sur-les-fichiers" class="md-nav__link">
+    4.3 - Réglage des permissions sur les fichiers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-reglage-des-fichiers-hosts-et-resolvconf" class="md-nav__link">
+    4.4 - Réglage des fichiers hosts et resolv.conf
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ip-de-srvlan-fqdn-nom-dhote-domaine" class="md-nav__link">
+    IP de srvlan        + FQDN    + nom d'hôte     + domaine
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-following-lines-are-desirable-for-ipv6-capable-hosts" class="md-nav__link">
+    The following lines are desirable for IPv6 capable hosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nom-du-domaine-local_1" class="md-nav__link">
+    Nom du domaine local
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ajout-automatique-du-nom-de-domaine-aux-hotes_1" class="md-nav__link">
+    Ajout automatique du nom de domaine aux hôtes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-pleinement-qualifies_1" class="md-nav__link">
+    non pleinement qualifiés
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adresses-ip-du-ou-des-serveurs-dns-a-interroger_1" class="md-nav__link">
+    Adresses IP du ou des serveurs DNS à interroger
+  </a>
+  
+    <nav class="md-nav" aria-label="Adresses IP du ou des serveurs DNS à interroger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#45-reglage-des-fichiers-namedconf" class="md-nav__link">
+    4.5 - Réglage des fichiers named.conf...
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#de-chiffrage" class="md-nav__link">
+    de chiffrage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ip-du-serveur-dns-srvdmz-pour-la-zone-loupvirtuelfr" class="md-nav__link">
+    IP du serveur DNS srvdmz pour la zone "loupvirtuel.fr"
+  </a>
+  
+    <nav class="md-nav" aria-label="IP du serveur DNS srvdmz pour la zone "loupvirtuel.fr"">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#46-installation-de-apache-pour-les-tests" class="md-nav__link">
+    4.6 - Installation de Apache pour les tests
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-modifications-sur-les-vm-de-la-zone-lan" class="md-nav__link">
+    5 - Modifications sur les VM de la zone LAN
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nom-du-domaine-local_2" class="md-nav__link">
+    Nom du domaine local
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ajout-automatique-du-nom-de-domaine-aux-hotes_2" class="md-nav__link">
+    Ajout automatique du nom de domaine aux hôtes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-pleinement-qualifies_2" class="md-nav__link">
+    non pleinement qualifiés
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adresses-ip-du-ou-des-serveurs-dns-a-interroger_2" class="md-nav__link">
+    Adresses IP du ou des serveurs DNS à interroger
+  </a>
+  
+    <nav class="md-nav" aria-label="Adresses IP du ou des serveurs DNS à interroger">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#6-controle-de-la-configuration-dns-split" class="md-nav__link">
+    6 - Contrôle de la configuration DNS split
+  </a>
+  
+    <nav class="md-nav" aria-label="6 - Contrôle de la configuration DNS split">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-cote-srvdmz" class="md-nav__link">
+    6.1 - Côté srvdmz
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-cote-srvlan" class="md-nav__link">
+    6.2 - Côté srvlan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-cote-clients-debian10-vm" class="md-nav__link">
+    6.3 - Côté clients debian10-vm*
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-test-depuis-internet-simulation" class="md-nav__link">
+    7 - Test depuis Internet (simulation)
+  </a>
+  
+    <nav class="md-nav" aria-label="7 - Test depuis Internet (simulation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-preparation-pour-la-simulation" class="md-nav__link">
+    7.1 - Préparation pour la simulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-test-du-dns-de-srvdmz-depuis-internet" class="md-nav__link">
+    7.2 - Test du DNS de srvdmz depuis Internet
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-test-du-site-loupvirtuelfr-depuis-internet" class="md-nav__link">
+    7.3 - Test du site loupvirtuel.fr depuis Internet
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-test-du-site-web-de-srvlan-depuis-internet" class="md-nav__link">
+    7.4 - Test du site Web de srvlan depuis Internet
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-101-dns-split-brain">Mémento 10.1 - DNS Split-Brain</h2>
+<p>Rappel, 2 entités distinctes coexistent sur le réseau :<br />
+- Domaine loupvirtuel.fr en zone interne publique.<br />
+- Sous-domaine intra.loupipfire.fr en zone interne privée.</p>
+<p>Le domaine n'est actuellement pas joignable depuis Internet et le sous-domaine n'est pas compatible avec le domaine.</p>
+<p>Pour le fun, vous allez créer un <strong>DNS split</strong> qui permettra de joindre le domaine depuis Internet ou la zone interne et une <strong>délégation de zone</strong> déclarant un sous-domaine compatible qui sera géré par srvlan.</p>
+<p>2 serveurs DNS dont 1 à créer géreront ces services :<br />
+- 1 sur srvdmz pour le domaine loupvirtuel.fr <em>(création)</em>.<br />
+- 1 sur srvlan pour le sous-domaine intra.loupvirtuel.fr.</p>
+<p>Vous finirez en mettant en place un <strong>proxy inverse</strong> qui permettra de joindre le site Web du sous-domaine depuis Internet.</p>
+<h3 id="1-preambule">1 - Préambule</h3>
+<h4 id="11-role-du-dns-split"><em>1.1 - Rôle du DNS split</em></h4>
+<p>Fournir une IP publique aux requêtes DNS provenant de la zone Internet et une IP locale aux requêtes provenant des zones internes DMZ/LAN.</p>
+<p>Cela évitera notamment de dévoiler au monde extérieur l'IP interne du domaine loupvirtuel.fr.</p>
+<h4 id="12-role-de-la-delegation-de-zone"><em>1.2 - Rôle de la délégation de zone</em></h4>
+<p>Déléguer la gestion du sous-domaine intra.louvirtuel.fr au serveur DNS de la zone LAN qui sera notamment, pour les noms d'hôtes des VM de la zone LAN, chargé de répondre aux requêtes DNS issues de la zone DMZ.</p>
+<h4 id="13-role-du-proxy-inverse"><em>1.3 - Rôle du proxy inverse</em></h4>
+<p>Permettre à un utilisateur d'Internet d'accéder au serveur interne de la zone LAN. Placé en zone DMZ, il agira également comme une barrière de protection.</p>
+<h3 id="2-mise-en-place-du-service-dns-sur-srvdmz">2 - Mise en place du service DNS sur srvdmz</h3>
+<h4 id="21-installation-dun-serveur-bind"><em>2.1 - Installation</em> d'un serveur Bind</h4>
+<p>Commencez par mettre à jour la distribution Debian :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt update 
+[srvdmz@srvdmz:~$] sudo apt upgrade
+[srvdmz@srvdmz:~$] sudo reboot</p>
+<p>et installez le même serveur DNS que sur srvlan :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install bind9</p>
+<p>Le démon bind9 démarre automatiquement.<br />
+- La configuration de base a été créée dans /etc/bind/.<br />
+- Les fichiers de zone le seront dans /var/cache/bind/.</p>
+<p>La synchronisation horaire normalement assurée par le service systemd-timesyncd de Debian est désactivée automatiquement au profit de celle assurée par le service vboxadd de VirtualBox.</p>
+<p>Si vous n'utilisez pas VirtualBox, vérifiez ce service :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl status systemd-timesyncd</p>
+<p>Celui-ci doit montrer un serveur x.debian.pool.ntp.org.</p>
+<h4 id="22-creation-acl-vueszones-de-recherche"><em>2.2 - Création ACL, vues/zones de recherche</em></h4>
+<p>Les Access Control List faciliteront l'écriture/lecture de la configuration en proposant de changer les définitions de réseaux IP filtrés par des alias plus explicites.</p>
+<p>Les vues internes et externes contiendront pour chacune d'elles les définitions de leurs propres zones de recherche et fichiers de zone associés ainsi que celles des zones en délégation.</p>
+<p>Les zones de recherche directe permettront de renvoyer une adresse IP associée à un nom alors que les zones de recherche inverse renverront un nom associé à une adresse IP.</p>
+<p>Au préalable, éditez le fichier named.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/bind/named.conf</p>
+<p>et commentez l'inclusion des zones par défaut :</p>
+<h1 id="include-etcbindnamedconfdefault-zones">include "/etc/bind/named.conf.default-zones";</h1>
+<p>Editez ensuite le fichier named.conf.local :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/bind/named.conf.local</p>
+<p>et ajoutez les lignes suivantes en fin de fichier :</p>
+<p># Listes de contrôle d'accès pour les zones internes/externes
+acl interne { 192.168.2.0/24; 192.168.4.0/24; };
+acl externe { any; };</p>
+<h1 id="definition-vue-interne-zones-loupvirtuelfrintraloupvirtuelfr">Définition vue interne, zones loupvirtuel.fr/intra.loupvirtuel.fr</h1>
+<p>view "interne" {
+match-clients { interne; };</p>
+<h1 id="zone-de-recherche-directe-loupvirtuelfr">zone de recherche directe loupvirtuel.fr</h1>
+<p>zone "loupvirtuel.fr" IN {
+type master;
+file "db.loupvirtuel.fr.directe";
+allow-update { none; };
+};</p>
+<h1 id="zone-de-recherche-inverse-loupvirtuelfr">zone de recherche inverse loupvirtuel.fr</h1>
+<p>zone "4.168.192.in-addr.arpa" IN {
+type master;
+file "db.loupvirtuel.fr.inverse";
+allow-update { none; };
+};</p>
+<h1 id="zone-de-recherche-directe-sous-domaine-intraloupvirtuelfr">zone de recherche directe sous-domaine intra.loupvirtuel.fr</h1>
+<h1 id="zone-deleguee-au-serveur-dns-srvlan">Zone déléguée au serveur DNS srvlan</h1>
+<p>zone "intra.loupvirtuel.fr" IN {
+type forward;
+forward only;
+forwarders { 192.168.3.1; };
+};</p>
+<h1 id="zone-de-recherche-inverse-sous-domaine-intraloupvirtuelfr">zone de recherche inverse sous-domaine intra.loupvirtuel.fr</h1>
+<h1 id="zone-deleguee-au-serveur-dns-srvlan_1">Zone déléguée au serveur DNS srvlan</h1>
+<p>zone "3.168.192.in-addr.arpa" IN {
+type forward;
+forward only;
+forwarders { 192.168.3.1; };
+};</p>
+<h1 id="reinsertion-des-zones-par-defaut-fournies-par-bind9">Réinsertion des zones par défaut fournies par bind9</h1>
+<p>include "/etc/bind/named.conf.default-zones";</p>
+<p>};</p>
+<h1 id="definition-vue-externe-zone-internet-zone-loupvirtuelfr">Définition vue externe, zone Internet &gt; zone loupvirtuel.fr</h1>
+<p>view "externe" {
+match-clients { externe; };</p>
+<h1 id="zone-de-recherche-directe-loupvirtuelfr_1">zone de recherche directe loupvirtuel.fr</h1>
+<p>zone "loupvirtuel.fr" IN {
+type master;
+file "db.loupvirtuel.fr.directe.externe";
+allow-update { none; };
+};</p>
+<p>};</p>
+<h4 id="23-creation-des-fichiers-de-zone-vue-interne"><em>2.3 - Création des fichiers de zone vue interne</em></h4>
+<p>Créez le fichier pour la zone directe :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/cache/bind
+[srvdmz@srvdmz:~$] sudo nano db.loupvirtuel.fr.directe</p>
+<p>et insérez les lignes suivantes :</p>
+<p>; DNS - Fichier de zone résolution directe pour loupvirtuel.fr
+$TTL 86400
+@ IN SOA srvdmz.loupvirtuel.fr. root.loupvirtuel.fr. (
+2020051901
+1w
+1d
+4w
+1w )
+@ IN NS srvdmz.loupvirtuel.fr.
+srvdmz IN A 192.168.4.2
+@ IN A 192.168.4.2
+www IN CNAME srvdmz</p>
+<p>; Déclaration du serveur gérant la zone déléguée intra.loupvir...
+$ORIGIN intra.loupvirtuel.fr.
+@ IN NS srvlan.intra.loupvirtuel.fr.
+srvlan IN A 192.168.3.1                          </p>
+<p>2020051901 = créé le 19/05/2020 + index de départ 01</p>
+<p>Le fichier contient les enregistrements permettant d'accéder à la zone loupvirtuel.fr ainsi qu'une déclaration de délégation de zone pour l'accès au sous-domaine intra.loupvirtuel.fr.</p>
+<p>Créez maintenant le fichier pour la zone inverse :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/cache/bind
+[srvdmz@srvdmz:~$] sudo nano db.loupvirtuel.fr.inverse</p>
+<p>et insérez les lignes suivantes :</p>
+<p>; DNS - Fichier de zone résolution inverse pour loupvirtuel.fr
+$TTL 86400
+@ IN SOA srvdmz.loupvirtuel.fr. root.loupvirtuel.fr. (
+2020051901
+1w
+1d
+4w
+1w )
+@ IN NS srvdmz.loupvirtuel.fr.
+2 IN PTR srvdmz.loupvirtuel.fr.</p>
+<h4 id="24-creation-du-fichier-de-zone-vue-externe"><em>2.4 - Création du fichier de zone vue externe</em></h4>
+<p>Effectuez une copie du fichier db.loupvirtuel.fr.directe :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/cache/bind
+[srvdmz@srvdmz:~$] sudo cp *directe db.loupvirtuel.fr.directe.externe</p>
+<p>et modifiez la copie avec l'éditeur nano comme suit :</p>
+<p>; DNS - Fichier de zone résolution directe pour loupvirtuel.fr
+$TTL 86400
+@ IN SOA srvdmz.loupvirtuel.fr. root.loupvirtuel.fr. (
+2020051901
+1w
+1d
+4w
+1w )
+@ IN NS srvdmz.loupvirtuel.fr.
+srvdmz IN A 192.168.x.w
+@ IN A 192.168.x.w
+www IN CNAME srvdmz</p>
+<p>Remplacez 192.168.x.w par l'IP de la carte RED IPFire.</p>
+<h4 id="25-reglage-des-permissions-sur-les-fichiers"><em>2.5 - Réglage des permissions sur les fichiers</em></h4>
+<p>Attachez les 3 fichiers de zone créés au groupe bind :</p>
+<p>[srvdmz@srvdmz:~$] sudo chgrp bind /var/cache/bind/*loupvirtuel*</p>
+<p>Le démon bind9 pourra ainsi accéder à leur contenu.</p>
+<p>Modifiez leur permission à la valeur 644 :</p>
+<p>[srvdmz@srvdmz:~$] sudo chmod 644 /var/cache/bind/*loupvirtuel*</p>
+<p>6 &gt; Lecture/Ecriture pour le propriétaire root.<br />
+4 &gt; Lecture pour le groupe bind.<br />
+4 &gt; Lecture pour les autres utilisateurs.</p>
+<h4 id="26-reglage-des-fichiers-hosts-et-resolvconf"><em>2.6 - Réglage des fichiers hosts et resolv.conf</em></h4>
+<p>Avant, relancez bind9 pour traiter les fichiers ci-dessus :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart bind9
+[srvdmz@srvdmz:~$] sudo systemctl status bind9</p>
+<p>Editez ensuite le fichier DNS de nom hosts :</p>
+<p>[srvdmz@srvdmz:~$] sudo cat /etc/hosts</p>
+<p>et vérifiez qu'il contient bien le FQDN de srvdmz :</p>
+<p>192.168.4.2 srvdmz.loupvirtuel.fr srvdmz loupvirtuel.fr </p>
+<p>Corrigez ou ajoutez la ligne si nécessaire.</p>
+<p>Vérifiez le non remplissage auto du fichier resolv.conf :</p>
+<p>[srvdmz@srvdmz:~$] cat /etc/default/bind9</p>
+<p>Le paramètre RESOLVCONF doit être configuré à no.</p>
+<p>Editez ensuite le fichier résolveur DNS resolv.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/resolv.conf</p>
+<p>et remplacez tout le contenu par les lignes suivantes :</p>
+<p># Fichier resolv.conf - Client DNS</p>
+<h1 id="nom-du-domaine-local">Nom du domaine local</h1>
+<p>domain loupvirtuel.fr</p>
+<h1 id="ajout-automatique-du-nom-de-domaine-aux-hotes">Ajout automatique du nom de domaine aux hôtes</h1>
+<h1 id="non-pleinement-qualifies">non pleinement qualifiés</h1>
+<p>search loupvirtuel.fr
+search intra.loupvirtuel.fr</p>
+<h1 id="adresses-ip-du-ou-des-serveurs-dns-a-interroger">Adresses IP du ou des serveurs DNS à interroger</h1>
+<p>nameserver 192.168.4.2</p>
+<h4 id="27-reglage-de-la-resolution-dns-externe"><em>2.7 - Réglage de la résolution DNS externe</em></h4>
+<p>Comme dans le <a href="/dns-statique-debian10/#5_-_Declaration_dun_serveur_DNS_externe">mémento 7.1</a>, vous allez faire en sorte que les demandes de résolution externe <em>(Ex : ping www.yahoo.fr)</em> soient traitées par le serveur DNS de la box Internet.</p>
+<p>Editez pour cela le fichier named.conf.options :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/bind
+[srvdmz@srvdmz:~$] sudo nano named.conf.options</p>
+<p>et modifiez celui-ci afin qu'il contienne ces lignes :</p>
+<p>options {
+directory "/var/cache/bind";</p>
+<h1 id="pas-dutilisation-du-protocole-dnssec">Pas d'utilisation du protocole DNSSEC</h1>
+<p>dnssec-validation no;</p>
+<h1 id="si-reponse-locale-impossible-envoi-des-requetes-dns">Si réponse locale impossible, envoi des requêtes DNS</h1>
+<h1 id="vers-la-box-internet">vers la box Internet.</h1>
+<p>forward only;
+forwarders { 192.168.x.z; };   # Adresse IP de la box Internet
+auth-nxdomain no;</p>
+<p>listen-on-v6 { any; };
+};</p>
+<h4 id="28-securisation-des-services-fournis-par-bind"><em>2.8 - Sécurisation des services fournis par Bind</em></h4>
+<p>Editez de nouveau le fichier named.conf.options :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano named.conf.options</p>
+<p>et ajoutez ce qui suit sous la ligne forwarders :</p>
+<p>allow-recursion { 192.168.4.0/24;192.168.2.0/24; };
+allow-query { any; };
+allow-query-cache { 192.168.4.0/24;192.168.2.0/24; };</p>
+<p>- Récursivité limitée aux réseaux indiqués.<br />
+- Interrogation du DNS autorisée pour tous les réseaux.<br />
+- Accès au cache DNS limités aux réseaux indiqués.</p>
+<p>La récursivité, par sécurité, est refusée pour les requêtes DNS provenant d'Internet.</p>
+<h4 id="29-securisation-des-liaisons-dns-avec-tsig"><em>2.9 - Sécurisation des liaisons DNS avec TSIG</em></h4>
+<p>La Transaction Signature permettra de sécuriser la liaison entre les serveurs DNS de srvdmz et srvlan.</p>
+<p>Commencez par créer la clé secrète de TSIG :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/bind
+[srvdmz@srvdmz:~$] sudo dnssec-keygen -a HMAC-SHA256 -b 256 -n HOST srvdmz-srvlan-key</p>
+<p>L'outil dnssec-keygen est issu du paquet bind9utils.</p>
+<p>2 fichiers ont été créés :<br />
+- Ksrvdmz-srvlan-key.+163+43978.key<br />
+- Ksrvdmz-srvlan-key.+163+43978.private</p>
+<p>Affichez le contenu du fichier *.private :</p>
+<p>[srvdmz@srvdmz:~$] sudo cat *.private</p>
+<p>Retour :</p>
+<pre><code>Private-key-format: v1.3
+Algorithm: 163 (HMAC_SHA256)
+Key: Min04TiVfVordQEbiwUkJrbfaYiTyq347voyf9oBj8k=
+Bits: AAA=
+Created: 20200525143701
+Publish: 20200525143701
+Activate: 20200525143701
+</code></pre>
+<p>Notez la valeur de la clé pour l'utiliser ci-dessous.</p>
+<p>Editez, pour déclarer l'usage de la clé, named.conf.local :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/bind/named.conf.local</p>
+<p>et ajoutez ceci en fin de fichier :</p>
+<p># Déclaration de la clé TSIG et de son algorithme de chiffrage
+key srvdmz-srvlan-key.
+{
+algorithm hmac-sha256;
+secret "Min04TiVfVordQEbiwUkJrbfaYiTyq347voyf9oBj8k=";
+};</p>
+<h1 id="ip-du-serveur-dns-en-delegation-pour-intraloupvirtuelfr">IP du serveur DNS en délégation pour intra.loupvirtuel.fr</h1>
+<p>server 192.168.3.1
+{
+keys { srvdmz-srvlan-key; };
+};</p>
+<p><em>Nota : Ne pas oublier le point en fin de 2ème ligne.</em></p>
+<p>Redémarrez le serveur DNS :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart bind9
+[srvdmz@srvdmz:~$] sudo systemctl status bind9</p>
+<p>et arrêtez ensuite la VM :</p>
+<p>[srvdmz@srvdmz:~$] sudo poweroff</p>
+<h3 id="3-modification-du-pare-feu-ipfire">3 - Modification du pare-feu IPFire</h3>
+<p>La suite du mémento impose l'ajout de nouvelles règles.</p>
+<p>Accédez à l'interface Web d'IPFire depuis srvlan, puis :<br />
+Menu IPFire &gt; Pakfire<br />
+Effectuez la mise à jour du système si nécessaire.</p>
+<p>Ensuite :<br />
+Menu Pare-feu &gt; Options de pare-feu<br />
+> Afficher tous les réseaux... règles &gt; on &gt; Sauvegarder  </p>
+<p>Menu Pare-feu &gt; Groupes de pare-feu<br />
+> Bouton Hôtes &gt; Ajouter un hôte<br />
+> Nom : srvdmz &gt; IP/MAC : 192.168.4.2<br />
+> Remarque : Serveur en zone orange &gt; Sauvegarder  </p>
+<p>> Nom : srvlan &gt; IP/MAC : 192.168.3.1<br />
+> Remarque : Serveur en zone verte &gt; Sauvegarder<br />
+> Retour  </p>
+<p>Menu Pare-feu &gt; Règles de pare-feu<br />
+> Bouton Nouvelle règle  </p>
+<p>a ) Ouverture du port HTTPS 443, Internet vers srvdmz :<br />
+Nécessaire pour accéder à loupvirtuel.fr depuis Internet.  </p>
+<p>Paramétrage :<br />
+- Source &gt; Cochez Réseaux standards &gt; ROUGE<br />
+- NAT &gt; Cochez Utiliser la tradu... adresses réseau (NAT)<br />
+- Destination &gt; Cochez Adresse IP de ... &gt; 192.168.4.2<br />
+- Protocole &gt; Sélectionnez TCP &gt; Port de destina... &gt; 443<br />
+- Paramètres additionnels &gt; Remarque<br />
+> Entrez HTTPS vers serveur Web zone orange<br />
+> Ajouter &gt; Appliquer les changements  </p>
+<p>Recommencez comme ci-dessus pour le port HTTP 80. Cela permettra de vérifier la redirection de port vers HTTPS pour les URL http://www.loupvirtuel.fr et http://loupvirtuel.fr.</p>
+<p><a href="/wp-content/uploads/2020/06/ipfire-https-rouge-vers-orange.jpg"><img alt="Image - Règle IPFire https Red vers Orange" src="/wp-content/uploads/2020/06/ipfire-https-rouge-vers-orange-430x167.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>IPFire : HTTPS ouvert zone Rouge vers Orange</p>
+<p>b ) Ouverture du port DNS 53, srvdmz vers srvlan :<br />
+Indispensable pour le dialogue DNS entre les 2 serveurs mais représentant un petit trou de sécurité <em>(pinhole IPFire)</em> sachant que les demandes de liaison de la zone orange vers la verte sont normalement toutes bloquées.  </p>
+<p>Paramétrage :<br />
+- Source &gt; Cochez Hôtes &gt; srvdmz<br />
+- NAT &gt; Cochez Utiliser la tradu... adresses réseau (NAT)<br />
+- Destination &gt; Cochez Hôtes &gt; srvlan<br />
+- Protocole &gt; Sélectionnez TCP &gt; Port de destina... &gt; 53<br />
+- Paramètres additionnels &gt; Remarques<br />
+> Entrez Trafic DNS TCP srvdmz vers srvlan<br />
+> Ajouter &gt; Appliquer les changements  </p>
+<p>Recommencez comme ci-dessus pour le protocole UDP car le dialogue DNS se fait en général via ce protocole.</p>
+<p><a href="/wp-content/uploads/2020/06/ipfire-dns-orange-vers-vert.jpg"><img alt="Capture - IPFire : DNS TCP/UDP ouvert zone Orange vers Verte" src="/wp-content/uploads/2020/06/ipfire-dns-orange-vers-vert-430x210.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>IPFire : DNS TCP/UDP ouvert zone Orange vers Verte</p>
+<p>c ) Ouverture du port DNS 53, IPFire vers srvdmz :<br />
+Permettra d'interroger le serveur DNS depuis Internet.  </p>
+<p>Paramétrage :<br />
+- Source &gt; Cochez Réseaux standards &gt; ROUGE<br />
+- NAT &gt; Cochez Utiliser la tradu... adresses réseau (NAT)<br />
+- Destination &gt; Cochez Adresse IP de … &gt; 192.168.4.2<br />
+- Protocole &gt; Sélectionnez UDP &gt; Port de destina... &gt; 53<br />
+- Paramètres additionnels &gt; Remarque<br />
+> Entrez Trafic DNS UDP Internet vers srvdmz<br />
+> Ajouter &gt; Appliquer les changements</p>
+<p><a href="/wp-content/uploads/2020/06/ipfire-dns-rouge-vers-orange.jpg"><img alt="Capture - IPFire : DNS UDP ouvert zone Rouge vers Orange" src="/wp-content/uploads/2020/06/ipfire-dns-rouge-vers-orange-430x228.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>IPFire : DNS UDP ouvert zone Rouge vers Orange</p>
+<p>d ) Ouverture du port HTTP 80, srvdmz vers srvlan :<br />
+Règle temporaire créée pour tester l'accès au serveur Web de srvlan depuis Internet ou srvdmz mais représentant un trou de sécurité entre la zone publique DMZ et la zone privée LAN.  </p>
+<p>Paramétrage :<br />
+- Source &gt; Cochez Hôtes &gt; srvdmz<br />
+- NAT &gt; Cochez Utiliser la tradu... adresses réseau (NAT)<br />
+- Destination &gt; Cochez Hôtes &gt; srvlan<br />
+- Protocole &gt; Sélectionnez TCP &gt; Port de destina... &gt; 80<br />
+- Paramètres additionnels &gt; Remarque<br />
+> Entrez HTTP vers serveur Web zone verte<br />
+> Ajouter &gt; Appliquer les changements</p>
+<p><a href="/wp-content/uploads/2020/06/ipfire-http-orange-vers-vert.jpg"><img alt="Capture - IPFire : HTTP ouvert zone Orange vers Verte" src="/wp-content/uploads/2020/06/ipfire-http-orange-vers-vert-430x246.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>IPFire : HTTP ouvert zone Orange vers Verte</p>
+<h3 id="4-modification-du-service-dns-sur-srvlan">4 - Modification du service DNS sur srvlan</h3>
+<h4 id="41-creation-des-zones-de-recherche-intra"><em>4.1 - Création des zones de recherche intra.</em>..</h4>
+<p>Editez le fichier de configuration DNS named.conf.local :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/bind/named.conf.local</p>
+<p>et modifiez les 2 zones de recherche comme suit :</p>
+<p># zone de recherche directe
+zone "intra.loupvirtuel.fr" IN {
+type master;
+file "/var/cache/bind/db.intra.loupvirtuel.fr.directe";
+allow-update { key "dhcp-rndc-key"; };
+};</p>
+<h1 id="zone-de-recherche-inverse">zone de recherche inverse</h1>
+<h1 id="le-reseau-19216830-aura-pour-adresse-inverse">Le réseau 192.168.3.0 aura pour adresse inverse</h1>
+<h1 id="3168192in-addrarpa">3.168.192.in-addr.arpa</h1>
+<p>zone "3.168.192.in-addr.arpa" IN {
+type master;
+file "/var/cache/bind/db.intra.loupvirtuel.fr.inverse";
+allow-update { key "dhcp-rndc-key"; };
+};</p>
+<h4 id="42-creation-des-fichiers-de-zone-intra"><em>4.2 - Création des fichiers de zone intra...</em></h4>
+<p>Créez le fichier pour la zone directe :</p>
+<p>[srvlan@srvlan:~$] cd /var/cache/bind
+[srvlan@srvlan:~$] sudo nano db.intra.loupvirtuel.fr.directe</p>
+<p>et insérez les lignes suivantes :</p>
+<p>;
+; Zone DNS intra.loupvirtuel.fr - Fichier de zone pour
+; la résolution directe
+;
+$TTL 86400
+@ IN SOA srvlan.intra.loupvirtuel.fr. root.intra.loupvirtuel.fr. (
+1 ; Serial
+604800                ; Refresh - 1w (1 semaine)
+84600                  ; Retry - 1d (1 jour)
+2419200             ; Expire - 4w
+604800 )             ; Negative Cache TTL - 1w
+;
+@ IN NS srvlan.intra.loupvirtuel.fr.
+srvlan IN A 192.168.3.1
+@ IN A 192.168.3.1
+ovs IN A 192.168.3.15
+www  IN CNAME srvlan</p>
+<p>Puis créez le fichier pour la zone inverse :</p>
+<p>[srvlan@srvlan:~$] sudo nano db.intra.loupvirtuel.fr.inverse</p>
+<p>et insérez les lignes suivantes :</p>
+<p>;
+; Zone DNS intra.loupvirtuel.fr - Fichier de zone pour
+; la résolution inverse
+;
+$TTL 86400
+@ IN SOA srvlan.intra.loupvirtuel.fr. root.intra.loupvirtuel.fr. (
+1
+1w
+1d
+4w
+1w )
+;
+@ IN NS srvlan.intra.loupvirtuel.fr.
+1 IN PTR srvlan.intra.loupvirtuel.fr.
+15 IN PTR ovs.intra.loupvirtuel.fr.</p>
+<h4 id="43-reglage-des-permissions-sur-les-fichiers"><em>4.3 - Réglage des permissions sur les fichiers</em></h4>
+<p>[srvlan@srvlan:~$] sudo chgrp bind /var/cache/bind/*loupvirtuel*</p>
+<p>[srvlan@srvlan:~$] sudo chmod 644 /var/cache/bind/*loupvirtuel*</p>
+<h4 id="44-reglage-des-fichiers-hosts-et-resolvconf"><em>4.4 - Réglage des fichiers hosts et resolv.conf</em></h4>
+<p>Editez le fichier DNS hosts :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/hosts</p>
+<p>et modifiez son contenu comme suit :</p>
+<p>127.0.0.1           localhost
+127.0.1.1           srvlan</p>
+<h1 id="ip-de-srvlan-fqdn-nom-dhote-domaine">IP de srvlan        + FQDN    + nom d'hôte     + domaine</h1>
+<p>192.168.3.1 srvlan.intra.loupvirtuel.fr  srvlan  intra.loupvirtuel.fr</p>
+<h1 id="the-following-lines-are-desirable-for-ipv6-capable-hosts">The following lines are desirable for IPv6 capable hosts</h1>
+<p>::1 localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters</p>
+<p>Supprimez la ligne 192.168.4.2 loupvirtuel.fr, c'est le serveur DNS de srvdmz qui fournira dorénavant cette correspondance IP/Nom de domaine.</p>
+<p>Editez maintenant le fichier résolveur DNS resolv.conf :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/resolv.conf</p>
+<p>et remplacez tout le contenu par les lignes suivantes :</p>
+<p># Fichier resolv.conf - Client DNS</p>
+<h1 id="nom-du-domaine-local_1">Nom du domaine local</h1>
+<p>domain intra.loupvirtuel.fr</p>
+<h1 id="ajout-automatique-du-nom-de-domaine-aux-hotes_1">Ajout automatique du nom de domaine aux hôtes</h1>
+<h1 id="non-pleinement-qualifies_1">non pleinement qualifiés</h1>
+<p>search intra.loupvirtuel.fr</p>
+<h1 id="adresses-ip-du-ou-des-serveurs-dns-a-interroger_1">Adresses IP du ou des serveurs DNS à interroger</h1>
+<p>nameserver 192.168.3.1</p>
+<h4 id="45-reglage-des-fichiers-namedconf"><em>4.5 - Réglage des fichiers named.conf...</em></h4>
+<p>Editez le fichier named.conf.options :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/bind/named.conf.options</p>
+<p>et modifiez la valeur de ces paramètres comme suit :</p>
+<p>dnssec-validation no;
+forwarders { 192.168.4.2; };   # IP du serveur DNS srvdmz</p>
+<p>Editez ensuite le fichier named.conf.local :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/bind/named.conf.local</p>
+<p>et ajoutez à la fin les informations sur la clé TSIG :</p>
+<p># Déclaration de la clé TSIG à utiliser et son algorithme</p>
+<h1 id="de-chiffrage">de chiffrage</h1>
+<p>key srvdmz-srvlan-key.
+{
+algorithm hmac-sha256;
+secret "Min04TiVfVordQEbiwUkJrbfaYiTyq347voyf9oBj8k=";
+};</p>
+<h1 id="ip-du-serveur-dns-srvdmz-pour-la-zone-loupvirtuelfr">IP du serveur DNS srvdmz pour la zone "loupvirtuel.fr"</h1>
+<p>server 192.168.4.2
+{
+keys { srvdmz-srvlan-key; };
+};</p>
+<p>Editez le fichier de configuration DHCP dhcpd.conf :</p>
+<p>[srvlan@srvlan:~$] sudo nano /etc/dhcp/dhcpd.conf</p>
+<p>et remplacez tous les loupipfire par loupvirtuel.</p>
+<p>Redémarrez ensuite le service et vérifiez son statut :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl restart isc-dhcp-server
+[srvlan@srvlan:~$] sudo systemctl status isc-dhcp-server</p>
+<p>Purgez les Bdd contenant les baux générés par dhcpd :</p>
+<p>[srvlan@srvlan:~$] cd /var/lib/dhcp
+[srvlan@srvlan:~$] su root</p>
+<p>[root@srvlan:~#] sudo rm dhcpd.leases~ # Fichier Bdd archive
+[root@srvlan:~#] echo "" &gt; dhcpd.leases   # Fichier Bdd exploité
+[root@srvlan:~#] exit</p>
+<p>Observez le contenu du cache DNS avant sa purge :</p>
+<p>[srvlan@srvlan:~$] sudo rndc dumpdb -cache</p>
+<p>La Cde ci-dessus crée dans /var/cache/bind/ un fichier de nom named_dump.db. Celui-ci renferme le contenu du cache DNS qui peut ainsi être édité pour lecture.</p>
+<p>Purgez maintenant le cache et relancez la même Cde :</p>
+<p>[srvlan@srvlan:~$] sudo rndc flush
+[srvlan@srvlan:~$] sudo rndc dumpdb -cache</p>
+<p>Puis éditez et observez le contenu du nouveau cache.</p>
+<p>Pour terminer, redémarrez la VM srvlan :</p>
+<p>[srvlan@srvlan:~$] sudo reboot</p>
+<h4 id="46-installation-de-apache-pour-les-tests"><em>4.6 - Installation de Apache pour les tests</em></h4>
+<p>Au préalable, redémarrez srvdmz sinon srvlan ne sera pas en mesure de joindre le monde extérieur pour notamment installer un nouveau paquet Linux.</p>
+<p>Ensuite, installez le paquet Apache :</p>
+<p>[srvlan@srvlan:~$] sudo apt install apache2
+[srvlan@srvlan:~$] sudo systemctl status apache2</p>
+<p>Erreur : AH00558: apache2: Could not reliably determine the server's fully qualified domain name</p>
+<p>Entrez ces Cdes pour régler le problème du FQDN :</p>
+<p>[srvlan@srvlan:~$] sudo echo "ServerName localhost" | sudo tee /etc/apache2/conf-available/fqdn.conf</p>
+<p>[srvlan@srvlan:~$] sudo a2enconf fqdn
+[srvlan@srvlan:~$] sudo systemctl restart apache2
+[srvlan@srvlan:~$] sudo systemctl status apache2</p>
+<p>et depuis Debian10-vm1, testez l'URL http://192.168.3.1.</p>
+<p>Préparez la personnalisation de l'accueil du site Web :</p>
+<p>[srvlan@srvlan:~$] cd /var/www/html
+[srvlan@srvlan:~$] sudo mv index.html index.html.origine
+[srvlan@srvlan:~$] sudo nano index.html</p>
+<p>et remplissez le nouvel index.html avec ce contenu :</p>
+<!DOCTYPE html>
+<p><html>
+<head><meta charset="utf-8"></head></p>
+<body style="background-color:#D8E6E7">
+
+<h1 style="color:#000000">
+Accueil Intranet de l'entreprise Loup Virtuel
+</h1>
+
+<p style="font-size:30px;color:#6E7783">
+Ici, des outils pour vous aider dans votre travail !
+</p>
+
+</body>
+<p></html></p>
+<p>Pour finir, testez de nouveau l'URL http://192.168.3.1.</p>
+<h3 id="5-modifications-sur-les-vm-de-la-zone-lan">5 - Modifications sur les VM de la zone LAN</h3>
+<p>- VM ovs<br />
+Editez son fichier résolveur DNS resolv.conf :</p>
+<p>[switch@ovs:~$] sudo nano /etc/resolv.conf</p>
+<p>et remplacez tout le contenu par les lignes suivantes :</p>
+<p># Fichier resolv.conf - Client DNS</p>
+<h1 id="nom-du-domaine-local_2">Nom du domaine local</h1>
+<p>domain intra.loupvirtuel.fr</p>
+<h1 id="ajout-automatique-du-nom-de-domaine-aux-hotes_2">Ajout automatique du nom de domaine aux hôtes</h1>
+<h1 id="non-pleinement-qualifies_2">non pleinement qualifiés</h1>
+<p>search intra.loupvirtuel.fr</p>
+<h1 id="adresses-ip-du-ou-des-serveurs-dns-a-interroger_2">Adresses IP du ou des serveurs DNS à interroger</h1>
+<p>nameserver 192.168.3.1</p>
+<p>- VM debian10-vm*<br />
+Faites un clic droit sur l'applet réseau NetworkManager :<br />
+> Modifier les connexions...</p>
+<p>Une fenêtre Connexion réseau s'ouvre :<br />
+> Sélectionnez la connexion affichée<br />
+> Cliquez sur l'icône roue dentée située en bas à gauche</p>
+<p>Une fenêtre Modification de ... s'ouvre :<br />
+> Onglet Paramètres IPv4<br />
+> Domaines de recherche supplémentaires<br />
+> Remplacez intra.loupipfire.fr par intra.loupvirtuel.fr<br />
+> Enregistrer</p>
+<p>Le paramètre search du fichier /etc/resolv.conf doit être mis à jour comme ceci :</p>
+<p>[client-linux@debian10-vm*:~$] sudo systemctl restart NetworkManager</p>
+<p>[client-linux@debian10-vm*:~$] cat /etc/resolv.conf</p>
+<h3 id="6-controle-de-la-configuration-dns-split">6 - Contrôle de la configuration DNS split</h3>
+<h4 id="61-cote-srvdmz"><em>6.1 - Côté srvdmz</em></h4>
+<p>Au préalable, installez le paquet dnsutils pour pouvoir exploiter les utilitaires dig et nslookup :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install dnsutils</p>
+<p>a ) Vérifiez ensuite l'usage de TSIG entre srvdmz/srvlan :</p>
+<p>[srvdmz@srvdmz:~$] sudo dig -y hmac-sha256:srvdmz-srvlan-key:Min04TiVfVordQEbiwUkJrbfaYiTyq347voyf9oBj8k= @192.168.3.1 AXFR intra.loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>; &lt;&lt;&gt;&gt; DiG 9.11.5... &lt;&lt;&gt;&gt; -y hmac-sha256 @... uel.fr
+; (1 server found)
+;; global options: +cmd
+intra.loupvirtuel.fr.   86400   IN     SOA   srvl...
+intra.loupvirtuel.fr.   86400   IN     NS    srvl...
+intra.loupvirtuel.fr.   86400   IN     A     ....3.1
+debian10-vm1.intra.loupvirtuel.fr. ... IN A  ...3.30
+debian10-vm1.intra.loupvirtuel.fr. ... IN TXT &quot;00f..
+debian10-vm2.intra.loupvirtuel.fr. ... IN A  ...3.31
+debian10-vm2.intra.loupvirtuel.fr. ... IN TXT &quot;00c..
+ovs.intra.loupvirtuel.fr. 86400 IN     A     ...3.15
+srvlan.intra.loupvirtuel.fr. 86400 IN  A     ....3.1
+intra.loupvirtuel.fr.   86400   IN     SOA   srvl...
+srvdmz-srvlan-key.  0  ANY  TSIG   hmac... NOERROR 0 
+;; Query time: 4 msec
+;; SERVER: 192.168.3.1#53(192.168.3.1)
+;; WHEN: lun. juin 22 15:58:40 CEST 2020
+;; XFR size: 9 records (messages 1, bytes 453)
+</code></pre>
+<p>b ) Vérifiez le contenu du fichier named.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo named-checkconf</p>
+<p>Aucune erreur ne sera retournée si OK.</p>
+<p>c ) Vérifiez la zone directe db.loupvirtuel.fr.directe :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/cache/bind
+[srvdmz@srvdmz:~$] sudo named-checkzone -d loupvirtuel.fr db.loupvirtuel.fr.directe</p>
+<p>Retour :</p>
+<pre><code>loading &quot;loupvirtuel.fr&quot; from &quot;...ecte&quot; class &quot;IN&quot;
+zone loupvirtuel.fr/IN: loaded serial 2020051901
+OK
+</code></pre>
+<p>d ) Vérifiez la zone inverse db.loupvirtuel.fr.inverse :</p>
+<p>[srvdmz@srvdmz:~$] sudo named-checkzone -d 3.168.192.in-addr.arpa db.loupvirtuel.fr.inverse</p>
+<p>Retour :</p>
+<pre><code>loading &quot;3.168.192.in-add...&quot; from &quot;...&quot; class &quot;IN&quot;
+zone 3.168.192.in-addr.arpa/IN: loaded serial 202...
+OK
+</code></pre>
+<p>e ) Vérifiez le résultat des 2 Cdes suivantes :</p>
+<p>[srvdmz@srvdmz:~$] host -v srvdmz.loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>Trying &quot;srvdmz.loupvirtuel.fr&quot;
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id:2
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, ...TY: 1
+
+;; QUESTION SECTION:
+;srvdmz.loupvirtuel.fr.     IN   A
+
+;; ANSWER SECTION:
+srvdmz.loupvirtuel.fr.  86400   IN   A    ...168.4.2
+
+;; AUTHORITY SECTION:
+loupvirtuel.fr.     86400   IN   NS srvdmz.l...
+
+Received 69 bytes from 192.168.4.2#53 in 1 ms
+Trying &quot;srvdmz.loupvirtuel.fr&quot;
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id:5
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, ...TY: 1
+
+;; QUESTION SECTION:
+;srvdmz.loupvirtuel.fr.     IN   AAAA
+
+;; AUTHORITY SECTION:
+loupvirtuel.fr.     86400   IN   SOA srvdmz.l...
+
+Received 80 bytes from 192.168.4.2#53 in 1 ms
+Trying &quot;srvdmz.loupvirtuel.fr&quot;
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id:3
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, ...TY: 1
+
+;; QUESTION SECTION:
+;srvdmz.loupvirtuel.fr.     IN   MX
+
+;; AUTHORITY SECTION:
+loupvirtuel.fr.     86400   IN   SOA srvdmz.l...
+
+Received 80 bytes from 192.168.4.2#53 in 0 ms
+</code></pre>
+<p>[srvdmz@srvdmz:~$] sudo dig SOA srvdmz.loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>; &lt;&lt;&gt;&gt; DiG 9.11.5... &lt;&lt;&gt;&gt; SOA srvdmz.loupvirtuel.fr
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id:3
+;; flags: ...; ...RY: 1, ...ER: 0, ...TY: 1, ..AL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 411fb5402c2a5322532f434a5ef0c7844...(good)
+
+;; QUESTION SECTION:
+;srvdmz.loupvirtuel.fr.     IN   SOA
+
+;; AUTHORITY SECTION:
+loupvirtuel.fr.     86400   IN   SOA srvdmz.l...
+
+;; Query time: 0 msec
+;; SERVER: 192.168.4.2#53(192.168.4.2)
+;; WHEN: lun. juin 22 17:00:20 CEST 2020
+;; MSG SIZE  rcvd: 119
+</code></pre>
+<p>f ) Contrôlez les IP retournées selon le domaine ciblé :</p>
+<p>[srvdmz@srvdmz:~$] nslookup loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>Server:     192.168.4.2
+Address:    192.168.4.2#53
+
+Name:   loupvirtuel.fr
+Address: 192.168.4.2
+</code></pre>
+<p>[srvdmz@srvdmz:~$] nslookup intra.loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>Server:     192.168.4.2
+Address:    192.168.4.2#53
+
+Non-authoritative answer:
+Name:   intra.loupvirtuel.fr
+Address: 192.168.3.1
+</code></pre>
+<h4 id="62-cote-srvlan"><em>6.2 - Côté srvlan</em></h4>
+<p>a ) Vérifiez l'usage de TSIG entre srvlan/srvdmz :</p>
+<p>[srvlan@srvlan:~$] sudo dig -y hmac-sha256:srvdmz-srvlan-key:Min04TiVfVordQEbiwUkJrbfaYiTyq347voyf9oBj8k= @192.168.4.2 AXFR loupvirtuel.fr</p>
+<p>et réalisez les mêmes tests que ci-dessus avec srvdmz :</p>
+<p>[srvlan@srvlan:~$] sudo named-checkconf</p>
+<p>[srvlan@srvlan:~$] cd /var/cache/bind</p>
+<p>[srvlan@srvlan:~$] sudo named-checkzone -d intra.loupvirtuel.fr db.intra.loupvirtuel.fr.directe</p>
+<p>[srvlan@srvlan:~$] sudo named-checkzone -d 3.168.192.in-addr.arpa db.intra.loupvirtuel.fr.inverse</p>
+<p>[srvlan@srvlan:~$] sudo host -v srvlan.intra.loupvirtuel.fr</p>
+<p>[srvlan@srvlan:~$] sudo dig SOA srvlan.intra.loupvirtuel.fr</p>
+<p>b ) Vérifiez ensuite le statut du serveur DHCP :</p>
+<p>[srvlan@srvlan:~$] sudo systemctl status isc-dhcp-server</p>
+<p>Redémarrez les VM debian10-vm* et vérifiez sur srvlan que le fichier des baux /var/lib/dhcp/dhcpd.leases montre à présent le sous-domaine intra.loupvirtuel.fr.</p>
+<p>c ) Contrôlez le résultat des pings suivants :</p>
+<p>[srvlan@srvlan:~$] ping debian10-vm1
+[srvlan@srvlan:~$] ping debian10-vm2.intra.loupvirtuel.fr
+[srvlan@srvlan:~$] ping srvlan                                      # 127.0.1.1
+[srvlan@srvlan:~$] ping srvlan.intra.loupvirtuel.fr # 192.168.3.1
+[srvlan@srvlan:~$] ping ovs
+[srvlan@srvlan:~$] ping intra.loupvirtuel.fr
+[srvlan@srvlan:~$] ping loupvirtuel.fr
+[srvlan@srvlan:~$] ping www.google.fr</p>
+<p>Tous les pings doivent recevoir une réponse positive.</p>
+<p>d ) Contrôlez les IP retournées selon le domaine ciblé :</p>
+<p>[srvlan@srvlan:~$] nslookup intra.loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>Server:     192.168.3.1
+Address:    192.168.3.1#53
+
+Name:   intra.loupvirtuel.fr
+Address: 192.168.3.1
+</code></pre>
+<p>[srvlan@srvlan:~$] nslookup loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>Server:       192.168.3.1
+Address:      192.168.3.1#53
+
+Non-authoritative answer:
+Name:   loupvirtuel.fr
+Address: 192.168.4.2
+</code></pre>
+<h4 id="63-cote-clients-debian10-vm"><em>6.3 - Côté clients debian10-vm*</em></h4>
+<p>Installez l'outil dnsutils et testez les 2 Cdes suivantes :</p>
+<p>[client-linux@debian10-vm*:~$] dig SOA www.loupvirtuel.fr
+[client-linux@debian10-vm*:~$] dig SOA www.yahoo.fr </p>
+<p>Retours à observer dans la section AUTHORITY :<br />
+- SOA srvdmz.loupvirtuel.fr pour la première ligne.<br />
+- SOA yf1.yahoo.com pour la seconde.</p>
+<p>Testez également la résolution directe et inverse :</p>
+<p>[client-linux@debian10-vm*:~$] nslookup www.loupvirtuel.fr
+[client-linux@debian10-vm*:~$] nslookup 192.168.4.2 </p>
+<p>- Cde 1, srvlan renvoie l'IP locale de srvweb.<br />
+- Cde 2, srvlan renvoie l'hôte srvdmz.loupvirtuel.fr.</p>
+<h3 id="7-test-depuis-internet-simulation">7 - Test depuis Internet (simulation)</h3>
+<p>Le domaine loupvirtuel.fr n'étant pas public, vous ne pouvez pas accéder au site Web depuis Internet en tapant simplement son URL dans le champ adresse d'un navigateur Web.</p>
+<p>En revanche, vous pouvez simuler un accès Internet depuis le PC hôte de VirtualBox..</p>
+<h4 id="71-preparation-pour-la-simulation"><em>7.1 - Préparation pour la simulation</em></h4>
+<p>L'exemple ci-dessous concerne un PC hôte Windows.</p>
+<p>Désactivez l'IPv6 et modifiez l'IPv4 du serveur DNS utilisé en déclarant l'IP 192.168.x.w <em>(carte RED IPFire)</em>.</p>
+<p>a) Désactivation du protocole IPv6 :</p>
+<p><img alt="Capture - Windows : IPv4/IPv6 - IPv6 à désactiver pour la simulation " src="/wp-content/uploads/2020/06/dns-split-config-ip-serveur-dns_2.jpg" /></p>
+<p>Windows : IPv4/IPv6 - IPv6 à désactiver pour la simulation</p>
+<p>b) Adresse IPv4 du serveur DNS préféré à utiliser :</p>
+<p><img alt="Capture : Windows : IPv4 - DNS préféré &gt; 192.168.x.w = IP RED IPFire" src="/wp-content/uploads/2020/06/dns-split-config-ip-serveur-dns_1.jpg" /></p>
+<p>Windows : IPv4 - DNS préféré &gt; 192.168.x.w <em>(carte RED IPFire)</em></p>
+<p>Vous pouvez à présent effectuer les tests suivants.</p>
+<h4 id="72-test-du-dns-de-srvdmz-depuis-internet"><em>7.2 - Test du DNS de srvdmz depuis Internet</em></h4>
+<p>Sur l'Invite de commandes du PC hôte Windows, entrez :</p>
+<p>[C:\Users\...&gt;] nslookup loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>Serveur :   UnKnown
+Address:  192.168.x.w
+
+Nom :    loupvirtuel.fr  # Réponse du DNS de srvdmz
+Address:  192.168.x.w    # IP externe retournée
+</code></pre>
+<p>[C:\Users\...&gt;] nslookup yahoo.fr</p>
+<p>Retour :</p>
+<pre><code>Serveur :   UnKnown
+Address:  192.168.x.w
+
+*** UnKnown ne parvient ... yahoo.fr : Query refused
+</code></pre>
+<p>[C:\Users\...&gt;] nslookup intra.loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>Serveur :   UnKnown
+Address:  192.168.x.w
+
+*** UnKnown ... intra.loupvirtuel.fr : Non-existe...
+</code></pre>
+<p>Les 2 dernières requêtes sont rejetées car, voir plus haut, la récursivité DNS a été bloquée pour les requêtes DNS provenant d'Internet, ceci pour raison de sécurité.</p>
+<p>192.168.x.w = IP carte RED du serveur IPFire.</p>
+<h4 id="73-test-du-site-loupvirtuelfr-depuis-internet"><em>7.3 - Test du site loupvirtuel.fr depuis Internet</em></h4>
+<p>Testez depuis le navigateur Web du PC hôte ces 2 URL :<br />
+http://www.loupvirtuel.fr et http://loupvirtuel.fr</p>
+<p>Toutes les deux doivent basculer vers le protocole https sous réserve d'avoir au préalable importé le certificat ssl loupvirtuel.pem dans le magasin des autorités gérées par le navigateur Web <em>(voir <a href="/https-wordpress-debian10/#53_-_Importation_du_certificat_CA_dans_Chromium">ici</a>)</em>.</p>
+<p>Les autres URL comme par exemple http://google.fr doivent rester sans réponse car la récursivité DNS est bloquée.</p>
+<h4 id="74-test-du-site-web-de-srvlan-depuis-internet"><em>7.4 - Test du site Web de srvlan depuis Internet</em></h4>
+<p>Possible en utilisant le proxy inverse fourni par Apache.</p>
+<p>Chargez les modules concernant la fonction de proxy :</p>
+<p>[srvdmz@srvdmz:~$] sudo a2enmod proxy
+[srvdmz@srvdmz:~$] sudo a2enmod proxy_http</p>
+<p>Editez ensuite le virtualhost du domaine loupvirtuel.fr :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/apache2/sites-available
+[srvdmz@srvdmz:~$] sudo nano loupvirtuel.conf</p>
+<p>et ajoutez la section VirtualHost ci-dessous :</p>
+<p><VirtualHost \*:80>
+ServerName extra.loupvirtuel.fr</p>
+<p><Proxy \*>
+Order deny,allow
+Allow from all
+</Proxy></p>
+<p>ProxyRequests Off
+ProxyPreserveHost On
+ProxyPass "/" "http://192.168.3.1:80/"
+ProxyPassReverse "/" "http://192.168.3.1:80/"</p>
+<p>ErrorLog /var/log/apache2/extra.loupvirtuel.error.log
+CustomLog /var/log/apache2/extra.loupvirtuel.access.log combined
+</VirtualHost></p>
+<p>Redémarrez Apache :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart apache2
+[srvdmz@srvdmz:~$] sudo systemctl status apache2</p>
+<p>Modifiez maintenant le fichier de zone DNS suivant :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/cache/bind
+[srvdmz@srvdmz:~$] sudo nano db.loupvirtuel.fr.directe.externe</p>
+<p>en ajoutant l'enregistrement DNS ci-dessous :</p>
+<p>extra IN A 192.168.x.w      # IP carte RED de IPFire</p>
+<p>Pour finir, redémarrer le serveur DNS :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart bind9</p>
+<p>et testez, depuis le navigateur Web du PC hôte, l'URL :<br />
+http://extra.loupvirtuel.fr.</p>
+<p>Vous devez observer l'accueil du site Web de srvlan.</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2019/02/redacteur_satisfait_bis.png" title="Image Pixabay - Sanalinsan" /></p>
+<p>C'est terminé pour le DNS split.<br />
+Le mémento 11.1 vous attend pour<br />
+mettre en place un serveur de<br />
+courrier.</p>
+<p><a href="/postfix-debian10">Mémento 11.1</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

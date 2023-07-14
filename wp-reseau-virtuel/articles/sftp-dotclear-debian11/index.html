@@ -1,0 +1,1415 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/sftp-dotclear-debian11/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>SFTP - Dotclear / Debian 11 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-911-ftp-chiffre-ssh" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SFTP - Dotclear / Debian 11
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-911-ftp-chiffre-ssh" class="md-nav__link">
+    Mémento 9.11 - FTP chiffré SSH
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 9.11 - FTP chiffré SSH">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-preambule" class="md-nav__link">
+    1 - Préambule
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-installation-du-serveur-sftp" class="md-nav__link">
+    2 - Installation du serveur SFTP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-creation-dun-dossier-miroir-pour-dotclear" class="md-nav__link">
+    3 - Création d'un dossier miroir pour Dotclear
+  </a>
+  
+    <nav class="md-nav" aria-label="3 - Création d'un dossier miroir pour Dotclear">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-droits-dacces-et-permissions-a-preserver" class="md-nav__link">
+    3.1 - Droits d'accès et permissions à préserver
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-creation-du-dossier-miroir" class="md-nav__link">
+    3.2 - Création du dossier miroir
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-utilisation-de-bindfs-pour-remplir-le-miroir" class="md-nav__link">
+    3.3 - Utilisation de bindfs pour remplir le miroir
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-reglages-sftp-et-test-de-connexion-locale" class="md-nav__link">
+    4 - Réglages SFTP et test de connexion locale
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-connexion-distante-depuis-debian11-vm1" class="md-nav__link">
+    5 - Connexion distante depuis debian11-vm1
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Connexion distante depuis debian11-vm1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-ajout-sur-la-vm-du-client-sftp-filezilla" class="md-nav__link">
+    5.1 - Ajout sur la VM du client SFTP FileZilla
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-test-de-connexion-distante" class="md-nav__link">
+    5.2 - Test de connexion distante
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-controle-de-bon-fonctionnement-du-sftp" class="md-nav__link">
+    6 - Contrôle de bon fonctionnement du SFTP
+  </a>
+  
+    <nav class="md-nav" aria-label="6 - Contrôle de bon fonctionnement du SFTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-reparation-des-permissions-au-cas-ou" class="md-nav__link">
+    6.1 - Réparation des permissions au cas où ...
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>SFTP - Dotclear / Debian 11</h1>
+
+<h2 id="memento-911-ftp-chiffre-ssh">Mémento 9.11 - FTP chiffré SSH</h2>
+<p>Le service SFTP sera activé sur la VM srvdmz.</p>
+<p>La configuration traitera d'un accès SFTP sur le site Dotclear ceci en respectant les droits d'accès et permissions exigés par le serveur Apache sur le dossier /var/www/html/dotclear/.</p>
+<h3 id="1-preambule">1 - Préambule</h3>
+<p>Pourquoi choisir le protocole SFTP plutôt que FTP ?</p>
+<p>FTP est de base non sécurisé, ses Cdes et données ne sont pas chiffrées, on peut donc intercepter le MDP de connexion ou le contenu des fichiers échangés.</p>
+<p>Le chiffrement FTPS est possible mais exige une configuration plus lourde.</p>
+<p>SFTP est plus simple à mettre en œuvre. Il est fourni avec le paquet openssh-server et permet de base le chiffrement des Cdes et données transmises.</p>
+<p>Il vérifie l’identité du client et chiffre les fichiers/dossiers échangés une fois la connexion sécurisée établie.</p>
+<p>Il utilise les règles de chiffrement SSH <em>(Secure SHell)</em>.</p>
+<h3 id="2-installation-du-serveur-sftp">2 - Installation du serveur SFTP</h3>
+<p>Installez le paquet openssh-server :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install openssh-server</p>
+<p>La dépendance openssh-sftp-server a été ajoutée et des fichiers de configuration ont été créés dans /etc/ssh/.</p>
+<h3 id="3-creation-dun-dossier-miroir-pour-dotclear">3 - Création d'un dossier miroir pour Dotclear</h3>
+<h4 id="31-droits-dacces-et-permissions-a-preserver"><em>3.1 - Droits d'accès et permissions à préserver</em></h4>
+<p>L'utilisateur Apache sous Debian 11 étant par défaut www-data , vous avez attribué celui-ci et son groupe associé aux dossiers et fichiers de Dotclear lors de l'installation du CMS.</p>
+<p>Les scripts PHP de Dotclear ont ainsi hérité des droits d'accès en écriture leur permettant de mettre à jour localement le contenu de /var/www/html/dotclear/.</p>
+<p>Rappel des permissions utilisées par Dotclear :<br />
+- Dossiers = 755<br />
+soit propriétaire <strong>u</strong> drwx, groupe <strong>g</strong> r-x, autres <strong>o</strong> r-x  </p>
+<p>- Fichiers = 644<br />
+soit propriétaire <strong>u</strong> rw-, groupe <strong>g</strong> r--, autres <strong>o</strong> r--</p>
+<p>Les écritures effectuées depuis un client SFTP ne doivent pas modifier cette configuration au risque de voir Dotclear ne plus pouvoir se mettre à jour.</p>
+<p>Une technique pour éviter cela consiste à créer un dossier miroir du dossier Web de Dotclear.</p>
+<h4 id="32-creation-du-dossier-miroir"><em>3.2 - Création du dossier miroir</em></h4>
+<p>L'outil bindfs liera le dossier /var/www/html/dotclear/ à un dossier miroir dédié aux accès SFTP. Les écritures effectuées à l'intérieur de ce dernier n'affecteront pas les droits d'accès et permissions du dossier Web.</p>
+<p>Le dossier miroir appartiendra au groupe sftp-groupe et à l'utilisateur sftpdmz.</p>
+<p>Commencez par la création du dossier miroir :</p>
+<p>[srvdmz@srvdmz:~$] cd /home
+[srvdmz@srvdmz:~$] sudo  mkdir -p sftpdmz/sites-web/dotclear</p>
+<p>Créez ensuite son groupe sftp-groupe :</p>
+<p>[srvdmz@srvdmz:~$] sudo addgroup sftp-groupe </p>
+<p>et son utilisateur sftpdmz que vous lierez à sftp-groupe :</p>
+<p>[srvdmz@srvdmz:~$] sudo useradd -d /home/sftpdmz/sites-web/dotclear -g sftp-groupe sftpdmz </p>
+<p>Avant d'aller plus loin, effectuez les contrôles ci-après :</p>
+<p>[srvdmz@srvdmz:~$] cat /etc/group | grep sftp-groupe </p>
+<p>Retour :</p>
+<pre><code>sftp-groupe:x:1001:
+</code></pre>
+<p>[srvdmz@srvdmz:~$] cat /etc/passwd | grep sftpdmz </p>
+<p>Retour :</p>
+<pre><code>sftpdmz:x:1001:1001::/home/sftpd.../dotclear:/bin/sh
+</code></pre>
+<p>[srvdmz@srvdmz:~$] id sftpdmz </p>
+<p>Retour :</p>
+<pre><code>uid=1001(sftpdmz) gid=1001(sftp-groupe) groupes=1001(sftp-groupe)
+</code></pre>
+<p>[srvdmz@srvdmz:~$] groups sftpdmz</p>
+<p>Retour :</p>
+<pre><code>sftpdmz : sftp-groupe
+</code></pre>
+<p>Enfin, appliquez ces permissions sur le dossier miroir :</p>
+<p>[srvdmz@srvdmz:~$] sudo  chown sftpdmz:sftp-groupe /home/sftpdmz/sites-web/dotclear</p>
+<p>[srvdmz@srvdmz:~$] sudo  chmod 755 /home/sftpdmz/sites-web/dotclear</p>
+<p>et terminez en créant un MDP pour l'utilisateur sftpdmz :</p>
+<p>[srvdmz@srvdmz:~$] sudo passwd sftpdmz</p>
+<h4 id="33-utilisation-de-bindfs-pour-remplir-le-miroir"><em>3.3 - Utilisation de bindfs pour remplir le miroir</em></h4>
+<p>[srvdmz@srvdmz:~$] sudo apt install bindfs</p>
+<p>L'outil fuse qui sera utilisé ci-dessous est déjà installé.</p>
+<p>Pour remplir automatiquement le miroir, éditez fstab :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/fstab</p>
+<p>et ajoutez les 2 lignes suivantes à la fin du fichier :</p>
+<p># Montage automatique du dossier miroir de Dotclear </p>
+<p>bindfs#/var/www/html/dotclear /home/sftpdmz/sites-web/dotclear fuse force-user=sftpdmz,force-group=sftp-groupe,create-for-user=www-data,create-for-group=www-data,create-with-perms=ud=rwx:god=rx:uf=rw:gof=r,chgrp-ignore,chown-ignore,chmod-ignore 0 0</p>
+<p>La deuxième ligne doit être écrite sur une seule ligne.</p>
+<p>La Cde create-with-perms suit les permissions 755/644.</p>
+<p>Redémarrez afin de traiter la Cde bindfs du fichier fstab :</p>
+<p>[srvdmz@srvdmz:~$] sudo reboot</p>
+<p>et vérifiez ensuite le contenu du dossier miroir :</p>
+<p>[srvdmz@srvdmz:~$] sudo ls -l /home/sftpdmz/sites-web/dotclear </p>
+<p>Retour :</p>
+<pre><code>drwxr-xr-x  6 sftpdmz sftp-groupe  ... admin
+drwxr-xr-x  6 sftpdmz sftp-groupe  ... cache
+-rw-r--r-- 1 sftpdmz sftp-groupe  ... CHANGELOG
+-rw-r--r-- 1 sftpdmz sftp-groupe  ... CONTRIBUT...
+-rw-r--r-- 1 sftpdmz sftp-groupe  ... CREDITS
+drwxr-xr-x  2 sftpdmz sftp-groupe  ... db
+drwxr-xr-x  9 sftpdmz sftp-groupe  ... inc
+-rw-r--r-- 1 sftpdmz sftp-groupe  ... index.php
+-rw-r--r-- 1 sftpdmz sftp-groupe  ... LICENSE
+drwxr-xr-x  4 sftpdmz sftp-groupe  ... locales
+...
+</code></pre>
+<p>ainsi que celui du dossier /var/www/html/dotclear/ :</p>
+<p>[srvdmz@srvdmz:~$] sudo ls -l /var/www/html/dotclear</p>
+<p>Retour :</p>
+<pre><code>drwxr-xr-x  6 www-data www-data  ... admin
+drwxr-xr-x  6 www-data www-data  ... cache
+-rw-r--r-- 1 www-data www-data  ... CHANGELOG
+-rw-r--r-- 1 www-data www-data  ... CONTRIBUT...
+-rw-r--r-- 1 www-data www-data  ... CREDITS
+drwxr-xr-x  2 www-data www-data  ... db
+drwxr-xr-x  9 www-data www-data  ... inc
+-rw-r--r-- 1 www-data www-data  ... index.php
+-rw-r--r-- 1 www-data www-data  ... LICENSE
+drwxr-xr-x  4 www-data www-data  ... locales
+...
+</code></pre>
+<p>Constat :<br />
+- Les permissions dossiers/fichiers sont identiques.<br />
+- Les utilisateurs/groupes sont correctement affectés.</p>
+<h3 id="4-reglages-sftp-et-test-de-connexion-locale">4 - Réglages SFTP et test de connexion locale</h3>
+<p>Editez le fichier de configuration du démon SSH :</p>
+<p>[srvdmz@srvdmz:~$] sudo  nano /etc/ssh/sshd_config</p>
+<p>Commentez les 2 lignes suivantes :</p>
+<p>X11Forwarding yes
+Subsystem          sftp          /usr/lib/openssh/sftp-server</p>
+<p>et ajoutez en fin de fichier ce groupe de lignes :</p>
+<p># Configuration sshd de l'hôte srvdmz
+Subsystem     sftp     internal-sftp
+Port 384                                    <br />
+PermitRootLogin no               <br />
+Match User sftpdmz                                            <br />
+ChrootDirectory  /home/sftpdmz/sites-web
+X11Forwarding no
+AllowTcpForwarding no
+ForceCommand internal-sftp -u 022</p>
+<p>Explications :<br />
+- Choix sous-système internal-sftp et non sftp-serveur.<br />
+- Port SSH 384 au lieu du port 22 par défaut.<br />
+- Accès SSH interdit en tant qu'utilisateur root.<br />
+- Accès SSH restreint à l'utilisateur sftpdmz.<br />
+- Accès limité au dossier racine /home/.../sites-web/.<br />
+- Transfert d'affichage graphique X11 désactivé.<br />
+- Redirection de port TCP, tunnel SSH, désactivée.<br />
+- Cdes limitées à celles du sous-système internal-sftp.<br />
+- Umask 022 = 755 <em>(dossiers)</em> et 644 <em>(fichiers)</em>.</p>
+<p>Vérifiez afin que le ChrootDirectory <em>(limite dossier racine)</em> fonctionne que le propriétaire des dossiers sftpdmz et sites-web soit bien l'utilisateur root :</p>
+<p>[srvdmz@srvdmz:~$] ls -l /home
+[srvdmz@srvdmz:~$] ls -l /home/sftpdmz</p>
+<p>Retour :</p>
+<pre><code>drwxr-xr-x 3 root root 4096 11 avril 14:01 sftpdmz
+drwxr-xr-x 3 root root 4096 11 avril 14:01 sites-web
+</code></pre>
+<p>Redémarrez le serveur SSH :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart ssh
+[srvdmz@srvdmz:~$] sudo systemctl status ssh </p>
+<p>Retour :</p>
+<pre><code>● ssh.service - OpenBSD Secure Shell server
+  Loaded: loaded (/lib/systemd/system/ssh.service...
+  Active: active (running) since Mon 2022...; 9s ago
+  Docs: man:sshd(8)
+        man:sshd_config(5)
+ Process: 1352 ExecStartPre=/usr/sbin... =0/SUCCESS)
+ Main PID: 1353 (sshd)
+     Tasks: 1 (limit: 1116)
+     Memory: 1.1M
+     CPU: 52ms
+     CGroup: /system.slice/ssh.service
+             └─1353 sshd: /usr/sbin/sshd -D ...
+
+... srvdmz systemd[1]: Starting OpenBSD Secure ...
+... srvdmz sshd[1353]: ...ening on 0.0.0.0 port 384.
+... srvdmz sshd[1353]: ...tening on :: port 384.
+... srvdmz systemd[1]: Started OpenBSD Secure ...
+
+</code></pre>
+<p>Avant de continuer, ajoutez une image dans le dossier partagé par l'hôte de VirtualBox.</p>
+<p>Testez ensuite une connexion locale :</p>
+<p>[srvdmz@srvdmz:~$] sudo sftp -o Port=384 sftpdmz@loupvirtuel.fr</p>
+<p>Retour :</p>
+<pre><code>The authenticity ... '[loupvirtuel.fr]:384 ([192...
+ECDSA key fingerprint is SHA256:5p7EbJsL...
+Are you sure ... continue connecting (yes/...)? yes
+Warning: Permanently added '[loupvirtuel.fr]...
+sftpdmz@loupvirtuel.fr's password: votre MDP sftpdmz 
+Connected to loupvirtuel.fr.
+sftp&gt; ls
+dotclear  
+sftp&gt; cd dotclear/public
+sftp&gt; ls
+sftp&gt; (dossier public vide de base)
+</code></pre>
+<p>et déposez l'image <em>(Ex : image-1.jpg)</em> dans public :</p>
+<pre><code>sftp&gt; put /home/srvdmz/Partage/image-1.jpg
+Uploading /home.../image-1.jpg to /dotclear...
+/home/srvdmz/Partage/image-1.jpg 100%  333KB ...    
+sftp&gt; quit
+</code></pre>
+<p>Vérifiez l'attribution des droits d'accès et permissions :</p>
+<p>[srvdmz@srvdmz:~$] sudo ls -l /var/www/html/dotclear/public/image-1.jpg  </p>
+<p>Retour :</p>
+<pre><code>-rw-r--r-- 1 www-data www-data ... /.../image-1.jpg
+</code></pre>
+<p>Résultat OK :<br />
+Droits d'accès à www-data et permissions à 644.</p>
+<h3 id="5-connexion-distante-depuis-debian11-vm1">5 - Connexion distante depuis debian11-vm1</h3>
+<h4 id="51-ajout-sur-la-vm-du-client-sftp-filezilla"><em>5.1 - Ajout sur la VM du client SFTP FileZilla</em></h4>
+<p>Installez le client graphique sur la VM debian11-vm1 :</p>
+<p>[client-linux@debian11-vm1:~$] sudo apt install filezilla</p>
+<p>Ouvrez ensuite l'application graphique FTP/SFTP :<br />
+- Menu Applications &gt; Internet &gt; Icône FileZilla</p>
+<p>Cliquez sur l'icône située la plus à gauche de la barre des icônes afin d'ouvrir le Gestionnaire de Sites et cliquez sur le bouton Nouveau site.</p>
+<p>Créez le site loupvirtuel.fr comme montré ci-dessous :<br />
+- Onglet Général</p>
+<p><a href="/wp-content/uploads/2022/04/filezilla-debian11-1.webp"><img alt="Capture - FileZilla : Réglages SFTP généraux pour loupvirtuel.fr" src="/wp-content/uploads/2022/04/filezilla-debian11-1-430x237.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Réglages SFTP généraux pour loupvirtuel.fr</p>
+<p>- Onglet Avancé</p>
+<p><a href="/wp-content/uploads/2022/04/filezilla-debian11-2.webp"><img alt="Capture - FileZilla : Réglages SFTP avancés pour le site loupvirtuel.fr" src="/wp-content/uploads/2022/04/filezilla-debian11-2-430x238.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Réglages SFTP avancés pour loupvirtuel.fr</p>
+<p>et traitez pour finir la fenêtre de gestion des MDP :</p>
+<p><a href="/wp-content/uploads/2022/04/filezilla-debian11-3.webp"><img alt="Capture - FileZilla : Gestion des mots de passe" src="/wp-content/uploads/2022/04/filezilla-debian11-3-430x231.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Gestion des mots de passe</p>
+<h4 id="52-test-de-connexion-distante"><em>5.2 - Test de connexion distante</em></h4>
+<p>Vous êtes maintenant prêt pour effectuer un test. Cliquez sur la flèche située à droite de l'icône du Gestionnaire de Sites et sélectionnez loupvirtuel.fr .</p>
+<p>La connexion débute :<br />
+- Une fenêtre Clé de l'hôte inconnue s'ouvre.<br />
+- Cochez Toujours faire confiance à cet hôte... et validez.</p>
+<p><a href="/wp-content/uploads/2022/04/filezilla-debian11-4.webp"><img alt="Capture - FileZilla : SFTP - Fenêtre Clé SSH" src="/wp-content/uploads/2022/04/filezilla-debian11-4-430x162.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : SFTP - Fenêtre Clé SSH</p>
+<p>La connexion SFTP est à présent établie et sécurisée :</p>
+<p><a href="/wp-content/uploads/2022/04/filezilla-debian11-5.webp"><img alt="Capture - FileZilla : Exemples de Download/Upload (2 fichiers)" src="/wp-content/uploads/2022/04/filezilla-debian11-5-430x242.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>FileZilla : Exemples de Download/Upload (2 fichiers)</p>
+<p>Cliquez sur le cadenas orange pour découvrir les détails du chiffrement.</p>
+<p><img alt="Capture - Filezilla : Détail du chiffrement SFTP" src="/wp-content/uploads/2022/04/filezilla-debian11-6.webp" /></p>
+<p>FileZilla : Détail du chiffrement SFTP</p>
+<h3 id="6-controle-de-bon-fonctionnement-du-sftp">6 - Contrôle de bon fonctionnement du SFTP</h3>
+<p>- Client FileZilla de debian11-vm1<br />
+a) Vous devez pouvoir :<br />
+- Télécharger dans /home/client-linux/Documents/.<br />
+- Envoyer un dossier/fichier dans /dotclear/.<br />
+- Créer un nouveau dossier/fichier dans /dotclear/.<br />
+- Supprimer un dossier/fichier dans /dotclear/.<br />
+- Modifier un dossier/fichier dans /doctlear/.</p>
+<p>b) Vous ne devez pas pouvoir :<br />
+- Naviguer au delà de la racine / <em>(Chroot)</em>.</p>
+<p>c) Les droits d'accès et permissions affichés pour le dossier distant /dotclear doivent être :<br />
+- 755 pour les dossiers et 644 pour les fichiers.<br />
+- Propriétaire sftpdmz <em>(uid=1001)</em>.<br />
+- Groupe sftp-groupe <em>(gid=1001)</em>.</p>
+<p>- VM srvdmz<br />
+Affichez les droits d'accès et permissions pour le dossier /var/www/html/dotclear/public/:</p>
+<p>[srvdmz@srvdmz:~$] sudo ls -l /var/www/html/dotclear/public</p>
+<p>Exemple de retour selon le contenu courant :</p>
+<pre><code>total 340
+-rw-r--r-- 1 www-data www-data ... image-1.jpg
+drwxr-xr-x 2 www-data www-data ... test-dossier
+-rw-r--r-- 1 www-data www-data ... test-sftp.txt
+</code></pre>
+<p>Soit :<br />
+- 755 pour les dossiers et 644 pour les fichiers.<br />
+- Propriétaire www-data <em>(uid=33)</em><br />
+- Groupe www-data <em>(gid=33)</em>.</p>
+<h4 id="61-reparation-des-permissions-au-cas-ou"><em>6.1 - Réparation des permissions au cas où ...</em></h4>
+<p>En cas de problème, utilisez les Cdes ci-dessous pour rétablir en une fois les bonnes permissions sur tous les fichiers et dossiers de Dotclear :</p>
+<p>[srvdmz@srvdmz:~$] cd /var/www/html/dotclear 
+[srvdmz@srvdmz:~$] sudo find . -type d -exec chmod 755 {} \;
+[srvdmz@srvdmz:~$] sudo find . -type f -exec chmod 644 {} \;</p>
+<p>Corrigez ensuite votre configuration et effectuez un nouveau contrôle de bon fonctionnement.</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>J'espère que cela vous a plu. Le<br />
+mémento 9.21 vous attend pour la<br />
+mise en place du protocole FTPS<br />
+avec le serveur VsFTPd. A bientôt.</p>
+<p><a href="https://familleleloup.no-ip.org/ftps-vsftpd-debian11/">Mémento 9.21</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

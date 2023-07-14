@@ -1,0 +1,1259 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/supervision-centreon-bdd-mysql-partie-6/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>Centreon / Debian 11 : 6/6 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-122-mysql-et-widgets-vues" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Centreon / Debian 11 : 6/6
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-122-mysql-et-widgets-vues" class="md-nav__link">
+    Mémento 12.2 - MySQL et Widgets vues
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 12.2 - MySQL et Widgets vues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#7-supervision-dune-base-de-donnees-bdd-mysql" class="md-nav__link">
+    7 - Supervision d'une base de données (Bdd) MySQL
+  </a>
+  
+    <nav class="md-nav" aria-label="7 - Supervision d'une base de données (Bdd) MySQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-ajout-sur-la-bdd-dun-utilisateur-dedie-centreon" class="md-nav__link">
+    7.1 - Ajout sur la Bdd d'un utilisateur dédié Centreon
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-installation-des-plugins-mysql-de-centreon" class="md-nav__link">
+    7.2 - Installation des plugins MySQL de Centreon
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-configuration-de-la-bdd-sur-centreon" class="md-nav__link">
+    7.3 - Configuration de la Bdd sur Centreon
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-activation-de-la-configuration-bdd" class="md-nav__link">
+    7.4 - Activation de la configuration Bdd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75-statistiques-de-la-bdd" class="md-nav__link">
+    7.5 - Statistiques de la Bdd
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-creation-dune-vue-personnalisee-liee-a-la-bdd" class="md-nav__link">
+    8 - Création d'une vue personnalisée liée à la Bdd
+  </a>
+  
+    <nav class="md-nav" aria-label="8 - Création d'une vue personnalisée liée à la Bdd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-ajout-dun-widget-dedie-au-service-bdd-queries" class="md-nav__link">
+    8.1 - Ajout d'un widget dédié au service Bdd Queries
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-ajout-de-widgets-supplementaires" class="md-nav__link">
+    8.2 - Ajout de widgets supplémentaires
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Centreon / Debian 11 : 6/6</h1>
+
+<h2 id="memento-122-mysql-et-widgets-vues">Mémento 12.2 - MySQL et Widgets vues</h2>
+<h3 id="7-supervision-dune-base-de-donnees-bdd-mysql">7 - Supervision d'une base de données <em>(Bdd)</em> MySQL</h3>
+<p>L'exemple ci-dessous concerne une Bdd MySQL/MariaDB située sur un serveur Debian :</p>
+<ul>
+<li>
+<p>Nom de la Bdd = cmswordpress</p>
+</li>
+<li>
+<p>IP du collecteur Centreon = 192.168.8.32</p>
+</li>
+</ul>
+<p>La supervision nécessite d'ajouter au sein de la Bdd cmswordpress un utilisateur MySQL dédié au collecteur de Centreon IT-100.</p>
+<p>La partie ci-dessous s'inspire de la <a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/Centreon-supervision-mysql-mariadb.pdf">docs.centreon.com</a>.</p>
+<h4 id="71-ajout-sur-la-bdd-dun-utilisateur-dedie-centreon"><em>7.1 - Ajout sur la Bdd d'un utilisateur dédié Centreon</em></h4>
+<p>Connectez-vous sur le serveur supportant la Bdd :</p>
+<p>sudo mysql -u root -p
+[sudo] Mot de passe de ... :<br />
+Enter password : Votre MDP root pour MySQL/MariaDB 
+MariaDB [(none)]&gt;</p>
+<p>Listez les Bdd existantes :</p>
+<p>MariaDB [(none)]&gt; SHOW DATABASES;</p>
+<p>La liste des Bdd présentes sur le serveur s'affiche.<br />
+Sélectionnez celle portant le nom cmswordpress :</p>
+<p>MariaDB [(none)]&gt; USE cmswordpress;   </p>
+<p>Database changed<br />
+MariaDB [cmswordpress]&gt;</p>
+<p>et créez l'utilisateur MySQL dédié Centreon comme suit :</p>
+<p>MariaDB [cmswordpress&gt; CREATE USER 'centreon'@'192.168.8.32' IDENTIFIED BY 'votre-mdp';<br />
+Query OK, 0 rows affected (0,006 sec)</p>
+<p>MariaDB [cmswordpress]&gt;</p>
+<p>Affectez lui ses droits <em>(privilèges)</em> :</p>
+<p>MariaDB [cmswordpress]&gt; GRANT SELECT ON cmswordpress.* TO 'centreon'@'192.168.8.32';
+Query OK, 0 rows affected (0,004 sec)</p>
+<p>MariaDB [cmswordpress]&gt;</p>
+<p>Terminez en fermant la connexion MySQL :</p>
+<p>MariaDB [cmswordpress]&gt; quit
+Bye</p>
+<p>Ci-après, l'utilisateur MySQL de nom centreon vu par un gestionnaire de Bdd tel phpMyAdmin :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-mariadb-utilisateur-centreon.webp"><img alt="Capture - phpMyAdmin : Edition de l'utilisateur centreon" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-mariadb-utilisateur-centreon-430x199.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>phpMyAdmin : Edition de l'utilisateur centreon</p>
+<h4 id="72-installation-des-plugins-mysql-de-centreon"><em>7.2 - Installation des plugins MySQL de Centreon</em></h4>
+<p>Pour surveiller une Bdd, procédez comme suit :<br />
+-- Côté VM centreon -- 
+-&gt; Installez ce paquet Debian si manquant</p>
+<p>sudo apt install centreon-plugin-applications-databases-mysql</p>
+<p>-- Côté Plateforme Centreon IT-100 -- 
+-&gt; Menu Configuration &gt; Packs de plugins<br />
+-&gt; Champ Mots clés &gt; Entrez mysql<br />
+-&gt; Bouton Recherche  </p>
+<p>-&gt; Sélectionnez le plugin titré MySQL/MariaDB<br />
+-&gt; Cliquez sur son icône + pour lancer son installation  </p>
+<p>Le plugin apparaît installé après quelques secondes.</p>
+<h4 id="73-configuration-de-la-bdd-sur-centreon"><em>7.3 - Configuration de la Bdd sur Centreon</em></h4>
+<p>Créez un nouvel hôte Bdd comme suit :<br />
+-&gt; Menu Configuration &gt; Hôtes &gt; Hôtes<br />
+-&gt; Bouton Ajouter</p>
+<p>Remplissez l'onglet Configuration de l'hôte :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-hote-bdd-mariadb.webp"><img alt="Capture - Centreon : Configuration Bdd cmswordpress" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-hote-bdd-mariadb-430x201.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Centreon : Configuration Bdd cmswordpress</p>
+<p>Ensuite, comme pour l'hôte Web du <a href="https://familleleloup.no-ip.org/supervision-centreon-curl-sites-web-partie-5/#62_-_Configuration_du_site_Web_hote_Web">§ 6.2 de Centreon / Debian 11 : 5/6</a>, désactivez la notification par e-mail depuis l'onglet Notification.</p>
+<p>Concernant les 8 services associés à l'hôte Bdd, référez-vous de nouveau au <a href="https://familleleloup.no-ip.org/supervision-centreon-curl-sites-web-partie-5/#62_-_Configuration_du_site_Web_hote_Web">§ 6.2</a> pour configurer la notification par e-mail à Non sauf pour le service Ping.</p>
+<h4 id="74-activation-de-la-configuration-bdd"><em>7.4 - Activation de la configuration Bdd</em></h4>
+<p>Pour activer l'hôte Bdd, déployez la configuration :<br />
+-&gt; Menu Configuration &gt; Collecteurs<br />
+-&gt; Collecteurs &gt; Cochez le collecteur Central<br />
+-&gt; Bouton Exporter la configuration  </p>
+<p>Zone Actions :<br />
+-&gt; Cochez Déplacer les fichiers générés<br />
+-&gt; Cochez Redémarrer l'ordonnanceur<br />
+-&gt; Bouton Exporter  </p>
+<p>Retour normal :</p>
+<p><img alt="Capture - Centreon : Configuration de l'hôte Bdd déployée" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/centreon-siteweb-deploiement.webp" /></p>
+<p>Centreon : Configuration de l'hôte Bdd déployée</p>
+<h4 id="75-statistiques-de-la-bdd"><em>7.5 - Statistiques de la Bdd</em></h4>
+<p>Exemple de graphique issu du service Queries :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-supervision-bdd.webp"><img alt="Capture - Centreon : Statistiques graphiques d'une Bdd MySQL" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-supervision-bdd-430x222.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Centreon : Hôte Bdd, service Queries <em>(Requêtes)</em></p>
+<h3 id="8-creation-dune-vue-personnalisee-liee-a-la-bdd">8 - Création d'une vue personnalisée liée à la Bdd</h3>
+<p>Les widgets fournis avec Centreon permettent de créer des vues graphiques personnalisées.</p>
+<p>Pour créez une première vue, procédez ainsi :<br />
+-&gt; Menu Accueil &gt; Vues personnalisées<br />
+-&gt; Cliquez sur l'icône d'édition située en haut et à droite<br />
+Une barre de boutons s'affiche.  </p>
+<p>-&gt; Bouton Ajouter une vue<br />
+Une fenêtre Créer une vue s'ouvre.  </p>
+<p>-&gt; Champ Nom &gt; Entrez Bdd cmswordpress<br />
+-&gt; Cochez une mise en page sur 2 colonnes<br />
+-&gt; Cochez Public pour partager la vue<br />
+-&gt; Bouton Soumettre<br />
+La vue titrée en onglet cmswordpress s'ouvre vide.</p>
+<h4 id="81-ajout-dun-widget-dedie-au-service-bdd-queries"><em>8.1 - Ajout d'un widget dédié au service Bdd Queries</em></h4>
+<p>-&gt; Bouton Ajouter widget<br />
+Une fenêtre Ajouter widget s'ouvre.  </p>
+<p>-&gt; Champ Titre &gt; Entrez Service Queries<br />
+-&gt; Champ Widget &gt; Sélectionnez Graph Monitoring<br />
+-&gt; Bouton Soumettre<br />
+Le widget titré Service Queries s'ouvre.  </p>
+<p>-&gt; Cliquez sur l'icône clé à molette du widget<br />
+Une fenêtre Widget ... [graph-monitoring] s'ouvre.  </p>
+<p>-&gt; Champ Service<br />
+-&gt; a) Sélectionnez l'hôte Debian_Bdd_cmswordpress<br />
+-&gt; b) Sélectionnez le service Queries<br />
+-&gt; Champ Graph period<br />
+-&gt; Sélectionnez Last 7 days<br />
+-&gt; Bouton Apply  </p>
+<p>Le graphique du widget s'affiche sur la page.</p>
+<h4 id="82-ajout-de-widgets-supplementaires"><em>8.2 - Ajout de widgets supplémentaires</em></h4>
+<p>Ajoutez maintenant dans la vue personnalisée de nom Bdd cmswordpress, ceci en vous aidant de la procédure ci-dessus, les widgets dédiés aux services suivants :</p>
+<ul>
+<li>
+<p>Myisam-Keycache <em>(Cache du moteur MyISAM)</em></p>
+</li>
+<li>
+<p>Database-Size <em>(Taille de la Bdd cmswordpress)</em></p>
+</li>
+<li>
+<p>Open-Files <em>(Nombre de fichiers ouverts)</em></p>
+</li>
+</ul>
+<p>Résultat :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-bdd-vue-personnalisee.webp"><img alt="Capture - Centreon : Vue personnalisée d'une Bdd MySQL" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/04/centreon-bdd-vue-personnalisee-430x204.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Centreon : Vue personnalisée d'une Bdd MySQL</p>
+<p><img alt="Image - Rédacteur satisfait" src="https://familleleloup.no-ip.org/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>Voilà, la présentation de Centreon<br />
+IT-100 s'achève ici. Vous devriez à<br />
+présent pouvoir découvrir par vous<br />
+même toutes les possibilités du produit.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

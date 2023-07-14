@@ -1,0 +1,1698 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/postfix-spam-virus-debian11/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>E-mail / Debian 11 : 2/3 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-1121-postscreen-rspamd" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              E-mail / Debian 11 : 2/3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-1121-postscreen-rspamd" class="md-nav__link">
+    Mémento 11.21 - Postscreen / Rspamd
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 11.21 - Postscreen / Rspamd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#10-filtrage-du-courrier-indesirable" class="md-nav__link">
+    10 - Filtrage du courrier indésirable
+  </a>
+  
+    <nav class="md-nav" aria-label="10 - Filtrage du courrier indésirable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-installation-de-lantispam-postscreen" class="md-nav__link">
+    10.1 - Installation de l'antispam Postscreen
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-postscreen-configuration" class="md-nav__link">
+    10.2 - Postscreen : Configuration
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adresses-ip-rejetees" class="md-nav__link">
+    Adresses IP rejetées
+  </a>
+  
+    <nav class="md-nav" aria-label="Adresses IP rejetées">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#103-installation-de-lantispam-rspamd" class="md-nav__link">
+    10.3 - Installation de l'antispam Rspamd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_104-rspamd-_auto-apprentissage-bayesien__" class="md-nav__link">
+    _10.4 - Rspamd : _Auto-apprentissage bayésien__
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#envoi-des-donnees-statistiques-vers-le-serveur-redis" class="md-nav__link">
+    Envoi des données statistiques vers le serveur Redis
+  </a>
+  
+    <nav class="md-nav" aria-label="Envoi des données statistiques vers le serveur Redis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#105-rspamd-apprentissage-selon-actions" class="md-nav__link">
+    10.5 - Rspamd : Apprentissage selon actions ...
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apprentissage-selon-actions-utilisateurs" class="md-nav__link">
+    Apprentissage selon actions utilisateurs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binsh" class="md-nav__link">
+    !/bin/sh
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#binsh_1" class="md-nav__link">
+    !/bin/sh
+  </a>
+  
+    <nav class="md-nav" aria-label="!/bin/sh">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#106-rspamd-interface-web" class="md-nav__link">
+    10.6 - Rspamd : Interface Web
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#107-installation-du-scanner-de-virus-clamav" class="md-nav__link">
+    10.7 - Installation du scanner de virus ClamAV
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#108-clamav-configuration" class="md-nav__link">
+    10.8 - ClamAV : Configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#109-clamav-liaison-avec-rspamd" class="md-nav__link">
+    10.9 - ClamAV : Liaison avec Rspamd
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-tests" class="md-nav__link">
+    11 - Tests
+  </a>
+  
+    <nav class="md-nav" aria-label="11 - Tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#111-test-de-detection-dun-spam" class="md-nav__link">
+    11.1 - Test de détection d'un SPAM
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#112-test-de-detection-dun-virus" class="md-nav__link">
+    11.2 - Test de détection d'un VIRUS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#113-controle-de-la-memoire-utilisee" class="md-nav__link">
+    11.3 - Contrôle de la mémoire utilisée
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#114-controle-des-logs" class="md-nav__link">
+    11.4 - Contrôle des logs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-1121-postscreen-rspamd">Mémento 11.21 - Postscreen / Rspamd</h2>
+<p>Le filtrage du courrier indésirable fera cette fois appel aux outils antispam Postscreen et Rspamd plus récents que SpamAssassin ainsi qu'à l'antivirus ClamAV.</p>
+<h3 id="10-filtrage-du-courrier-indesirable">10 - Filtrage du courrier indésirable</h3>
+<p>Le filtrage exigera de la ressource mémoire, ClamAV en sera le principal consommateur.</p>
+<p>Pour info, ressource mémoire actuelle :</p>
+<p>[srvdmz@srvdmz:~$] free --mega -t</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>total</th>
+<th>utilisé</th>
+<th>libre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mem:</td>
+<td>1023</td>
+<td>560</td>
+<td>164</td>
+</tr>
+<tr>
+<td>Partition d'échange:</td>
+<td>1022</td>
+<td>106</td>
+<td>916</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>2046</td>
+<td>667</td>
+<td>1080</td>
+</tr>
+</tbody>
+</table>
+<p>Constat : ≈ 1Go de libre incluant la partition d'échange.</p>
+<p>Augmentez, si possible, la RAM actuelle de 1Go à 4 Go.</p>
+<p>Les 3 Go d'écart seront utilisés par Clamav, à défaut celui-ci ne fonctionnera pas correctement et il sera préférable de ne pas traiter la partie antivirus.</p>
+<p>Vous revérifierez cette ressource à la fin du mémento.</p>
+<h4 id="101-installation-de-lantispam-postscreen"><em>10.1 - Installation de l'antispam Postscreen</em></h4>
+<p>Postscreen, placé en amont de smtpd, rejettera entre autres les connexions issues des spambots avant que celles-ci ne viennent polluer le serveur Postfix.</p>
+<p>Les spambots sont des robots à l'origine de la majorité des SPAM émis sur Internet.</p>
+<p>Pour activer Postscreen, éditez le fichier master.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/master.cf</p>
+<p>Commentez la ligne suivante <em>(# devant la ligne)</em> :</p>
+<p>smtp  inet          n     - y     - - smtpd</p>
+<p>et décommentez celles-ci <em>(suppression du #)</em> :</p>
+<p>smtp  inet          n     - y      - 1      postscreen
+smtpd pass       - - y      - - smtpd
+dnsblog  unix    - - y      - 0      dnsblog
+tlsproxy unix     - - y      - 0      tlsproxy</p>
+<h4 id="102-postscreen-configuration"><em>10.2 - Postscreen : Configuration</em></h4>
+<p>Pour le configurer, éditez le fichier main.cf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et entrez le contenu suivant en fin de fichier :</p>
+<p># Filtrage avec Postscreen
+postscreen_access_list = permit_mynetworks, cidr:/etc/postfix/postscreen_access.cidr
+postscreen_blacklist_action = drop</p>
+<p>postscreen_greet_wait = 3s
+postscreen_greet_banner = Bienvenue et merci de patienter ...
+postscreen_greet_action = enforce</p>
+<p>postscreen_dnsbl_threshold = 3
+postscreen_dnsbl_action = enforce
+postscreen_dnsbl_sites =
+        zen.spamhaus.org*3
+        b.barracudacentral.org=127.0.0.[2..11]*2
+        bl.spameatingmonkey.net*2
+        bl.spamcop.net
+        #dnsbl.sorbs.net
+        swl.spamhaus.org*-4,
+        list.dnswl.org=127.[0..255].[0..255].0*-2,
+        list.dnswl.org=127.[0..255].[0..255].1*-4,
+        list.dnswl.org=127.[0..255].[0..255].[2..3]*-6</p>
+<p>postscreen_dnsbl_whitelist_threshold = -2</p>
+<p>postscreen_non_smtp_command_enable = yes
+postscreen_non_smtp_command_action = enforce</p>
+<p>postscreen_pipelining_enable = yes
+postscreen_pipelining_action = enforce</p>
+<p>postscreen_bare_newline_enable = yes
+postscreen_bare_newline_action = enforce</p>
+<p>Le test access_list permettra de filtrer les clients SMTP selon la valeur des IP contenues dans le paramètre mynetworks et le fichier postscreen_access.cidr.</p>
+<p>Ce dernier doit être créé et rempli manuellement :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/postfix/
+[srvdmz@srvdmz:~$] sudo touch postscreen_access.cidr</p>
+<p>Ci-dessous, un exemple de contenu <em>(vide par défaut)</em> :</p>
+<p># Adresses IP autorisées
+192.168.2.2 permit</p>
+<h1 id="adresses-ip-rejetees">Adresses IP rejetées</h1>
+<p>164.52.24.168   reject
+71.6.158.166    reject
+71.6.146.186    reject
+109.206.241.42  reject
+...</p>
+<p>Le test greet permettra de rejeter les clients SMTP qui parleront avant que le serveur ne les y autorise comme l'exige le protocole SMTP.</p>
+<p>Les tests dnsbl <em>(Black List DNS)</em> et dnswl <em>(White List DNS)</em> permettront de filtrer à l'aide de listes fournies sur Internet les clients SMTP considérés comme fiables ou susceptibles de transmettre des SPAMS.</p>
+<p><em>Nota : Postscreen maintient une liste blanche dynamique dans le fichier postscreen_cache.db situé dans /var/lib/postfix.</em></p>
+<p>Le test non_smtp permettra de rejeter les clients qui useront de Cdes non SMPT telles connect, get et post.</p>
+<p>Le test pipelining permettra de rejeter les clients ne respectant pas le protocole d'envoi de Cdes SMTP par lot.</p>
+<p>Le test bare_newline permettra de rejeter les clients ne respectant pas la syntaxe SMTP de fin de ligne.</p>
+<p>Pour terminer, redémarrez Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart postfix</p>
+<p>Vous devriez rapidement constater l'efficacité de Postscreen en éditant les logs de Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo cat /var/log/mail.log | grep postfix</p>
+<p>Retour :</p>
+<pre><code>Oct 15 16:12:29 srvdmz postfix/postscreen[6598]: CONNECT from [37.139.128.50]:54706 to [192.168.4.2]:25
+
+Oct 15 16:12:29 srvdmz postfix/dnsblog[6601]: addr 37.139.128.50 listed by domain zen.spamhaus.org as 127.0.0.4
+
+Oct 15 16:12:29 srvdmz postfix/postscreen[6598]: PREGREET 11 after 0.04 from [37.139.128.50]:54706: EHLO User\r\n
+
+Oct 15 16:12:30 srvdmz postfix/postscreen[6598]: DNSBL rank 3 for [37.139.128.50]:54706
+
+Oct 15 16:12:30 srvdmz postfix/postscreen[6598]: DISCONNECT [37.139.128.50]:54706
+</code></pre>
+<p>Si IP blacklistée dans le fichier postscreen_access.cidr :</p>
+<pre><code>Oct 15 16:14:20 srvdmz postfix/postscreen[7216]: CONNECT from [37.139.128.50]:63279 to [192.168.4.2]:25
+
+Oct 15 16:14:20 srvdmz postfix/postscreen[7216]: BLACKLISTED [37.139.128.50]:63279
+
+Oct 15 16:14:20 srvdmz postfix/postscreen[7216]: DISCONNECT [37.139.128.50]:63279
+</code></pre>
+<h4 id="103-installation-de-lantispam-rspamd"><em>10.3 - Installation de l'antispam Rspamd</em></h4>
+<p>Rspamd, plus récent et moderne que SpamAssassin, viendra compléter la lutte antispam.</p>
+<p>Installez le paquet rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install rspamd</p>
+<p>Son installation inclut celle d'un serveur de Bdd Redis.</p>
+<p>Tous les fichiers de configuration ont été créés dans le dossier /etc/rspamd/.</p>
+<p>Vérifiez enfin le statut des services rspamd et redis :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl status rspamd
+[srvdmz@srvdmz:~$] sudo systemctl status redis</p>
+<p>Retours :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-redis-debian11.webp"><img alt="Capture - Rspamd et Redis : Statuts" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-redis-debian11-430x293.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Rspamd et Redis : Statuts</p>
+<p>L'intégration du logiciel Rspamd dans Postfix se fera via le protocole Milter.</p>
+<p>Pour activer celle-ci, éditez le fichier main.cf de Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/postfix/main.cf</p>
+<p>et modifiez la section # Application Milter (DKIM) comme montré ci-dessous :</p>
+<p># Applications Milter (DKIM, RSPAMD, ...)
+smtpd_milters = inet:localhost:8891, inet:127.0.0.1:11332
+non_smtpd_milters = $smtpd_milters
+milter_protocol = 6
+milter_default_action = accept
+milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}</p>
+<p>Rechargez enfin la nouvelle configuration de Postfix :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl reload postfix</p>
+<p>L'outil linux opendkim étant actif, désactivez le module DKIM fourni par Rspamd comme suit :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/rspamd/local.d
+[srvdmz@srvdmz:~$] sudo nano dkim_signing.conf</p>
+<p>Entrez ce contenu dans le fichier dkim_signing.conf :</p>
+<p># Désactivation du module DKIM de Rspamd
+enabled = false;</p>
+<p>Ceci évitera l'entrée d'erreurs dans les logs de Rspamd.</p>
+<p>Redémarrez Rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart rspamd</p>
+<h4 id="_104-rspamd-_auto-apprentissage-bayesien__">_10.4 - Rspamd : _Auto-apprentissage bayésien__</h4>
+<p>Activez l'auto-apprentissage bayésien en créant le fichier classifier-bayes.conf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/rspamd/override.d
+[srvdmz@srvdmz:~$] sudo nano classifier-bayes.conf</p>
+<p>et en y insérant les lignes suivantes :</p>
+<p>autolearn = true;</p>
+<h1 id="envoi-des-donnees-statistiques-vers-le-serveur-redis">Envoi des données statistiques vers le serveur Redis</h1>
+<p>users_enabled = true;
+backend = "redis";</p>
+<p>Le filtrage bayésien est une technique de probabilité permettant de traiter le courrier indésirable.</p>
+<p>Créez ensuite un fichier redis.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano redis.conf</p>
+<p>et indiquez la localisation du serveur Redis comme suit :</p>
+<p>servers = "127.0.0.1";</p>
+<p>Demandez à Rspamd de taguer le courrier indésirable en créant un fichier milter_headers.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano milter_headers.conf</p>
+<p>et en y insérant l'instruction suivante :</p>
+<p>extended_spam_headers = true;</p>
+<p>Pour classer automatiquement ce courrier tagué X-Spam: Yes, vous ferez appel au plugin sieve de Dovecot.</p>
+<p>Editez, pour cela, le fichier 90-sieve.conf de Dovecot :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/dovecot/conf.d
+[srvdmz@srvdmz:~$] sudo nano 90-sieve.conf</p>
+<p>et ajoutez ceci sous la ligne #sieve_after = :</p>
+<p>sieve_after = /etc/dovecot/sieve-after</p>
+<p>Créez ensuite le dossier sieve-after :</p>
+<p>[srvdmz@srvdmz:~$] sudo mkdir /etc/dovecot/sieve-after</p>
+<p>et ajoutez dans celui-ci un fichier 10-spam.sieve :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/dovecot/sieve-after
+[srvdmz@srvdmz:~$] sudo nano 10-spam.sieve</p>
+<p>contenant la règle Sieve suivante :</p>
+<p>require ["fileinto","mailbox"];</p>
+<p>if header :contains "X-Spam" "Yes" {
+fileinto :create "Junk";
+stop;
+}</p>
+<p>L'utilisation de la règle implique de compiler celle-ci :</p>
+<p>[srvdmz@srvdmz:~$] sudo sievec 10-spam.sieve</p>
+<p>Un fichier binaire 10-spam.svbin a été généré.</p>
+<p>Redémarrez maintenant Dovecot et Rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart dovecot
+[srvdmz@srvdmz:~$] sudo systemctl restart rspamd</p>
+<p>La syntaxe des fichiers de configuration de Rspamd peut être contrôlée comme suit :</p>
+<p>[srvdmz@srvdmz:~$] sudo rspamadm configtest</p>
+<p>Retour :</p>
+<pre><code>Syntax OK
+</code></pre>
+<h4 id="105-rspamd-apprentissage-selon-actions"><em>10.5 - Rspamd : Apprentissage selon actions ...</em></h4>
+<p>Si un utilisateur déplace un courrier dans le dossier des spams, Rspamd apprendra que c’est un spam et si un utilisateur déplace un courrier du dossier des spams vers un dossier autre que la corbeille, Rspamd apprendra que c'est un ham soit le contraire d'un spam.</p>
+<p>Cet apprentissage impose l'usage du plugin imap_sieve, éditez pour cela le fichier 20-imap.conf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/dovecot/conf.d
+[srvdmz@srvdmz:~$] sudo nano 20-imap.conf</p>
+<p>et ajoutez ceci sous #mail_plugins = $mail_plugins :</p>
+<p>protocol imap {          # Ligne existante</p>
+<p>mail_plugins = $mail_plugins imap_sieve</p>
+<p>}                                    # Ligne existante</p>
+<p>Editez ensuite le fichier 90-sieve.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano 90-sieve.conf</p>
+<p>et entrez le contenu suivant à la fin du fichier :</p>
+<p>plugin {         # Ligne existante</p>
+<h1 id="apprentissage-selon-actions-utilisateurs">Apprentissage selon actions utilisateurs</h1>
+<pre><code>sieve\_plugins = sieve\_imapsieve sieve\_extprograms
+
+# Si déplacé dans le dossier spam &gt; script learn-spam.sieve
+imapsieve\_mailbox1\_name = Junk
+imapsieve\_mailbox1\_causes = COPY
+imapsieve\_mailbox1\_before = file:/etc/dovecot/sieve/learn-spam.sieve
+
+# Si retiré du dossier spam &gt; script learn-ham.sieve
+imapsieve\_mailbox2\_name = \*
+imapsieve\_mailbox2\_from = Junk
+imapsieve\_mailbox2\_causes = COPY
+imapsieve\_mailbox2\_before = file:/etc/dovecot/sieve/learn-ham.sieve
+
+# Dossier contenant les fichiers de scripts
+sieve\_pipe\_bin\_dir = /etc/dovecot/sieve
+
+# Autoriser l'envoi des courriers vers un programme externe
+sieve\_global\_extensions = +vnd.dovecot.pipe +vnd.dovecot.environment
+</code></pre>
+<p>}                      # Ligne existante</p>
+<p>Créez le dossier sieve dédié aux scripts Sieve/Rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo mkdir /etc/dovecot/sieve</p>
+<p>Générez le 1er script Sieve learn-spam.sieve :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/dovecot/sieve/
+[srvdmz@srvdmz:~$] sudo nano learn-spam.sieve</p>
+<p>et entrez le contenu suivant proposé par Dovecot :</p>
+<p>require ["vnd.dovecot.pipe", "copy", "imapsieve", "environment", "variables"];</p>
+<p>if environment :matches "imap.user" "*" {
+  set "username" "${1}";
+}</p>
+<p>pipe :copy "rspamd-learn-spam.sh" [ "${username}" ];</p>
+<p>Générez enfin le 2ème script Sieve learn-ham.sieve :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano learn-ham.sieve</p>
+<p>et entrez le contenu suivant proposé par Dovecot :</p>
+<p>require ["vnd.dovecot.pipe", "copy", "imapsieve", "environment", "variables"];</p>
+<p>if environment :matches "imap.mailbox" "*" {
+  set "mailbox" "${1}";
+}</p>
+<p>if string "${mailbox}" "Trash" {
+  stop;
+}</p>
+<p>if environment :matches "imap.user" "*" {
+  set "username" "${1}";
+}</p>
+<p>pipe :copy "rspamd-learn-ham.sh" [ "${username}" ];</p>
+<p>Redémarrez Dovecot avant de continuer :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart dovecot</p>
+<p>puis compilez les scripts Sieve et modifiez leurs droits :</p>
+<p>[srvdmz@srvdmz:~$] sudo sievec learn-spam.sieve
+[srvdmz@srvdmz:~$] sudo sievec learn-ham.sieve</p>
+<p>[srvdmz@srvdmz:~$] sudo chmod u=rw,go= /etc/dovecot/sieve/learn-{spam,ham}.{sieve,svbin}</p>
+<p>[srvdmz@srvdmz:~$] sudo chown vmail:vmail /etc/dovecot/sieve/learn-{spam,ham}.{sieve,svbin}</p>
+<p>Générez le 1er script Rspamd rspamd-learn-spam.sh :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano rspamd-learn-spam.sh</p>
+<p>et entrez le contenu suivant :</p>
+<h1 id="binsh">!/bin/sh</h1>
+<p>exec /usr/bin/rspamc learn_spam</p>
+<p>Générez le 2ème script Rspamd rspamd-learn-ham.sh :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano rspamd-learn-ham.sh</p>
+<p>et entrez le contenu suivant :</p>
+<h1 id="binsh_1">!/bin/sh</h1>
+<p>exec /usr/bin/rspamc learn_ham</p>
+<p>Modifiez les droits des 2 fichiers et relancez Dovecot :</p>
+<p>[srvdmz@srvdmz:~$] sudo chmod u=rwx,go= /etc/dovecot/sieve/rspamd-learn-{spam,ham}.sh</p>
+<p>[srvdmz@srvdmz:~$] sudo chown vmail:vmail /etc/dovecot/sieve/rspamd-learn-{spam,ham}.sh</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart dovecot</p>
+<p>Pour tester la configuration, respectez ces 6 étapes :</p>
+<p><strong>1)</strong> Affichez le dossier Indésirables sur les Thunderbird.<br />
+> Clic droit sur les comptes ...@loupvirtuel.fr<br />
+> Paramètres &gt; Paramètres des indésirables<br />
+> Cochez Déplacer les nouv... indésirables vers<br />
+> Sélectionnez Dossier &lt;&lt; Indésirables &gt;&gt; sur<br />
+> ...@loupvirtuel.fr  </p>
+<p>Faites de même pour le compte x.y@zzz.freeddns.org.</p>
+<p><strong>2)</strong> Activez le mail_debug de /etc/dovecot/conf.d/10-logging.conf à yes et relancez Dovecot.</p>
+<p><strong>3)</strong> Envoyez un mail de srvdmz vers srvlan et déplacez le mail reçu dans le dossier Indésirables.</p>
+<p><strong>4)</strong> Déplacez ensuite ce mail du dossier Indésirables vers le dossier Courrier entrant de srvlan.</p>
+<p><strong>5)</strong> Observez enfin le contenu des logs de /var/log/mail.log et /var/log/rspamd/rspamd.log.</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/actions-spam-ham-debian11.webp"><img alt="Capture - Logs : Lignes présentes de Dovecot et Rspamd" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/actions-spam-ham-debian11-580x237.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Logs : Lignes présentes de Dovecot et Rspamd</p>
+<p><strong>6)</strong> Terminez en remettant la valeur du paramètre mail_debug à no et relancez Dovecot.</p>
+<h4 id="106-rspamd-interface-web"><em>10.6 - Rspamd : Interface Web</em></h4>
+<p>Rspamd est fourni avec une interface Web permettant de contrôler les courriers marqués comme spam, d'avoir des statistiques, etc...</p>
+<p>Il est nécessaire, pour accéder à celle-ci, d'éditer l'hôte virtuel loupvirtuel.conf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/apache2/sites-available
+[srvdmz@srvdmz:~$] sudo nano loupvirtuel.conf</p>
+<p>et d'ajouter ceci dans la section <VirtualHost \*:443> :</p>
+<p>ProxyPass "/rspamd" "http://localhost:11334"
+ProxyPassReverse "/rspamd" "http://localhost:11334"</p>
+<p>Redémarrez le serveur Web Apache :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart apache2</p>
+<p>Créez enfin le MDP d'accès exigé par l'interface Web :</p>
+<p>[srvdmz@srvdmz:~$] sudo rspamadm pw</p>
+<p>Exemple de retour :</p>
+<pre><code>Enter passphrase: Entrez votre MDP
+$2$qr5xkz9rrwrcrd3kw7ba6a9p5wezo146......
+</code></pre>
+<p>Créez maintenant un fichier worker-controller.inc :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/rspamd/local.d
+[srvdmz@srvdmz:~$] sudo nano worker-controller.inc</p>
+<p>Entrez le hachage du MDP comme suit :</p>
+<p>password = "$2$qr5xkz9rrwrcrd3kw7ba6a9p5wezo146......"</p>
+<p>et relancez rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart rspamd</p>
+<p>Pour finir, testez l'URL https://loupvirtuel.fr/rspamd/</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-site-web-debian11.webp"><img alt="Capture - Rspamd : Interface Web" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-site-web-debian11-430x243.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Rspamd : Interface Web</p>
+<h4 id="107-installation-du-scanner-de-virus-clamav"><em>10.7 - Installation du scanner de virus ClamAV</em></h4>
+<p>Par curiosité, contrôlez de nouveau les ressources disponibles qui ont du peu évoluer :</p>
+<p>[srvdmz@srvdmz:~$] free --mega -t
+[srvdmz@srvdmz:~$] df /dev/sda1 -H</p>
+<p>Installez maintenant les paquets ClamAV suivants :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt install clamav clamav-daemon
+[srvdmz@srvdmz:~$] sudo apt install clamav-unofficial-sigs</p>
+<p>Un groupe/utilisateur clamav et 2 services ont été créés.</p>
+<p>Le paquet clamav-unofficial-sigs installe une base virale fournie par la société SaneSecurity, base qui vient compléter celles de ClamAV.</p>
+<p>Attendez 5 à 10 minutes et vérifiez le statut du service de MAJ des Bdd ClamAV :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart clamav-freshclam
+[srvdmz@srvdmz:~$] sudo systemctl status clamav-freshclam</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/freshclam-statut-debian11.webp"><img alt="Capture - ClamAV : Statut du service clamav-freshclam" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/freshclam-statut-debian11-580x207.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>ClamAV : Statut du service clamav-freshclam</p>
+<p>Les Bdd daily, main et bytecode doivent être up to date.</p>
+<p>Si Bdd up to date, démarrez le service clamav-daemon :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl start clamav-daemon
+[srvdmz@srvdmz:~$] sudo systemctl status clamav-daemon</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/clamav-demon-status-debian11.webp"><img alt="Capture - ClamAV : Statut du service clamav-daemon" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/clamav-demon-status-debian11-580x239.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>ClamAV : Statut du service clamav-daemon</p>
+<p>Au prochain boot système, le service clamav-daemon démarrera automatiquement.</p>
+<p>Le scan d'un dossier peut déjà s'effectuer comme suit :</p>
+<p>[srvdmz@srvdmz:~$] sudo clamscan /home/srvdmz</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/clamav-scan-dossier-debian11.webp"><img alt="Capture - ClamAV : Scan du dossier /home/srvdmz" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/clamav-scan-dossier-debian11-356x430.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>ClamAV : Scan du dossier /home/srvdmz</p>
+<p>Les logs sont consultables dans /var/log/clamav/.</p>
+<p>Le bon traitement de la base virale clamav-unofficial-sigs peut être vérifié comme suit :</p>
+<p>[srvdmz@srvdmz:~$] cd /home/srvdmz
+[srvdmz@srvdmz:~$] sudo clamscan --debug 2&gt;&amp;1 /dev/null | grep "sanesecurity"</p>
+<p>Retour :</p>
+<pre><code>LibClamAV debug: /var/lib/clamav/sanesecurity.ftm loaded
+</code></pre>
+<h4 id="108-clamav-configuration"><em>10.8 - ClamAV</em> : Configuration</h4>
+<p>Les fichiers sont situés dans le dossier /etc/clamav/.</p>
+<p>Il est possible de réduire la fréquence de MAJ des Bdd en éditant le fichier freshclam.conf :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/clamav/freshclam.conf</p>
+<p>et en modifiant la valeur 24 du paramètre Checks à 3 :</p>
+<p>Checks 3</p>
+<p>Les MAJ seront effectuées 3 fois par jour au lieu de 24.</p>
+<p><em>Nota : Comme pour root, créez depuis l'interface de PostfixAdmin un alias de l'utilisateur clamav vers postmaster afin que ce dernier puisse recevoir les notifications par e-mail de ClamAV.</em></p>
+<h4 id="109-clamav-liaison-avec-rspamd"><em>10.9 - ClamAV : Liaison avec Rspamd</em></h4>
+<p>Afin que Rspamd utilise ClamAV, créez le fichier suivant :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/rspamd/local.d/antivirus.conf</p>
+<p>et entrez le contenu ci-dessous :</p>
+<p>clamav {
+    scan_mime_parts = false;
+    symbol = "CLAM_VIRUS";
+    type = "clamav";
+    action = "reject";
+    servers = "/var/run/clamav/clamd.ctl";
+}</p>
+<p>Pour finir rechargez la configuration de Rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl reload rspamd</p>
+<h3 id="11-tests">11 - Tests</h3>
+<h4 id="111-test-de-detection-dun-spam"><em>11.1 - Test de détection d'un SPAM</em></h4>
+<p>Au préalable, créez un fichier temporaire options.inc :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/rspamd/local.d
+[srvdmz@srvdmz:~$] sudo nano options.inc</p>
+<p>et entrez le contenu suivant :</p>
+<p>enable_test_patterns = true;</p>
+<p>Ceci permettra d'effectuer le test attendu, voir les explications sur le site <a href="https://rspamd.com/doc/gtube_patterns.html">rspamd.com</a>.</p>
+<p>Redémarrez ensuite Rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart rspamd</p>
+<p>et envoyez, depuis le Thunderbird de srvlan, un courrier de postmaster vers clientmail-vm2 contenant ceci :</p>
+<p>Début
+YJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-\
+ANTI-UBE-TEST-EMAIL*C.34X</p>
+<p>Ce courrier doit normalement être traité comme spam.
+La source de celui-ci sera complété du tag X-Spam: Yes.
+Fin</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Si tout se passe bien, le courrier sera, sur clientmail-vm2, stocké automatiquement dans le dossier des Indésirables de Thunderbird.</p>
+<p>Vérifiez sur debian11-vm2 que clientmail-vm2 le reçoit bien notifié du tag X-Spam: Yes :</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-test-spam-debian11.webp"><img alt="Capture - Thunderbird : Tag X-Spam: Yes dans la source du mail" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-test-spam-debian11-430x203.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Thunderbird : Tag X-Spam: Yes dans la source du mail</p>
+<p>Sur srvdmz, le courrier a été stocké dans :</p>
+<p>[srvdmz@srvdmz:~$] sudo ls -la /var/mail/vmail/loupvirtuel.fr/clientmail-vm2/Maildir/.Junk/cur/</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-stockage-spam-debian11.webp"><img alt="Capture - srvdmz : SPAM dans le dossier .Junk" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-stockage-spam-debian11-580x71.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>srvdmz : SPAM dans le dossier .Junk</p>
+<p>Le groupe date/heure correspond avec celui du mail reçu sur le compte virtuel clientmail-vm2.</p>
+<p>Si OK, vous pouvez supprimer le fichier options.inc.</p>
+<h4 id="112-test-de-detection-dun-virus"><em>11.2 - Test de détection d'un VIRUS</em></h4>
+<p>Au préalable, éditez le fichier antivirus.conf :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/rspamd/local.d
+[srvdmz@srvdmz:~$] sudo nano antivirus.conf</p>
+<p>et modifiez son contenu comme suit :</p>
+<p>clamav {
+    scan_mime_parts = false;
+    symbol = "CLAM_VIRUS";
+    type = "clamav";
+    action = "reject";
+    servers = "/var/run/clamav/clamd.ctl";</p>
+<p>patterns {
+    JUST_EICAR = '^Eicar-Test-Signature$';
+                }
+}</p>
+<p>Ceci permettra d'effectuer le test attendu, voir les explications sur le site <a href="https://rspamd.com/doc/modules/antivirus.html">rspamd.com</a>.</p>
+<p>Redémarrez ensuite Rspamd :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart rspamd</p>
+<p>Envoyez à présent, depuis srvlan, un courrier de srvlan vers clientmail-vm1 contenant ceci :</p>
+<p>X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-\
+ANTIVIRUS-TEST-FILE!$H+H*</p>
+<p>Le caractère \ indique d'écrire le tout sur une seule ligne.</p>
+<p>Ce contenu est téléchargeable depuis le site Eicar <em>(European Institute for Computer Antivirus Research)</em> en utilisant l'URL <a href="https://secure.eicar.org/eicar.com.txt">https://secure.eicar.org/eicar.com.txt</a>.</p>
+<p>Résultat, le virus sera détecté lors de la phase d'envoi du mail depuis srvlan et rejeté <em>(paramètre action = "reject"; du fichier antivirus.conf)</em>.</p>
+<p><a href="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-test-virus-debian11.webp"><img alt="Capture - Thunderbird : Information de virus détecté" src="https://familleleloup.no-ip.org/wp-content/uploads/2023/03/rspamd-test-virus-debian11-430x214.webp" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Thunderbird : Information de virus détecté</p>
+<h4 id="113-controle-de-la-memoire-utilisee"><em>11.3 - Contrôle de la mémoire utilisée</em></h4>
+<p>ClamAV est gourmand :</p>
+<p>[srvdmz@srvdmz:~$] free --mega -t</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>total</th>
+<th>utilisé</th>
+<th>libre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mem:</td>
+<td>4122</td>
+<td>2051</td>
+<td>1386</td>
+</tr>
+<tr>
+<td>Partition d'échange:</td>
+<td>1022</td>
+<td>220</td>
+<td>802</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>5145</td>
+<td>2271</td>
+<td>2188</td>
+</tr>
+</tbody>
+</table>
+<p>Constat : ≈ 2Go de libre incluant la partition d'échange.</p>
+<p>ClamAV exigera parfois plus que le 2051 Mo affiché ci-dessus d'où le besoin de 4 Go de RAM. A défaut n'utilisez pas le logiciel antivirus.</p>
+<h4 id="114-controle-des-logs"><em>11.4 - Contrôle des logs</em></h4>
+<p>Consultez les fichiers /var/log/mail.log et /var/log/rspamd/rspamd.log, le premier vous permettant notamment d'observer l'efficacité de l'outil postscreen.</p>
+<p>Vous allez vite comprendre que l'ouverture du port 25 sur votre box Internet sera rapidement exploitée par divers scanners de FAI et robots spammeurs.</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg" title="Image Pixabay - Mohamed Hassan" /></p>
+<p>Voilà !<br />
+Le courrier indésirable est géré.<br />
+La partie 3 vous attend pour<br />
+traiter le WebMail avec Roundcube ...</p>
+<p><a href="https://familleleloup.no-ip.org/postfix-roundcube-debian11/">Partie 3</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

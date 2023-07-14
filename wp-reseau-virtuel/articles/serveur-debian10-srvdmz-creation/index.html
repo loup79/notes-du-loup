@@ -1,0 +1,1627 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://infoloup.myqnapcloud.com:8218/notes-du-loup/wp-reseau-virtuel/articles/serveur-debian10-srvdmz-creation/">
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>srvdmz - VirtualBox / Debian 10 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.26e3688c.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-31-serveur-srvdmz" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              srvdmz - VirtualBox / Debian 10
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-tabs__link">
+        Informatique
+      </a>
+    </li>
+  
+
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-tabs__link">
+        MkDocs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-tabs__link">
+        WP Réseau Virtuel
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Documents du Loup
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Informatique
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Informatique
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+          Debian
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Debian
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/debian/infos-materiel-hardinfo/" class="md-nav__link">
+        Debian - Outil Hardinfo
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Synology
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Synology
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../informatique/synology/docker-maj-de-nextcloud/" class="md-nav__link">
+        Docker - MAJ de Nextcloud
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          MkDocs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          MkDocs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        Bases - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        Debian - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs/github-mkdocs/" class="md-nav__link">
+        GitHub - MkDocs
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          WP Réseau Virtuel
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          WP Réseau Virtuel
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/nouveautes-du-reseau-virtuel-2018/" class="md-nav__link">
+        Nouveautés du réseau virtuel !
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/prerequis/" class="md-nav__link">
+        Prérequis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/elements-reseau-virtuel/" class="md-nav__link">
+        Eléments du réseau virtuel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pages/construction-reseau-virtuel-debian/" class="md-nav__link">
+        Construction du réseau
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Articles
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Articles
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+          Hyperviseur VirtualBox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hyperviseur VirtualBox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-pont-reseau/" class="md-nav__link">
+        Accès réseau par pont
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+          Srv LAN Debian "srvlan"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Srv LAN Debian "srvlan"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian12-srvlan-creation/" class="md-nav__link">
+        srvlan - VBox/Deb12
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
+          Srv WAN IPFire "srvsec"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          Srv WAN IPFire "srvsec"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-ipfire-srvsec-creation/" class="md-nav__link">
+        srvsec - VBox/IPFire
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+          Srv DMZ Debian "srvdmz"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          Srv DMZ Debian "srvdmz"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../serveur-debian11-srvdmz-creation/" class="md-nav__link">
+        srvdmz - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
+          Cli LAN Debian "vm1 et 2"
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Cli LAN Debian "vm1 et 2"
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-clients-debian11-creation/" class="md-nav__link">
+        vm1 et 2 - VBox/Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_2_6" id="__nav_4_2_6_label" tabindex="0">
+          Open vSwitch + Conteneurs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Open vSwitch + Conteneurs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../virtualbox-debian11-openvswitch-creation/" class="md-nav__link">
+        Open vSwitch / Deb11
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-31-serveur-srvdmz" class="md-nav__link">
+    Mémento 3.1 - Serveur srvdmz
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 3.1 - Serveur srvdmz">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-construction-de-la-vm-depuis-virtualbox" class="md-nav__link">
+    1 - Construction de la VM depuis VirtualBox
+  </a>
+  
+    <nav class="md-nav" aria-label="1 - Construction de la VM depuis VirtualBox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-creation-et-configuration" class="md-nav__link">
+    1.1 - Création et configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-installation-de-la-distribution-debian" class="md-nav__link">
+    1.2 - Installation de la distribution Debian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-gestion-des-paquets-debian" class="md-nav__link">
+    1.3 - Gestion des paquets Debian
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-installation-de-sudo-et-maj-de-debian" class="md-nav__link">
+    1.4 - Installation de sudo et MAJ de Debian
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ajout-du-serveur-graphique-xorg" class="md-nav__link">
+    2 - Ajout du serveur graphique Xorg
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-ajout-du-gestionnaire-de-fenetres-openbox" class="md-nav__link">
+    3 - Ajout du gestionnaire de fenêtres Openbox
+  </a>
+  
+    <nav class="md-nav" aria-label="3 - Ajout du gestionnaire de fenêtres Openbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-installation-de-base" class="md-nav__link">
+    3.1 - Installation de base
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-gestionnaire-de-session-terminal" class="md-nav__link">
+    3.2 - Gestionnaire de session, terminal ...
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-barre-des-taches" class="md-nav__link">
+    3.3 - Barre des tâches
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-assistant-du-gestionnaire-de-session" class="md-nav__link">
+    3.4 - Assistant du gestionnaire de session
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-utilitaires-pratiques" class="md-nav__link">
+    3.5 - Utilitaires pratiques
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#affichage-du-fond-decran" class="md-nav__link">
+    Affichage du fond d'écran
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lancement-de-conky" class="md-nav__link">
+    Lancement de conky
+  </a>
+  
+    <nav class="md-nav" aria-label="Lancement de conky">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#4-installation-des-utilitaires-de-virtualbox" class="md-nav__link">
+    4 - Installation des utilitaires de VirtualBox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-modification-des-menus-openbox-et-conky" class="md-nav__link">
+    5 - Modification des menus Openbox et Conky
+  </a>
+  
+    <nav class="md-nav" aria-label="5 - Modification des menus Openbox et Conky">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-menu-openbox" class="md-nav__link">
+    5.1 - Menu Openbox
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-menu-conky" class="md-nav__link">
+    5.2 - Menu Conky
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-montage-du-dossier-partage-par-le-pc-hote" class="md-nav__link">
+    6 - Montage du dossier partagé par le PC hôte
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-configuration-du-reseau" class="md-nav__link">
+    7 - Configuration du réseau
+  </a>
+  
+    <nav class="md-nav" aria-label="7 - Configuration du réseau">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-adressage-ip-fixe" class="md-nav__link">
+    7.1 - Adressage IP fixe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h2 id="memento-31-serveur-srvdmz">Mémento 3.1 - Serveur srvdmz</h2>
+<p>Vous allez maintenant créer la VM srvdmz que vous placerez en zone dite démilitarisée et qui fournira plus tard des services Web, FTP, DNS, Mail, etc... pour Internet et le réseau local.</p>
+<p>La configuration ressemblera à celle de la VM srvlan hormis la partie réseau.</p>
+<h3 id="1-construction-de-la-vm-depuis-virtualbox">1 - Construction de la VM depuis VirtualBox</h3>
+<p>L'utilisation de VirtualBox est considérée acquise.</p>
+<p>A défaut, référez-vous aux mémentos suivants :<br />
+<a href="/virtualbox-installation/">VirtualBox - Installation</a><br />
+<a href="/virtualbox-pont-reseau/">VirtualBox - Mode d’accès réseau par pont</a></p>
+<h4 id="11-creation-et-configuration"><em>1.1 - Création et configuration</em></h4>
+<p>Téléchargez l'ISO 32 bits debian-10.x.y-i386-netinst.iso :<br />
+<a href="https://cdimage.debian.org/cdimage/archive/10.10.0/i386/iso-cd/">https://cdimage.debian.org/.../10.10.0/i386/iso-cd/</a></p>
+<p>Démarrez l'application VirtualBox, puis :</p>
+<p>Menu Nouvelle :<br />
+- Nom srvdmz DMZ - Type Linux - Version Debian (32-b...<br />
+- Taille de la mémoire &gt; 512 Mo<br />
+- Disque dur &gt; Créer un disque dur virtuel maintenant<br />
+- Type de fichier de disque dur &gt; VDI<br />
+- Stockage sur disque dur ... &gt; Dynamiquement alloué<br />
+- Emplacement du fichier et taille &gt; 12 Go &gt; Créer</p>
+<p>La VM est créée dans le panneau gauche de VirtualBox.</p>
+<p>Sélectionnez la nouvelle VM, puis :</p>
+<p>Menu Configuration :<br />
+- - - Onglet Général<br />
+> Avancé &gt; Presse-papier partagé<br />
+> Bidirectionnel  </p>
+<p>- - - Onglet Système<br />
+> Carte mère &gt; Ordre d'amorçage &gt; Décochez Disquette<br />
+> Carte mère &gt; Fonctions avancées &gt; Cochez IO-APIC<br />
+> Processeur &gt; 2 CPU et cochez Activer PAE/NX  </p>
+<p>- - - Onglet Affichage<br />
+> Ecran &gt; Contrôleur graphique &gt; VMSVGA  </p>
+<p>- - - Onglet Stockage<br />
+> Unités de stockage &gt; Sélectionnez Vide<br />
+> Attributs &gt; Cliquez sur l'icône CD<br />
+> Sélectionnez Choisissez un fichier de disque ...<br />
+> Entrez le chemin de l'image ISO Debian &gt; Ouvrir</p>
+<p>Facultatif, accès au dossier partagé par le PC hôte.<br />
+- - - Onglet Dossiers partagés<br />
+> Cliquez sur l'icône + &gt; Ajouter un dossier partagé<br />
+> Chemin du dossier &gt; Sélectionnez Autre...<br />
+> Accédez à votre dossier &gt; Ex : C:\Partage-Windows<br />
+> Sélectionner un dossier &gt; OK &gt; OK</p>
+<p>Les autres paramètres peuvent rester inchangés.</p>
+<h4 id="12-installation-de-la-distribution-debian"><em>1.2 - Installation de la distribution Debian</em></h4>
+<p>Conseil pratique avant de démarrer la nouvelle VM :<br />
+Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.</p>
+<p>Menu Démarrer :<br />
+La VM s'exécute, contrôlez l'ISO affichée et démarrez.</p>
+<p>Sélectionnez Graphical Install et appliquez ce qui suit :<br />
+- Language &gt; French<br />
+- Pays (territoire ou région) &gt; France<br />
+- Disposition de clavier à utiliser &gt; Français<br />
+- Nom de machine &gt; srvdmz<br />
+- Domaine &gt; Laissez le champ vide<br />
+- MDP du super utilisateur root &gt; Votre MDP root<br />
+- Confirmation du MDP &gt; Votre MDP root<br />
+- Nom complet du nouvel utilisateur &gt; Ex: srvdmz<br />
+- Identifiant pour le compte utilisateur &gt; srvdmz<br />
+- MDP pour le nouvel utilisateur &gt; Votre MDP srvdmz<br />
+- Confirmation du MDP &gt; Votre MDP srvdmz<br />
+- Méthode de partitionnement &gt; Assisté - utili... entier<br />
+- Disque à partitionner &gt; Celui proposé de 12 Go<br />
+- Schéma de partitionnement &gt; Tout ... seule partition<br />
+- Table des partitions &gt; Terminer le partitionnement ...<br />
+- Faut-il appliquer les changements … disques ? &gt; Oui</p>
+<p>L'installation de base commence :<br />
+- Faut-il analyser un autre CD ou DVD &gt; Non<br />
+- Pays du miroir de l'archive Debian &gt; France<br />
+- Miroir de l'archive Debian &gt; ftp.fr.debian.org<br />
+- Mandataire HTTP (lais...) &gt; Laissez vide</p>
+<p>L'installation continue :<br />
+- Souhaitez-vous participer à l'étude statistique... &gt; Non<br />
+- Logiciels à installer<br />
+> Décochez "environnement de bureau Debian"<br />
+> Décochez "serveur d'impression"<br />
+> Conservez "utilitaires usuels du système"</p>
+<p>L'installation se termine :<br />
+- Installer ... de démarrage GRUB sur le secteur ... &gt; Oui<br />
+- Périphérique ... programme de démarrage &gt; /dev/sda<br />
+- Installation terminée &gt; Continuer <em>(sans retrait du CD)</em></p>
+<p>Le système reboot :<br />
+- srvdmz login : srvdmz<br />
+- Password : Votre MDP srvdmz<br />
+Si tout est OK, affichage du prompt [srvdmz@srvdmz:~$]</p>
+<p>Connectez-vous à présent comme administrateur root :</p>
+<p>[srvdmz@srvdmz:~$] su root<br />
+Mot de passe : Votre MDP root<br />
+[root@srvdmz:~#]</p>
+<h4 id="13-gestion-des-paquets-debian"><em>1.3 - Gestion des paquets Debian</em></h4>
+<p>Dans le but de garder un Debian minimaliste, empêchez les paquets recommandés/suggérés par le gestionnaire de paquets apt d'être installés par défaut comme des dépendances.</p>
+<p>Créez et éditez le fichier 00pas-de-recommends :</p>
+<p>[root@srvdmz:~#] cd /etc/apt
+[root@srvdmz:~#] touch apt.conf.d/00pas-de-recommends
+[root@srvdmz:~#] nano apt.conf.d/00pas-de-recommends</p>
+<p>Entrez ensuite ces 2 lignes et enregistrez le fichier :</p>
+<p>APT::Install-Recommends "false";<br />
+APT::Install-Suggests "false";</p>
+<p>Touches CTRL + x pour enregistrer &gt; O = Oui &gt; Entrée</p>
+<h4 id="14-installation-de-sudo-et-maj-de-debian"><em>1.4 - Installation de sudo et MAJ de Debian</em></h4>
+<p>Autorisez l'utilisateur srvdmz à exécuter des Cdes en tant que root à l'aide du programme sudo. Vous diminuerez ainsi, connecté en tant que srvdmz, le risque de casser la VM par erreur.</p>
+<p>Installez sudo et ajoutez srvdmz dans le groupe sudo :</p>
+<p>[root@srvdmz:~#] apt-get install sudo<br />
+[root@srvdmz:~#] sudo adduser srvdmz sudo </p>
+<p>Redémarrez le système pour une prise en compte :</p>
+<p>[root@srvdmz:~#] sudo reboot</p>
+<p>et connectez-vous en tant qu'utilisateur srvdmz :</p>
+<p><a href="/wp-content/uploads/2019/04/srvdmz-premier-demarrage.png"><img alt="Capture - Premier démarrage de Debian " src="/wp-content/uploads/2019/04/srvdmz-premier-demarrage-430x370.png" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Premier démarrage de Debian</p>
+<p>Mettez à jour la distribution Debian :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get update<br />
+[srvdmz@srvdmz:~$] sudo apt-get upgrade<br />
+[srvdmz@srvdmz:~$] sudo apt-get dist-upgrade</p>
+<p>Pour info, la VM peut être arrêtée de 2 façons :</p>
+<p>[srvdmz@srvdmz:~$] sudo poweroff<br />
+[srvdmz@srvdmz:~$] sudo shutdown -h now </p>
+<p>Stoppez donc celle-ci, réduisez depuis VirtualBox la mémoire allouée à 384 Mo et redémarrez.</p>
+<h3 id="2-ajout-du-serveur-graphique-xorg">2 - Ajout du serveur graphique Xorg</h3>
+<p>Vous devez, comme préalable à la mise en place d'Openbox, installer un serveur graphique.</p>
+<p>Installez xorg à l'aide des Cdes suivantes :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get install xfonts-base <br />
+[srvdmz@srvdmz:~$] sudo apt-get install xserver-xorg  <br />
+[srvdmz@srvdmz:~$] sudo apt-get install x11-xserver-utils  </p>
+<h3 id="3-ajout-du-gestionnaire-de-fenetres-openbox">3 - Ajout du gestionnaire de fenêtres Openbox</h3>
+<h4 id="31-installation-de-base"><em>3.1 - Installation de base</em></h4>
+<p>Entrez la Cde suivante :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get install openbox obmenu obconf-qt obconf-qt-l10n</p>
+<h4 id="32-gestionnaire-de-session-terminal"><em>3.2 - Gestionnaire de session, terminal</em> ...</h4>
+<p>Ajoutez ces 3 programmes avec les Cdes suivantes :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get install slim xfce4-terminal <br />
+[srvdmz@srvdmz:~$] sudo apt-get install chromium chromium-l10n chromium-sandbox</p>
+<p>Redémarrez le système :</p>
+<p>[srvdmz@srvdmz:~$] sudo reboot</p>
+<p>Le gestionnaire de session/connexion slim s'ouvre.</p>
+<p>Entrez le nom d'utilisateur srvdmz &gt; Touche Entrée.<br />
+Entrez ensuite son MDP &gt; Touche Entrée.</p>
+<p>Le bureau s'affiche, effectuez un clic droit sur celui-ci pour activer le menu contextuel d'Openbox et vérifiez le fonctionnement de Terminal emulator et Web browser.</p>
+<p>Info sur le thème actif du gestionnaire de session slim :<br />
+- Choix dans /etc/slim.conf, paramètre current_theme.<br />
+- Thèmes disponibles dans /usr/share/slim/themes.</p>
+<h4 id="33-barre-des-taches"><em>3.3 - Barre des tâches</em></h4>
+<p>Ouvrez Terminal emulator et installez la barre tint2 :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get install tint2</p>
+<p>Créez un dossier openbox dans /home/srvdmz/.config :</p>
+<p>[srvdmz@srvdmz:~$] mkdir /home/srvdmz/.config/openbox</p>
+<p>Créez dans le dossier un fichier autostart.sh :</p>
+<p>[srvdmz@srvdmz:~$] cd /home/srvdmz/.config/openbox
+[srvdmz@srvdmz:~$] touch autostart.sh</p>
+<p>Editez celui-ci :</p>
+<p>[srvdmz@srvdmz:~$] nano autostart.sh</p>
+<p>et insérez les lignes suivantes avant d'enregistrer :</p>
+<p># Lancement de la barre des tâches<br />
+tint2 &amp;</p>
+<p>Redémarrez et découvrez la barre des tâches tint2 :</p>
+<p>[srvdmz@srvdmz:~$] sudo reboot</p>
+<h4 id="34-assistant-du-gestionnaire-de-session"><em>3.4 - Assistant du gestionnaire de session</em></h4>
+<p>Ouvrez le terminal et installez l'outil obsession :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get install obsession</p>
+<p>Editez le menu contextuel utilisé par Openbox :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/xdg/openbox/menu.xml</p>
+<p>et remplacez le contenu suivant situé à la fin du fichier :</p>
+<p><item label="Exit"><br />
+    <action name="Exit" /><br />
+</item></p>
+<p>par :</p>
+<p><item label="Exit"><br />
+    <action name="Execute"><br />
+    <execute>obsession-logout</execute><br />
+    </action><br />
+</item></p>
+<p>- Ouvrez ensuite ce menu <em>(clic droit sur le bureau)</em><br />
+> Exit pour observer le menu fourni de base<br />
+> Annuler</p>
+<p>- Ouvrez de nouveau le menu contextuel<br />
+> Restart pour traiter la modification ci-dessus</p>
+<p>- Ouvrez une dernière fois le menu contextuel<br />
+> Exit pour voir le nouveau menu fourni par obsession<br />
+> Annuler</p>
+<p>Des boutons Arrêter, Redémarrer, etc... compléteront le menu une fois le paquet policykit-1-gnome installé.</p>
+<h4 id="35-utilitaires-pratiques"><em>3.5 - Utilitaires pratiques</em></h4>
+<p>Installez les 7 utilitaires suivants :<br />
+- Le gestionnaire de paquets synaptic<br />
+- L'éditeur de textes léger mousepad<br />
+- Le gestionnaire de fichiers pcmanfm<br />
+- Le créateur de fond d'écran hsetroot<br />
+- L'agent d'authentification policykit-1-gnome<br />
+- Le moniteur système conky<br />
+- L'éditeur d'images gpicview</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get install synaptic mousepad
+[srvdmz@srvdmz:~$] sudo apt-get install pcmanfm hsetroot
+[srvdmz@srvdmz:~$] sudo apt-get install policykit-1-gnome 
+[srvdmz@srvdmz:~$] sudo apt-get install conky gpicview  </p>
+<p>Prévoyez d'en exécuter 3 au démarrage du système.</p>
+<p>Editez pour cela le fichier autostart.sh :</p>
+<p>[srvdmz@srvdmz:~$] cd /home/srvdmz/.config/openbox
+[srvdmz@srvdmz:~$] nano autostart.sh</p>
+<p>et ajoutez les lignes ci-dessous en fin de fichier :</p>
+<p># Lancement de l'agent d'authentification
+/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &amp;</p>
+<h1 id="affichage-du-fond-decran">Affichage du fond d'écran</h1>
+<p>hsetroot -solid "#996600" &amp;</p>
+<h1 id="lancement-de-conky">Lancement de conky</h1>
+<p>conky &amp;</p>
+<h3 id="4-installation-des-utilitaires-de-virtualbox">4 - Installation des utilitaires de VirtualBox</h3>
+<p>Ils permettront entre autres le copier/coller et l'accès au dossier partagé par le PC hôte.</p>
+<p>Relevez au préalable la version du noyau linux :</p>
+<p>[srvdmz@srvdmz:~$] uname -r</p>
+<p>Retour = 4.19.0.x-686-pae</p>
+<p>Installez en conséquence les paquets suivants :</p>
+<p>[srvdmz@srvdmz:~$] sudo apt-get install dkms build-essential 
+[srvdmz@srvdmz:~$] sudo apt-get install linux-headers-4.19.0-x-686-pae </p>
+<p>Accédez à présent au menu VirtualBox de la VM :<br />
+> Périphériques &gt; Insérer l'image CD des Additions inv...</p>
+<p>Montez le CD virtuel, installez les utilitaires et rebootez :</p>
+<p>[srvdmz@srvdmz:~$] sudo mount /dev/cdrom /media/cdrom/
+[srvdmz@srvdmz:~$] cd /media/cdrom/
+[srvdmz@srvdmz:~$] sudo ./VBoxLinuxAdditions.run
+[srvdmz@srvdmz:~$] sudo reboot</p>
+<p>Lancez ensuite le terminal et ajustez la taille de l'écran :</p>
+<p>[srvdmz@srvdmz:~$] xrandr -s 1360x768</p>
+<p>Vous pouvez aussi ajuster la taille à l'aide de la souris.</p>
+<p>Sans fermer la VM, retirez l'ISO du lecteur CD virtuel.<br />
+Menu Configuration de Virtualbox :<br />
+- - - Onglet Stockage<br />
+> Unités de stockage &gt; VBoxGuestAdditions.iso<br />
+> Attributs &gt; Cliquez sur l'icône CD<br />
+> Retirer le disque du lecteur virtuel &gt; OK</p>
+<p>Editez maintenant le fichier autostart.sh :</p>
+<p>[srvdmz@srvdmz:~$] cd /home/srvdmz/.config/openbox
+[srvdmz@srvdmz:~$] nano autostart.sh</p>
+<p>et ajoutez les lignes ci-dessous en fin de fichier :</p>
+<p># Taille de l'écran au boot
+xrandr -s 1360x768 &amp;</p>
+<h3 id="5-modification-des-menus-openbox-et-conky">5 - Modification des menus Openbox et Conky</h3>
+<p><em>Nota : Le copier/coller peut à présent être utilisé.</em></p>
+<h4 id="51-menu-openbox"><em>5.1 - Menu Openbox</em></h4>
+<p>Editez le menu d'Openbox :</p>
+<p>[srvdmz@srvdmz:~$] sudo mousepad /etc/xdg/openbox/menu.xml</p>
+<p>et remplacez le contenu actuel du fichier par celui-ci :</p>
+<?xml version="1.0" encoding="UTF-8"?>
+<p><openbox\_menu xmlns="http://openbox.org/"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://openbox.org/
+file:///usr/share/openbox/menu.xsd"></p>
+<menu id="root-menu" label="Openbox 3">
+<item label="Terminal \[xfce4-terminal\]">
+<action name="Execute">
+<execute>x-terminal-emulator</execute>
+</action>
+</item>
+<item label="Gestionnaire de fichiers \[pcmanfm\]"> 
+<action name="Execute">
+<execute>pcmanfm</execute>
+</action>
+</item>
+<item label="Editeur de textes \[mousepad\]">
+<action name="Execute">
+<execute>mousepad</execute>
+</action>
+</item>
+<item label="Editeur d'images \[gpicview\]">
+<action name="Execute">
+<execute>gpicview</execute>
+</action>
+</item>
+<item label="Navigateur Web \[chromium\]">
+<action name="Execute">
+<execute>x-www-browser</execute>
+</action>
+</item>
+<item label="Gestionnaire de paquets \[synaptic\]">
+<action name="Execute">
+<execute>synaptic-pkexec</execute>
+</action>
+</item>
+<!-- Cela nécessite la présence du paquet 'menu' -->
+<menu id="/Debian" />
+<separator />
+<menu id="client-list-menu" />
+<separator /
+<item label="Configurer Openbox">
+<action name="Execute">
+<execute>obconf-qt</execute>
+</action>
+</item>
+<item label="Recharger la configuration Openbox ">
+<action name="Reconfigure" />
+</item>
+<item label="Recharger la configuration du menu">
+<action name="Restart" />
+</item>
+<separator />
+<item label="Quitter">
+<action name="Execute">
+<execute>obsession-logout</execute>
+</action>
+</item>
+</menu>
+<p></openbox\_menu></p>
+<p>Enregistrez les modifications et quittez mousepad.</p>
+<p>Copiez les 2 fichiers .xml dans le dossier srvdmz :</p>
+<p>[srvdmz@srvdmz:~$] sudo cp /etc/xdg/openbox/*.xml /home/srvdmz/.config/openbox/ </p>
+<p>et modifiez les droits sur ceux-ci comme suit :</p>
+<p>[srvdmz@srvdmz:~$] cd /home/srvdmz/.config/openbox
+[srvdmz@srvdmz:~$] sudo chown srvdmz:srvdmz * </p>
+<p>Redémarrez le système :</p>
+<p>[srvdmz@srvdmz:~$] sudo reboot</p>
+<p>Une fois redémarré, testez les applications présentes dans le nouveau menu contextuel.</p>
+<h4 id="52-menu-conky"><em>5.2 - Menu Conky</em></h4>
+<p>Traduisez conky en modifiant les lignes 65 à 78 de /etc/conky/conky.conf comme suit :</p>
+<p>${color yellow}Démarré depuis:$color $uptime
+${color yellow}Fréquence (en MHz):$color $freq
+${color yellow}Température CPU:$color ${alignr}${acpitemp}°C
+${color yellow}Charge RAM:$color $mem/$memmax - $mem...
+${color yellow}Charge Swap:$color $swap/$swapmax - $swa...
+${color yellow}Charge CPU:$color $cpu% ${cpubar 4}
+${color yellow}Processus:$... $pro... ${color yellow}En cours:...
+$hr
+${color orange}Système de fichiers:
+    / $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+${color orange}Débits réseau:
+Sortant:$... ${... enp0s3} ${... orange} - Entrant:$... ${... enp0s3}
+$hr
+${color 00FF00}Nom PID CPU% MEM%</p>
+<p>C'est fini, Openbox est en place, RAM utilisée &lt; 150 Mo :</p>
+<p><a href="/wp-content/uploads/2021/05/vm-srvdmz-bureau-openbox.jpg"><img alt="Capture - Bureau Openbox de Debian" src="/wp-content/uploads/2021/05/vm-srvdmz-bureau-openbox-430x271.jpg" title="Cliquez pour agrandir l'image" /></a></p>
+<p>Bureau Openbox de Debian</p>
+<h3 id="6-montage-du-dossier-partage-par-le-pc-hote">6 - Montage du dossier partagé par le PC hôte</h3>
+<p>Créez le dossier qui permettra d'afficher le contenu partagé par le PC hôte :</p>
+<p>[srvdmz@srvdmz:~$] mkdir /home/srvdmz/Partages</p>
+<p>Le système d'initialisation de Debian 10 reposant sur systemd au lieu de sysVinit comme pour le réseau 2014-2017, la procédure de montage automatique du dossier partagé diffère.</p>
+<p>Créez le service home-srvdmz-Partages.mount :</p>
+<p>[srvdmz@srvdmz:~$] cd /etc/systemd/system<br />
+[srvdmz@srvdmz:~$] sudo touch home-srvdmz-Partages.mount</p>
+<p>Editez celui-ci :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano home-srvdmz-Partages.mount</p>
+<p>et entrez le contenu suivant :</p>
+<p>[Unit]
+Description = Montage dossier partagé fourni par VirtualBox</p>
+<p>[Mount]
+What = <em>Entrez le nom du dossier partagé par le PC hôte</em>
+Where = /home/srvdmz/Partages
+Type = vboxsf
+Options=rw,uid=srvdmz,gid=srvdmz</p>
+<p>[Install]
+WantedBy = multi-user.target</p>
+<p>Exemple pour What : What=Partage-Yohann</p>
+<p>Intégrez le service dans la configuration de systemd :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl daemon-reload</p>
+<p>et démarrez celui-ci :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl start home-srvdmz-Partages.mount</p>
+<p>Vérifiez son statut :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl status home-srvdmz-Partages.mount</p>
+<p>Si nécessaire, touche q pour quitter le résultat affiché.</p>
+<p>Autorisez le lancement du service au boot de la VM :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl enable home-srvdmz-Partages.mount</p>
+<p>Un lien symbolique est créé.</p>
+<p>Ouvrez pcmanfm et observez le contenu partagé par le PC hôte dans /home/srvdmz/Partages.</p>
+<h3 id="7-configuration-du-reseau">7 - Configuration du réseau</h3>
+<p>Attention, sous Debian 10, le nom des cartes réseau respecte une nouvelle nomenclature.</p>
+<p>Vérifiez le à l'aide de la Cde suivante :</p>
+<p>[srvdmz@srvdmz:~$] ip address</p>
+<p>Résultat, eth0 est renommée enp0s3 :</p>
+<p><img alt="Capture - Résultat Cde ip address" src="/wp-content/uploads/2019/04/srvdmz-cde-ip-address.png" /></p>
+<p>Résultat de la Cde ip address</p>
+<p>La VM qui sera placée à l'intérieur du réseau local virtuel impose de modifier le mode d'accès réseau de la carte enp0s3.</p>
+<p>Pour cela, sans stopper la VM, accédez au menu Configuration de VirtualBox :<br />
+- - - Onglet Réseau<br />
+> Carte 1 &gt; Mode d'accès réseau &gt; Réseau interne</p>
+<h4 id="71-adressage-ip-fixe"><em>7.1 - Adressage IP fixe</em></h4>
+<p>Editez le fichier de configuration réseau interfaces :</p>
+<p>[srvdmz@srvdmz:~$] sudo nano /etc/network/interfaces</p>
+<p>Commentez les lignes suivantes :</p>
+<p>allow-hotplug enp0s3 <em>(ajoutez un # devant la ligne)</em> 
+iface enp0s3 inet dhcp <em>(ajoutez un # devant la ligne)</em> </p>
+<p>et ajoutez celles-ci :</p>
+<p>auto enp0s3<br />
+iface enp0s3 inet static<br />
+address 192.168.4.2<br />
+netmask 255.255.255.0<br />
+network 192.168.4.0<br />
+broadcast 192.168.4.255<br />
+gateway 192.168.4.1</p>
+<p>Vous venez d'appliquer une adresse IP fixe à enp0s3.</p>
+<p>Relancez le service réseau :</p>
+<p>[srvdmz@srvdmz:~$] sudo systemctl restart networking</p>
+<p>et vérifiez le résultat avec la Cde ip address.</p>
+<p>Affichez ensuite la table de routage avec la Cde ip r :</p>
+<p><img alt="Capture - Table de routage de srvdmz" src="/wp-content/uploads/2019/04/srvdmz_table_routage.png" /></p>
+<p>Table de routage de srvdmz</p>
+<p><img alt="Image - Rédacteur satisfait" src="/wp-content/uploads/2019/02/redacteur_satisfait_bis.png" title="Image Pixabay - Sanalinsan" /></p>
+<p>Bien !<br />
+Les serveurs sont prêts. Le mémento<br />
+4.1 vous attend pour la création des<br />
+VM clientes du réseau local virtuel.</p>
+<p><a href="/virtualbox-clients-debian10-creation/">Mémento 4.1</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - Leloup G&eacute;rard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.top", "navigation.footer"], "search": "../../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>
