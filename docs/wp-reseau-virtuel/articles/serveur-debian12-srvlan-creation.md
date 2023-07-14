@@ -503,6 +503,6 @@ Table de routage de srvlan
 Bravo !  
 Le serveur srvlan est prêt.  
 Le mémento 2.1 vous attend pour  
-l'ajout du serveur srvsec_(IPFire)_.
+l'ajout du serveur srvsec _(IPFire)_.
 
 [Mémento 2.1](/notes-du-loup/wp-reseau-virtuel/articles/serveur-ipfire-srvsec-creation){ .md-button }
