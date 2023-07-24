@@ -137,32 +137,32 @@ Installation IPFire - Image 10
 
 Entrez le nom d'hôte de la VM soit srvsec > OK
 
-![Capture - IPFire : Nom de domaine](/wp-content/uploads/2018/03/Ipfire_11.png)
+![Capture - IPFire : Entrée du nom de domaine](../wp-content/uploads/2023/07/IPFire_11.webp)
 
 Installation IPFire - Image 11
 
 Entrez le nom de domaine loupipfire.fr > OK  
 C'est le nom qui sera exploité plus tard sur le réseau.
 
-![Capture - IPFire : Mot de passe utilisateur root](/wp-content/uploads/2018/03/Ipfire_12-430x160.png)
+![Capture - IPFire : Entrée du mot de passe utilisateur root](../wp-content/uploads/2023/07/IPFire_12-430x172.webp)
 
 Installation IPFire - Image 12
 
 Entrez le MDP pour root _(2 fois)_ > OK
 
-![Capture - IPFire : Mot de passe utilisateur admin](/wp-content/uploads/2018/03/Ipfire_13.png)
+![Capture - IPFire : Entrée du mot de passe utilisateur admin](../wp-content/uploads/2023/07/IPFire_13-430x170.webp)
 
 Installation IPFire - Image 13
 
-Entrez celui de l'administrateur Web admin _(2fois)_ > OK
+Entrez celui de l'administrateur Web admin _(2 fois)_ > OK
 
-![Capture - IPFire : Choix type de configuration réseau](/wp-content/uploads/2018/03/Ipfire_14.png)
+![Capture - IPFire : Sélection type de configuration réseau](../wp-content/uploads/2023/07/IPFire_14.webp)
 
 Installation IPFire - Image 14
 
 Sélectionnez Type de configuration réseau > OK
 
-![Capture - IPFire : Sélection réseau green+red+orange](/wp-content/uploads/2018/03/Ipfire_15.png)
+![Capture - IPFire : Sélection du tpe de réseau green+red+orange](../wp-content/uploads/2023/07/IPFire_15.webp)
 
 Installation IPFire - Image 15
 
