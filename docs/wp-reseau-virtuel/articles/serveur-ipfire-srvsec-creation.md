@@ -228,31 +228,31 @@ Installation IPFire - Image 25
 
 Sélectionnez Configuration d'adresse \> OK
 
-![Capture - IPFire : Sélection carte green](/wp-content/uploads/2018/03/Ipfire_26.png)
+![Capture - IPFire : Configuration d'adresse, sélection carte green](../wp-content/uploads/2023/07/IPFire_26-430x211.webp)
 
 Installation IPFire - Image 26
 
-\> GREEN soit la carte réseau 3 de VirtualBox > OK
+\-> GREEN soit la carte réseau 3 de VirtualBox > OK
 
-![Capture - IPFire : Message d'alerte](/wp-content/uploads/2018/03/Ipfire_27.png)
+![Capture - IPFire : Configuration d'adresse, avertissement](../wp-content/uploads/2023/07/IPFire_27-430x202.webp)
 
 Installation IPFire - Image 27
 
 Petit avertissement > OK
 
-![Capture - IPFire : Adresse IP carte green](/wp-content/uploads/2018/03/Ipfire_28.png)
+![Capture - IPFire : Adresse IP carte green](../wp-content/uploads/2023/07/IPFire_28.webp)
 
 Installation IPFire - Image 28
 
 Entrez l'adresse IP de la carte 3 soit 192.168.2.1 > OK
 
-![Capture - IPFire : Sélection carte orange](/wp-content/uploads/2018/03/Ipfire_29.png)
+![Capture - IPFire : Configuration d'adresse, sélection carte orange](../wp-content/uploads/2023/07/IPFire_29-430x212.webp)
 
 Installation IPFire - Image 29
 
-\> ORANGE soit la carte réseau 2 de VirtualBox > OK
+\-> ORANGE soit la carte réseau 2 de VirtualBox > OK
 
-![Capture - IPFire : Adresse IP carte orange](/wp-content/uploads/2018/03/Ipfire_30.png)
+![Capture - IPFire : Adresse IP carte orange](../wp-content/uploads/2023/07/IPFire_30.webp)
 
 Installation IPFire - Image 30
 
