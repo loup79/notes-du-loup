@@ -168,35 +168,35 @@ Installation IPFire - Image 15
 
 Choix de GREEN_(lan)_ + RED_(wan)_ + ORANGE_(dmz)_ > OK
 
-![Capture - IPFire : Choix affectation des pilotes et cartes](/wp-content/uploads/2018/03/Ipfire_16.png)
+![Capture - IPFire : Choix affectation des pilotes et cartes](../wp-content/uploads/2023/07/IPFire_16.webp)
 
 Installation IPFire - Image 16
 
 Sélectionnez Affectation des Pilotes et des Cartes > OK
 
-![Capture - IPFire : Sélection carte green](/wp-content/uploads/2018/03/Ipfire_17.png)
+![Capture - IPFire : Sélection carte réseau green](../wp-content/uploads/2023/07/IPFire_17-430x222.webp)
 
 Installation IPFire - Image 17
 
-\> GREEN _\=_ carte 3 de VirtualBox > Sélectionner
+\-> GREEN soit la carte 3 de VirtualBox > Sélectionner
 
-![Capture - IPFire : Sélection carte réseau 3](/wp-content/uploads/2018/03/Ipfire_18-430x165.png)
+![Capture - IPFire : Sélection adresse MAC de la carte réseau 3 de VirtualBox](../wp-content/uploads/2023/07/IPFire_18-430x165.webp)
 
 Installation IPFire - Image 18
 
-Selon son adresse MAC > carte 3 > Sélectionner
+Accédez à l'adresse MAC de la carte 3 > Sélectionner
 
-![Capture - IPFire : Carte 3 affectée à green](/wp-content/uploads/2018/03/Ipfire_19.png)
+![Capture - IPFire : Carte 3 de VirtualBox affectée à green](../wp-content/uploads/2023/07/IPFire_19-430x247.webp)
 
 Installation IPFire - Image 19
 
 La carte 3 est bien affectée à la zone GREEN.
 
-![Capture - IPFire : Sélection carte red](/wp-content/uploads/2018/03/Ipfire_20.png)
+![Capture - IPFire : Sélection carte réseau red](../wp-content/uploads/2023/07/IPFire_20-430x246.webp)
 
 Installation IPFire - Image 20
 
-\> RED _\=_ carte 1 de VirtualBox > Sélectionner
+\-> RED soit la carte 1 de VirtualBox > Sélectionner
 
 ![Capture - IPFire : Sélection carte réseau 1 ](/wp-content/uploads/2018/03/Ipfire_21-430x141.png)
 
