@@ -258,55 +258,41 @@ Installation IPFire - Image 30
 
 Entrez l'adresse IP de la carte 2 soit 192.168.4.1 > OK
 
-![Capture - IPFire : Sélection carte red](/wp-content/uploads/2018/03/Ipfire_31.png)
+![Capture - IPFire : Configuration d'adresse, sélection carte red](../wp-content/uploads/2023/07/IPFire_31-430x211.webp)
 
 Installation IPFire - Image 31
 
-\> RED soit la carte réseau 1 de VirtualBox > OK
+\-> RED soit la carte réseau 1 de VirtualBox > OK
 
-![Capture - IPFire : Adresse IP carte red](/wp-content/uploads/2018/03/Ipfire_32.png)
+![Capture - IPFire : Adresse IP carte red](../wp-content/uploads/2023/07/IPFire_32.webp)
 
 Installation IPFire - Image 32
 
-\- Statique > Vérifiez que la case est bien cochée  
-\- Adresse IP > IP libre du serveur DHCP de votre Box  
-\- Gateway _(Selon version IPFire)_ > IP de votre Box > OK
+\- Statique : Vérifiez que la case est bien cochée  
+\- Adresse IP : IP libre du serveur DHCP de votre Box  
+\- Gateway : IP de votre Box > OK
 
-![Capture - IPFire : Fin de la configuration des adresses IP](/wp-content/uploads/2018/03/Ipfire_33.png)
+![Capture - IPFire : Fin de la sélection des cartes réseau green, orange et red](../wp-content/uploads/2023/07/IPFire_33-430x211.webp)
 
 Installation IPFire - Image 33
 
 Les 3 cartes ont maintenant une adresse IP > Terminé
 
-![Capture - IPFire : Choix réglages dns et passerelle](/wp-content/uploads/2018/03/Ipfire_34.png)
+![Capture - IPFire : Configuration d'adresse, sortie](../wp-content/uploads/2023/07/IPFire_34.webp)
 
 Installation IPFire - Image 34
 
-Selon version IPFire > Réglages DNS et Passerelle \> OK  
-Sinon > Terminé
+Quittez la Configuration d'adresse > Terminé
 
-![Capture - IPFire : Réglages dns et passerelle](/wp-content/uploads/2018/03/Ipfire_35.png)
+![Capture - IPFire : Configuration dhcp](../wp-content/uploads/2023/07/IPFire_37-430x300.webp)
 
 Installation IPFire - Image 35
 
-\- DNS pri../sec... > IP DNS enregistrées dans votre Box  
-\- Passerelle par défaut > IP de votre Box > OK
-
-![Capture - IPFire : Fin réglages dns et passerelle](/wp-content/uploads/2018/03/Ipfire_36.png)
-
-Installation IPFire - Image 36
-
-C'est fini pour cette partie > Terminé
-
-![Capture - IPFire : Configuration dhcp](/wp-content/uploads/2018/03/Ipfire_37.png)
-
-Installation IPFire - Image 37
-
 Cette fenêtre s'affiche, ne pas activer le DHCP > OK
 
-![Capture - IPFire : Fin du paramétrage](/wp-content/uploads/2018/03/Ipfire_38.png)
+![Capture - IPFire : Installation terminée](../wp-content/uploads/2023/07/IPFire_38.webp)
 
-Installation IPFire - Image 38
+Installation IPFire - Image 36
 
 Et voilà, c'est terminé > OK
 
