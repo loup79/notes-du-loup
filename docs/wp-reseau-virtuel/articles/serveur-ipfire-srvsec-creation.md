@@ -1,66 +1,67 @@
 ---
 title: "srvsec - VBox/IPFire"
-date: "2022-02-14"
+date: "2023-07-14"
 categories: 
   - "serveur-srvsec"
 ---
 
-## Mémento 2.11 - Serveur srvsec
+## Mémento 2.1 - Serveur srvsec
 
-Comme pour le réseau sous Debian 10, vous allez créer et placer la VM srvsec _(IPFire)_ en entrée du réseau local ou celle-ci servira entre autres de pare-feu.
+Comme pour les réseaux précédents, vous allez créer et placer la VM srvsec _(IPFire)_ en entrée du réseau local ou celle-ci servira entre autres de pare-feu.
 
 ### 1 - Construction de la VM depuis VirtualBox
 
 L'utilisation de VirtualBox est considérée acquise.
 
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](/virtualbox-installation/)  
-[VirtualBox – Mode d’accès réseau par pont](/virtualbox-pont-reseau/)
+[VirtualBox - Installation](../virtualbox-installation/)  
+[VirtualBox – Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
 
 #### _1.1 - Création et configuration_
 
 Téléchargez l'ISO x86\_64 version 2.x - Core Update y :  
 [https://www.ipfire.org/download](https://www.ipfire.org/download)
 
-Démarrez l'application VirtualBox puis :
+\- Démarrez ensuite l'application VirtualBox 7.x, puis :  
+\- - Menu de VirtualBox > Machine > Nouvelle...  
+\-> Nom : IPFire  
+\-> Folder : Sélectionnez le dossier de stockage des VM  
+\-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus  
+\-> Type : Other  
+\-> Version : Other/Unknown (64-bit)  
+\-> Bouton Suivant
 
-Menu Nouvelle de VirtualBox :  
-\- Nom IPFire - Type Linux - Version Other ... (64-bit)  
-\- Taille de la mémoire > 512 Mo  
-\- Disque dur > Créer un disque dur virtuel maintenant  
-\- Type de fichier de disque dur > VDI  
-\- Stockage sur disque dur ... > Dynamiquement alloué  
-\- Emplacement du fichier et taille > 8 Go > Créer
+\-> Mémoire vive : 512 MB  
+\-> Processors : 2 CPU si possible  
+\-> Bouton Suivant
 
-La VM est créée dans le panneau gauche de VirtualBox.
+\-> Create a Virtual Hard Disk Now : Ajustez à 8 Go  
+\-> Bouton Suivant
 
-Sélectionnez la nouvelle VM, puis :
+\-> Vérifiez le Récapitulatif  
+\-> Bouton Finish
 
-Menu Configuration de VirtualBox :  
-\- - - Onglet Système  
-\> Carte mère > Ordre d'amorçage > Décochez Disquette  
-\> Carte mère > Fonctions avancées > Cochez IO-APIC  
-\> Processeur > 2 CPU et cochez PAE/NX  
+La VM s'affiche dans le panneau gauche de VirtualBox.
+
+\- Sélectionnez maintenant la nouvelle VM, puis :  
+\- - Menu de VirtualBox > Machine > Configuration...    
+\- - - Onglet Système    
+\-> Carte mère > Ordre d'amorçage > Décochez Disquette    
+\-> Carte mère > Fonctions avancées > Cochez IO-APIC    
+\-> Processeur > Cochez PAE/NX  
   
-\- - - Onglet Stockage  
-\> Unités de stockage > Sélectionnez Vide  
-\> Attributs > Cliquez sur l'icône CD  
-\> Sélectionnez Choisissez un fichier de disque ...  
-\> Entrez le chemin de l'image ISO IPFire > Ouvrir
-
 \- - - Onglet Réseau  
-\> Carte 1  
-\> Mode d'accès réseau > Accès par pont  
-\> Nom > Sélectionnez la carte réseau active du PC hôte  
-\> Avancé > Notez l'adresse MAC dans un coin
+\-> Adapter 1 > Mode d'accès réseau > Accès par pont  
+\-> Name > Indiquez la carte réseau active du PC hôte  
+\-> Advanced > Notez l'adresse MAC dans un coin
 
-\> Carte 2 > Cochez Activer la carte réseau  
-\> Mode d'accès réseau > Réseau interne  
-\> Avancé > Notez l'adresse MAC dans un coin
+\-> Adapter 2 > Cochez Activer la carte réseau  
+\-> Mode d'accès réseau > Réseau interne  
+\-> Advanced > Notez l'adresse MAC dans un coin
 
-\> Carte 3 > Cochez Activer la carte réseau  
-\> Mode d'accès réseau > Réseau interne  
-\> Avancé > Notez l'adresse MAC dans un coin  
+\-> Adapter 3 > Cochez Activer la carte réseau  
+\-> Mode d'accès réseau > Réseau interne  
+\-> Advanced > Notez l'adresse MAC dans un coin  
   
 \> OK
 
@@ -71,8 +72,8 @@ Les autres paramètres peuvent rester inchangés.
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
 
-Menu Démarrer de VirtualBox :  
-La VM créée s'exécute.
+\- - Menu de VirtualBox > Machine > Démarrer  
+\-> Démarrage normal _(La VM s'exécute)_
 
 ![Capture - IPFire : Début Installation](/wp-content/uploads/2018/03/Ipfire_1-430x317.png)
 
