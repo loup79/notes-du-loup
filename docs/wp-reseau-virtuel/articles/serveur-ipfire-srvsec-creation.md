@@ -75,63 +75,63 @@ Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, 
 \- - Menu de VirtualBox > Machine > Démarrer  
 \-> Démarrage normal _(La VM s'exécute)_
 
-![Capture - IPFire : Début Installation](/wp-content/uploads/2018/03/Ipfire_1-430x317.png)
+![Capture - IPFire : Accueil Installation](../wp-content/uploads/2023/07/IPFire_1-430x319.webp)
 
 Installation IPFire - Image 1
 
 Validez Install IPFire 2.x - Core y > Touche Entrée
 
-![Capture - IPFire : Choix de la langue](/wp-content/uploads/2018/03/Ipfire_2.png)
+![Capture - IPFire : Sélection de la langue](../wp-content/uploads/2023/07/IPFire_2.webp)
 
 Installation IPFire - Image 2
 
 Sélectionnez le Français > OK
 
-![Capture - IPFire : Démarrage de l'installation](/wp-content/uploads/2018/03/Ipfire_3.png)
+![Capture - IPFire : Validation du démarrage de l'installation](../wp-content/uploads/2023/07/IPFire_3.webp)
 
 Installation IPFire - Image 3
 
 Validez Démarrer l'installation > Touche Entrée
 
-![Capture - IPFire : Acceptation de la licence](/wp-content/uploads/2018/03/Ipfire_4-430x242.png)
+![Capture - IPFire : Acceptation de la licence](../wp-content/uploads/2023/07/IPFire_4-430x243.webp)
 
 Installation IPFire - Image 4
 
 Cochez J'accepte la licence > OK
 
-![Capture - IPFire : Préparation du disque dur](/wp-content/uploads/2018/03/Ipfire_5.png)
+![Capture - IPFire : Préparation du disque dur](../wp-content/uploads/2023/07/IPFire_5.webp)
 
 Installation IPFire - Image 5
 
 Validez Supprime toutes les données > Touche Entrée
 
-![Capture - IPFire : Choix du système de fichiers](/wp-content/uploads/2018/03/Ipfire_6.png)
+![Capture - IPFire : Sélection du système de fichiers ext4](../wp-content/uploads/2023/07/IPFire_6.webp)
 
 Installation IPFire - Image 6
 
-Validez Système de fichier ext4 > OK  
+Sélectionnez le système de fichier ext4 > OK  
 L'installation du système commence ...
 
-![Capture - IPFire : Redémarrage](/wp-content/uploads/2018/03/Ipfire_7.png)
+![Capture - IPFire : Validation de la demande de redémarrage](../wp-content/uploads/2023/07/IPFire_7-430x228.webp)
 
 Installation IPFire - Image 7
 
 Validez Redémarrer > Touche Entrée
 
-![Capture - IPFire : Choix de la langue du clavier](/wp-content/uploads/2018/03/Ipfire_8.png)
+![Capture - IPFire : Sélection de la langue du clavier](../wp-content/uploads/2023/07/IPFire_8.webp)
 
 Installation IPFire - Image 8
 
 Suite au redémarrage, la fenêtre ci-dessus s'affiche.  
 Sélectionnez le type de clavier fr > OK
 
-![Capture - IPFire : Choix du fuseau horaire](/wp-content/uploads/2018/03/Ipfire_9.png)
+![Capture - IPFire : Sélection du fuseau horaire](../wp-content/uploads/2023/07/IPFire_9.webp)
 
 Installation IPFire - Image 9
 
 Sélectionnez le fuseau horaire Europe/Paris > OK
 
-![Capture - IPFire : Nom d'hôte](/wp-content/uploads/2018/03/Ipfire_10.png)
+![Capture - IPFire : Entrée du nom d'hôte](../wp-content/uploads/2023/07/IPFire_10.webp)
 
 Installation IPFire - Image 10
 
