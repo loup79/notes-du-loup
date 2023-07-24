@@ -198,31 +198,31 @@ Installation IPFire - Image 20
 
 \-> RED soit la carte 1 de VirtualBox > Sélectionner
 
-![Capture - IPFire : Sélection carte réseau 1 ](/wp-content/uploads/2018/03/Ipfire_21-430x141.png)
+![Capture - IPFire : Sélection adresse MAC de la carte réseau 1 de VirtualBox ](../wp-content/uploads/2023/07/IPFire_21-430x153.webp)
 
 Installation IPFire - Image 21
 
-Selon son adresse MAC > carte 1 > Sélectionner
+Accédez à l'adresse MAC de la carte 1 > Sélectionner
 
-![Capture - IPFire : Sélection carte orange](/wp-content/uploads/2018/03/Ipfire_22.png)
+![Capture - IPFire : Sélection carte réseau orange](../wp-content/uploads/2023/07/IPFire_22-430x272.webp)
 
 Installation IPFire - Image 22
 
-\> ORANGE _\=_ carte 2 de VirtualBox > Sélectionner
+\-> ORANGE soit la carte 2 de VirtualBox > Sélectionner
 
-![Capture - IPFire : Sélection carte réseau 2 ](/wp-content/uploads/2018/03/Ipfire_23-430x141.png)
+![Capture - IPFire : Sélection adresse MAC de la carte réseau 2 de VirtualBox](../wp-content/uploads/2023/07/IPFire_23-430x142.webp)
 
 Installation IPFire - Image 23
 
 On ne peut pas se tromper > Sélectionner
 
-![Capture - IPFire : Vue attribution des cartes réseau](/wp-content/uploads/2018/03/Ipfire_24.png)
+![Capture - IPFire : Vue attribution des cartes réseau](../wp-content/uploads/2023/07/IPFire_24-430x295.webp)
 
 Installation IPFire - Image 24
 
 Les 3 cartes réseaux sont configurées > Terminé
 
-![Capture - IPFire : Configuration d'adresse](/wp-content/uploads/2018/03/Ipfire_25.png)
+![Capture - IPFire : Sélection configuration d'adresse](../wp-content/uploads/2023/07/IPFire_25.webp)
 
 Installation IPFire - Image 25
 
