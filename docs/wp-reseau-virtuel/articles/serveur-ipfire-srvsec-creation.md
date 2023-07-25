@@ -298,7 +298,7 @@ Et voilà, c'est terminé > OK
 
 IPFire finit son démarrage et affiche le login de srvsec :
 
-[![Capture - IPFire : Premier démarrage](/notes-du-loup/wp-reseau-virtuel/wp-content/uploads/2018/03/Ipfire_39-430x322.png "Cliquez pour agrandir l'image")](/wp-content/uploads/2018/03/Ipfire_39.png)
+[![Capture - IPFire : Premier démarrage](../wp-content/uploads/2023/07/IPFire_39-430x251.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_39.webp)
 
 IPFire : Premier démarrage
 
