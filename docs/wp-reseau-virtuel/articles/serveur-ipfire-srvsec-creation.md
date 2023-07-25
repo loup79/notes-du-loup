@@ -348,22 +348,22 @@ IPFire : Page d'accueil Web
 Vérifiez depuis srvsec qu'un ping sur l'IP 192.168.3.1 de srvlan ne fonctionne pas actuellement.
 
 Pour corriger cela, revenez sur srvlan :  
-\> Page d'accueil IPFire > Réseau > Routes statiques
+\-> Page d'accueil IPFire > Réseau > Routes statiques
 
-Remplissez les champs comme montré ci-dessous et cliquez ensuite sur Ajouter :
+Remplissez les champs comme montré ci-dessous et cliquez ensuite sur le bouton Ajouter :
 
-[![Capture - IPFire : Ajout d'une route statique vers 192.168.3.0](/wp-content/uploads/2018/03/Ipfire_ajout_route_statique-430x242.png "Cliquez pour agrandir l'image")](/wp-content/uploads/2018/03/Ipfire_ajout_route_statique.png)
+[![Capture - IPFire : Ajout d'une route statique vers 192.168.3.0](../wp-content/uploads/2023/07/IPFire_ajout_route_statique-430x249.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_ajout_route_statique.webp)
 
 IPFire : Ajout d'une route statique vers 192.168.3.0
 
 Le ping doit maintenant recevoir une réponse positive.
 
-![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
+![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
-  
+&nbsp;
 Voilà !  
 IPFire est en place. Le mémento  
 3.11 vous attend pour la création  
 du dernier serveur soit srvdmz.
 
-[Mémento 3.11](/notes-du-loup/wp-reseau-virtuel/articles/serveur-debian11-srvdmz-creation/)
+[Mémento srvdmz](#__nav_4_2_4_label)
