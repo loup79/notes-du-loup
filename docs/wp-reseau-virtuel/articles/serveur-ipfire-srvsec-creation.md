@@ -44,10 +44,10 @@ Téléchargez l'ISO x86\_64 version 2.x - Core Update y :
 La VM s'affiche dans le panneau gauche de VirtualBox.
 
 \- Sélectionnez maintenant la nouvelle VM, puis :  
-\- - Menu de VirtualBox > Machine > Configuration...    
-\- - - Onglet Système    
-\-> Carte mère > Ordre d'amorçage > Décochez Disquette    
-\-> Carte mère > Fonctions avancées > Cochez IO-APIC    
+\- - Menu de VirtualBox > Machine > Configuration...  
+\- - - Onglet Système  
+\-> Carte mère > Ordre d'amorçage > Décochez Disquette  
+\-> Carte mère > Fonctions avancées > Cochez IO-APIC  
 \-> Processeur > Cochez PAE/NX  
   
 \- - - Onglet Réseau  
@@ -309,6 +309,7 @@ Notez qu'IPFire peut être reconfiguré avec la Cde setup :
 ```bash
 [root@srvsec:~$\] setup
 ```
+
 Arrêtez maintenant la VM srvsec :
 
 ```bash
@@ -326,7 +327,7 @@ Redémarrez et vérifiez que tout se passe bien.
 
 #### _1.3 - Connexion sur l'interface WEB d'IPFire_
 
-Ouvrez le navigateur Web de la VM srvlan et entrez l'adresse https://192.168.2.1:444.
+Ouvrez le navigateur Web de la VM srvlan et entrez l'adresse <https://192.168.2.1:444>.
 
 Un message d'alerte de sécurité s'affiche :  
 \-> Bouton Avancé...  
