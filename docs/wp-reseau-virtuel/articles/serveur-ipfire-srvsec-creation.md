@@ -306,18 +306,21 @@ Vous pouvez à présent vous connecter en tant que root.
 
 Notez qu'IPFire peut être reconfiguré avec la Cde setup :
 
-\[root@srvsec:~$\] setup
-
+```bash
+[root@srvsec:~$\] setup
+```
 Arrêtez maintenant la VM srvsec :
 
-\[root@srvsec:~$\] poweroff             \# ou Cde shutdown -h now
+```bash
+[root@srvsec:~$\] poweroff    # ou Cde shutdown -h now
+```
 
-Retirez, si nécessaire, l'image ISO du lecteur CD virtuel.  
-Pour cela, Menu Configuration de VirtualBox :  
+Retirez, si nécessaire, l'image ISO du lecteur CD virtuel :  
+\- - Menu de VirtualBox > Machine > Configuration…  
 \- - - Onglet Stockage  
-\> Unités de stockage > ipfire-...iso  
-\> Attributs > Cliquez sur l'icône CD  
-\> Retirer le disque du lecteur virtuel > OK
+\-> Zone Unités de stockage > ipfire-...iso  
+\-> Zone Attributs > Cliquez sur l'icône CD  
+\-> Retirer le disque du lecteur virtuel > OK
 
 Redémarrez et vérifiez que tout se passe bien.
 
@@ -326,19 +329,17 @@ Redémarrez et vérifiez que tout se passe bien.
 Ouvrez le navigateur Web de la VM srvlan et entrez l'adresse https://192.168.2.1:444.
 
 Un message d'alerte de sécurité s'affiche :  
-\- Si navigateur Chromium  
-\> Paramètres avancés > Continuer vers le site ...  
-\- Si navigateur Firefox  
-\> Avancé... > Accepter le risque et poursuivre
-
+\-> Bouton Avancé...  
+\-> Bouton Accepter le risque et poursuivre
+  
 Une fenêtre de connexion s'ouvre :  
-\> Nom d'utilisateur > admin  
-\> Mot de passe > Votre MDP créé ci-dessus Image 13  
-\> Connexion ou OK
+\-> Nom d'utilisateur > Entrez admin  
+\-> Mot de passe > Entrez votre MDP créé en Image 13  
+\-> Bouton Connexion
 
 La page d'accueil d'IPFire doit s'afficher :
 
-[![Capture - IPFire : Page d'accueil Web](/wp-content/uploads/2018/03/Ipfire_40-430x192.png "Cliquez pour agrandir l'image")](/wp-content/uploads/2018/03/Ipfire_40.png)
+[![Capture - IPFire : Page d'accueil Web](../wp-content/uploads/2023/07/IPFire_accueil_web-430x208.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_accueil_web.webp)
 
 IPFire : Page d'accueil Web
 
