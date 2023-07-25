@@ -360,10 +360,10 @@ Le ping doit maintenant recevoir une réponse positive.
 
 ![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
-&nbsp;
+&nbsp;  
 Voilà !  
 IPFire est en place. Le mémento  
-3.11 vous attend pour la création  
+3.1 vous attend pour la création  
 du dernier serveur soit srvdmz.
 
-[Mémento srvdmz](#__nav_4_2_4_label)
+[Mémento srvdmz](../serveur-debian12-srvdmz-creation){ .md-button }
