@@ -131,15 +131,17 @@ Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intér
 
 Autorisez l'usage de sudo à l'utilisateur srvdmz :
 
-\[srvdmz@srvdmz:~$\] su root
+```bash
+[srvdmz@srvdmz:~$] su root
 Mot de passe : Votre MDP root
-\[root@srvdmz:~#\] sudo usermod -aG sudo srvdmz
-\[root@srvdmz:~#\] exit
+[root@srvdmz:~#] sudo usermod -aG sudo srvdmz
+[root@srvdmz:~#] exit
+```
 
 et redémarrez le serveur :  
-\> Menu Applications de Xfce situé en haut à gauche  
-\> Déconnexion > Une fenêtre s'ouvre  
-\> Bouton Redémarrer
+\- - Menu Applications de Xfce situé en haut à gauche  
+\-> Déconnexion _(Une fenêtre s'ouvre)_  
+\-> Bouton Redémarrer
 
 Reconnectez-vous ensuite en tant qu'utilisateur srvdmz et rouvrez le terminal de Cdes.
 
@@ -147,68 +149,93 @@ Reconnectez-vous ensuite en tant qu'utilisateur srvdmz et rouvrez le terminal de
 
 Ils permettront entre autres le copier/coller et l'accès au dossier partagé par le PC hôte.
 
-Notez au préalable la version courante du noyau linux :
+Notez par curioisté la version courante du noyau linux :
 
-\[srvdmz@srvdmz:~$\] uname -r
+```bash
+[srvdmz@srvdmz:~$] uname -r
+```
 
-Retour = 5.10.0-x\-amd64
+Exemple de retour :
 
-Installez ensuite les 2 paquets suivants :
+```bash
+6.1.0-10-amd64
+```
 
-\[srvdmz@srvdmz:~$\] sudo apt install dkms build-essential
+Installez ensuite les 2 paquets Linux suivants :
 
-et si nécessaire le paquet linux-headers approprié :
+```bash
+[srvdmz@srvdmz:~$] sudo apt install dkms build-essential
+```
 
-\[srvdmz@srvdmz:~$\] sudo apt install linux-headers-5.10.0-x\-amd64
+Debian installera automatiquement la dépendance linux-headers-6.1.0-10-amd64.
 
-puis accédez au menu VirtualBox de la fenêtre VM :  
-\> Périphériques > Insérer l'image CD des Additions inv...
+Ouvrez le menu VirtualBox situé sur la fenêtre de la VM :  
+\-> Périphériques > Insérer l'image CD des Additions inv...
 
 Montez l'image CD, installez les utilitaires et rebootez :
 
-\[srvdmz@srvdmz:~$\] sudo mount /dev/cdrom /media/cdrom
-\[srvdmz@srvdmz:~$\] cd /media/cdrom
-\[srvdmz@srvdmz:~$\] sudo ./VBoxLinuxAdditions.run
-\[srvdmz@srvdmz:~$\] sudo reboot
+```bash
+[srvdmz@srvdmz:~$] sudo mount /dev/cdrom /media/cdrom
+[srvdmz@srvdmz:~$] cd /media/cdrom
+[srvdmz@srvdmz:~$] sudo ./VBoxLinuxAdditions.run
+[srvdmz@srvdmz:~$] sudo reboot
+```
 
-Une fois fini, reconnectez-vous, la fenêtre VM srvdmz peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de la VM.
+Une fois fini, reconnectez-vous, la fenêtre de la VM srvdmz peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de srvdmz.
 
 Le copier/coller entre le PC hôte et srvdmz doit maintenant fonctionner dans les 2 sens.
 
 Sans fermer la VM, retirez l'image CD du lecteur virtuel :  
-Menu Configuration de VirtualBox :  
+\- - Menu de VirtualBox > Machine > Configurations...  
 \- - - Onglet Stockage  
-\> Zone Unités de stockage > VBoxGuestAdditions.iso  
-\> Zone Attributs > Cliquez sur l'icône CD  
-\> Retirer le disque du lecteur virtuel \> OK
+\-> Zone Unités de stockage > Sélectionnez VBoxGuest...  
+\-> Zone Attributs > Cliquez sur l'icône CD  
+\-> Retirer le disque du lecteur virtuel > OK
 
-### 3 - Suppression d'applications préinstallées, etc...
+### 3 - Suppression d'applications préinstallées
 
-Supprimez les applications non utiles sur srvdmz :
+Supprimez ces applications non utiles sur srvdmz :
 
-\[srvdmz@srvdmz:~$\] sudo apt autoremove --purge \\
-libreoffice-writer libreoffice-impress \\
-libreoffice-calc libreoffice-math \\
-libreoffice-draw libreoffice-base-core \\
+```bash
+[srvdmz@srvdmz:~$] sudo apt autoremove --purge \
+libreoffice-writer libreoffice-impress \
+libreoffice-calc libreoffice-math \
+libreoffice-draw libreoffice-base-core \
 libreoffice-core libreoffice-common
+```
 
-\[srvdmz@srvdmz:~$\] sudo rm -r /etc/libreoffice
-\[srvdmz@srvdmz:~$\] sudo rm -r /usr/share/fonts/truetype/libreoffice
+```bash
+[srvdmz@srvdmz:~$] sudo rm -r /etc/libreoffice
+[srvdmz@srvdmz:~$] sudo rm -r /usr/share/fonts/truetype/libreoffice
+```
 
-\[srvdmz@srvdmz:~$\] sudo apt autoremove --purge \\
+```bash
+[srvdmz@srvdmz:~$] sudo apt autoremove --purge \
 exfalso quodlibet
+```
 
-et mettez le navigateur firefox en français :
+La configuration de base est presque terminée :
 
-\[srvdmz@srvdmz:~$\] sudo apt install firefox-esr-l10n-fr
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
 
-La configuration de base est presque terminé :
-
-[![Capture - Debian 11 : Bureau Xfce personnalisé](/wp-content/uploads/2021/09/srvdmz-deb11-bureau-xfce-bis-430x288.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/09/srvdmz-deb11-bureau-xfce-bis.jpg)
-
-Debian 11 : Bureau Xfce personnalisé
+Debian 12 : Bureau Xfce personnalisé
 
 La consommation RAM actuelle est d'environ 500 Mo.
+
+Pour un même fond d'écran sur la fenêtre de login Lightdm et le bureau Xfce, procédez ainsi :
+
+```bash
+[srvdmz@srvdmz:~$] cd /chemin-de-votre-fond-ecran
+[srvdmz@srvdmz:~$] sudo cp fond.jpg /usr/share/backgrounds/
+[srvdmz@srvdmz:~$] cd /etc/lightdm
+[srvdmz@srvdmz:~$] sudo nano lightdm-gtk-greeter.conf
+```
+
+Remplacez la ligne #background= par celle-ci :
+
+```bash
+background=/usr/share/backgrounds/fond.jpg
+```
 
 ### 4 - Montage du dossier partagé par le PC hôte
 
