@@ -33,7 +33,7 @@ Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :
 \-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus  
 \-> Type : Linux  
 \-> Version : Debian (64-bit)  
-\-> Cochez Skip Unattended Installation (important)  
+\-> Cochez Skip Unattended Installation _(important)_  
 \-> Bouton Suivant
 
 \-> Mémoire vive : 1024 MB  
@@ -59,7 +59,7 @@ La VM s'affiche dans le panneau gauche de VirtualBox.
 
 Facultatif, accès au dossier partagé par le PC hôte :  
 \- - - Onglet Dossiers partagés  
-\-> Cliquez sur l'icône + (Ajoute un ... dossier partagé.)  
+\-> Cliquez sur l'icône + _(Ajoute un ... dossier partagé.)_  
 \-> Chemin du dossier > Sélectionnez Autre...  
 \-> Accédez à votre dossier > Ex : C:\Partage-Windows  
 \-> Sélectionner un dossier ou Ouvrir > OK > OK
@@ -71,8 +71,8 @@ Les autres paramètres peuvent rester inchangés.
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
 
-Menu Démarrer de VirtualBox :  
-La VM créée s'exécute.
+\- - Menu de VirtualBox > Machine > Démarrer  
+\-> Démarrage normal _(La VM s'exécute)_
 
 Sélectionnez Graphical Install et appliquez ce qui suit :  
 \- Language > Français  
@@ -92,7 +92,7 @@ Sélectionnez Graphical Install et appliquez ce qui suit :
 \- Table des partitions > Terminer le partitionnement ..  
 \- Faut-il appliquer les changements ... disques ? > Oui
 
-L'installation de base commence :  
+L'installation commence :  
 \- Faut-il analyser d'autres supports ... ? > Non  
 \- Pays du miroir de l'archive Debian > France  
 \- Miroir de l'archive Debian > deb.debian.org  
@@ -101,10 +101,10 @@ L'installation de base commence :
 L'installation continue :  
 \- Souhaitez-vous participer à l'étude statistique ... > Non  
 \- Logiciels à installer  
-\> Décochez environnement de bureau Debian  
-\> Décochez ... GNOME  
-\> Cochez ... Xfce  
-\> Conservez utilitaires usuels du système
+\-> Décochez environnement de bureau Debian  
+\-> Décochez ... GNOME  
+\-> Cochez ... Xfce  
+\-> Conservez utilitaires usuels du système
 
 L'installation se termine :  
 \- Installer ... de démarrage GRUB sur le disque ... > Oui  
