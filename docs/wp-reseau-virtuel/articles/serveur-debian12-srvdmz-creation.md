@@ -243,52 +243,68 @@ background=/usr/share/backgrounds/fond.jpg
 
 Créez le dossier qui permettra d'afficher le contenu partagé par le PC hôte :
 
-\[srvdmz@srvdmz:~$\] mkdir /home/srvdmz/Partage
+```bash
+[srvdmz@srvdmz:~$] mkdir /home/srvdmz/Partage
+```
 
-Créez le fichier home-srvdmz-Partage.mount :
+Créez le service home-srvdmz-Partage.mount :
 
-\[srvdmz@srvdmz:~$\] cd /etc/systemd/system
-\[srvdmz@srvdmz:~$\] sudo touch home-srvdmz-Partage.mount
+```bash
+[srvdmz@srvdmz:~$] cd /etc/systemd/system
+[srvdmz@srvdmz:~$] sudo touch home-srvdmz-Partage.mount
+```
 
 Editez celui-ci :
 
-\[srvdmz@srvdmz:~$\] sudo nano home-srvdmz-Partage.mount
+```bash
+[srvdmz@srvdmz:~$] sudo nano home-srvdmz-Partage.mount
+```
 
 et entrez le contenu suivant :
 
-\[Unit\]
+```bash
+[Unit]
 Description = Montage dossier partagé fourni par VirtualBox
 
-\[Mount\]
+[Mount]
 What = _Entrez le nom du dossier partagé par le PC hôte_
 Where = /home/srvdmz/Partage
 Type = vboxsf
 Options=rw,uid=srvdmz,gid=srvdmz
 
-\[Install\]
+[Install]
 WantedBy = multi-user.target
+```
 
 Exemple pour What : What=Partage-Alfred
 
 Intégrez le service dans la configuration de systemd :
 
-\[srvdmz@srvdmz:~$\] sudo systemctl daemon-reload
+```bash
+[srvdmz@srvdmz:~$] sudo systemctl daemon-reload
+```
 
 et démarrez celui-ci :
 
-\[srvdmz@srvdmz:~$\] sudo systemctl start home-srvdmz-Partage.mount
+```bash
+[srvdmz@srvdmz:~$] sudo systemctl start home-srvdmz-Partage.mount
+```
 
-Vérifiez son statut :
+Vérifiez ensuite son statut :
 
-\[srvdmz@srvdmz:~$\] sudo systemctl status home-srvdmz-Partage.mount
+```bash
+[srvdmz@srvdmz:~$] sudo systemctl status home-srvdmz-Partage.mount
+```
 
-Si nécessaire, touche q pour quitter le résultat affiché.
+Touche q pour quitter le résultat affiché.
 
-Autorisez le lancement du service au boot de la VM :
+Si statut = active, autorisez le service au boot de la VM :
 
-\[srvdmz@srvdmz:~$\] sudo systemctl enable home-srvdmz-Partage.mount
+```bash
+[srvdmz@srvdmz:~$] sudo systemctl enable home-srvdmz-Partage.mount
+```
 
-Un lien symbolique est normalement créé.
+Un lien symbolique vers le service est créé.
 
 Ouvrez le gestionnaire de fichiers thunar et observez le contenu de /home/srvdmz/Partage.
 
