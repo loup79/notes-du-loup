@@ -5,6 +5,8 @@ categories:
   - "serveur-srvsec"
 ---
 
+[![Image - Firewall ou pare-feu](../wp-content/uploads/2023/07/firewall-430x287.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/firewall.webp)
+
 ## Mémento 2.1 - Serveur srvsec
 
 Comme pour les réseaux précédents, vous allez créer et placer la VM srvsec _(IPFire)_ en entrée du réseau local ou celle-ci servira entre autres de pare-feu.
