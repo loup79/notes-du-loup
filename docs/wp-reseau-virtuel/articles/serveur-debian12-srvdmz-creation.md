@@ -181,7 +181,7 @@ Montez l'image CD, installez les utilitaires et rebootez :
 [srvdmz@srvdmz:~$] sudo reboot
 ```
 
-Une fois fini, reconnectez-vous, la fenêtre de la VM srvdmz peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de srvdmz.
+Une fois fini, reconnectez-vous, la fenêtre de la VM peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de srvdmz.
 
 Le copier/coller entre le PC hôte et srvdmz doit maintenant fonctionner dans les 2 sens.
 
