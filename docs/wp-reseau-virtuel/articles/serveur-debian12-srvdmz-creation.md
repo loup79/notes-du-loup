@@ -5,6 +5,8 @@ categories:
   - "serveur-srvdmz"
 ---
 
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
+
 ## Mémento 3.1 - Serveur srvdmz
 
 IPFire étant installé, vous allez à présent créer le serveur srvdmz que vous placerez en zone dite démilitarisée et qui fournira plus tard des services tels que le Web, FTP, DNS, Mail, etc... pour Internet et le réseau local.
