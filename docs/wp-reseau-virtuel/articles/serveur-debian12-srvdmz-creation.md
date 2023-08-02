@@ -117,13 +117,13 @@ Le système reboot et une fenêtre de connexion s'ouvre :
 
 Fenêtre de connexion Xfce
 
-\- Premier champ : Entrez srvdmz  
-\- Second champ : Entrez Votre MDP srvdmz  
-\> Bouton Se connecter
+\-> Premier champ : Entrez srvdmz  
+\-> Second champ : Entrez Votre MDP srvdmz  
+\-> Bouton Se connecter
 
 Le bureau Xfce s'ouvre :
 
-[![Capture - bureau Xfce](/wp-content/uploads/2021/09/srvdmz-deb11-bureau1-xfce-430x370.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/09/srvdmz-deb11-bureau1-xfce.jpg)
+[![Capture - bureau Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-430x358.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce.webp)
 
 Bureau Xfce
 
