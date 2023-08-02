@@ -1,13 +1,13 @@
 ---
-title: "srvdmz - VBox/Deb11"
-date: "2021-09-10"
+title: "srvdmz - VBox/Deb12"
+date: "20213-08-02"
 categories: 
   - "serveur-srvdmz"
 ---
 
-## Mémento 3.11 - Serveur srvdmz
+## Mémento 3.1 - Serveur srvdmz
 
-Vous allez maintenant créer la VM srvdmz que vous placerez en zone dite démilitarisée et qui fournira plus tard des services Web, FTP, DNS, Mail, etc... pour Internet et le réseau local.
+IPFire étant installé, vous allez à présent créer le serveur srvdmz que vous placerez en zone dite démilitarisée et qui fournira plus tard des services tels que le Web, FTP, DNS, Mail, etc... pour Internet et le réseau local.
 
 La configuration sera identique à celle de la VM srvlan hormis la partie réseau.
 
@@ -16,54 +16,53 @@ La configuration sera identique à celle de la VM srvlan hormis la partie résea
 L'utilisation de VirtualBox est considérée acquise.
 
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](/virtualbox-installation/)  
-[VirtualBox - Mode d’accès réseau par pont](/virtualbox-pont-reseau/)
+[VirtualBox - Installation](../virtualbox-installation/)  
+[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
 
-#### _1.1 - Création et configuration_
+#### _1.1 - Création et configuration de la VM_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.
 
-Téléchargez l'ISO debian-11.x.y-amd64\-netinst.iso :  
+Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
 [https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)
 
-Démarrez ensuite l'application VirtualBox, puis :
+\- Démarrez ensuite l'application VirtualBox 7.x, puis :  
+\- - Menu de VirtualBox > Machine > Nouvelle...  
+\-> Nom : srvdmz DMZ  
+\-> Folder : Sélectionnez le dossier de stockage des VM  
+\-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus  
+\-> Type : Linux  
+\-> Version : Debian (64-bit)  
+\-> Cochez Skip Unattended Installation (important)  
+\-> Bouton Suivant
 
-Menu Nouvelle de VirtualBox :  
-\- Nom srvdmz DMZ - Type Linux - Version Debian (64-b...  
-\- Taille de la mémoire > 1024 Mo  
-\- Disque dur > Créer un disque dur virtuel maintenant  
-\- Type de fichier de disque dur > VDI  
-\- Stockage sur disque dur ... > Dynamiquement alloué  
-\- Emplacement du fichier et taille > 12 Go > Créer
+\-> Mémoire vive : 1024 MB  
+\-> Processors : 2 CPU si possible  
+\-> Bouton Suivant
 
-La VM est créée dans le panneau gauche de VirtualBox.
+\-> Create a Virtual Hard Disk Now : Ajustez à 12 Go  
+\-> Bouton Suivant
 
-Sélectionnez la nouvelle VM, puis :
+\-> Vérifiez le Récapitulatif  
+\-> Bouton Finish
 
-Menu Configuration de VirtualBox :  
+La VM s'affiche dans le panneau gauche de VirtualBox.
+
+\- Sélectionnez maintenant la nouvelle VM, puis :  
+\- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Général  
-\> Avancé > Presse-papier partagé > Bidirectionnel  
-  
+\-> Avancé > Presse-papier partagé > Bidirectionnel
+
 \- - - Onglet Système  
-\> Carte mère > Ordre d'amorçage > Décochez Disquette  
-\> Carte mère > Fonctions avancées > Cochez IO-APIC  
-\> Processeur > 2 CPU et cochez PAE/NX  
-  
-\- - - Onglet Affichage  
-\> Ecran > Contrôleur graphique > VMSVGA  
-  
-\- - - Onglet Stockage  
-\> Zone Unités de stockage > Sélectionnez Vide  
-\> Zone Attributs > Cliquez sur l'icône CD  
-\> Sélectionnez Choisissez un fichier de disque ...  
-\> Entrez le chemin de l'image ISO Debian > Ouvrir  
-  
+\-> Carte mère > Ordre d'amorçage > Décochez Disquette  
+\-> Processeur > Cochez Activer PAE/NX
+
 Facultatif, accès au dossier partagé par le PC hôte :  
 \- - - Onglet Dossiers partagés  
-\> Cliquez sur l'icône + > Ajouter un dossier partagé  
-\> Chemin du dossier > Sélectionnez Autre...  
-\> Accédez à votre dossier > Ex : C:\\Partage-Windows  
-\> Sélectionner un dossier ou Ouvrir > OK > OK
+\-> Cliquez sur l'icône + (Ajoute un ... dossier partagé.)  
+\-> Chemin du dossier > Sélectionnez Autre...  
+\-> Accédez à votre dossier > Ex : C:\Partage-Windows  
+\-> Sélectionner un dossier ou Ouvrir > OK > OK
 
 Les autres paramètres peuvent rester inchangés.
 
