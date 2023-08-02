@@ -113,7 +113,7 @@ L'installation se termine :
 
 Le système reboot et une fenêtre de connexion s'ouvre :
 
-[![Capture - Fenêtre de connexion Xfce](/wp-content/uploads/2021/09/srvdmz-deb11-login-430x370.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/09/srvdmz-deb11-login.jpg)
+[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-login-430x359.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-login.webp)
 
 Fenêtre de connexion Xfce
 
