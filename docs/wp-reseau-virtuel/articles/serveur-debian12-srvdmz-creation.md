@@ -159,7 +159,7 @@ Notez par curioisté la version courante du noyau linux :
 
 Exemple de retour :
 
-```txt
+```markdown
 6.1.0-10-amd64
 ```
 
