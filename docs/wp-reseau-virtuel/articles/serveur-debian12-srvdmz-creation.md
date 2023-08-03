@@ -5,7 +5,7 @@ categories:
   - "serveur-srvdmz"
 ---
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
 
 ## Mémento 3.1 - Serveur srvdmz
 
@@ -216,9 +216,8 @@ exfalso quodlibet
 
 La configuration de base est presque terminée :
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
-
-Debian 12 : Bureau Xfce personnalisé
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
+_**Debian 12 : Bureau Xfce personnalisé**_
 
 La consommation RAM actuelle est d'environ 500 Mo.
 
@@ -316,9 +315,8 @@ Avant, vérifiez l'IP courante avec la Cde ip address :
 
 Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
-![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/07/srvdmz-deb12-ip-address-580x322.webp)
-
-Résultat de la Cde ip address
+![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/07/srvdmz-deb12-ip-address-580x322.webp#center)
+_**Résultat de la Cde ip address**_
 
 La VM srvdmz étant prévue en zone DMZ, il faut changer le mode d'accès réseau de sa carte réseau enp0s3.
 
@@ -363,9 +361,8 @@ Vérifiez par prudence la bonne configuration du réseau :
 [srvdmz@srvdmz:~$] nmcli      # Cde NetworkManager
 ```
 
-![Capture - Résultat de la Cde nmcli](../wp-content/uploads/2023/07/srvdmz-deb12-cde-nmcli-580x559.webp)
-
-Résultat de la Cde nmcli
+![Capture - Résultat de la Cde nmcli](../wp-content/uploads/2023/07/srvdmz-deb12-cde-nmcli-580x559.webp#center)
+_**Résultat de la Cde nmcli**_
 
 Les fichiers configurés avec networkmanager sont ici :  
 /etc/NetworkManager/system-connections/
@@ -380,9 +377,8 @@ Le service réseau peut être redémarré avec cette Cde :
 
 Par curiosité, lisez la table de routage avec la Cde ip r :
 
-![Capture - Table de routage courante de srvdmz ](../wp-content/uploads/2023/07/srvdmz-deb12-table-routage-580x69.webp)
-
-Table de routage courante de srvdmz
+![Capture - Table de routage courante de srvdmz ](../wp-content/uploads/2023/07/srvdmz-deb12-table-routage-580x69.webp#center)
+_**Table de routage courante de srvdmz**_
 
 ![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
