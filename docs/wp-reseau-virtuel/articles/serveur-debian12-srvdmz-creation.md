@@ -115,9 +115,8 @@ L'installation se termine :
 
 Le système reboot et une fenêtre de connexion s'ouvre :
 
-[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-login-430x359.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-login.webp)
-
-Fenêtre de connexion Xfce
+[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-login-430x359.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-login.webp)
+_**Fenêtre de connexion Xfce**_
 
 \-> Premier champ : Entrez srvdmz  
 \-> Second champ : Entrez Votre MDP srvdmz  
@@ -125,9 +124,8 @@ Fenêtre de connexion Xfce
 
 Le bureau Xfce s'ouvre :
 
-[![Capture - bureau Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-430x358.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce.webp)
-
-Bureau Xfce
+[![Capture - bureau Xfce#center](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-430x358.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce.webp)
+_**Bureau Xfce**_
 
 Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intérieur du dock.
 
