@@ -5,7 +5,7 @@ categories:
   - "serveur-srvlan"
 ---
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp)
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp)
 
 ## Mémento 1.12 - Serveur srvlan
 
@@ -118,9 +118,8 @@ L'installation se termine :
 
 Le système reboot et une fenêtre de connexion s'ouvre :
 
-[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/07/srvlan-deb12-login-430x362.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-login.webp)
-
-Fenêtre de connexion Xfce
+[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/07/srvlan-deb12-login-430x362.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-login.webp)
+_**Fenêtre de connexion Xfce**_
 
 \-> Premier champ > Entrez srvlan  
 \-> Second champ > Entrez Votre MDP srvlan  
@@ -128,9 +127,8 @@ Fenêtre de connexion Xfce
 
 Le bureau Xfce s'ouvre :
 
-[![Capture - bureau Xfce](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-430x363.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce.webp)
-
-Bureau Xfce
+[![Capture - bureau Xfce](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-430x363.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce.webp)
+_**Bureau Xfce**_
 
 Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intérieur du dock.
 
@@ -162,7 +160,7 @@ Notez au préalable la version courante du noyau linux :
 
 Exemple de retour :
 
-```bash
+```markdown
 6.1.0-10-amd64
 ```
 
@@ -220,9 +218,8 @@ exfalso quodlibet
 
 La configuration de base est presque terminée :
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp)
-
-Debian 12 : Bureau Xfce personnalisé
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis-430x266.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvlan-deb12-bureau-xfce-bis.webp)
+_**Debian 12 : Bureau Xfce personnalisé**_
 
 La consommation RAM actuelle est d'environ 500 Mo.
 
@@ -305,9 +302,8 @@ Avant, vérifiez l'IP courante avec la Cde ip address :
 
 Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
-![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/07/srvlan-deb12-ip-address.webp)
-
-Résultat de la Cde ip address
+![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/07/srvlan-deb12-ip-address.webp#center)
+_**Résultat de la Cde ip address**_
 
 Puis installez les 2 paquets suivants :
 
@@ -452,9 +448,8 @@ Vérifiez l'état courant du NAT ou IP Masquerading :
 
 Résultat, NAT inactif, pas de target MASQUERADE :
 
-![Capture - iptables : Pas de règle active](../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-inactif.webp)
-
-iptables : Pas de règle active
+![Capture - iptables : Pas de règle active](../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-inactif.webp#center)
+_**iptables : Pas de règle active**_
 
 Activez celui-ci en utilisant une règle iptables :
 
@@ -470,9 +465,8 @@ et affichez de nouveau le contenu de la table NAT :
 
 Résultat, le NAT est actif :
 
-![Capture - iptables : Règle NAT (MASQUERADE) active) est vu activé](../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-actif.webp)
-
-iptables : Règle NAT (MASQUERADE) active
+![Capture - iptables : Règle NAT (MASQUERADE) active) est vu activé](../wp-content/uploads/2023/07/srvlan-deb12-iptables-nat-actif.webp#center)
+_**iptables : Règle NAT (MASQUERADE) active**_
 
 Effectuez une sauvegarde de la règle iptables :
 
@@ -493,9 +487,8 @@ Elle sera ainsi activée à chaque boot du système.
 
 Par curiosité, lisez la table de routage avec la Cde ip r :
 
-![Capture - Table de routage de srvlan ](../wp-content/uploads/2023/07/srvlan-deb12-table-routage.webp)
-
-Table de routage de srvlan
+![Capture - Table de routage de srvlan ](../wp-content/uploads/2023/07/srvlan-deb12-table-routage.webp#center)
+_**Table de routage de srvlan**_
 
 ![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
