@@ -5,7 +5,7 @@ categories:
   - "serveur-srvsec"
 ---
 
-[![Image - Firewall ou pare-feu](../wp-content/uploads/2023/07/firewall-430x287.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/firewall.webp)
+[![Image - Firewall ou pare-feu](../wp-content/uploads/2023/07/firewall-430x287.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/firewall.webp)
 
 ## Mémento 2.1 - Serveur srvsec
 
@@ -77,196 +77,176 @@ Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, 
 \- - Menu de VirtualBox > Machine > Démarrer  
 \-> Démarrage normal _(La VM s'exécute)_
 
-![Capture - IPFire : Accueil Installation](../wp-content/uploads/2023/07/IPFire_1-430x319.webp)
-
-Installation IPFire - Image 1
+![Capture - IPFire : Accueil Installation](../wp-content/uploads/2023/07/IPFire_1-430x319.webp#center)
+_**Installation IPFire - Image 1**_
 
 Validez Install IPFire 2.x - Core y > Touche Entrée
 
-![Capture - IPFire : Sélection de la langue](../wp-content/uploads/2023/07/IPFire_2.webp)
-
-Installation IPFire - Image 2
+![Capture - IPFire : Sélection de la langue](../wp-content/uploads/2023/07/IPFire_2.webp#center)
+_**Installation IPFire - Image 2**_
 
 Sélectionnez le Français > OK
 
-![Capture - IPFire : Validation du démarrage de l'installation](../wp-content/uploads/2023/07/IPFire_3.webp)
-
-Installation IPFire - Image 3
+![Capture - IPFire : Validation du démarrage de l'installation](../wp-content/uploads/2023/07/IPFire_3.webp#center)
+_**Installation IPFire - Image 3**_
 
 Validez Démarrer l'installation > Touche Entrée
 
-![Capture - IPFire : Acceptation de la licence](../wp-content/uploads/2023/07/IPFire_4-430x243.webp)
-
-Installation IPFire - Image 4
+![Capture - IPFire : Acceptation de la licence](../wp-content/uploads/2023/07/IPFire_4-430x243.webp#center)
+_**Installation IPFire - Image 4**_
 
 Cochez J'accepte la licence > OK
 
-![Capture - IPFire : Préparation du disque dur](../wp-content/uploads/2023/07/IPFire_5.webp)
-
-Installation IPFire - Image 5
+![Capture - IPFire : Préparation du disque dur](../wp-content/uploads/2023/07/IPFire_5.webp#center)
+_**Installation IPFire - Image 5**_
 
 Validez Supprime toutes les données > Touche Entrée
 
-![Capture - IPFire : Sélection du système de fichiers ext4](../wp-content/uploads/2023/07/IPFire_6.webp)
-
-Installation IPFire - Image 6
+![Capture - IPFire : Sélection du système de fichiers ext4](../wp-content/uploads/2023/07/IPFire_6.webp#center)
+_**Installation IPFire - Image 6**_
 
 Sélectionnez le système de fichier ext4 > OK  
 L'installation du système commence ...
 
-![Capture - IPFire : Validation de la demande de redémarrage](../wp-content/uploads/2023/07/IPFire_7-430x228.webp)
-
-Installation IPFire - Image 7
+![Capture - IPFire : Validation de la demande de redémarrage](../wp-content/uploads/2023/07/IPFire_7-430x228.webp#center)
+_**Installation IPFire - Image 7**_
 
 Validez Redémarrer > Touche Entrée
 
-![Capture - IPFire : Sélection de la langue du clavier](../wp-content/uploads/2023/07/IPFire_8.webp)
-
-Installation IPFire - Image 8
+![Capture - IPFire : Sélection de la langue du clavier](../wp-content/uploads/2023/07/IPFire_8.webp#center)
+_**Installation IPFire - Image 8**_
 
 Suite au redémarrage, la fenêtre ci-dessus s'affiche.  
 Sélectionnez le type de clavier fr > OK
 
-![Capture - IPFire : Sélection du fuseau horaire](../wp-content/uploads/2023/07/IPFire_9.webp)
-
-Installation IPFire - Image 9
+![Capture - IPFire : Sélection du fuseau horaire](../wp-content/uploads/2023/07/IPFire_9.webp#center)
+_**Installation IPFire - Image 9**_
 
 Sélectionnez le fuseau horaire Europe/Paris > OK
 
-![Capture - IPFire : Entrée du nom d'hôte](../wp-content/uploads/2023/07/IPFire_10.webp)
-
-Installation IPFire - Image 10
+![Capture - IPFire : Entrée du nom d'hôte](../wp-content/uploads/2023/07/IPFire_10.webp#center)
+_**Installation IPFire - Image 10**_
 
 Entrez le nom d'hôte de la VM soit srvsec > OK
 
-![Capture - IPFire : Entrée du nom de domaine](../wp-content/uploads/2023/07/IPFire_11.webp)
-
-Installation IPFire - Image 11
+![Capture - IPFire : Entrée du nom de domaine](../wp-content/uploads/2023/07/IPFire_11.webp#center)
+_**Installation IPFire - Image 11**_
 
 Entrez le nom de domaine loupipfire.fr > OK  
 C'est le nom qui sera exploité plus tard sur le réseau.
 
-![Capture - IPFire : Entrée du mot de passe utilisateur root](../wp-content/uploads/2023/07/IPFire_12-430x172.webp)
-
-Installation IPFire - Image 12
+![Capture - IPFire : Entrée du mot de passe utilisateur root](../wp-content/uploads/2023/07/IPFire_12-430x172.webp#center)
+_**Installation IPFire - Image 12**_
 
 Entrez le MDP pour root _(2 fois)_ > OK
 
-![Capture - IPFire : Entrée du mot de passe utilisateur admin](../wp-content/uploads/2023/07/IPFire_13-430x170.webp)
-
-Installation IPFire - Image 13
+![Capture - IPFire : Entrée du mot de passe utilisateur admin](../wp-content/uploads/2023/07/IPFire_13-430x170.webp#center)
+_**Installation IPFire - Image 13**_
 
 Entrez celui de l'administrateur Web admin _(2 fois)_ > OK
 
-![Capture - IPFire : Sélection type de configuration réseau](../wp-content/uploads/2023/07/IPFire_14.webp)
-
-Installation IPFire - Image 14
+![Capture - IPFire : Sélection type de configuration réseau](../wp-content/uploads/2023/07/IPFire_14.webp#center)
+_**Installation IPFire - Image 14**_
 
 Sélectionnez Type de configuration réseau > OK
 
-![Capture - IPFire : Sélection du tpe de réseau green+red+orange](../wp-content/uploads/2023/07/IPFire_15.webp)
-
-Installation IPFire - Image 15
+![Capture - IPFire : Sélection du tpe de réseau green+red+orange](../wp-content/uploads/2023/07/IPFire_15.webp#center)
+_**Installation IPFire - Image 15**_
 
 Choix de GREEN_(lan)_ + RED_(wan)_ + ORANGE_(dmz)_ > OK
 
-![Capture - IPFire : Choix affectation des pilotes et cartes](../wp-content/uploads/2023/07/IPFire_16.webp)
-
-Installation IPFire - Image 16
+![Capture - IPFire : Choix affectation des pilotes et cartes](../wp-content/uploads/2023/07/IPFire_16.webp#center)
+_**Installation IPFire - Image 16**_
 
 Sélectionnez Affectation des Pilotes et des Cartes > OK
 
-![Capture - IPFire : Sélection carte réseau green](../wp-content/uploads/2023/07/IPFire_17-430x222.webp)
-
-Installation IPFire - Image 17
+![Capture - IPFire : Sélection carte réseau green](../wp-content/uploads/2023/07/IPFire_17-430x222.webp#center)
+_**Installation IPFire - Image 17**_
 
 \-> GREEN soit la carte 3 de VirtualBox > Sélectionner
 
-![Capture - IPFire : Sélection adresse MAC de la carte réseau 3 de VirtualBox](../wp-content/uploads/2023/07/IPFire_18-430x165.webp)
-
-Installation IPFire - Image 18
+![Capture - IPFire : Sélection adresse MAC de la carte réseau 3 de VirtualBox](../wp-content/uploads/2023/07/IPFire_18-430x165.webp#center)
+_**Installation IPFire - Image 18**_
 
 Accédez à l'adresse MAC de la carte 3 > Sélectionner
 
-![Capture - IPFire : Carte 3 de VirtualBox affectée à green](../wp-content/uploads/2023/07/IPFire_19-430x247.webp)
-
-Installation IPFire - Image 19
+![Capture - IPFire : Carte 3 de VirtualBox affectée à green](../wp-content/uploads/2023/07/IPFire_19-430x247.webp#center)
+_**Installation IPFire - Image 19**_
 
 La carte 3 est bien affectée à la zone GREEN.
 
-![Capture - IPFire : Sélection carte réseau red](../wp-content/uploads/2023/07/IPFire_20-430x246.webp)
-
-Installation IPFire - Image 20
+![Capture - IPFire : Sélection carte réseau red](../wp-content/uploads/2023/07/IPFire_20-430x246.webp#center)
+_**Installation IPFire - Image 20**_
 
 \-> RED soit la carte 1 de VirtualBox > Sélectionner
 
-![Capture - IPFire : Sélection adresse MAC de la carte réseau 1 de VirtualBox ](../wp-content/uploads/2023/07/IPFire_21-430x153.webp)
+![Capture - IPFire : Sélection adresse MAC de la carte réseau 1 de VirtualBox ](../wp-content/uploads/2023/07/IPFire_21-430x153.webp#center)
 
 Installation IPFire - Image 21
 
 Accédez à l'adresse MAC de la carte 1 > Sélectionner
 
-![Capture - IPFire : Sélection carte réseau orange](../wp-content/uploads/2023/07/IPFire_22-430x272.webp)
+![Capture - IPFire : Sélection carte réseau orange](../wp-content/uploads/2023/07/IPFire_22-430x272.webp#center)
 
 Installation IPFire - Image 22
 
 \-> ORANGE soit la carte 2 de VirtualBox > Sélectionner
 
-![Capture - IPFire : Sélection adresse MAC de la carte réseau 2 de VirtualBox](../wp-content/uploads/2023/07/IPFire_23-430x142.webp)
+![Capture - IPFire : Sélection adresse MAC de la carte réseau 2 de VirtualBox](../wp-content/uploads/2023/07/IPFire_23-430x142.webp#center)
 
 Installation IPFire - Image 23
 
 On ne peut pas se tromper > Sélectionner
 
-![Capture - IPFire : Vue attribution des cartes réseau](../wp-content/uploads/2023/07/IPFire_24-430x295.webp)
+![Capture - IPFire : Vue attribution des cartes réseau](../wp-content/uploads/2023/07/IPFire_24-430x295.webp#center)
 
 Installation IPFire - Image 24
 
 Les 3 cartes réseaux sont configurées > Terminé
 
-![Capture - IPFire : Sélection configuration d'adresse](../wp-content/uploads/2023/07/IPFire_25.webp)
+![Capture - IPFire : Sélection configuration d'adresse](../wp-content/uploads/2023/07/IPFire_25.webp#center)
 
 Installation IPFire - Image 25
 
 Sélectionnez Configuration d'adresse \> OK
 
-![Capture - IPFire : Configuration d'adresse, sélection carte green](../wp-content/uploads/2023/07/IPFire_26-430x211.webp)
+![Capture - IPFire : Configuration d'adresse, sélection carte green](../wp-content/uploads/2023/07/IPFire_26-430x211.webp#center)
 
 Installation IPFire - Image 26
 
 \-> GREEN soit la carte réseau 3 de VirtualBox > OK
 
-![Capture - IPFire : Configuration d'adresse, avertissement](../wp-content/uploads/2023/07/IPFire_27-430x202.webp)
+![Capture - IPFire : Configuration d'adresse, avertissement](../wp-content/uploads/2023/07/IPFire_27-430x202.webp#center)
 
 Installation IPFire - Image 27
 
 Petit avertissement > OK
 
-![Capture - IPFire : Adresse IP carte green](../wp-content/uploads/2023/07/IPFire_28.webp)
+![Capture - IPFire : Adresse IP carte green](../wp-content/uploads/2023/07/IPFire_28.webp#center)
 
 Installation IPFire - Image 28
 
 Entrez l'adresse IP de la carte 3 soit 192.168.2.1 > OK
 
-![Capture - IPFire : Configuration d'adresse, sélection carte orange](../wp-content/uploads/2023/07/IPFire_29-430x212.webp)
+![Capture - IPFire : Configuration d'adresse, sélection carte orange](../wp-content/uploads/2023/07/IPFire_29-430x212.webp#center)
 
 Installation IPFire - Image 29
 
 \-> ORANGE soit la carte réseau 2 de VirtualBox > OK
 
-![Capture - IPFire : Adresse IP carte orange](../wp-content/uploads/2023/07/IPFire_30.webp)
+![Capture - IPFire : Adresse IP carte orange](../wp-content/uploads/2023/07/IPFire_30.webp#center)
 
 Installation IPFire - Image 30
 
 Entrez l'adresse IP de la carte 2 soit 192.168.4.1 > OK
 
-![Capture - IPFire : Configuration d'adresse, sélection carte red](../wp-content/uploads/2023/07/IPFire_31-430x211.webp)
+![Capture - IPFire : Configuration d'adresse, sélection carte red](../wp-content/uploads/2023/07/IPFire_31-430x211.webp#center)
 
 Installation IPFire - Image 31
 
 \-> RED soit la carte réseau 1 de VirtualBox > OK
 
-![Capture - IPFire : Adresse IP carte red](../wp-content/uploads/2023/07/IPFire_32.webp)
+![Capture - IPFire : Adresse IP carte red](../wp-content/uploads/2023/07/IPFire_32.webp#center)
 
 Installation IPFire - Image 32
 
@@ -274,25 +254,25 @@ Installation IPFire - Image 32
 \- Adresse IP : IP libre du serveur DHCP de votre Box  
 \- Gateway : IP de votre Box > OK
 
-![Capture - IPFire : Fin de la sélection des cartes réseau green, orange et red](../wp-content/uploads/2023/07/IPFire_33-430x211.webp)
+![Capture - IPFire : Fin de la sélection des cartes réseau green, orange et red](../wp-content/uploads/2023/07/IPFire_33-430x211.webp#center)
 
 Installation IPFire - Image 33
 
 Les 3 cartes ont maintenant une adresse IP > Terminé
 
-![Capture - IPFire : Configuration d'adresse, sortie](../wp-content/uploads/2023/07/IPFire_34.webp)
+![Capture - IPFire : Configuration d'adresse, sortie](../wp-content/uploads/2023/07/IPFire_34.webp#center)
 
 Installation IPFire - Image 34
 
 Quittez la Configuration d'adresse > Terminé
 
-![Capture - IPFire : Configuration dhcp](../wp-content/uploads/2023/07/IPFire_37-430x300.webp)
+![Capture - IPFire : Configuration dhcp](../wp-content/uploads/2023/07/IPFire_37-430x300.webp#center)
 
 Installation IPFire - Image 35
 
 Cette fenêtre s'affiche, ne pas activer le DHCP > OK
 
-![Capture - IPFire : Installation terminée](../wp-content/uploads/2023/07/IPFire_38.webp)
+![Capture - IPFire : Installation terminée](../wp-content/uploads/2023/07/IPFire_38.webp#center)
 
 Installation IPFire - Image 36
 
@@ -300,7 +280,7 @@ Et voilà, c'est terminé > OK
 
 IPFire finit son démarrage et affiche le login de srvsec :
 
-[![Capture - IPFire : Premier démarrage](../wp-content/uploads/2023/07/IPFire_39-430x251.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_39.webp)
+[![Capture - IPFire : Premier démarrage](../wp-content/uploads/2023/07/IPFire_39-430x251.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_39.webp)
 
 IPFire : Premier démarrage
 
@@ -342,7 +322,7 @@ Une fenêtre de connexion s'ouvre :
 
 La page d'accueil d'IPFire doit s'afficher :
 
-[![Capture - IPFire : Page d'accueil Web](../wp-content/uploads/2023/07/IPFire_accueil_web-430x208.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_accueil_web.webp)
+[![Capture - IPFire : Page d'accueil Web](../wp-content/uploads/2023/07/IPFire_accueil_web-430x208.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_accueil_web.webp)
 
 IPFire : Page d'accueil Web
 
@@ -355,7 +335,7 @@ Pour corriger cela, revenez sur srvlan :
 
 Remplissez les champs comme montré ci-dessous et cliquez ensuite sur le bouton Ajouter :
 
-[![Capture - IPFire : Ajout d'une route statique vers 192.168.3.0](../wp-content/uploads/2023/07/IPFire_ajout_route_statique-430x249.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_ajout_route_statique.webp)
+[![Capture - IPFire : Ajout d'une route statique vers 192.168.3.0](../wp-content/uploads/2023/07/IPFire_ajout_route_statique-430x249.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_ajout_route_statique.webp)
 
 IPFire : Ajout d'une route statique vers 192.168.3.0
 
