@@ -5,6 +5,8 @@ categories:
   - "clients-debian"
 ---
 
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis-430x210.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis.webp)
+
 ## Mémento 4.1 - Client vm1 cloné vm2
 
 A présent, vous allez compléter le réseau virtuel avec 2 clients Linux reposant sur Debian 12. 
