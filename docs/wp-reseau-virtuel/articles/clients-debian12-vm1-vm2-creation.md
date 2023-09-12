@@ -326,15 +326,16 @@ _**Résultat de la Cde ip address**_
 
 La VM debian12-vm1 étant prévue en zone LAN, il faut changer le mode d'accès réseau de sa carte enp0s3.
   
-Sans stopper la VM, menu Configuration de VirtualBox :  
-\- - - Onglet Réseau  
-\> Carte 1 > Mode d'accès réseau > Réseau interne  
-\> Nom > Remplacez intnet par switch\_interne > OK  
+Pour cela, sélectionnez la VM dans VirtualBox :
+\- - Menu de VirtualBox > Machine > Configuration...
+\- - - Onglet Réseau
+-> Adapter 1 > Mode d'accès réseau > Réseau interne
+-> Name > Remplacez intnet par switch_interne > OK  
   
 Configurez à présent une IP fixe sur la carte enp0s3 :  
-\-- Bureau Xfce, barre du haut  
-\> Clic droit sur l'icône Réseau située à droite  
-\> Sélectionnez Modifier les connexions...  
+\- - Bureau Xfce, barre du haut  
+-> Clic droit sur l'icône Réseau située à droite  
+-> Sélectionnez Modifier les connexions...  
   
 Une fenêtre Connexions réseau s'ouvre :  
 \> Sélectionnez la connexion Wired connection 1  
