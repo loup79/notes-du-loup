@@ -9,7 +9,7 @@ categories:
 
 ## Mémento 4.1 - Client vm1 cloné vm2
 
-A présent, vous allez compléter le réseau virtuel avec 2 clients Linux reposant sur Debian 12. 
+A présent, vous allez compléter le réseau virtuel avec 2 clients Linux reposant sur Debian 12.
   
 L'environnement graphique proposé sera le même que pour srvlan et srvdmz soit le bureau Xfce.  
   
@@ -57,8 +57,8 @@ Sélectionnez maintenant la nouvelle VM, puis :
 \- - - Onglet Général  
 -> Avancé > Presse-papier partagé > Bidirectionnel
 
-\- - - Onglet Système    
--> Carte mère > Ordre d'amorçage > Décochez Disquette    
+\- - - Onglet Système  
+-> Carte mère > Ordre d'amorçage > Décochez Disquette  
 -> Processeur > Cochez Activer PAE/NX
 
 Facultatif, accès au dossier partagé par le PC hôte :  
@@ -134,10 +134,10 @@ Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intér
 Autorisez l'usage de sudo à l'utilisateur client-linux :
 
 ```bash
-[client-linux@debian11-vm1:~$\] su root
+[client-linux@debian12-vm1:~$\] su root
 Mot de passe : Votre MDP root
-[root@debian11-vm1:~#\] sudo usermod -aG sudo client-linux
-[root@debian11-vm1:~#\] exit
+[root@debian11-vm1:~#] sudo usermod -aG sudo client-linux
+[root@debian11-vm1:~#] exit
 ```
 
 et redémarrez la VM :  
@@ -149,36 +149,52 @@ Reconnectez-vous ensuite en tant qu'utilisateur client-linux et rouvrez le termi
 
 #### _1.3 - Installation des utilitaires de VirtualBox_
 
-Ils permettront entre autres le copier/coller et l'accès au dossier partagé par le PC hôte.  
-  
-Commencez par installer le paquet suivant :
+Ils permettront entre autres le copier/coller et l'accès au dossier partagé par le PC hôte.
 
-\[client-linux@debian11-vm1:~$\] sudo apt install dkms
+Notez par curiosité la version courante du noyau linux :
 
-L'installation inclura les nécessaires dépendances build-essential et linux-headers.  
+```bash
+[client-linux@debian12-vm1:~$] uname -r
+```
+
+Exemple de retour :
+
+```markdown
+6.1.0-11-amd64
+```
+
+Installez ensuite les 2 paquets Linux suivants :
+
+```bash
+[client-linux@debian12-vm1:~$] sudo apt install dkms build-essential
+```
+
+Debian installera automatiquement la dépendance linux-headers-6.1.0-11-amd64.  
   
 Accédez ensuite au menu VirtualBox de la fenêtre VM :  
-\> Périphériques > Insérer l'image CD des Additions inv...  
+-> Périphériques > Insérer l'image CD des Additions inv...  
   
 Montez l'image CD, installez les utilitaires et rebootez :
 
-\[client-linux@deb...\] sudo mount /dev/cdrom /media/cdrom
-\[client-linux@deb...\] cd /media/cdrom/
-\[client-linux@deb...\] sudo ./VBoxLinuxAdditions.run
-\[client-linux@deb...\] sudo reboot
+```bash
+[client-linux@deb...] sudo mount /dev/cdrom /media/cdrom
+[client-linux@deb...] cd /media/cdrom/
+[client-linux@deb...] sudo ./VBoxLinuxAdditions.run
+[client-linux@deb...] sudo reboot
+```
 
-Une fois fini, reconnectez-vous, la fenêtre VM debian11-vm1 peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de la VM.  
+Reconnectez-vous, la fenêtre de la VM peut à présent être redimensionnée avec la souris. Sa nouvelle taille sera enregistrée au sein de debian12-vm1.
   
-Le copier/coller entre le PC hôte et debian11-vm1 doit maintenant fonctionner dans les 2 sens.  
+Le copier/coller entre le PC hôte et debian12-vm1 doit maintenant fonctionner dans les 2 sens.  
   
 Sans fermer la VM, retirez l'image CD du lecteur virtuel :  
-Menu Configuration de VirtualBox :  
+\- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Stockage  
-\> Zone Unités de stockage > VBoxGuestAdditions.iso  
-\> Zone Attributs > Cliquez sur l'icône CD  
-\> Retirer le disque du lecteur virtuel > OK
+-> Zone Unités de stockage > Sélectionnez VBoxGuest...  
+-> Zone Attributs > Cliquez sur l'icône CD  
+-> Retirer le disque du lecteur virtuel > OK
 
-#### _1.4 - Mise en français de LibreOffice et Firefox_
+#### _1.4 - Mise en français de LibreOffice_
 
 Installez les paquets suivants :
 
