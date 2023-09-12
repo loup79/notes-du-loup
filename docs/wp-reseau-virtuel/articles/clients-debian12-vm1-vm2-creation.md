@@ -326,10 +326,10 @@ _**Résultat de la Cde ip address**_
 
 La VM debian12-vm1 étant prévue en zone LAN, il faut changer le mode d'accès réseau de sa carte enp0s3.
   
-Pour cela, sélectionnez la VM dans VirtualBox :
-\- - Menu de VirtualBox > Machine > Configuration...
-\- - - Onglet Réseau
--> Adapter 1 > Mode d'accès réseau > Réseau interne
+Pour cela, sélectionnez la VM dans VirtualBox :  
+\- - Menu de VirtualBox > Machine > Configuration...  
+\- - - Onglet Réseau  
+-> Adapter 1 > Mode d'accès réseau > Réseau interne  
 -> Name > Remplacez intnet par switch_interne > OK  
   
 Configurez à présent une IP fixe sur la carte enp0s3 :  
@@ -338,57 +338,59 @@ Configurez à présent une IP fixe sur la carte enp0s3 :
 -> Sélectionnez Modifier les connexions...  
   
 Une fenêtre Connexions réseau s'ouvre :  
-\> Sélectionnez la connexion Wired connection 1  
-\> Cliquez sur l'icône roue dentée située en bas à gauche  
+-> Sélectionnez la connexion Wired connection 1  
+-> Cliquez sur l'icône roue dentée de la fenêtre
   
 Une fenêtre Modification de ... s'ouvre :  
-\> Nom de la connexion > Connexion Ethernet 1  
+-> Nom de la connexion > Connexion carte 1  
   
 \- - - Onglet Ethernet  
-\> Périphérique > Sélectionnez enp0s3  
+-> Périphérique > Sélectionnez enp0s3  
   
 \- - - Onglet Paramètres IPv4  
-\> Méthode > Sélectionnez Manuel > Bouton Ajouter  
-\> Champ Adresse : Entrez 192.168.3.2  
-\> Champ Masque de réseau : Entrez 255.255.255.0  
-\> Champ Passerelle : Entrez 192.168.3.1  
-\> Serveurs DNS > Entrez l'IP locale de votre Box Internet  
-\> Bouton Enregistrer  
+-> Méthode > Sélectionnez Manuel > Bouton Ajouter  
+-> Champ Adresse : Entrez 192.168.3.2  
+-> Champ Masque de réseau : Entrez 255.255.255.0  
+-> Champ Passerelle : Entrez 192.168.3.1  
+-> Serveurs DNS > Entrez l'IP locale de votre Box Internet  
+-> Bouton Enregistrer  
   
 Fermez ensuite la fenêtre Connexions réseau.  
 Le service réseau redémarre automatiquement.  
   
 Vérifiez par prudence la bonne configuration du réseau :
 
-\[client-linux@debian11-vm1:~#\] ip address
-\[client-linux@debian11-vm1:~#\] nmcli  \# Cde NetworkManager
+```bash
+[client-linux@debian12-vm1:~#] ip address
+[client-linux@debian12-vm1:~#] nmcli  # Cde NetworkManager
+```
 
-![Capture - Résultat de la Cde nmcli](/wp-content/uploads/2021/09/clientlinux-deb11-cde-nmcli.jpg)
-
-Résultat de la Cde nmcli
+![Capture - Résultat de la Cde nmcli](../wp-content/uploads/2023/09/client-deb12-cde-nmcli-580x551.webp#center)
+_**Résultat de la Cde nmcli**_
 
 Les fichiers configurés avec NetworkManager sont ici :  
 /etc/NetworkManager/system-connections/  
   
 Le service réseau peut être redémarré avec cette Cde :
 
-\[client-linux@debian11-vm1:~#\] sudo systemctl restart NetworkManager
+```bash
+[client-linux@debian12-vm1:~#] sudo systemctl restart NetworkManager
+```
 
 Par curiosité, lisez la table de routage avec la Cde ip r :
 
-![Capture - Table de routage de debian11-vm1 ](/wp-content/uploads/2021/09/clientlinux-deb11-table-routage-580x55.jpg)
+![Capture - Table de routage de debian12-vm1 ](../wp-content/uploads/2023/09/client-deb12-table-routage-580x66.webp#center)
+_**Table de routage de debian12-vm1**_
 
-Table de routage de debian11-vm1
-
-Pour terminer, sélectionnez la VM srvlan :  
-Menu Configuration de VirtualBox  
+Pour finir, sélectionnez la VM srvlan dans VirtualBox :  
+\- - Menu Configuration de VirtualBox > Machine > Configuration...  
 \- - - Onglet Réseau  
-\> Carte 2 > Mode d'accès réseau = Réseau interne  
-\> Nom > Sélectionnez switch\_interne > OK  
+-> Adapter 2 > Mode d'accès réseau = Réseau interne  
+-> Name > Remplacez intnet par switch_interne > OK  
   
-Les clients Linux seront ainsi raccordés correctement à srvlan au travers des liaisons nommées switch\_interne.  
+Les clients Linux seront ainsi raccordés correctement à srvlan au travers des liaisons nommées switch_interne.  
   
-_Nota : La VM debian11-vm1 accède à Internet si les VM srvsec et srvlan sont démarrées._
+_Nota : La VM debian12-vm1 accède à Internet si les VM srvsec et srvlan sont démarrées._
 
 ### 2 - Construction du deuxième client Linux
 
