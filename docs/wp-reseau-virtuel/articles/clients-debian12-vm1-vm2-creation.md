@@ -198,15 +198,30 @@ Sans fermer la VM, retirez l'image CD du lecteur virtuel :
 
 Installez les paquets suivants :
 
-\[client-linux@debian11...\] sudo apt install libreoffice-l10n-fr
-\[client-linux@debian11...\] sudo apt install libreoffice-help-fr
-\[client-linux@debian11...\] sudo apt install firefox-esr-l10n-fr
+```bash
+[client-linux@debian12...] sudo apt install libreoffice-l10n-fr
+[client-linux@debian12...] sudo apt install libreoffice-help-fr
+```
 
-La configuration de base est presque terminé :
+La configuration de base est presque terminée :
 
-[![Capture - Debian 11 : Bureau Xfce personnalisé](/wp-content/uploads/2021/09/clientlinux-deb11-bureau-xfce-bis-430x271.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/09/clientlinux-deb11-bureau-xfce-bis.jpg)
+[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis-430x210.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis.webp#center)
+_**Debian 12 : Bureau Xfce personnalisé**_
 
-Debian 11 : Bureau Xfce personnalisé
+Pour un même fond d'écran sur la fenêtre de login Lightdm et le bureau Xfce, procédez ainsi :
+
+```bash
+[client-linux@deb...] cd /chemin-de-votre-fond-ecran
+[client-linux@deb...] sudo cp fond.jpg /usr/share/backgrounds/
+[client-linux@deb...] cd /etc/lightdm
+[client-linux@deb...] sudo nano lightdm-gtk-greeter.conf
+```
+
+Remplacez la ligne #background= par celle-ci :
+
+```bash
+background=/usr/share/backgrounds/fond.jpg
+```
 
 #### _1.5 - Montage du dossier partagé par l'hôte_
 
