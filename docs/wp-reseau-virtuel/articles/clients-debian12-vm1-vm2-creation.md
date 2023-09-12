@@ -133,15 +133,17 @@ Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intér
   
 Autorisez l'usage de sudo à l'utilisateur client-linux :
 
-\[client-linux@debian11-vm1:~$\] su root
+```bash
+[client-linux@debian11-vm1:~$\] su root
 Mot de passe : Votre MDP root
-\[root@debian11-vm1:~#\] sudo usermod -aG sudo client-linux
-\[root@debian11-vm1:~#\] exit
+[root@debian11-vm1:~#\] sudo usermod -aG sudo client-linux
+[root@debian11-vm1:~#\] exit
+```
 
 et redémarrez la VM :  
-\> Menu Applications de Xfce situé en haut à gauche  
-\> Déconnexion > Une fenêtre s'ouvre  
-\> Bouton Redémarrer  
+\- - Menu Applications de Xfce situé en haut à gauche  
+-> Déconnexion _(Une fenêtre s'ouvre)_  
+-> Bouton Redémarrer  
   
 Reconnectez-vous ensuite en tant qu'utilisateur client-linux et rouvrez le terminal de Cdes.
 
