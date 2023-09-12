@@ -38,7 +38,33 @@ Téléchargez l'ISO debian-11.x.y-amd64\-netinst.iso :
 -> Cochez Skip Unattended Installation (important)  
 -> Bouton Suivant
   
-Blabla
+-> Mémoire vive : 1024 MB  
+-> Processors : 2 CPU si possible  
+-> Bouton Suivant
+
+-> Create a Virtual Hard Disk Now : Ajustez à 12 Go  
+-> Bouton Suivant
+
+-> Vérifiez le Récapitulatif  
+-> Bouton Finish
+
+La VM s'affiche dans le panneau gauche de VirtualBox.
+
+Sélectionnez maintenant la nouvelle VM, puis :  
+\- - Menu de VirtualBox > Machine > Configuration...  
+\- - - Onglet Général  
+-> Avancé > Presse-papier partagé > Bidirectionnel
+
+\- - - Onglet Système    
+-> Carte mère > Ordre d'amorçage > Décochez Disquette    
+-> Processeur > Cochez Activer PAE/NX
+
+Facultatif, accès au dossier partagé par le PC hôte :  
+\- - - Onglet Dossiers partagés  
+-> Cliquez sur l'icône + (Ajoute un ... dossier partagé.)  
+-> Chemin du dossier > Sélectionnez Autre...  
+-> Accédez à votre dossier > Ex : C:\Partage-Windows  
+-> Sélectionner un dossier ou Ouvrir > OK > OK
   
 Les autres paramètres peuvent rester inchangés.
 
