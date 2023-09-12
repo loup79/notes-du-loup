@@ -42,7 +42,7 @@ nav:
       - Srv DMZ Debian "srvdmz" :
         - wp-reseau-virtuel/articles/serveur-debian12-srvdmz-creation.md
       - Cli LAN Debian "vm1 et 2" :
-        - wp-reseau-virtuel/articles/virtualbox-clients-debian11-creation.md
+        - wp-reseau-virtuel/articles/clients-debian12-vm1-vm2-creation.md
       - Open vSwitch + Conteneurs :
         - wp-reseau-virtuel/articles/virtualbox-debian11-openvswitch-creation.md
   # Référencer vos autres pages ci-dessus...

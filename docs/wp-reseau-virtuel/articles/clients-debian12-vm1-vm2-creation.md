@@ -1,15 +1,15 @@
 ---
-title: "vm1 et 2 - VBox/Deb11"
-date: "2021-09-14"
+title: "vm1 et 2 - VBox/Deb12"
+date: "2023-09-12"
 categories: 
   - "clients-debian"
 ---
 
-## Mémento 4.11 - Client vm1 cloné vm2
+## Mémento 4.1 - Client vm1 cloné vm2
 
-A présent, vous allez compléter le réseau virtuel avec 2 clients Linux reposant sur Debian 11. 
+A présent, vous allez compléter le réseau virtuel avec 2 clients Linux reposant sur Debian 12. 
   
-L'environnement graphique proposé sera le même que pour srvlan et srvdmz soit Xfce.  
+L'environnement graphique proposé sera le même que pour srvlan et srvdmz soit le bureau Xfce.  
   
 Le premier client sera cloné pour générer le second dont vous ne modifierez que le nom d'hôte et l'adresse IP.
 
