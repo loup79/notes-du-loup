@@ -396,23 +396,25 @@ _Nota : La VM debian12-vm1 accède à Internet si les VM srvsec et srvlan sont d
 
 #### _2.1 - Clonage_
 
-Comme indiqué au début du mémento, vous allez commencer par cloner la VM debian11-vm1. 
-  
+Comme indiqué au début du mémento, vous allez commencer par cloner la VM debian12-vm1.
+
 Stoppez la VM, ensuite :  
-\> Panneau gauche de VirtualBox > Sélectionnez celle-ci  
-\> Effectuez un clic droit sur la sélection > Cloner...  
+-> Panneau gauche de VirtualBox > Sélectionnez celle-ci  
+-> Effectuez un clic droit sur la sélection > Cloner...  
   
-Une fenêtre s'ouvre :  
+Une fenêtre Cloner la machine virtuelle s'ouvre :  
 \- Nom de la nouvelle machine et chemin  
-\> Nom > Entrez debian11-vm2  
-\> Politique d'adresse MAC > Générer de nouvelles ...  
-\> Bouton Suivant  
+-> Name > Entrez debian12-vm2  
+-> MAC Address Policy > Générer de nouvelles ...  
+-> Bouton Suivant  
   
 \- Type de clone  
-\> Clone intégral  
-\> Bouton Cloner  
+-> Sélectionnez Clone intégral  
+-> Bouton Finish
+
+Le clonage s'exécute.
   
-Démarrez la nouvelle VM une fois le clonage terminé et connectez-vous sur celle-ci avec les login et MDP de l'hôte debian11-vm1.
+Démarrez la nouvelle VM une fois le clonage terminé et connectez-vous sur celle-ci avec les login et MDP de l'hôte debian12-vm1.
 
 #### _2.2 - Changement du nom d'hôte hérité_
 
