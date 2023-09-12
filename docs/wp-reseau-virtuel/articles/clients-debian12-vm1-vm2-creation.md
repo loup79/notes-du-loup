@@ -225,89 +225,104 @@ background=/usr/share/backgrounds/fond.jpg
 
 #### _1.5 - Montage du dossier partagé par l'hôte_
 
-Le dossier partagé sera monté dans un sous-dossier de /home/client-linux nommé Partage.  
-  
 Le trait d'union de l'utilisateur client-linux impose sous systemd de prendre des précautions concernant le nom à donner au service de montage du dossier partagé.  
   
 Pour savoir quel nom utiliser, entrez cette Cde :
 
-\[client-linux@debian11-vm1:~#\] sudo systemd-escape -p \\
+```bash
+[client-linux@debian12-vm1:~#] sudo systemd-escape -p \
 --suffix=mount "/home/client-linux/Partage/" 
+```
 
-Le caractère \\ indique d'écrire la Cde sur une seule ligne.
+Le caractère \ indique d'écrire la Cde sur une seule ligne.
 
 Retour :
 
-```
+```markdown
 home-client\x2dlinux-Partage.mount
 ```
 
-Le bloc \\x2d représente le trait d'union de client-linux.  
+Le bloc \x2d représente le trait d'union de client-linux.  
   
 Sachant cela, créez maintenant le fichier de service :
 
-\[client-linux@debian11-vm1:~#\] cd /etc/systemd/system
+```bash
+[client-linux@debian12-vm1:~#] cd /etc/systemd/system
 
-\[client-linux@debian11-vm1:~#\] sudo touch home-client\\x2dlinux-Partage.mount 
+[client-linux@debian12-vm1:~#] sudo touch home-client\x2dlinux-Partage.mount
+```
 
-Editez celui-ci en omettant le caractère \\ dans le nom :
+Editez celui-ci en omettant le caractère \ dans le nom :
 
-\[client-linux@debian11-vm1:~#\] sudo nano home-clientx2dlinux-Partage.mount 
+```bash
+[client-linux@debian12-vm1:~#] sudo nano home-clientx2dlinux-Partage.mount 
+```
 
 et entrez le contenu suivant :
 
-\[Unit\]
+```bash
+[Unit]
 Description = Montage dossier partagé fourni par VirtualBox
 
-\[Mount\]
+[Mount]
 What = _Entrez le nom du dossier partagé par le PC hôte_
-Where = home-client\\x2dlinux-Partage
+Where = home-client\x2dlinux-Partage
 Type = vboxsf
 Options=rw,uid=client-linux,gid=client-linux
 
-\[Install\]
+[Install]
 WantedBy = multi-user.target
+```
 
 Exemple pour What : What = Partage-Alfred  
   
 Intégrez le service dans la configuration de systemd :
 
-\[client-linux@debian11-vm1:~#\] sudo systemctl daemon-reload 
+```bash
+[client-linux@debian12-vm1:~#] sudo systemctl daemon-reload 
+```
 
 et démarrez celui-ci :
 
-\[client-linux@debian11-vm1:~#\] sudo systemctl start home-clientx2dlinux-Partage.mount 
+```bash
+[client-linux@debian12-vm1:~#] sudo systemctl start home-clientx2dlinux-Partage.mount 
+```
 
-Vérifiez son statut :
+Vérifiez ensuite son statut :
 
-\[client-linux@debian11-vm1:~#\] sudo systemctl status home-clientx2dlinux-Partage.mount 
+```bash
+[client-linux@debian12-vm1:~#] sudo systemctl status home-clientx2dlinux-Partage.mount 
+```
 
-Si nécessaire, touche q pour quitter le résultat affiché.  
+Touche q pour quitter le résultat affiché.
   
-Autorisez le lancement du service au boot de la VM :
+Si statut = active, autorisez le service au boot de la VM :
 
-\[client-linux@debian11-vm1:~#\] sudo systemctl enable home-clientx2dlinux-Partage.mount 
+```bash
+[client-linux@debian12-vm1:~#] sudo systemctl enable home-clientx2dlinux-Partage.mount 
+```
 
-Un lien symbolique est normalement créé.  
+Un lien symbolique vers le service est créé.  
   
-Pour finir, ouvrez le gestionnaire de fichier :  
-\> Menu Applications de Xfce situé en haut à gauche  
-\> Système > Gestionnaire de fichiers Thunar  
+Pour finir, ouvrez le gestionnaire de fichiers :  
+\- - Menu Applications de Xfce situé en haut à gauche  
+-> Système > Gestionnaire de fichiers Thunar  
   
 et observez le contenu partagé par le PC hôte dans :  
 /home/clientx2dlinux/Partage
 
 #### _1.6 - Configuration du réseau (IP fixe)_
 
-Avant, vérifiez les IP courantes avec la Cde ip address :
+Avant, vérifiez l'IP courante avec la Cde ip address :
 
-\[client-linux@debian11-vm1:~$\] ip address
+```bash
+[client-linux@debian12-vm1:~$] ip address
+```
 
-Résultat :
+Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
-![Capture - Résultat de la Cde ip address](/wp-content/uploads/2021/09/clientlinux-deb11-ip-address.jpg)
-
-Résultat de la Cde ip address
+![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/09/client-deb12-ip-address-580x317.webp#center)
+_**Résultat de la Cde ip address**_
 
 La VM qui sera placée à l'intérieur du LAN impose de modifier le mode d'accès réseau de la carte enp0s3. 
   
