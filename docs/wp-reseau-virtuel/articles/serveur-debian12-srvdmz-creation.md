@@ -124,7 +124,7 @@ _**Fenêtre de connexion Xfce**_
 
 Le bureau Xfce s'ouvre :
 
-[![Capture - bureau Xfce#center](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-430x358.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce.webp)
+[![Capture - bureau Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-430x358.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce.webp)
 _**Bureau Xfce**_
 
 Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intérieur du dock.

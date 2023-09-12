@@ -115,19 +115,17 @@ L'installation se termine :
   
 Le système reboot et une fenêtre de connexion s'ouvre :
 
-[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/09/client-deb12-login-430x361.webp "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-login.webp)
+[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/09/client-deb12-login-430x361.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-login.webp#center)
+_**Fenêtre de connexion Xfce**_
 
-Fenêtre de connexion Xfce
-
-\- Premier champ : Entrez client-linux  
-\- Second champ : Entrez Votre MDP client-linux  
-\> Bouton Se connecter  
+-> Premier champ : client-linux  
+-> Second champ : MDP de l'utilisateur client-linux  
+-> Bouton Se connecter  
   
 Le bureau Xfce s'ouvre :
 
-[![Capture - Bureau Xfce](/wp-content/uploads/2021/09/clientlinux-deb11-bureau1-xfce-430x370.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/09/clientlinux-deb11-bureau1-xfce.jpg)
-
-Bureau Xfce
+[![Capture - Bureau Xfce](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-430x362.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-bureau-xfce.webp#center)
+_**Bureau Xfce**_
 
 Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intérieur du dock.  
   
