@@ -324,7 +324,7 @@ Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 ![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/09/client-deb12-ip-address-580x317.webp#center)
 _**Résultat de la Cde ip address**_
 
-La VM qui sera placée à l'intérieur du LAN impose de modifier le mode d'accès réseau de la carte enp0s3. 
+La VM debian12-vm1 étant prévue en zone LAN, il faut changer le mode d'accès réseau de sa carte enp0s3.
   
 Sans stopper la VM, menu Configuration de VirtualBox :  
 \- - - Onglet Réseau  
