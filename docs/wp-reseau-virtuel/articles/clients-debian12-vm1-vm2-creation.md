@@ -30,12 +30,12 @@ Téléchargez l'ISO debian-11.x.y-amd64\-netinst.iso :
   
 \- Démarrez ensuite l'application VirtualBox 7.x, puis :  
 \- - Menu de VirtualBox > Machine > Nouvelle...  
--> Nom : debian12-vm1
--> Folder : Sélectionnez le dossier de stockage des VM
--> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus
--> Type : Linux
--> Version : Debian (64-bit)
--> Cochez Skip Unattended Installation (important)
+-> Nom : debian12-vm1  
+-> Folder : Sélectionnez le dossier de stockage des VM  
+-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus  
+-> Type : Linux  
+-> Version : Debian (64-bit)  
+-> Cochez Skip Unattended Installation (important)  
 -> Bouton Suivant
   
 Blabla
