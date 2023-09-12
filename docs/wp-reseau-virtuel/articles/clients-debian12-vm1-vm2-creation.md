@@ -68,33 +68,33 @@ Facultatif, accès au dossier partagé par le PC hôte :
   
 Les autres paramètres peuvent rester inchangés.
 
-#### _1.2 - Installation de Debian 11 (bureau Xfce)_
+#### _1.2 - Installation de la distribution Debian_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
 
-Menu Démarrer de VirtualBox :  
-La VM créée s'exécute.  
+\- - Menu Démarrer de VirtualBox  > Machine > Démarrer  
+-> Démarrage normal _(La VM s'exécute)_  
   
 Sélectionnez Graphical Install et appliquez ce qui suit :  
 \- Language > Français  
 \- Pays (territoire ou région) > France  
 \- Disposition de clavier à utiliser > Français  
-\- Nom de machine > debian11-vm1  
+\- Nom de machine > debian12-vm1  
 \- Domaine > Laissez le champ vide  
-\- MDP du super utilisateur root > Votre MDP root  
-\- Confirmation du MDP > Votre MDP root  
+\- MDP du super utilisateur root > MDP pour root  
+\- Confirmation du MDP > MDP pour root  
 \- Nom complet du nouvel utilisateur > Ex: client-linux  
 \- Identifiant pour le compte utilisateur > client-linux  
-\- MDP pour le nouvel utilisateur > Votre MDP client-linux  
-\- Confirmation du MDP > Votre MDP client-linux  
+\- MDP pour le nouvel utilisateur > MDP pour client-linux  
+\- Confirmation du MDP > MDP pour client-linux  
 \- Méthode de partitionnement > Assisté - utili... entier  
 \- Disque à partitionner > Celui proposé de 12 Go  
 \- Schéma de partitionnement > Tout ... seule partition  
 \- Table des partitions > Terminer le partitionnement ...  
 \- Faut-il appliquer les changements … disques ? > Oui  
   
-L'installation de base commence :  
+L'installation commence :  
 \- Faut-il analyser d'autres supports ... ? > Non  
 \- Pays du miroir de l'archive Debian > France  
 \- Miroir de l'archive Debian > deb.debian.org  
@@ -103,10 +103,10 @@ L'installation de base commence :
 L'installation continue :  
 \- Souhaitez-vous participer à l'étude statistique ... > Non  
 \- Logiciels à installer  
-\> Décochez environnement de bureau Debian  
-\> Décochez ... GNOME  
-\> Sélectionnez ... Xfce  
-\> Conservez utilitaires usuels du système  
+-> Décochez environnement de bureau Debian  
+-> Décochez ... GNOME  
+-> Sélectionnez ... Xfce  
+-> Conservez utilitaires usuels du système  
   
 L'installation se termine :  
 \- Installer ... de démarrage GRUB sur le secteur ... > Oui  
