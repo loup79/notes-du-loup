@@ -38,7 +38,7 @@ Téléchargez l'ISO debian-11.x.y-amd64\-netinst.iso :
 -> Cochez Skip Unattended Installation (important)
 -> Bouton Suivant
   
-
+Blabla
   
 Les autres paramètres peuvent rester inchangés.
 
