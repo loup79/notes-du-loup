@@ -7,8 +7,8 @@
 img[src*='#center'] { display: block; margin: auto; }
 .md-typeset p > em strong { font-size: 10px; margin-left: 30%; }
 
-code.language-bash { background-color: #fcfaee; }
-.code-retour { background-color:#e7f5fe; }
+code.language-bash { background-color: #fcfaee;  font-size: 13px; }
+code.language-markdown { background-color: #f5f5f5;  font-size: 13px; }
 
 table { background-color: rgb(251, 245, 245); }
 th { display: none; }
