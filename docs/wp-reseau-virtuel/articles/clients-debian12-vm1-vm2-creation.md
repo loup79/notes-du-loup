@@ -21,8 +21,8 @@ Le premier client sera cloné pour générer le second dont vous ne modifierez q
 L'utilisation de VirtualBox est considérée acquise.  
   
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](/virtualbox-installation/)  
-[VirtualBox - Mode d’accès réseau par pont](/virtualbox-pont-reseau/)
+[VirtualBox - Installation](../virtualbox-installation/)  
+[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
 
 #### _1.1 - Création et configuration de la VM_
 
