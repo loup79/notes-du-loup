@@ -28,7 +28,7 @@ A défaut, référez-vous aux mémentos suivants :
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.  
   
-Téléchargez l'ISO debian-11.x.y-amd64\-netinst.iso :  
+Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
 [https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)  
   
 \- Démarrez ensuite l'application VirtualBox 7.x, puis :  
