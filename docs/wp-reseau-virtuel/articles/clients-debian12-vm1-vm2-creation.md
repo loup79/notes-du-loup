@@ -135,10 +135,10 @@ Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intér
 Autorisez l'usage de sudo à l'utilisateur client-linux :
 
 ```bash
-[client-linux@debian12-vm1:~$\] su root
+[client-linux@debian12-vm1:~$] su root
 Mot de passe : Votre MDP root
-[root@debian11-vm1:~#] sudo usermod -aG sudo client-linux
-[root@debian11-vm1:~#] exit
+[root@debian12-vm1:~#] sudo usermod -aG sudo client-linux
+[root@debian12-vm1:~#] exit
 ```
 
 et redémarrez la VM :  
