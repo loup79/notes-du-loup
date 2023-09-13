@@ -504,16 +504,14 @@ _Nota : Si problème d'IP, rebootez la VM et revérifiez._
 Voilà, le réseau virtuel comprend déjà :  
 \- 1 PC hôte _(Windows ou Linux)_  
 \- 3 serveurs virtuels : srvlan, srvsec et srvdmz  
-\- 2 clients virtuels : debian11-vm1 et debian11-vm2  
+\- 2 clients virtuels : debian12-vm1 et debian12-vm2  
   
 \- Le switch virtuel Open vSwitch reste à construire.  
   
 Retrouvez ceux-ci sur la maquette finale :
 
-[![Synoptique - Maquette du réseau local virtuel avec IPFire](/wp-content/uploads/2018/05/maquette-base-ipfire-430x301.png "Cliquez pour agrandir l'image")](/wp-content/uploads/2018/05/maquette-base-ipfire.png)
-
-  
-Configuration de base - Présentation des flux ICMP (ping)
+[![Synoptique - Maquette du réseau local virtuel avec IPFire](../wp-content/uploads/2018/05/maquette-base-ipfire-430x301.png#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2018/05/maquette-base-ipfire.png#center)
+_**Configuration de base - Flux ICMP (ping)**_
 
 #### _3.2 - Préparation du test_
 
