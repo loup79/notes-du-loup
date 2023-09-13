@@ -5,7 +5,7 @@ categories:
   - "openvswitch-lxc"
 ---
 
-## Mémento 5.11 - Commutateur virtuel
+## Mémento 5.1 - Commutateur virtuel
 
 Open vSwitch _(OVS)_ se comportera comme un véritable switch physique en proposant la gestion des adresses MAC tel un switch L2 ainsi que celle des adresses IP pour le routage des paquets IP tel un switch L3. 
   

@@ -521,49 +521,59 @@ Les Cdes ci-dessous concernent Windows, celles-ci sont différentes sous OS X ou
   
 Ouvrez à présent le Windows PowerShell (admin) et observez le contenu de la table de routage :
 
-\[C:\\~\] route print
+```bash
+[C:\~] route print
+```
 
 Ajoutez ensuite les 3 nouvelles routes comme suit :
 
-\[C:\\~\] route add -p 192.168.2.0 mask 255.255.255.0 192.168.x.w
+```bash
+[C:\~] route add -p 192.168.2.0 mask 255.255.255.0 192.168.x.w
 
-\[C:\\~\] route add -p 192.168.3.0 mask 255.255.255.0 192.168.x.w
+[C:\~] route add -p 192.168.3.0 mask 255.255.255.0 192.168.x.w
 
-\[C:\\~\] route add -p 192.168.4.0 mask 255.255.255.0 192.168.x.w
+[C:\~] route add -p 192.168.4.0 mask 255.255.255.0 192.168.x.w
+```
 
 \- Le commutateur \-p rend la route créée permanente.  
 \- L'adresse 192.168.x.w = IP de la carte RED d'IPFire.
 
 Vérifiez le résultat en réaffichant la table de routage :
 
-\[C:\\~\] route print 
+```bash
+[C:\~] route print 
+```
 
 Ces routes permettront entre autres le ping depuis le PC hôte vers les VM du réseau local virtuel.
 
-Pour supprimer une route caduque, utilisez la Cde :
+Pour supprimer une route caduque, utilisez cette Cde :
 
-\[C:\\~\] route delete 192.168.x.0 mask 255.255.255.0
+```bash
+[C:\~] route delete 192.168.x.0 mask 255.255.255.0
+```
 
 #### _3.3 - Contrôle du paramétrage serveur DNS_
 
 Hormis IPFire, vérifiez dans les fichiers /etc/resolv.conf des VM la présence de :
 
-nameserver 192.16...     \# adresse IP de votre box Internet
+```bash
+nameserver 192.16...     # adresse IP de votre box Internet
+```
 
 A défaut, corrigez ou ajoutez cette ligne manuellement.
 
 #### _3.4 - Test du réseau local virtuel (Cde ping)_
 
-Effectuez à présent le test de bon fonctionnement du réseau à l'aide de la Cde ping, ceci en vérifiant la conformité des résultats avec ceux indiqués sur la [maquette](/wp-content/uploads/2018/05/maquette-base-ipfire.png) réseau local virtuel.  
+Effectuez à présent le test de bon fonctionnement du réseau à l'aide de la Cde ping, ceci en vérifiant la conformité des résultats avec ceux indiqués sur la [maquette](../wp-content/uploads/2018/05/maquette-base-ipfire.png) réseau local virtuel.  
   
 Tout doit être correct pour pouvoir continuer.
 
-![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
+![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
-  
+&nbsp;  
 Bravo pour être arrivé jusqu'ici !  
 Le mémento 5.11 vous attend pour  
 l'intégration d'un switch virtuel  
 Open vSwitch.
 
-[Mémento 5.11](/notes-du-loup/wp-reseau-virtuel/articles/virtualbox-debian11-openvswitch-creation/)
+[Mémento 5.1](../virtualbox-debian11-openvswitch-creation){ .md-button }

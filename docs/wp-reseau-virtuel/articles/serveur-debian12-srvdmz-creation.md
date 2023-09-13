@@ -388,4 +388,4 @@ Les serveurs sont prêts. Le mémento
 4.1 vous attend pour la création des  
 VM clientes du réseau local virtuel.
 
-[Mémento 4.1](../virtualbox-clients-debian11-creation/){ .md-button }
+[Mémento 4.1](../clients-debian12-vm1-vm2-creation/){ .md-button }
