@@ -224,7 +224,7 @@ Remplacez la ligne #background= par celle-ci :
 background=/usr/share/backgrounds/fond.jpg
 ```
 
-#### _1.5 - Montage du dossier partagé par l'hôte_
+#### _1.5 - Montage du dossier partagé par le PC hôte_
 
 Le trait d'union de l'utilisateur client-linux impose sous systemd de prendre des précautions concernant le nom à donner au service de montage du dossier partagé.  
   
