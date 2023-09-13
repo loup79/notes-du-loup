@@ -420,70 +420,78 @@ Démarrez la nouvelle VM une fois le clonage terminé et connectez-vous sur cell
 
 Ouvrez le terminal et modifiez le nom d'hôte :
 
-\[client-linux@debian11-vm1:~$\] sudo hostnamectl set-hostname debian11-vm2
+```bash
+[client-linux@debian12-vm1:~$] sudo hostnamectl set-hostname debian12-vm2
+```
 
 Editez ensuite le fichier DNS hosts :
 
-\[client-linux@debian11-vm1:~$\] sudo nano /etc/hosts
+```bash
+[client-linux@debian12-vm1:~$] sudo nano /etc/hosts
+```
 
-et remplacez debian11-vm1 par debian11-vm2. 
+et remplacez debian12-vm1 par debian12-vm2.
   
 Un message d'alerte apparaîtra, n'en tenez pas compte.  
   
-Redémarrez la VM, connectez-vous avec les mêmes login et MDP que précédemment et ouvrez le terminal pour vérifier que le prompt montre bien debian11-vm2. 
+Redémarrez la VM, connectez-vous avec les mêmes login et MDP que précédemment et ouvrez le terminal pour vérifier que le prompt montre bien debian12-vm2.
   
 Pour finir, observez le résultat de la Cde hostnamectl :
 
-\[client-linux@debian11-vm2:~$\] hostnamectl 
+```bash
+[client-linux@debian11-vm2:~$] hostnamectl 
+```
 
 Retour :
 
-```
-Static hostname: debian11-vm2
-         Icon name: computer-vm
-           Chassis: vm
-        Machine ID: 537dedab175c486db4c0479dbaafacf5
-           Boot ID: 96bba1b5781d4dcd9fe252f4c74baff1
-    Virtualization: oracle
-  Operating System: Debian GNU/Linux 11 (bullseye)
-            Kernel: Linux 5.10.0-8-amd64
-      Architecture: x86-64
+```markdown
+Static hostname: debian12-vm2
+       Icon name: computer-vm
+         Chassis: vm
+      Machine ID: ea1ed91bc3854862b45b2c3f80c009e6
+         Boot ID: 9e8fc772ba124dcca6cf7c56466fe4b5
+  Virtualization: oracle
+Operating System: Debian GNU/Linux 12 (bookworm)  
+          Kernel: Linux 6.1.0-11-amd64
+    Architecture: x86-64
 ```
 
 #### _2.3 - Changement de l'adresse IP héritée_
 
 Effectuez les opérations suivantes :  
 \- - Bureau Xfce, barre du haut  
-\> Clic droit sur l'icône Réseau située à droite  
-\> Sélectionnez Modifier les connexions...  
+-> Clic droit sur l'icône Réseau située à droite  
+-> Sélectionnez Modifier les connexions...  
   
 Une fenêtre Connexions réseau s'ouvre :  
-Supprimez la ou les connexions affichées en cliquant sur l'icône \- située en bas de la fenêtre.  
+Supprimez la ou les connexions affichées en cliquant sur l'icône - située en bas de la fenêtre.  
   
 Ensuite, cliquez sur l'icône + pour créer une connexion.  
   
 Une fenêtre Sélectionner un type de connexion s'ouvre :  
-\> Sélectionnez Ethernet > Bouton Créer...  
+-> Sélectionnez Ethernet > Bouton Créer...  
   
 Une fenêtre Modification de ... s'ouvre :  
-\> Nom de la connexion > Connexion Ethernet 1  
+-> Nom de la connexion > Connexion carte 1  
   
 \- - - Onglet Ethernet  
-\> Périphérique > Sélectionnez enp0s3  
+-> Périphérique > Sélectionnez enp0s3  
   
 \- - - Onglet Paramètres IPv4  
-\> Méthode > Sélectionnez Manuel > Bouton Ajouter  
-\> Champ Adresse : Entrez 192.168.3.4  
-\> Champ Masque de réseau : Entrez 255.255.255.0  
-\> Champ Passerelle : Entrez 192.168.3.1  
-\> Serveurs DNS > Entrez l'IP locale de votre Box Internet  
-\> Bouton Enregistrer  
+-> Méthode > Sélectionnez Manuel > Bouton Ajouter  
+-> Champ Adresse : Entrez 192.168.3.4  
+-> Champ Masque de réseau : Entrez 255.255.255.0  
+-> Champ Passerelle : Entrez 192.168.3.1  
+-> Serveurs DNS > Entrez l'IP locale de votre Box Internet  
+-> Bouton Enregistrer  
   
 Fermez ensuite la fenêtre Connexions réseau.  
   
 Le service réseau redémarre automatiquement, sinon :
 
-\[client-linux@debian11-vm2:~$\] sudo systemctl restart NetworkManager 
+```bash
+[client-linux@debian12-vm2:~$] sudo systemctl restart NetworkManager 
+```
 
 Vérifiez la configuration avec la Cde ip address.  
   
