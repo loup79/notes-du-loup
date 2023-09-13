@@ -384,7 +384,7 @@ Par curiosité, lisez la table de routage avec la Cde ip r :
 _**Table de routage de debian12-vm1**_
 
 Pour finir, sélectionnez la VM srvlan dans VirtualBox :  
-\- - Menu Configuration de VirtualBox > Machine > Configuration...  
+\- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Réseau  
 -> Adapter 2 > Mode d'accès réseau = Réseau interne  
 -> Name > Remplacez intnet par switch_interne > OK  
