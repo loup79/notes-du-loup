@@ -343,7 +343,7 @@ Une fenêtre Connexions réseau s'ouvre :
 -> Cliquez sur l'icône roue dentée de la fenêtre
   
 Une fenêtre Modification de ... s'ouvre :  
--> Nom de la connexion > Connexion carte 1  
+-> Nom de la connexion > Entrez Connexion carte 1  
   
 \- - - Onglet Ethernet  
 -> Périphérique > Sélectionnez enp0s3  
