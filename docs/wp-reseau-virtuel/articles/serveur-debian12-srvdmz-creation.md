@@ -1,5 +1,6 @@
 ---
 title: "srvdmz - VBox/Deb12"
+author: G.Leloup
 date: "20213-08-02"
 categories: 
   - "serveur-srvdmz"

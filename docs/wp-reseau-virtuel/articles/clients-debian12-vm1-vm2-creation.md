@@ -1,9 +1,6 @@
 ---
 title: "vm1 et 2 - VBox/Deb12"
-subtitle: "Mis à jour le: 13/09/2023"
-summary: Ajout dans le réseau virtuel de 2 clients Linux Debian
 author: G.Leloup
-name: Gérard Leloup
 date: "2023-09-12"
 categories: 
   - "clients-debian"

@@ -1,5 +1,6 @@
 ---
 title: "srvlan - VBox/Deb12"
+author: G.Leloup
 date: "2023-07-13"
 categories: 
   - "serveur-srvlan"

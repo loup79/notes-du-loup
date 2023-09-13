@@ -77,3 +77,6 @@ markdown_extensions:
 ### Gestion des styles
 extra_css:
   - stylesheets/extra.css
+
+### Gestion des plugins
+
