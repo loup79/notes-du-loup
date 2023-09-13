@@ -76,7 +76,7 @@ Les autres paramètres peuvent rester inchangés.
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
 
-\- - Menu Démarrer de VirtualBox  > Machine > Démarrer  
+\- - Menu de VirtualBox  > Machine > Démarrer  
 -> Démarrage normal _(La VM s'exécute)_  
   
 Sélectionnez Graphical Install et appliquez ce qui suit :  
