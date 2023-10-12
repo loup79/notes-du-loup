@@ -132,3 +132,36 @@ Finir en activant le service _VBoxAutostartSvc_ :
 ```bash
 C:\...>.\VBoxAutostartSvc install --user=user-x
 ```
+
+-- Hôte **Linux** --
+
+Editer le fichier _/etc/default/virtualbox_ et ajouter ceci :
+
+```bash
+# Démarrage auto des VM
+VBOXAUTOSTART_DB=/etc/vbox
+VBOXAUTOSTART_CONFIG=/etc/vbox/autostartvm.cfg
+```
+
+Créer le fichier _/etc/vbox/autostartvm.cfg_ et entrer cela :
+
+```bash
+default_policy = deny
+user-x = {
+allow = true
+startup_delay = 30
+}
+# Saut de ligne après la parenthèse
+```
+
+Ajouter l'utilisateur _user-x_ au groupe _vboxusers_ :
+
+```bash
+$ sudo usermod -aG vboxusers user-x
+```
+
+Affecter le dossier _/etc/vbox/_ au groupe _vboxusers_ :
+
+```bash
+$ sudo chgrp vboxusers /etc/vbox
+```
