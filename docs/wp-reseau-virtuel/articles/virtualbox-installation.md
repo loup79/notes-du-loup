@@ -17,6 +17,7 @@ VirtualBox permet
 de créer des Machines  
 Virtuelles (VM).  
 &nbsp;  
+
 ### 1 - Installation
 
 #### _1.1 - Information générale_
@@ -79,3 +80,41 @@ Pour cela, lancer la Cde _regedit.exe_ à l'intérieur du champ du menu _Exécut
 -> HKEY_LOCAL_MACHINE\Software\Oracle\VirtualBox
 
 Créer une clé REG_DWORD de nom VBoxSDS avec la valeur 1 et pour finir redémarrer Windows.
+Créer une clé REG_DWORD de nom _VBoxSDS_ avec la valeur _1_ et pour finir redémarrer Windows.
+
+-- Hôte **Linux** --
+
+```bash
+VBoxManage modifyvm "nom-vm" --defaultfrontend headless
+```
+
+**b)** Lancer _automatiquement_ une VM au boot de l'hôte :
+
+-- Hôte **Windows** --
+
+```bash
+C:\...> cd \Users\user-x\.VirtualBox
+```
+
+Créer un fichier de nom _autostart.properties_ contenant :
+
+```bash
+# La politique par défaut est de refuser "deny" le démarrage  
+# d'une VM, l'autre option est de l'autoriser "allow".
+default_policy = deny
+
+# L'utilisateur user-x ci-dessous est autorisé à démarrer  
+# des VM mais ceci après un délai de 30 secondes
+user-x = {
+allow = true
+startup_delay = 30
+}
+```
+
+et configurer la VM _nom-vm_ comme ceci :
+
+```txt
+C:\...> cd \"Program Files"\Oracle\Virtualbox
+C:\...>.\VBoxManage modifyvm "nom-vm" --autostart-enabled on --autostart-delay 180
+```
+
