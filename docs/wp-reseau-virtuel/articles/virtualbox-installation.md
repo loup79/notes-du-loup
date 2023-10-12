@@ -197,3 +197,22 @@ Se rendre dans le dossier des VM et entrer :
 ```bash
 VBoxManage modifyvm "nom-vm" --autostart-enabled on --autostart-delay 180
 ```
+
+**c)** Activer la _virtualisation imbriquée_ sur une VM :
+
+Celle-ci, autrement appelée _nested virtualization VT-x/AMD-V_, fait référence à de la virtualisation qui s'exécute dans un environnement déjà virtualisé.
+
+A appliquer si nécessaire :
+
+-- Hôte **Windows** --
+
+```bash
+C:\...> cd \"Program Files"\Oracle\Virtualbox
+C:\...>.\VBoxManage modifyvm "nom-vm" --nested-hw-virt on
+```
+
+-- Hôte **Linux** --
+
+```bash
+VBoxManage modifyvm "nom-vm" --nested-hw-virt on
+```
