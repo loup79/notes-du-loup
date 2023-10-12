@@ -157,11 +157,24 @@ startup_delay = 30
 Ajouter l'utilisateur _user-x_ au groupe _vboxusers_ :
 
 ```bash
-$ sudo usermod -aG vboxusers user-x
+sudo usermod -aG vboxusers user-x
 ```
 
 Affecter le dossier _/etc/vbox/_ au groupe _vboxusers_ :
 
 ```bash
-$ sudo chgrp vboxusers /etc/vbox
+sudo chgrp vboxusers /etc/vbox
 ```
+
+Autoriser le groupe _vboxusers_ à écrire dans le dossier :
+
+```bash
+sudo chmod g+w /etc/vbox
+```
+
+Pour éviter que le répertoire ne soit modifié ou supprimé par d'autres utilisateurs, à l'exception du propriétaire ou de l'utilisateur _root_, définir le _bit collant_ :
+
+```bash
+sudo chmod +t /etc/vbox
+```
+
