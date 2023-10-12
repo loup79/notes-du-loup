@@ -216,3 +216,5 @@ C:\...>.\VBoxManage modifyvm "nom-vm" --nested-hw-virt on
 ```bash
 VBoxManage modifyvm "nom-vm" --nested-hw-virt on
 ```
+
+---------- Fin ----------
