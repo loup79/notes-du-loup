@@ -43,12 +43,12 @@ Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et tél
 Lancez l'exécutable et acceptez d'ajouter les cartes réseau qui vous seront proposées.
 
 Démarrez ensuite VirtualBox et ajoutez le pack d'extension comme suit :  
-\- Menu Fichier  
-\> Outils  
-\> Extension Pack Manager > Cliquez sur l'icône +  
-\> Sélectionnez l'extension téléchargée plus haut  
-\> Bouton Ouvrir > Bouton Installation  
-\> Acceptez la licence
+\- - Menu Fichier  
+\-> Outils  
+\-> Extension Pack Manager > Cliquez sur l'icône +  
+\-> Sélectionnez l'extension téléchargée plus haut  
+\-> Bouton Ouvrir > Bouton Installation  
+\-> Acceptez la licence
 
 Le pack d'extension doit s'installer normalement.
 
