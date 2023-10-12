@@ -118,3 +118,8 @@ C:\...> cd \"Program Files"\Oracle\Virtualbox
 C:\...>.\VBoxManage modifyvm "nom-vm" --autostart-enabled on --autostart-delay 180
 ```
 
+Lancer ensuite la Cde _sysdm.cpl_ à l'intérieur du champ du menu _Exécuter_ de Windows, puis :  
+-> Onglet _Paramètres système avancés_  
+-> Bouton _Variables d'environnement..._  
+-> Variables système > Bouton _Nouvelle..._
+
