@@ -68,3 +68,14 @@ Ce pack inclut les guest additons, ceux-ci permettant :
 
 -- Hôte **Windows** --
 
+```bash
+C:\...> cd \"Program Files"\Oracle\Virtualbox
+C:\...>.\VBoxManage modifyvm "nom-vm" --defaultfrontend headless
+```
+
+Il faut, afin que la VM en mode _headless_ puisse rester active même si l'utilisateur courant de Windows ferme sa session, créer une _clé de registre_ Windows.
+
+Pour cela, lancer la Cde _regedit.exe_ à l'intérieur du champ du menu _Exécuter_ de Windows, puis :  
+-> HKEY_LOCAL_MACHINE\Software\Oracle\VirtualBox
+
+Créer une clé REG_DWORD de nom VBoxSDS avec la valeur 1 et pour finir redémarrer Windows.
