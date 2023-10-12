@@ -81,7 +81,6 @@ Pour cela, lancer la Cde _regedit.exe_ à l'intérieur du champ du menu _Exécut
 -> HKEY_LOCAL_MACHINE\Software\Oracle\VirtualBox
 
 Créer une clé REG_DWORD de nom VBoxSDS avec la valeur 1 et pour finir redémarrer Windows.
-Créer une clé REG_DWORD de nom _VBoxSDS_ avec la valeur _1_ et pour finir redémarrer Windows.
 
 -- Hôte **Linux** --
 
