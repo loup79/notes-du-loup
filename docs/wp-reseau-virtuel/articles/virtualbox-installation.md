@@ -58,8 +58,7 @@ Ce pack inclut les guest additons, ceux-ci permettant :
 \- d'effectuer des copier/coller entre les VM.  
 \- d'effectuer des copier/coller entre les VM et l'hôte.  
 \- d'ignorer la touche CTRL droite appelée touche Hôte.  
-\- etc…  
-&nbsp;
+\- etc…
 
 Vous pouvez à présent créer la première VM du réseau virtuel. Suivez pour cela la _liste des mémentos_ du site.
 
