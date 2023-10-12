@@ -124,8 +124,8 @@ Lancer ensuite la Cde _sysdm.cpl_ à l'intérieur du champ du menu _Exécuter_ d
 -> Variables système > Bouton _Nouvelle..._
 
 Entrer ce contenu pour la nouvelle variable Windows :  
-Nom: VBOXAUTOSTART_CONFIG  
-Valeur: _C:\Users\user-x\.VirtualBox\autostart.properties_
+Nom: _VBOXAUTOSTART_CONFIG_  
+Valeur: _C:\Users\user-x\\.VirtualBox\autostart.properties_
 
 Finir en activant le service _VBoxAutostartSvc_ :
 
