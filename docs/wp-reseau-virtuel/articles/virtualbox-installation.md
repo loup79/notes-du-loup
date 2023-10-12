@@ -113,7 +113,7 @@ startup_delay = 30
 
 et configurer la VM _nom-vm_ comme ceci :
 
-```txt
+```bash
 C:\...> cd \"Program Files"\Oracle\Virtualbox
 C:\...>.\VBoxManage modifyvm "nom-vm" --autostart-enabled on --autostart-delay 180
 ```
@@ -123,4 +123,12 @@ Lancer ensuite la Cde _sysdm.cpl_ à l'intérieur du champ du menu _Exécuter_ d
 -> Bouton _Variables d'environnement..._  
 -> Variables système > Bouton _Nouvelle..._
 
-blablabla
+Entrer ce contenu pour la nouvelle variable Windows :  
+Nom: VBOXAUTOSTART_CONFIG  
+Valeur: _C:\Users\user-x\.VirtualBox\autostart.properties_
+
+Finir en activant le service _VBoxAutostartSvc_ :
+
+```bash
+C:\...>.\VBoxAutostartSvc install --user=user-x
+```
