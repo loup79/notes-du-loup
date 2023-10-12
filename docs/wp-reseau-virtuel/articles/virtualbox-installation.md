@@ -59,13 +59,5 @@ Ce pack inclut les guest additons, ceux-ci permettant :
 \- etc…  
 &nbsp;  
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay -
-Mohamed Hassan"){ align=left }
-
-&nbsp;  
-C'est terminé ! Vous pouvez à  
-présent créer la première VM  
-du réseau virtuel. Suivez pour cela  
-la liste des mémentos du site.
-
 [Liste des mémentos](/liste-des-mementos/){ .md-button }
+
