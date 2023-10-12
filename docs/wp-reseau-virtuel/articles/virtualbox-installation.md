@@ -178,3 +178,22 @@ Pour éviter que le répertoire ne soit modifié ou supprimé par d'autres utili
 sudo chmod +t /etc/vbox
 ```
 
+Redémarrer l'hôte pour le traitement des permissions.
+
+Laisser les VM à l'arrêt et autoriser le démarrage automatique de celles-ci :
+
+```bash
+VBoxManage setproperty autostartdbpath /etc/vbox
+```
+
+Obtenir la liste des VM :
+
+```bash
+VBoxManage list vms
+```
+
+Se rendre dans le dossier des VM et entrer :
+
+```bash
+VBoxManage modifyvm "nom-vm" --autostart-enabled on --autostart-delay 180
+```
