@@ -32,24 +32,24 @@ Le PC hôte doit être un PC 64 bits, courant de nos jours.
 Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
 [https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)  
   
-\- Démarrez ensuite l'application VirtualBox 7.x, puis :  
-\- - Menu de VirtualBox > Machine > Nouvelle...
--> Nom : ovs
--> Folder : Sélectionnez le dossier de stockage des VM
--> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus
--> Type : Linux
--> Version : Debian (64-bit)
--> Cochez Skip Unattended Installation (important)
+\- Démarrez ensuite l'application VirtualBox 7.x, puis :    
+\- - Menu de VirtualBox > Machine > Nouvelle...  
+-> Nom : ovs  
+-> Folder : Sélectionnez le dossier de stockage des VM  
+-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus  
+-> Type : Linux  
+-> Version : Debian (64-bit)  
+-> Cochez Skip Unattended Installation _(important)_  
+-> Bouton Suivant  
+
+-> Mémoire vive : 1024 MB  
+-> Processors : 2 CPU si possible  
 -> Bouton Suivant
 
--> Mémoire vive : 1024 MB
--> Processors : 2 CPU si possible
+-> Create a Virtual Hard Disk Now : Ajustez à 12 Go  
 -> Bouton Suivant
 
--> Create a Virtual Hard Disk Now : Ajustez à 12 Go
--> Bouton Suivant
-
--> Vérifiez le Récapitulatif
+-> Vérifiez le Récapitulatif  
 -> Bouton Finish
   
 La VM s'affiche dans le panneau gauche de VirtualBox.  
