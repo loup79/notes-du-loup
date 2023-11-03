@@ -22,27 +22,37 @@ La gestion possible de VLAN ne sera pas traitée ici.
 L'utilisation de VirtualBox est considérée acquise.  
   
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](/virtualbox-installation/)  
-[VirtualBox - Mode d’accès réseau par pont](/virtualbox-pont-reseau/)
+[VirtualBox - Installation](../virtualbox-installation/)  
+[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
 
-#### _1.1 - Création et configuration_
+#### _1.1 - Création et configuration de la VM_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.  
   
-Téléchargez l'ISO debian-11.x.y-amd64\-netinst.iso :  
+Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
 [https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)  
   
-Démarrez ensuite l'application VirtualBox, puis :  
+\- Démarrez ensuite l'application VirtualBox 7.x, puis :  
+\- - Menu de VirtualBox > Machine > Nouvelle...
+-> Nom : ovs
+-> Folder : Sélectionnez le dossier de stockage des VM
+-> ISO Image : Sélectionnez l'ISO téléchargée ci-dessus
+-> Type : Linux
+-> Version : Debian (64-bit)
+-> Cochez Skip Unattended Installation (important)
+-> Bouton Suivant
+
+-> Mémoire vive : 1024 MB
+-> Processors : 2 CPU si possible
+-> Bouton Suivant
+
+-> Create a Virtual Hard Disk Now : Ajustez à 12 Go
+-> Bouton Suivant
+
+-> Vérifiez le Récapitulatif
+-> Bouton Finish
   
-Menu Nouvelle de VirtualBox :  
-\- Nom ovs - Type Linux - Version Debian (64-bit)  
-\- Taille de la mémoire > 1024 Mo  
-\- Disque dur > Créer un disque dur virtuel maintenant  
-\- Type de fichier de disque dur > VDI  
-\- Stockage sur disque dur ... > Dynamiquement alloué  
-\- Emplacement du fichier et taille > 12 Go > Créer  
-  
-La VM est créée dans le panneau gauche de VirtualBox.  
+La VM s'affiche dans le panneau gauche de VirtualBox.  
   
 Sélectionnez la nouvelle VM, puis :  
   
