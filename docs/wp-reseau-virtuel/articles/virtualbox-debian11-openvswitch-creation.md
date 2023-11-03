@@ -1,8 +1,8 @@
 ---
-title: "Open vSwitch / Deb11"
-date: "2021-09-22"
+title: "Open vSwitch / Deb12"
+date: "2023-11-03"
 categories: 
-  - "openvswitch-lxc"
+  - "openvswitch + Conteneurs"
 ---
 
 ## Mémento 5.1 - Commutateur virtuel
