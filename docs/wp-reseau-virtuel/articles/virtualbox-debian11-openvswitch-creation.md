@@ -72,8 +72,8 @@ Les autres paramètres peuvent rester inchangés.
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparait lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.  
   
-Menu Démarrer de VirtualBox :  
-La VM créée s'exécute.  
+\- - Menu de VirtualBox > Machine > Démarrer
+-> Démarrage normal _(La VM s'exécute)_
   
 Sélectionnez Graphical Install et appliquez ce qui suit :  
 \- Language > Français  
@@ -102,19 +102,19 @@ L'installation de base commence :
 L'installation continue :  
 \- Souhaitez-vous participer à l'étude statistique... > Non  
 \- Logiciels à installer  
-\> Décochez environnement de bureau Debian  
-\> Décochez ... GNOME  
-\> Conservez utilitaires usuels du système  
+-> Décochez environnement de bureau Debian  
+-> Décochez ... GNOME  
+-> Conservez utilitaires usuels du système  
   
 L'installation se termine :  
 \- Installer ... de démarrage GRUB sur le secteur ... > Oui  
 \- Périphérique ... programme de démarrage > /dev/sda  
 \- Installation terminée > Continuer _(sans retrait du CD)_  
   
-Le système reboot :  
-\- ovs login : switch  
-\- Password : Votre MDP switch  
-Si tout est OK, affichage du prompt \[switch@ovs:~$\]
+Le système reboot et une fenêtre de connexion s'ouvre :  
+-> ovs login : Entrez switch  
+-> Password : Entrez Votre MDP switch  
+Si tout est OK, affichage du prompt switch@ovs:~$
 
 ![Capture - Open vSwitch : Premier démarrage de la VM ovs](/wp-content/uploads/2021/09/ovs-deb11-premier-demarrage.jpg)
 
