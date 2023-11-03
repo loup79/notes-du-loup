@@ -54,24 +54,16 @@ Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :
   
 La VM s'affiche dans le panneau gauche de VirtualBox.  
   
-Sélectionnez la nouvelle VM, puis :  
-  
-Menu Configuration de VirtualBox :  
+\- Sélectionnez maintenant la nouvelle VM, puis :  
+\- - Menu de VirtualBox > Machine > Configuration...  
+- - - Onglet Général  
+-> Avancé > Presse-papier partagé > Bidirectionnel
+
 \- - - Onglet Système  
-\> Carte mère > Ordre d'amorçage > Décochez Disquette  
-\> Carte mère > Fonctions avancées > Cochez IO-APIC  
-\> Processeur > 2 CPU et cochez PAE/NX  
+-> Carte mère > Ordre d'amorçage > Décochez Disquette  
+-> Processeur > Cochez Activer PAE/NX
   
-\- - - Onglet Affichage  
-\> Ecran > Contrôleur graphique > VMSVGA  
-  
-\- - - Onglet Stockage  
-\> Zone Unités de stockage > Sélectionnez Vide  
-\> Zone Attributs > Cliquez sur l'icône CD  
-\> Sélectionnez Choisissez un fichier de disque ...  
-\> Entrez le chemin de l'image ISO Debian > Ouvrir  
-  
-\> OK  
+-> OK  
   
 Les autres paramètres peuvent rester inchangés.
 
