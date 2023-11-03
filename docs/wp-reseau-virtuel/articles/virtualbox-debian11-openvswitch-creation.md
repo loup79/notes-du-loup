@@ -9,9 +9,11 @@ categories:
 
 Open vSwitch _(OVS)_ se comportera comme un véritable switch physique en proposant la gestion des adresses MAC tel un switch L2 ainsi que celle des adresses IP pour le routage des paquets IP tel un switch L3. 
   
-Le switch virtuel sera, contrairement à une architecture standard, installé sur une VM et non sur le PC hôte de l'hyperviseur VirtualBox.  
+Le switch virtuel sera, contrairement à une architecture standard, installé sur une VM et non sur le PC hôte de l'hyperviseur VirtualBox.
+
+Le raccordement externe des clients LAN Debian sur le switch se fera à l'aide de ports patch.
   
-Le moyen d'approcher l'architecture standard sera de créer un conteneur LXC à l'intérieur de la VM et de connecter celui-ci sur OVS avec une interface réseau virtuelle Veth _(Mémento futur)_.  
+Le moyen d'approcher l'architecture standard sera de créer un conteneur à l'intérieur de la VM et de connecter celui-ci sur OVS à l'aide d'une interface réseau virtuelle Veth _(Mémento suivant)_.  
   
 La gestion possible de VLAN ne sera pas traitée ici.
 
