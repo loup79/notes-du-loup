@@ -286,31 +286,34 @@ La carte virtuelle br0 possède à présent la même adresse MAC que la carte vi
 
 Stoppez la VM :
 
-\[switch@ovs:~$\] sudo poweroff
+```bash
+[switch@ovs:~$] sudo poweroff
+```
 
-Accédez au menu Configuration de VirtualBox, puis :  
+Sélectionnez ensuite celle-ci dans VirtualBox, puis :  
+\- - Menu de VirtualBox > Machine > Configuration...  
 \- - - Onglet Réseau  
-\> Interface 1  
-\> Mode d'accès réseau > Réseau interne  
-\> Nom > Sélectionnez switch\_interne  
-\> Avancé > Mode Promiscuité  
-\> Sélectionnez Autoriser les VMs  
-  
-\> Interface 2  
-\> Cochez Activer l'interface réseau  
-\> Mode d'accès réseau > Réseau interne  
-\> Nom > Entrez liaison\_vm1  
-\> Avancé > Mode Promiscuité  
-\> Sélectionnez Autoriser les VMs  
-  
-\> Interface 3  
-\> Cochez Activer l'interface réseau  
-\> Mode d'accès réseau > Réseau interne  
-\> Nom > Entrez liaison\_vm2  
-\> Avancé > Mode Promiscuité  
-\> Sélectionnez Autoriser les VMs  
-  
-\> OK
+-> Adapter 1  
+-> Mode d'accès réseau > Réseau interne  
+-> Name > Sélectionnez switch_interne  
+-> Avancé > Mode Promiscuité  
+-> Sélectionnez Allow VMs
+
+-> Adapter 2  
+-> Cochez Activer l'interface réseau  
+-> Mode d'accès réseau > Réseau interne  
+-> Name > Entrez liaison_vm1  
+-> Avancé > Mode Promiscuité  
+-> Sélectionnez Allow VMs
+
+-> Adapter 3  
+-> Cochez Activer l'interface réseau  
+-> Mode d'accès réseau > Réseau interne  
+-> Name > Entrez liaison_vm2  
+-> Avancé > Mode Promiscuité  
+-> Sélectionnez Allow VMs
+
+-> OK
 
 Redémarrez la VM.
 
@@ -318,7 +321,7 @@ Il est impossible, OVS n'étant pas installé sur le PC hôte de VirtualBox, d'a
   
 C'est donc le type Réseau interne qui sera utilisé.  
   
-Le mode promiscuité empêche une interface réseau de rejeter les trames autres que celles qui lui sont destinées _(mode par défaut)_.  
+Le mode promiscuité Allow VMs permettra à la VM ovs de travailler tel un switch et traiter ainsi tout le trafic réseau à destination et en provenance d'autres VM.  
   
 Il est nécessaire, dans une infrastructure virtualisée telle Open vSwitch installé sur une VM, d'appliquer le mode promiscuité à une interface réseau devant agir comme un pont _(bridge)_.
 
