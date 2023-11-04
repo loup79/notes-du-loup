@@ -119,24 +119,27 @@ Le système reboot et une fenêtre de connexion s'ouvre :
 -> Password : Entrez Votre MDP switch  
 Si tout est OK, affichage du prompt switch@ovs:~$
 
-![Capture - Open vSwitch : Premier démarrage de la VM ovs](../wp-content/uploads/2023/10/ovs-deb12-premier-demarrage.webp)
+![Capture - Open vSwitch : Premier démarrage de la VM ovs](../wp-content/uploads/2023/10/ovs-deb12-premier-demarrage.webp)  
+_**Open vSwitch : Premier démarrage de la VM ovs**_
 
-Connexion de l'utilisateur switch sur la VM ovs
+Donnez à présent les droits d'administrateur root à l'utilisateur switch :
 
-Donnez à présent les droits d'administrateur système à l'utilisateur switch :
-
-\[switch@ovs:~$\] su root
+```bash
+[switch@ovs:~$] su root
 Mot de passe : Votre MDP root
-\[root@ovs:~#\] apt install sudo
-\[root@ovs:~#\] sudo usermod -aG sudo switch
-\[root@ovs:~#\] sudo reboot
+[root@ovs:~#] apt install sudo
+[root@ovs:~#] sudo usermod -aG sudo switch
+[root@ovs:~#] sudo reboot
+```
 
 et reconnectez-vous en tant qu'utilisateur switch.  
   
 Pour info, la VM peut être arrêtée de 2 façons :
 
-\[switch@ovs:~$\] sudo poweroff  
-\[switch@ovs:~$\] sudo shutdown -h now 
+```bash
+[switch@ovs:~$] sudo poweroff  
+[switch@ovs:~$] sudo shutdown -h now
+``` 
 
 ### 2 - Installation et configuration d'Open vSwitch
 
