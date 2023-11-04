@@ -75,7 +75,7 @@ Les autres paramètres peuvent rester inchangés.
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparait lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.  
   
-\- - Menu de VirtualBox > Machine > Démarrer
+\- - Menu de VirtualBox > Machine > Démarrer  
 -> Démarrage normal _(La VM s'exécute)_
   
 Sélectionnez Graphical Install et appliquez ce qui suit :  
@@ -185,7 +185,7 @@ Contrôlez enfin le bon chargement du module :
 ![Capture - Open vSwitch : Module openvswitch.ko chargé](../wp-content/uploads/2023/10/ovs-deb12-modules-lsmod.webp#center)
 _**Open vSwitch : Module openvswitch.ko chargé**_
 
-\- - Liste des principaux composants OVS installés - -
+\- - Liste des [principaux composants](../wp-content/uploads/2023/10/openvswitch-composants.webp#center){:target="_blank"} OVS installés - -
   
 \- /usr/sbin/ovs-vswitchd :  
 Le service de commutation _(compatible OpenFlow)_.  
