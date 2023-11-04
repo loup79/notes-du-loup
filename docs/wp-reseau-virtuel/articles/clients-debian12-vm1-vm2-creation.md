@@ -573,8 +573,8 @@ Tout doit être correct pour pouvoir continuer.
 
 &nbsp;  
 Bravo pour être arrivé jusqu'ici !  
-Le mémento 5.11 vous attend pour  
+Le mémento 5.1 vous attend pour  
 l'intégration d'un switch virtuel  
 Open vSwitch.
 
-[Mémento 5.1](../virtualbox-debian11-openvswitch-creation){ .md-button }
+[Mémento 5.1](../openvswitch-debian12-ovs-creation){ .md-button }

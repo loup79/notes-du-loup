@@ -25,17 +25,17 @@ La gestion possible de VLAN ne sera pas traitée ici.
 L'utilisation de VirtualBox est considérée acquise.  
   
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](../virtualbox-installation/)  
-[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
+[VirtualBox - Installation](../virtualbox-installation/){:target="_blank"}  
+[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/){:target="_blank"}
 
 #### _1.1 - Création et configuration de la VM_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.  
   
 Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
-[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)  
+[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/){:target="_blank"}  
   
-\- Démarrez ensuite l'application VirtualBox 7.x, puis :
+\- Démarrez ensuite l'application VirtualBox 7.x, puis :  
 \- - Menu de VirtualBox > Machine > Nouvelle...  
 -> Nom : ovs  
 -> Folder : Sélectionnez le dossier de stockage des VM  
@@ -592,7 +592,7 @@ Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian12-vm\* comme
 
 ### 5 - Test de bon fonctionnement du switch virtuel
 
-Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](/wp-content/uploads/2018/05/maquette-base-ipfire.png#center) réseau local virtuel.
+Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](../wp-content/uploads/2018/05/maquette-base-ipfire.png#center){:target="_blank"} réseau local virtuel.
 
 Stoppez ensuite la VM ovs support d'Open vSwitch et assurez-vous que les 2 clients Debian ne peuvent plus communiquer entre eux.
 
