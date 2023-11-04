@@ -220,21 +220,24 @@ Contrôlez l'activation du service openvswitch-switch :
 [switch@ovs:~$] sudo systemctl status openvswitch-switch
 ```
 
-![Capture - Open vSwitch : Vue activation du service openvswitch-switch](/wp-content/uploads/2021/09/ovs-deb11-service-openvswitch-switch.jpg)
-
-Service openvswitch-switch activé
+![Capture - Open vSwitch : Service openvswitch-switch activé](../wp-content/uploads/2023/10/ovs-deb12-service-openvswitch-switch.webp#center)
+_**Open vSwitch : Service openvswitch-switch activé**_
 
 ainsi que celle des 2 services suivants :
 
-\[switch@ovs:~$\] sudo systemctl status ovsdb-server
-\[switch@ovs:~$\] sudo systemctl status ovs-vswitchd
+```bash
+[switch@ovs:~$] sudo systemctl status ovsdb-server
+[switch@ovs:~$] sudo systemctl status ovs-vswitchd
+```
 
 #### _2.2 - Configuration_
 
 Commencez par créer un bridge _(switch)_ de nom br0 :
 
-\[switch@ovs:~$\] sudo ovs-vsctl add-br br0   
-\[switch@ovs:~$\] sudo ovs-vsctl show    
+```bash
+[switch@ovs:~$] sudo ovs-vsctl add-br br0   
+[switch@ovs:~$] sudo ovs-vsctl show
+```
 
 ![Capture - Open vSwitch : Vue création bridge br0](/wp-content/uploads/2021/10/ovs-deb11-creation-br0.jpg)
 
