@@ -2,7 +2,7 @@
 title: "Open vSwitch / Deb12"
 date: "2023-11-03"
 categories: 
-  - "openvswitch + Conteneurs"
+  - "Open vSwitch + Conteneurs"
 ---
 
 ## Mémento 5.1 - Commutateur virtuel
@@ -56,7 +56,7 @@ La VM s'affiche dans le panneau gauche de VirtualBox.
   
 \- Sélectionnez maintenant la nouvelle VM, puis :  
 \- - Menu de VirtualBox > Machine > Configuration...  
-- - - Onglet Général  
+\- - - Onglet Général  
 -> Avancé > Presse-papier partagé > Bidirectionnel
 
 \- - - Onglet Système  
