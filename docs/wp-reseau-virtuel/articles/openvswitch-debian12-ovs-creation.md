@@ -331,14 +331,17 @@ Vous allez à présent configurer OVS au boot de la VM.
 
 Editez pour cela le fichier réseau interfaces :
 
-\[switch@ovs:~$\] sudo nano /etc/network/interfaces
+```bash
+[switch@ovs:~$] sudo nano /etc/network/interfaces
+```
 
 et modifiez le comme suit :
 
-\# This file describes the network interfaces available on ...
+```bash
+# This file describes the network interfaces available on ...
 # and how to activate them. For more information, see ...
 
-source /etc/network/interfaces.d/\*
+source /etc/network/interfaces.d/*
 
 # The loopback network interface
 auto lo
@@ -359,24 +362,26 @@ iface br0 inet static
 address 192.168.3.15
 netmask 255.255.255.0
 gateway 192.168.3.1
-ovs\_type OVSBridge
-ovs\_ports enp0s3
+ovs_type OVSBridge
+ovs_ports enp0s3
 
 # Attachement du port/interface enp0s3 au bridge br0
 allow-br0 enp0s3
 iface enp0s3 inet manual
-ovs\_bridge br0
-ovs\_type OVSPort
+ovs_bridge br0
+ovs_type OVSPort
+```
 
-Redémarrez ensuite le service réseau :
+Redémarrez ensuite le service networking.service :
 
-\[switch@ovs:~$\] sudo systemctl restart networking
+```bash
+[switch@ovs:~$] sudo systemctl restart networking
+```
 
 et contrôlez le résultat avec la Cde ip address :
 
-![Capture - Open vSwitch : Vue adresse IP sur interface réseau br0](/wp-content/uploads/2021/10/ovs-deb11-adresse-ip-br0.jpg#center)
-
-Contrôle des interfaces réseau
+![Capture - Open vSwitch : Vue adresse IP sur interface br0](../wp-content/uploads/2023/10/ovs-deb12-adresse-ip-br0.webp#center)
+_**Open vSwitch : Vue adresse IP sur interface br0**_
 
 Constat :  
 \- 2 nouvelles interfaces réseau enp0s8 et enp0s9  
@@ -385,6 +390,19 @@ Constat :
 \- Le ping vers l'adresse lP 192.168.3.1 fonctionne
 
 L'adresse IP 192.168.3.15 sera utilisée plus tard pour administrer Open vSwitch à distance.
+
+**Important** : Le bon démarrage du réseau au boot de la VM ovs a exigé l'ajout dans la section Service du fichier /usr/lib/systemd/system/networking.service d'une ligne retardant de 6 secondes l'activation de celui-ci.
+
+```bash
+...
+[Service]
+...
+ExecStartPre=/usr/bin/sleep 6  # Ligne ajoutée
+ExecStart=/sbin/ifup -a ...
+...
+```
+
+Suivre les prochaines MAJ de paquets Open vSwitch.
 
 ### 4 - Raccordement des 2 clients Debian sur OVS
 
