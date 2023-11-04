@@ -1,5 +1,5 @@
 ---
-title: "Open vSwitch - Vbox/Deb12"
+title: "Open vSwitch - VBox/Deb12"
 author: G.Leloup
 date: "2023-11-03"
 categories: 
