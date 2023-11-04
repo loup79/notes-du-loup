@@ -119,7 +119,7 @@ Le système reboot et une fenêtre de connexion s'ouvre :
 -> Password : Entrez Votre MDP switch  
 Si tout est OK, affichage du prompt switch@ovs:~$
 
-![Capture - Open vSwitch : Premier démarrage de la VM ovs](../wp-content/uploads/2023/10/ovs-deb12-premier-demarrage.webp)  
+![Capture - Open vSwitch : Premier démarrage de la VM ovs](../wp-content/uploads/2023/10/ovs-deb12-premier-demarrage.webp#center)  
 _**Open vSwitch : Premier démarrage de la VM ovs**_
 
 Donnez à présent les droits d'administrateur root à l'utilisateur switch :
@@ -139,80 +139,86 @@ Pour info, la VM peut être arrêtée de 2 façons :
 ```bash
 [switch@ovs:~$] sudo poweroff  
 [switch@ovs:~$] sudo shutdown -h now
-``` 
+```
 
 ### 2 - Installation et configuration d'Open vSwitch
 
 Au préalable, observez la configuration réseau active :
 
-![Capture - VM ovs : Configuration réseau de base](/wp-content/uploads/2021/09/ovs-deb11-ip-address.jpg)
-
-Configuration réseau de base : Interfaces lo et enp0s3
+![Capture - Open vSwitch : Cartes réseau de base lo et enp0s3](../wp-content/uploads/2023/10/ovs-deb12-ip-address.webp#center)
+_**Open vSwitch : Cartes réseau de base lo et enp0s3**_
 
 #### _2.1 - Installation_
 
 Installez le paquet openvswitch-switch :
 
-\[switch@ovs:~$\] sudo apt install openvswitch-switch
+```bash
+[switch@ovs:~$] sudo apt install openvswitch-switch
+```
 
 Les paquets concernant les dépendances manquantes sont ajoutés automatiquement.
 
-Contrôlez maintenant la version d'Open vSwitch _(OVS)_ :
+Affichez maintenant la version d'Open vSwitch _(OVS)_ :
 
-\[switch@ovs:~$\] sudo ovs-vsctl show 
+```bash
+[switch@ovs:~$] sudo ovs-vsctl show
+```
 
-![Capture - Open vSwitch : Affichage de la version](/wp-content/uploads/2021/09/ovs-deb11-version-openvswitch.jpg)
+![Capture - Open vSwitch : Affichage de la version](../wp-content/uploads/2023/10/ovs-deb12-version-openvswitch.webp#center)
+_**Open vSwitch : Affichage de la version**_
 
-Version Open vSwitch 2.15
+ainsi que les informations du module openvswitch intégré dans le noyau linux :
 
-et l'intégration de son module dans le noyau linux :
+```bash
+[switch@ovs:~$] sudo modinfo openvswitch
+```
 
-\[switch@ovs:~$\] sudo modinfo openvswitch 
+![Capture - Open vSwitch : Informations sur le module noyau openvswitch.ko](../wp-content/uploads/2023/10/ovs-deb12-module-noyau-openvswitch.webp#center)
+_**Open vSwitch : Chemin du module openvswitch.ko**_
 
-[![Capture - Open vSwitch : Informations sur le module noyau openvswitch.ko](/wp-content/uploads/2021/09/ovs-deb11-module-noyau-openvswitch.jpg "Cliquez pour agrandir l'image")](/wp-content/uploads/2021/09/ovs-deb11-module-noyau-openvswitch.jpg)
+Contrôlez enfin le bon chargement du module :
 
-Informations sur le module noyau openvswitch.ko
+```bash
+[switch@ovs:~$] lsmod | grep openvswitch
+```
 
-Contrôlez également le bon chargement de celui-ci :
+![Capture - Open vSwitch : Module openvswitch.ko chargé](../wp-content/uploads/2023/10/ovs-deb12-modules-lsmod.webp#center)
+_**Open vSwitch : Module openvswitch.ko chargé**_
 
-\[switch@ovs:~$\] lsmod | grep openvswitch
-
-![Capture - Open vSwitch : Module noyau openvswitch.ko chargé](/wp-content/uploads/2021/09/ovs-deb11-modules-lsmod.jpg)
-
-Module noyau openvswitch.ko chargé
-
-\- - Liste des principaux composants OVS installés - - 
+\- - Liste des principaux composants OVS installés - -
   
-/usr/lib/openvswitch-common/ovs-vswitchd :  
-Service de commutation _(compatible OpenFlow)_.  
+\- /usr/sbin/ovs-vswitchd :  
+Le service de commutation _(compatible OpenFlow)_.  
   
-/usr/bin/ovs-appctl :  
-Configuration CLI _(Command Line Interface)_ du service.  
+\- /usr/bin/ovs-appctl :  
+Dialogue CLI _(Command Line Interface)_ avec le service.  
   
-/usr/bin/ovs-vsctl :  
-Configuration CLI du service via le serveur de Bdd OVS.  
+\- /usr/bin/ovs-vsctl :  
+Configuration CLI du service via le serveur de Bdd.  
   
-/usr/sbin/ovsdb-server :  
-Bdd contenant la configuration au niveau commutateur.  
+\- /usr/sbin/ovsdb-server :  
+Le serveur de Bdd contenant la configuration du service.  
   
-/usr/bin/ovsdb-client :  
-Outil de dialogue CLI avec le serveur de Bdd OVS.  
+\- /usr/bin/ovsdb-client :  
+Dialogue CLI avec le serveur de Bdd _(backup, etc...)_.  
   
-/usr/bin/ovsdb-tool :  
-Configuration CLI des fichiers de la Bdd.  
+\- /usr/bin/ovsdb-tool :  
+Configuration CLI des fichiers de la Bdd _(création, etc...)_.  
   
-/usr/bin/ovs-dpctl :  
-Configuration CLI du module noyau d'Open vSwitch.  
+\- /usr/bin/ovs-dpctl :  
+Configuration CLI des datapaths du noyau d'OVS.  
   
-/usr/bin/ovs-ofctl :  
-Utilitaire CLI de contrôle des commutateurs OpenFlow.  
+\- /usr/bin/ovs-ofctl :  
+Configuration CLI de la partie OpenFlow d'OVS.  
   
 La Bdd conf.db se situe dans /etc/openvswitch/.  
 Les logs se situent dans /var/log/openvswitch/.
 
 Contrôlez l'activation du service openvswitch-switch :
 
-\[switch@ovs:~$\] sudo systemctl status openvswitch-switch
+```bash
+[switch@ovs:~$] sudo systemctl status openvswitch-switch
+```
 
 ![Capture - Open vSwitch : Vue activation du service openvswitch-switch](/wp-content/uploads/2021/09/ovs-deb11-service-openvswitch-switch.jpg)
 
