@@ -10,7 +10,7 @@ categories:
 
 ## Mémento 5.1 - Commutateur virtuel
 
-Open vSwitch _(OVS)_ se comportera comme un véritable switch physique en proposant la gestion des adresses MAC tel un switch L2 ainsi que celle des adresses IP pour le routage des paquets IP tel un switch L3. 
+Open vSwitch _(OVS)_ se comportera comme un véritable switch physique en proposant la gestion des adresses MAC tel un switch L2 ainsi que celle des adresses IP pour le routage des paquets IP tel un switch L3.
   
 Le switch virtuel sera, contrairement à une architecture standard, installé sur une VM et non sur le PC hôte de l'hyperviseur VirtualBox.
 
@@ -35,7 +35,7 @@ Le PC hôte doit être un PC 64 bits, courant de nos jours.
 Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
 [https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)  
   
-\- Démarrez ensuite l'application VirtualBox 7.x, puis :    
+\- Démarrez ensuite l'application VirtualBox 7.x, puis :
 \- - Menu de VirtualBox > Machine > Nouvelle...  
 -> Nom : ovs  
 -> Folder : Sélectionnez le dossier de stockage des VM  
@@ -317,7 +317,7 @@ Sélectionnez ensuite celle-ci dans VirtualBox, puis :
 
 Redémarrez la VM.
 
-Il est impossible, OVS n'étant pas installé sur le PC hôte de VirtualBox, d'attribuer aux interfaces 2 et 3 un mode d'accès réseau généralement utilisé avec OVS soit un mode de type Accès par pont au travers d'une interface réseau virtuelle TAP _([Voir le § 4](#4_-_Raccordement_des_2_clients_Debian_sur_OVS))_.  
+Il est impossible, OVS n'étant pas installé sur le PC hôte de VirtualBox, d'attribuer aux interfaces 2 et 3 un mode d'accès réseau généralement utilisé avec OVS soit un mode de type Accès par pont au travers d'une interface réseau virtuelle TAP _([Voir le § 4](#4-raccordement-des-2-clients-debian-sur-ovs))_.  
   
 C'est donc le type Réseau interne qui sera utilisé.  
   
@@ -435,7 +435,7 @@ Rattachez les interfaces enp0s8/9 aux bridges br1/2 :
 ```bash
 [switch@ovs:~$] sudo ovs-vsctl add-port br1 enp0s8  
 [switch@ovs:~$] sudo ovs-vsctl add-port br2 enp0s9
-``` 
+```
 
 Reliez maintenant br0 avec br1 :
 
@@ -579,15 +579,16 @@ puis contrôlez le statut du service réseau :
 ainsi que le contenu de la Bdd d'Open vSwitch :
 
 ```bash
- [switch@ovs:~$] sudo ovs-vsctl show
- ```
+[switch@ovs:~$] sudo ovs-vsctl show
+```
 
 #### _4.3 - Configuration réseau depuis VirtualBox_
 
-Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian11-vm\* comme suit :  
-\> Interface 1  
-\> Mode d'accès réseau > Réseau interne  
-\> Nom > Sélectionnez liaison\_vm\* selon la VM
+Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian12-vm\* comme suit :  
+-> Adapter 1  
+-> Mode d'accès réseau > Réseau interne  
+-> Name > Sélectionnez liaison_vm\* selon la VM  
+-> OK
 
 ### 5 - Test de bon fonctionnement du switch virtuel
 
@@ -595,12 +596,12 @@ Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiq
 
 Stoppez ensuite la VM ovs support d'Open vSwitch et assurez-vous que les 2 clients Debian ne peuvent plus communiquer entre eux.
 
-![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
+![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
-  
+&nbsp;  
 Voilà, c'est terminé !  
 Le réseau virtuel de base est créé.  
-Le mémento 5.12 vous attend pour  
-découvrir les conteneurs LXC.
+Le mémento 5.2 vous attend pour  
+découvrir les conteneurs.
 
-[Mémento 5.12](/notes-du-loup/wp-reseau-virtuel/articles/virtualbox-debian11-lxc-partie-1/)
+### Article 5.2 en cours de construction
