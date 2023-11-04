@@ -239,9 +239,8 @@ Commencez par créer un bridge _(switch)_ de nom br0 :
 [switch@ovs:~$] sudo ovs-vsctl show
 ```
 
-![Capture - Open vSwitch : Vue création bridge br0](/wp-content/uploads/2021/10/ovs-deb11-creation-br0.jpg)
-
-Création du bridge br0
+![Capture - Open vSwitch : Vue création bridge br0](../wp-content/uploads/2023/10/ovs-deb12-creation-br0.webp#center)
+_**Open vSwitch : Vue création bridge br0**_
 
 Un port et une interface virtuels de même nom ont été associés au bridge.
 
@@ -249,11 +248,13 @@ Utilisez la Cde del-br pour détruire un bridge existant.
 
 Observez les infos détaillées du bridge br0 comme suit :
 
-\[switch@ovs:~$\] sudo ovs-vsctl list br br0      
+```bash
+[switch@ovs:~$] sudo ovs-vsctl list br br0
+```      
 
 et la création de l'interface br0 avec la Cde ip address :
 
-![Capture - VM osv : Capture - Open vSwitch : Premier démarrage de la VM ovs](/wp-content/uploads/2021/10/ovs-deb11-interfaces-reseau-2.jpg)
+![Capture - VM osv : Capture - Open vSwitch : Premier démarrage de la VM ovs](/wp-content/uploads/2021/10/ovs-deb11-interfaces-reseau-2.jpg#center)
 
 Cde ip address montrant l'interface br0 créée
 
@@ -264,7 +265,7 @@ Rattachez à présent l'interface enp0s3 au bridge br0 :
 \[switch@ovs:~$\] sudo ovs-vsctl add-port br0 enp0s3  
 \[switch@ovs:~$\] sudo ovs-vsctl show
 
-![Capture - Open vSwitch : Vue affectation port et interface enp0s3 sur br0](/wp-content/uploads/2021/10/ovs-deb11-affectation-port-enp0s3.jpg)
+![Capture - Open vSwitch : Vue affectation port et interface enp0s3 sur br0](/wp-content/uploads/2021/10/ovs-deb11-affectation-port-enp0s3.jpg#center)
 
 Ajout du port enp0s3 sur br0
 
@@ -274,7 +275,7 @@ Utilisez la Cde del-port pour détruire un port existant.
 
 Observez de nouveau le retour de la Cde ip address :
 
-![Capture - Open vSwitch : Vue adresses MAC enp0s3 et br0 identiques](/wp-content/uploads/2021/10/ovs-deb11-affectation-interface-enp0s3.jpg)
+![Capture - Open vSwitch : Vue adresses MAC enp0s3 et br0 identiques](/wp-content/uploads/2021/10/ovs-deb11-affectation-interface-enp0s3.jpg#center)
 
 Les adresses MAC de enp0s3 et br0 sont identiques
 
@@ -371,7 +372,7 @@ Redémarrez ensuite le service réseau :
 
 et contrôlez le résultat avec la Cde ip address :
 
-![Capture - Open vSwitch : Vue adresse IP sur interface réseau br0](/wp-content/uploads/2021/10/ovs-deb11-adresse-ip-br0.jpg)
+![Capture - Open vSwitch : Vue adresse IP sur interface réseau br0](/wp-content/uploads/2021/10/ovs-deb11-adresse-ip-br0.jpg#center)
 
 Contrôle des interfaces réseau
 
@@ -393,7 +394,7 @@ Vous allez donc raccorder les 2 clients Debian sur les interfaces réseau enp0s8
 
 Vous lierez les 3 bridges à l'aide de ports patch :
 
-![Image - Open vSwitch : Bridges en cascade](/wp-content/uploads/2019/04/ovs-patch-bridges.png)
+![Image - Open vSwitch : Bridges en cascade](/wp-content/uploads/2019/04/ovs-patch-bridges.png#center)
 
 Schéma : Bridges br0, br1 et br2 montés en cascade
 
@@ -435,7 +436,7 @@ Contrôlez la prise en compte de la configuration :
 
 \[switch@ovs:~$\] sudo ovs-vsctl  show
 
-![Capture - Open vSwitch : Contrôle configuration](/wp-content/uploads/2021/10/ovs-deb11-controle-patch-bridges.jpg)
+![Capture - Open vSwitch : Contrôle configuration](/wp-content/uploads/2021/10/ovs-deb11-controle-patch-bridges.jpg#center)
 
 Open vSwitch : Contrôle de la configuration
 
@@ -550,7 +551,7 @@ Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian11-vm\* comme
 
 ### 5 - Test de bon fonctionnement du switch virtuel
 
-Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](/wp-content/uploads/2018/05/maquette-base-ipfire.png) réseau local virtuel.
+Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](/wp-content/uploads/2018/05/maquette-base-ipfire.png#center) réseau local virtuel.
 
 Stoppez ensuite la VM ovs support d'Open vSwitch et assurez-vous que les 2 clients Debian ne peuvent plus communiquer entre eux.
 
