@@ -566,15 +566,21 @@ ovs_patch\_peer br1-patch1
 
 Redémarrez la VM pour appliquer la configuration :
 
-\[switch@ovs:~$\] sudo reboot
+```bash
+[switch@ovs:~$] sudo reboot
+```
 
 puis contrôlez le statut du service réseau :
 
-\[switch@ovs:~$\] sudo systemctl status networking
+```bash
+[switch@ovs:~$] sudo systemctl status networking
+```
 
 ainsi que le contenu de la Bdd d'Open vSwitch :
 
- \[switch@ovs:~$\] sudo ovs-vsctl show
+```bash
+ [switch@ovs:~$] sudo ovs-vsctl show
+ ```
 
 #### _4.3 - Configuration réseau depuis VirtualBox_
 
