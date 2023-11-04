@@ -119,7 +119,7 @@ Le système reboot et une fenêtre de connexion s'ouvre :
 -> Password : Entrez Votre MDP switch  
 Si tout est OK, affichage du prompt switch@ovs:~$
 
-![Capture - Open vSwitch : Premier démarrage de la VM ovs](/wp-content/uploads/2021/09/ovs-deb11-premier-demarrage.jpg)
+![Capture - Open vSwitch : Premier démarrage de la VM ovs](../wp-content/uploads/2023/10/ovs-deb12-premier-demarrage.webp)
 
 Connexion de l'utilisateur switch sur la VM ovs
 
