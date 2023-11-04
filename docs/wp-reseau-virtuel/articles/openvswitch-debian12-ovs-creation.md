@@ -414,11 +414,10 @@ Vous allez donc raccorder les 2 clients Debian sur les interfaces réseau enp0s8
 
 Vous lierez les 3 bridges à l'aide de ports patch :
 
-![Image - Open vSwitch : Bridges en cascade](/wp-content/uploads/2019/04/ovs-patch-bridges.png#center)
+![Image - Open vSwitch : Bridges montés en cascade](../wp-content/uploads/2023/10/ovs-patch-bridges.webp#center)
+_**Open vSwitch : Bridges montés en cascade**_
 
-Schéma : Bridges br0, br1 et br2 montés en cascade
-
-L'ensemble ainsi raccordé _(ports patch)_ peut être vu comme un seul pont.  
+L'ensemble des bridges rattachés avec des ports patch (ports de brassage) peut être vu comme un seul pont.  
   
 La création de VLAN et le routage de paquets IP entre ceux-ci restent possibles.
 
@@ -426,52 +425,64 @@ La création de VLAN et le routage de paquets IP entre ceux-ci restent possibles
 
 Créez les bridges br1 et br2 :
 
-\[switch@ovs:~$\] sudo ovs-vsctl add-br br1  
-\[switch@ovs:~$\] sudo ovs-vsctl add-br br2 
+```bash
+[switch@ovs:~$] sudo ovs-vsctl add-br br1  
+[switch@ovs:~$] sudo ovs-vsctl add-br br2
+```
 
 Rattachez les interfaces enp0s8/9 aux bridges br1/2 :
 
-\[switch@ovs:~$\] sudo ovs-vsctl add-port br1 enp0s8  
-\[switch@ovs:~$\] sudo ovs-vsctl add-port br2 enp0s9  
+```bash
+[switch@ovs:~$] sudo ovs-vsctl add-port br1 enp0s8  
+[switch@ovs:~$] sudo ovs-vsctl add-port br2 enp0s9
+``` 
 
 Reliez maintenant br0 avec br1 :
 
-\[switch@ovs:~$\] sudo ovs-vsctl -- add-port br0 br0-patch0 \\
+```bash
+[switch@ovs:~$] sudo ovs-vsctl -- add-port br0 br0-patch0 \
 -- set interface br0-patch0 type=patch options:peer=br1-patch0
  
-\[switch@ovs:~$\] sudo ovs-vsctl -- add-port br1 br1-patch0 \\
+[switch@ovs:~$] sudo ovs-vsctl -- add-port br1 br1-patch0 \
 -- set interface br1-patch0 type=patch options:peer=br0-patch0  
+```
 
-Le caractère \\ indique d'écrire le tout sur une seule ligne.  
+Le caractère \ indique d'écrire le tout sur une seule ligne.  
 
 puis br1 avec br2 :
 
-\[switch@ovs:~$\] sudo ovs-vsctl -- add-port br1 br1-patch1 \\
+```bash
+[switch@ovs:~$] sudo ovs-vsctl -- add-port br1 br1-patch1 \
 -- set interface br1-patch1 type=patch options:peer=br2-patch0 
  
-\[switch@ovs:~$\] sudo ovs-vsctl -- add-port br2 br2-patch0 \\
--- set interface br2-patch0 type=patch options:peer=br1-patch1  
+[switch@ovs:~$] sudo ovs-vsctl -- add-port br2 br2-patch0 \
+-- set interface br2-patch0 type=patch options:peer=br1-patch1
+```  
 
 Contrôlez la prise en compte de la configuration :
 
-\[switch@ovs:~$\] sudo ovs-vsctl  show
+```bash
+[switch@ovs:~$] sudo ovs-vsctl  show
+```
 
-![Capture - Open vSwitch : Contrôle configuration](/wp-content/uploads/2021/10/ovs-deb11-controle-patch-bridges.jpg#center)
-
-Open vSwitch : Contrôle de la configuration
+![Capture - Open vSwitch : Contrôle configuration patch](../wp-content/uploads/2023/10/ovs-deb12-controle-patch-bridges.webp#center)
+_**Open vSwitch : Contrôle configuration patch**_
 
 #### _4.2 - Modification du fichier réseau de Debian_
 
-Editez la configuration OVS du fichier interfaces :
+Editez le fichier interfaces :
 
-\[switch@ovs:~$\] sudo nano /etc/network/interfaces
+```bash
+[switch@ovs:~$] sudo nano /etc/network/interfaces
+```
 
-et modifiez celle-ci comme suit :
+et modifiez le comme suit :
 
-\# This file describes the network interfaces available on ...
+```bash
+# This file describes the network interfaces available on ...
 # and how to activate them. For more information, see ...
 
-source /etc/network/interfaces.d/\*
+source /etc/network/interfaces.d/*
 
 # The loopback network interface
 auto lo
@@ -483,7 +494,7 @@ iface lo inet loopback
 #iface enp0s3 inet dhcp
 
 ## Configuration Open vSwitch
-# Activation de l'interface br0
+# Configuration du bridge br0
 auto br0
 allow-ovs br0
 
@@ -492,63 +503,66 @@ iface br0 inet static
 address 192.168.3.15
 netmask 255.255.255.0
 gateway 192.168.3.1
-ovs\_type OVSBridge
-ovs\_ports enp0s3 br0-patch0
+ovs_type OVSBridge
+ovs_ports enp0s3 br0-patch0
 
 # Attachement du port/interface enp0s3 au bridge br0
 allow-br0 enp0s3
 iface enp0s3 inet manual
-ovs\_bridge br0
-ovs\_type OVSPort
+ovs_bridge br0
+ovs_type OVSPort
 
 # Liaison patch br0 vers br1
 allow-br0 br0-patch0
 iface br0-patch0 inet manual
-ovs\_bridge br0
-ovs\_type OVSPatchPort
-ovs\_patch\_peer br1-patch0  
+ovs_bridge br0
+ovs_type OVSPatchPort
+ovs_patch_peer br1-patch0  
   
 # Configuration du bridge br1
 auto br1
 allow-ovs br1
 iface br1 inet manual
-ovs\_type OVSBridge
-ovs\_ports enp0s8 br1-patch0 br1-patch1
+ovs_type OVSBridge
+ovs_ports enp0s8 br1-patch0 br1-patch1
   
 allow-br1 enp0s8
 iface enp0s8 inet manual
-ovs\_bridge br1
-ovs\_type OVSPort
- 
+ovs_bridge br1
+ovs_type OVSPort
+
+# Liaisons patch br1 vers br0 et br2 
 allow-br1 br1-patch0
 iface br1-patch0 inet manual
-ovs\_bridge br1
-ovs\_type OVSPatchPort
-ovs\_patch\_peer br0-patch0
+ovs_bridge br1
+ovs_type OVSPatchPort
+ovs_patch\_peer br0-patch0
  
 allow-br1 br1-patch1
 iface br1-patch1 inet manual
-ovs\_bridge br1
-ovs\_type OVSPatchPort
-ovs\_patch\_peer br2-patch0
+ovs_bridge br1
+ovs_type OVSPatchPort
+ovs_patch\_peer br2-patch0
 
 # Configuration du bridge br2
 auto br2
 allow-ovs br2
 iface br2 inet manual
-ovs\_type OVSBridge
-ovs\_ports enp0s9 br2-patch0
+ovs_type OVSBridge
+ovs_ports enp0s9 br2-patch0
   
 allow-br2 enp0s9
 iface enp0s9 inet manual
-ovs\_bridge br2
-ovs\_type OVSPort
-  
+ovs_bridge br2
+ovs_type OVSPort
+
+ # Liaison patch br2 vers br1 
 allow-br2 br2-patch0
 iface br2-patch0 inet manual
-ovs\_bridge br2
-ovs\_type OVSPatchPort
-ovs\_patch\_peer br1-patch1 
+ovs_bridge br2
+ovs_type OVSPatchPort
+ovs_patch\_peer br1-patch1
+```
 
 Redémarrez la VM pour appliquer la configuration :
 
