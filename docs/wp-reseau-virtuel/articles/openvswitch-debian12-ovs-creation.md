@@ -250,36 +250,35 @@ Observez les infos détaillées du bridge br0 comme suit :
 
 ```bash
 [switch@ovs:~$] sudo ovs-vsctl list br br0
-```      
+```
 
 et la création de l'interface br0 avec la Cde ip address :
 
-![Capture - VM osv : Capture - Open vSwitch : Premier démarrage de la VM ovs](/wp-content/uploads/2021/10/ovs-deb11-interfaces-reseau-2.jpg#center)
+![Capture - Open vSwitch : Vue interface br0](../wp-content/uploads/2023/10/ovs-deb12-interface-reseau-br0.webp#center)
+_**Open vSwitch : Vue interface br0**_
 
-Cde ip address montrant l'interface br0 créée
-
-Un ping vers yahoo.fr ou autre domaine doit fonctionner.
+Testez l'interface enp0s3 avec un ping vers yahoo.fr, celui-ci doit recevoir une réponse positive.
 
 Rattachez à présent l'interface enp0s3 au bridge br0 :
 
-\[switch@ovs:~$\] sudo ovs-vsctl add-port br0 enp0s3  
-\[switch@ovs:~$\] sudo ovs-vsctl show
+```bash
+[switch@ovs:~$] sudo ovs-vsctl add-port br0 enp0s3  
+[switch@ovs:~$] sudo ovs-vsctl show
+```
 
-![Capture - Open vSwitch : Vue affectation port et interface enp0s3 sur br0](/wp-content/uploads/2021/10/ovs-deb11-affectation-port-enp0s3.jpg#center)
+![Capture - Open vSwitch : Vue affectation enp0s3 sur br0](../wp-content/uploads/2023/10/ovs-deb12-affectation-port-enp0s3.webp#center)
+_**Open vSwitch : Vue affectation enp0s3 sur br0**_
 
-Ajout du port enp0s3 sur br0
-
-Le port virtuel enp0s3 et l'interface de réseau virtuel enp0s3 ne font qu'un.
+Le port virtuel enp0s3 et l'interface virtuelle enp0s3 ne font qu'un.
 
 Utilisez la Cde del-port pour détruire un port existant.
 
 Observez de nouveau le retour de la Cde ip address :
 
-![Capture - Open vSwitch : Vue adresses MAC enp0s3 et br0 identiques](/wp-content/uploads/2021/10/ovs-deb11-affectation-interface-enp0s3.jpg#center)
+![Capture - Open vSwitch : Mêmes adresses MAC enp0s3/br0](../wp-content/uploads/2023/10/ovs-deb12-affectation-interface-enp0s3.webp#center)
+_**Open vSwitch : Mêmes adresses MAC enp0s3/br0**_
 
-Les adresses MAC de enp0s3 et br0 sont identiques
-
-L'interface br0 possède à présent la même adresse MAC que enp0s3.
+La carte virtuelle br0 possède à présent la même adresse MAC que la carte virtuelle enp0s3.
 
 ### 3 - Intégration de la VM ovs dans le réseau virtuel
 
