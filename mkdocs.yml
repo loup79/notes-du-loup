@@ -44,7 +44,7 @@ nav:
       - Cli LAN Debian "vm1 et 2" :
         - wp-reseau-virtuel/articles/clients-debian12-vm1-vm2-creation.md
       - Open vSwitch + Conteneurs :
-        - wp-reseau-virtuel/articles/virtualbox-debian11-openvswitch-creation.md
+        - wp-reseau-virtuel/articles/openvswitch-debian12-ovs-creation.md
   # Référencer vos autres pages ci-dessus...
 
 ### Configuration du thème

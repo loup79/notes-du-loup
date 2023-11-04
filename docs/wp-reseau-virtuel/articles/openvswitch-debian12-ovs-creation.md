@@ -1,9 +1,12 @@
 ---
-title: "Open vSwitch / Deb12"
+title: "Open vSwitch - Vbox/Deb12"
+author: G.Leloup
 date: "2023-11-03"
 categories: 
   - "Open vSwitch + Conteneurs"
 ---
+
+[![Image Pixabay - Switch informatique de Bru-nO](../wp-content/uploads/2023/10/openvswitch_3-430x323.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/10/openvswitch_3.webp)
 
 ## Mémento 5.1 - Commutateur virtuel
 
