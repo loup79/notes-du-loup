@@ -101,7 +101,11 @@ Pour finir, redémarrez le service socket de Podman :
 [switch@ovs:~$] sudo systemctl restart podman.socket
 ```
 
+### 2 - Conteneurs ctn1/ctn2 en mode rootfull
 
+Le raccordement réseau d'un conteneur rootfull fait appel par défaut au paquet netavark qui fournit pour cela un bridge de nom podman.
+
+Mais pour un raccordement sur le bridge br0 d'Open vSwicth, la configuration ci-dessous propose d'exploiter les espaces de noms réseau Linux plutôt que ==netavark== .
 
 #### _1.1 - Installation de LXC_
 
