@@ -6,7 +6,7 @@ categories:
   - "openvswitch-conteneurs"
 ---
 
-[![Logo de Podman](../wp-content/uploads/2023/11/podman-logo-430x350.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/11/podman-logo.webp)
+[![Logo de Podman](../wp-content/uploads/2023/11/podman-logo-430x350.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/11/podman-logo.webp){ loading=lazy }
 
 ## Mémento 5.2 - Conteneurs LXC
 
@@ -105,7 +105,23 @@ Pour finir, redémarrez le service socket de Podman :
 
 Le raccordement réseau d'un conteneur rootfull fait appel par défaut au paquet netavark qui fournit pour cela un bridge de nom podman.
 
-Mais pour un raccordement sur le bridge br0 d'Open vSwicth, la configuration ci-dessous propose d'exploiter les espaces de noms réseau Linux plutôt que ==netavark== .
+Mais pour un raccordement sur le bridge br0 d'Open vSwicth, la configuration ci-dessous propose d'exploiter les espaces de noms réseau Linux plutôt que netavark .
+
+####_2.1 - Création des espaces de noms réseau_
+
+Dans une configuration réseau plus ou moins complexe, le mode rootfull peut s'avérer plus adapté que le mode rootless pour notamment affecter des espaces de noms réseau et des adresses IP aux conteneurs.
+
+Un conteneur joint à un espace de noms réseau peut communiquer avec les autres espaces de noms réseau au travers d'interfaces réseau virtuelles de type Veth.
+
+Vous raccorderez donc les conteneurs ctn1 et ctn2 au bridge br0 d'Open vSwitch comme ceci :
+
+
+
+!!! Nota
+
+    Podman et Docker sont globalement compatibles car fonctionnant tous les deux avec des images conformes à la norme OCI _(Open Container Initiative)_. 
+
+blabla
 
 #### _1.1 - Installation de LXC_
 

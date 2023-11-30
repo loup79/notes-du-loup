@@ -64,6 +64,7 @@ copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
 
 ### Configuration des extensions MarkDown :
 markdown_extensions:
+  - admonition
   - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
@@ -80,4 +81,6 @@ extra_css:
   - stylesheets/extra.css
 
 ### Gestion des plugins
+plugins:
+  - glightbox
 
