@@ -1,9 +1,12 @@
 ---
-title: "OVS - LXC / Debian 11 : 1/2"
-date: "2021-09-21"
+title: "OVS – Podman / Debian 12 : 1/2"
+author: G.Leloup
+date: "2023-11-30"
 categories: 
-  - "openvswitch-lxc"
+  - "openvswitch-conteneurs"
 ---
+
+[![Image Pixabay - Switch informatique de Bru-nO](../wp-content/uploads/2023/10/openvswitch_3-430x323.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/10/openvswitch_3.webp)
 
 ## Mémento 5.12 - Conteneurs LXC
 

@@ -414,7 +414,7 @@ Vous allez donc raccorder les 2 clients Debian sur les interfaces réseau enp0s8
 
 Vous lierez les 3 bridges à l'aide de ports patch :
 
-![Image - Open vSwitch : Bridges montés en cascade](../wp-content/uploads/2023/10/ovs-patch-bridges.webp#center)
+![Image - Open vSwitch : Bridges montés en cascade](../wp-content/uploads/2023/10/ovs-deb12-patch-bridges.webp#center)
 _**Open vSwitch : Bridges montés en cascade**_
 
 L'ensemble des bridges rattachés avec des ports patch (ports de brassage) peut être vu comme un seul pont.  
