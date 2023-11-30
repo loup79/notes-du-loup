@@ -1,12 +1,12 @@
 ---
-title: "OVS – Podman / Debian 12 : 1/2"
+title: "Podman - VBox/Deb12 1/2"
 author: G.Leloup
 date: "2023-11-30"
 categories: 
   - "openvswitch-conteneurs"
 ---
 
-[![Image Pixabay - Switch informatique de Bru-nO](../wp-content/uploads/2023/10/openvswitch_3-430x323.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/10/openvswitch_3.webp)
+[![Logo de Podman](../wp-content/uploads/2023/11/podman-logo-430x350.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/11/podman-logo.webp)
 
 ## Mémento 5.12 - Conteneurs LXC
 

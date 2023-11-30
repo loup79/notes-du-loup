@@ -45,6 +45,7 @@ nav:
         - wp-reseau-virtuel/articles/clients-debian12-vm1-vm2-creation.md
       - Open vSwitch + Conteneurs :
         - wp-reseau-virtuel/articles/openvswitch-debian12-ovs-creation.md
+        - wp-reseau-virtuel/articles/podman-debian12-lxc-partie-1.md
   # Référencer vos autres pages ci-dessus...
 
 ### Configuration du thème
