@@ -82,5 +82,5 @@ extra_css:
 
 ### Gestion des plugins
 plugins:
-  #- glightbox
+  - glightbox
 
