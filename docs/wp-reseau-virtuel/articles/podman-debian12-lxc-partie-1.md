@@ -51,6 +51,58 @@ OS/Arch:      linux/amd64
 
 La Cde podman info retournera plus de détails.
 
+Les dossiers et fichiers à suivre se trouvent dans :  
+/etc/containers/*  
+/home/switch/.local/share/containers/* _(rootless)_  
+/var/lib/containers/* _(rootfull)_
+
+Vérifiez maintenant l'activation du socket de Podman :
+
+```bash
+[switch@ovs:~$] sudo systemctl status podman.socket 
+[switch@ovs:~$] sudo systemctl is-enabled podman.socket
+```
+
+Retours attendus : active(listening) et enabled.
+
+Podman a besoin de cgroup pour fonctionner.
+
+Control groups _(cgroup)_ est une fonctionnalité du noyau Linux pour limiter, compter et isoler l'utilisation des ressources _(processeur, mémoire, disque, etc...)_.
+
+Vérifiez le montage automatique de cgroup version 2 :
+
+```bash
+[switch@ovs:~$] mount | grep cgroup
+```
+
+Retour :
+
+```markdown
+cgroup2 on /sys/fs/cgroup type cgroup2 (rw,nosuid...)
+```
+
+Editez à présent le fichier des dépôts registries.conf :
+
+```bash
+[switch@ovs:~$] sudo nano /etc/containers/registries.conf
+```
+
+et ajoutez à la fin de celui-ci la ligne suivante :
+
+```bash
+unqualified-search-registries = [ 'docker.io']
+```
+
+Ceci permettra de contacter automatiquement le registre _(dépôt)_ de Docker, lorsque vous exécuterez la Cde podman search ou podman pull.
+
+Pour finir, redémarrez le service socket de Podman :
+
+```bash
+[switch@ovs:~$] sudo systemctl restart podman.socket
+```
+
+
+
 #### _1.1 - Installation de LXC_
 
 Installez les paquets lxc et lxc-templates :
