@@ -1,6 +1,6 @@
 ---
 title: "Podman - VBox/Deb12 1/2"
-summary: Podman, conteneurs rootfull et rootless.
+description: Podman, conteneurs rootfull et rootless.
 author: G.Leloup
 date: "2023-11-30"
 categories: 
@@ -122,6 +122,87 @@ Vous raccorderez donc les conteneurs ctn1 et ctn2 au bridge br0 d'Open vSwitch c
   ![Image - Podman : Raccordement des conteneurs sur OVS](../wp-content/uploads/2023/11/podman-rootfull.webp){ width="430" }
   <figcaption>Podman : Raccordement des conteneurs sur OVS</figcaption>
 </figure>
+
+La création des espaces de noms réseau passera par l'activation d'un service systemd qui se chargera de lancer un simple script shell.
+
+Commencez par créer le service networknamespace :
+
+$ = prompt [switch@ovs:~$]
+
+```bash
+$ sudo nano /etc/systemd/system/networknamespace.service
+```
+
+et entrez le contenu suivant :
+
+```bash
+[Unit]
+Description=Ajout espaces de noms réseau.
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /root/networknamespace.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Créez ensuite le script shell networknamespace.sh :
+
+```bash
+$ sudo nano /root/networknamespace.sh
+```
+
+et entrez le contenu suivant :
+
+```bash
+#!/bin/bash
+## Création des espaces de noms réseau pour ctn1/ctn2.
+ip netns add nsctn1
+ip netns add nsctn2
+
+## Création des paires veth pour nsctn1/nsctn2.
+ip link add v0br type veth peer name vctn1
+ip link add v1br type veth peer name vctn2
+
+## Raccordement extrémités vctn1/2 côté nsctn1/nsctn2.
+ip link set vctn1 netns nsctn1
+ip link set vctn2 netns nsctn2
+
+## Activation des extrémités vctn1/2 et lo côté nsctn1/nsctn2.
+ip netns exec nsctn1 ip link set lo up
+ip netns exec nsctn2 ip link set lo up
+ip netns exec nsctn1 ip link set vctn1 up
+ip netns exec nsctn2 ip link set vctn2 up
+
+## Ajout adresses IP extrémités vctn1/2 côté nsctn1/nsctn2.
+ip netns exec nsctn1 ip addr add 192.168.3.6/24 dev vctn1
+ip netns exec nsctn2 ip addr add 192.168.3.8/24 dev vctn2
+
+## Ajout route accès au réseau 192.168.3.0/24.
+ip netns exec nsctn1 ip route add default via 192.168.3.15
+ip netns exec nsctn2 ip route add default via 192.168.3.15
+
+## Raccordement extrémités v0/1br au bridge OVS br0.
+ovs-vsctl add-port br0 v0br
+ovs-vsctl add-port br0 v1br
+
+## Activation des extrémités v0/1br côté br0.
+ip link set v0br up
+ip link set v1br up
+
+## Autorisation de routage IP pour l'accès à Internet.
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+exit 0
+```
+
+Rendez le script exécutable :
+
+
+
 
 
 
