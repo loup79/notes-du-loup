@@ -121,7 +121,7 @@ Vous raccorderez donc les conteneurs ctn1 et ctn2 au bridge br0 d'Open vSwitch c
 
     Podman et Docker sont globalement compatibles car fonctionnant tous les deux avec des images conformes à la norme OCI _(Open Container Initiative)_. 
 
-blablaplouf
+blablaploufglouglou
 
 #### _1.1 - Installation de LXC_
 
