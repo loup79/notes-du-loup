@@ -40,9 +40,16 @@ categories:
 
 ## Remarques diverses
 
-Respecter une hiérarchie correcte des titres soit :  
-h1 > h2 > h3 etc...
+Titres : h1 > h2 > h3 etc...
 
-Images : { loading=lazy }, .webp#center, {:target="_blank"}
+Images : { loading=lazy }, .webp#center, {:target="_blank"}, { align=left }
 
-Format des légendes : _**légende**_
+Format des légendes : Oblique et gras (feuille de style extra.css)
+
+Surlignage : ==texte-surligné==  (== de chaque côté du texte)
+
+!!! note "Nota"
+    "!!! note "Nota""
+
+    Ceci est une note
+
