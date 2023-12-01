@@ -116,7 +116,7 @@ Un conteneur joint à un espace de noms réseau peut communiquer avec les autres
 
 Vous raccorderez donc les conteneurs ctn1 et ctn2 au bridge br0 d'Open vSwitch comme ceci :
 
-[![Image - Podman : Raccorement des conteneurs sur OVS](../wp-content/uploads/2023/11/podman-rootfull-580x444.webp){ loading=lazy }](../wp-content/uploads/2023/11/podman-rootfull.webp)
+![Image - Podman : Raccorement des conteneurs sur OVS](../wp-content/uploads/2023/11/podman-rootfull.webp#center){ loading=lazy }
 _**Podman : Raccordement des conteneurs sur OVS**_
 
 
