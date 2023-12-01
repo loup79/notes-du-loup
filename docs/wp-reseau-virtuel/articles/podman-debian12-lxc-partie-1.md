@@ -242,11 +242,39 @@ $ sudo ip netns exec nsctn2 ip route
 
 Retour de la Cde ip netns exec nsctn1 ip a :
 
+<figure markdown>
+  ![Capture - Podman : Espace de nom réseau nsctn1 : Interface veth UP](../wp-content/uploads/2023/11/espace-nom-reseau-nsctn1-deb12.webp)
+  <figcaption>Podman : Espace de nom réseau nsctn1 : Interface veth UP</figcaption>
+</figure>
 
+Vérifiez le ping depuis la VM ovs sur nsctn1/nsctn2 :
 
-blabla
+```bash
+$ ping 192.168.3.6
+$ ping 192.168.3.8
+```
 
-#### _1.1 - Installation de LXC_
+Les retours doivent être positifs _(liaisons veth/br0 OK)_.
+
+Vérifiez le ping entre les deux espaces de noms réseau :
+
+```bash
+$ sudo nsenter --net=/var/run/netns/nsctn1
+
+[root@ovs:~#] ping 192.168.3.8          # IP de nsctn2
+[root@ovs:~#] exit
+```
+
+Les retours doivent également être positifs.
+
+Une autre façon de procéder entre les deux espaces :
+
+```bash
+$ sudo ip netns exec nsctn1 ping 192.168.3.8     # -> nsctn2
+$ sudo ip netns exec nsctn2 ping 192.168.3.6     # -> nsctn1
+```
+
+#### _2.2 - Téléchargement des images Docker_
 
 Installez les paquets lxc et lxc-templates :
 
