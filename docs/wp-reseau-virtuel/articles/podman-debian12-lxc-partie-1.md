@@ -201,14 +201,48 @@ exit 0
 
 Rendez le script exécutable :
 
+```bash
+$ sudo chmod +x /root/networknamespace.sh
+```
+
+Exécutez le service networknamespace pour test :
+
+```bash
+$ sudo systemctl daemon-reload
+$ sudo systemctl start networknamespace
+$ sudo systemctl status networknamespace (normal=dead)
+$ sudo systemctl enable networknamespace
+```
+
+Vérifiez la création des espaces de noms réseau :
+
+```bash
+$ sudo ls /var/run/netns/
+$ ip netns list
+```
+
+Retour de la Cde ip netns list :
+
+```markdown
+nsctn2 (id: 1)
+nsctn1 (id: 0)
+```
+
+Vérifiez aussi la création des adresses et routes IP :
 
 
+```bash
+$ sudo ip netns exec nsctn1 ip link
+$ sudo ip netns exec nsctn1 ip a
+$ sudo ip netns exec nsctn1 ip route
+$ sudo ip netns exec nsctn2 ip link
+$ sudo ip netns exec nsctn2 ip a
+$ sudo ip netns exec nsctn2 ip route
+```
+
+Retour de la Cde ip netns exec nsctn1 ip a :
 
 
-
-!!! Nota
-
-    Podman et Docker sont globalement compatibles car fonctionnant tous les deux avec des images conformes à la norme OCI _(Open Container Initiative)_. 
 
 blabla
 
