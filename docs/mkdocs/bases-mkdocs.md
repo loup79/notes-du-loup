@@ -42,3 +42,7 @@ categories:
 
 Respecter une hiérarchie correcte des titres soit :  
 h1 > h2 > h3 etc...
+
+Images : { loading=lazy }, .webp#center, {:target="_blank"}
+
+Format des légendes : _**légende**_

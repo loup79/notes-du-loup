@@ -1,5 +1,6 @@
 ---
 title: "Podman - VBox/Deb12 1/2"
+summary: Podman, conteneurs rootfull et rootless.
 author: G.Leloup
 date: "2023-11-30"
 categories: 
