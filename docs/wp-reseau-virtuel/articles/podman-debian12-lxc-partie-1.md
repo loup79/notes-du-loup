@@ -7,7 +7,7 @@ categories:
   - "openvswitch-conteneurs"
 ---
 
-[![Logo de Podman](../wp-content/uploads/2023/11/podman-logo-430x350.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/11/podman-logo.webp){ loading=lazy }
+[![Logo de Podman](../wp-content/uploads/2023/11/podman-logo-430x350.webp#center "Cliquez pour agrandir l'image"){ loading=lazy }](../wp-content/uploads/2023/11/podman-logo.webp)
 
 ## Mémento 5.2 - Conteneurs LXC
 
@@ -116,7 +116,10 @@ Un conteneur joint à un espace de noms réseau peut communiquer avec les autres
 
 Vous raccorderez donc les conteneurs ctn1 et ctn2 au bridge br0 d'Open vSwitch comme ceci :
 
-![Image - Podman : Raccorement des conteneurs sur OVS](../wp-content/uploads/2023/11/podman-rootfull.webp){ loading=lazy }
+[![Image - Podman : Raccorement des conteneurs sur OVS](../wp-content/uploads/2023/11/podman-rootfull-580x444.webp){ loading=lazy }](../wp-content/uploads/2023/11/podman-rootfull.webp)
+_**Podman : Raccordement des conteneurs sur OVS**_
+
+
 
 !!! Nota
 

@@ -44,7 +44,7 @@ Titres : h1 > h2 > h3 etc...
 
 Images : { loading=lazy }, .webp#center, {:target="_blank"}, { align=left }
 
-Format des légendes : Oblique et gras (feuille de style extra.css)
+Format des légendes : Paragraphe oblique et gras (feuille de style extra.css)
 
 Surlignage : ==texte-surligné==  (== de chaque côté du texte)
 
