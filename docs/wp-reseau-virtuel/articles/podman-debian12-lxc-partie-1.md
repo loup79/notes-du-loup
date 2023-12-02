@@ -587,14 +587,39 @@ sudo podman ps
 
 Les conteneurs ctn1/ctn2 doivent avoir le statut UP.
 
-### 5 - Tests divers sur le réseau virtuel 
+### 5 - Tests divers sur le réseau virtuel
 
+Connectez-vous sur le conteneur ctn1 :
 
-![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
+```bash
+sudo podman exec -it ctn1 bash
+```
 
+et testez les pings suivants :
+
+```bash
+[root@... :/#] ping lemonde.fr           # Internet
+[root@... :/#] ping 192.168.2.1         # VM srvsec
+[root@... :/#] ping 192.168.4.2         # VM srvdmz
+[root@... :/#] ping 192.168.3.4         # VM debian12-vm2
+```
+
+Tous doivent recevoir une réponse positive.
+
+Pour finir, testez un ping depuis la VM srvsec sur ctn1 :
+
+```bash
+[root@srvsec:~#] ping 192.168.3.6              # Conteneur ctn1
+```
+
+Si retour OK, la partie 1 est alors terminée.
+
+![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+
+&nbsp;  
 Voilà, première étape franchie !  
 La partie 2 vous attend à présent  
 pour la création d'un conteneur  
-LXC dit non privilégié.
+Podman en mode rootless.
 
 [Partie 2](https://familleleloup.no-ip.org/virtualbox-debian11-lxc-partie-2/)
