@@ -469,6 +469,67 @@ Observez ensuite l'arborescence de ctn1 avec la Cde ls :
   <figcaption>Podman : Arborescence du conteneur ctn1</figcaption>
 </figure>
 
+La Cde cat /etc/resolv.conf doit retourner l'IP de la box Internet et les Cdes de mise à jour du conteneur apt update et apt upgrade doivent fonctionner.
+
+Utilisez la Cde exit pour fermer la connexion en cours.
+
+Testez ensuite les 4 Cdes ci-dessus avec ctn2.
+
+Testez également depuis le navigateur Firefox de srvlan l'URL http://192.168.3.8:3001 qui doit retourner la page setup de l'application Uptime Kuma.
+
+### 3 - Sauvegarde d'un conteneur modifié
+
+!!! note "Nota"
+
+    Les Cdes ip address et ping ne sont pas incluses dans les images debian et uptime-kuma.
+
+Pour corriger cela, modifiez le conteneur ctn1 ainsi :
+
+```bash
+sudo podman exec -it ctn1 bash
+
+[root@4e84e08e79f5:/#] apt update
+[root@4e84e08e79f5:/#] apt install iproute2
+[root@4e84e08e79f5:/#] ip address
+```
+
+La Cde ip address doit retourner l'IP du conteneur.
+
+```bash
+[root@4e84e08e79f5:/#] apt install iputils-ping
+[root@4e84e08e79f5:/#] chmod u+s /bin/ping
+[root@4e84e08e79f5:/#] setcap cap_net_raw+p /bin/ping
+[root@4e84e08e79f5:/#]  ping 192.168.3.1
+```
+
+La Cde ping doit recevoir une réponse positive.
+
+```bash
+[root@4e84e08e79f5:/#]  exit
+```
+
+Effectuez la même opération avec le conteneur ctn2.
+
+Sauvegardez ensuite les modifications réalisées en créant deux nouvelles images locales :
+
+```bash
+sudo podman commit ctn1 debian:1             # latest -> tag 1
+sudo podman commit ctn2 uptime-kuma:2  # tag 1 -> tag 2
+```
+
+Pour finir, vérifiez la création des nouvelles images :
+
+```bash
+sudo podman images
+```
+
+<figure markdown>
+  ![Capture - Podman : Affichage des 2 nouvelles images locales](../wp-content/uploads/2023/11/podman-sauvegardes-images-deb12.webp)
+  <figcaption>Podman : Affichage des 2 nouvelles images locales</figcaption>
+</figure>
+
+### 4 - Démarrage automatique des conteneurs
+
 
 
 ![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
