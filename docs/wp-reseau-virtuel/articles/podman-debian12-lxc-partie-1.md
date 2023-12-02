@@ -336,6 +336,26 @@ Vérifiez le résultat des téléchargements :
 
 Les informations détaillées des images se trouvent sur le site [dockerhub](https://hub.docker.com/){ target="_blank" }.
 
+Les images téléchargées sont stockées dans /var/lib/containers/storage/overlay-images/.
+
+Cde Podman utile :  
+Suppression -> $ sudo podman rmi nom-image
+
+#### _2.3 - Création du conteneur Podman ctn1_
+
+Créez et lancez le conteneur ctn1 comme suit :
+
+```bash
+sudo podman run -dit --net ns:/var/run/netns/nsctn1 --name ctn1 debian
+```
+
+Détail des options -dit et --net :  
+Le d lance le conteneur en arrière plan.  
+Le i autorise le mode interactif avec le conteneur.  
+Le t alloue un pseudo terminal au conteneur.  
+Le net ns attache le conteneur à l'espace nsctn1.
+
+
 
 ![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
 
