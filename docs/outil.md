@@ -28,4 +28,8 @@ OS/Arch:      linux/amd64
 
 !!! Nota
 
-    Podman et Docker sont globalement compatibles car fonctionnant tous les deux avec des images conformes à la norme OCI _(Open Container Initiative)_. 
+    Podman et Docker sont globalement compatibles car fonctionnant tous les deux avec des images conformes à la norme OCI _(Open Container Initiative)_.
+
+!!! Warning "Attention"
+
+    La plupart des Cdes ci-dessous nécessitent l'utilisation de _sudo_. 

@@ -127,7 +127,9 @@ La création des espaces de noms réseau passera par l'activation d'un service s
 
 Commencez par créer le service networknamespace :
 
-$ = prompt [switch@ovs:~$]
+!!! Warning "Attention"
+
+    La plupart des Cdes ci-dessous nécessitent l'utilisation de _sudo_.
 
 ```bash
 sudo nano /etc/systemd/system/networknamespace.service
@@ -274,6 +276,40 @@ sudo ip netns exec nsctn2 ping 192.168.3.6     # -> nsctn1
 ```
 
 #### _2.2 - Téléchargement des images Docker_
+
+!!! note "Nota"
+
+    Podman et Docker sont globalement compatibles car fonctionnant tous les deux avec des images conformes à la norme OCI _(Open Container Initiative)_.
+
+Podman se base sur ce type d'images qu'il est possible de rechercher sur Internet pour créer des conteneurs.
+
+Recherchez la disponibilité des 2 images ci-dessous :
+
+```bash
+podman search debian
+```
+
+<figure markdown>
+  ![Capture - Podman : Image debian sur docker.io](../wp-content/uploads/2023/11/podman-search-debian-deb12.webp)
+  <figcaption>Podman : Image debian sur docker.io</figcaption>
+</figure>
+
+```bash
+podman search uptime-kuma
+```
+
+<figure markdown>
+  ![Capture - Podman : Image uptime-kuma sur docker.io](../wp-content/uploads/2023/11/podman-search-uptimekuma-deb12.webp)
+  <figcaption>Podman : Image uptime-kuma sur docker.io</figcaption>
+</figure>
+
+Téléchargez ensuite l'image de la distribution Debian :
+
+```bash
+sudo podman pull docker.io/library/debian
+```
+
+
 
 ![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
 
