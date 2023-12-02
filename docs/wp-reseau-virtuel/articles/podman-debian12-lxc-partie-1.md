@@ -309,6 +309,32 @@ Téléchargez ensuite l'image de la distribution Debian :
 sudo podman pull docker.io/library/debian
 ```
 
+<figure markdown>
+  ![Capture - Podman : Podman : Pull de l'image debian](../wp-content/uploads/2023/11/podman-pull-debian-deb12.webp)
+  <figcaption>Podman : Podman : Pull de l'image debian</figcaption>
+</figure>
+
+et l'image de l'application Uptime Kuma :
+
+```bash
+sudo podman pull docker.io/louislam/uptime-kuma:1
+```
+
+<figure markdown>
+  ![Capture - Podman : Podman : Pull de l'image uptime-kuma de Tag 1](../wp-content/uploads/2023/11/podman-pull-uptimekuma-deb12.webp)
+  <figcaption>Podman : Podman : Pull de l'image uptime-kuma de Tag 1</figcaption>
+</figure>
+
+L'outil Uptime Kuma fournira de la surveillance réseau.
+
+Vérifiez le résultat des téléchargements :
+
+<figure markdown>
+  ![Capture - Podman : Podman : Liste des images téléchargées](../wp-content/uploads/2023/11/podman-images-deb12.webp)
+  <figcaption>Podman : Podman : Liste des images téléchargées</figcaption>
+</figure>
+
+Les informations détaillées des images se trouvent sur le site [dockerhub](https://hub.docker.com/){ target="_blank" }.
 
 
 ![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
