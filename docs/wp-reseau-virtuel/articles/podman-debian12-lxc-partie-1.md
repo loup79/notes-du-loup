@@ -310,8 +310,8 @@ sudo podman pull docker.io/library/debian
 ```
 
 <figure markdown>
-  ![Capture - Podman : Podman : Pull de l'image debian](../wp-content/uploads/2023/11/podman-pull-debian-deb12.webp)
-  <figcaption>Podman : Podman : Pull de l'image debian</figcaption>
+  ![Capture - Podman : Pull de l'image debian](../wp-content/uploads/2023/11/podman-pull-debian-deb12.webp)
+  <figcaption>Podman : Pull de l'image debian</figcaption>
 </figure>
 
 et l'image de l'application Uptime Kuma :
@@ -321,8 +321,8 @@ sudo podman pull docker.io/louislam/uptime-kuma:1
 ```
 
 <figure markdown>
-  ![Capture - Podman : Podman : Pull de l'image uptime-kuma de Tag 1](../wp-content/uploads/2023/11/podman-pull-uptimekuma-deb12.webp)
-  <figcaption>Podman : Podman : Pull de l'image uptime-kuma de Tag 1</figcaption>
+  ![Capture - Podman : Pull de l'image uptime-kuma de Tag 1](../wp-content/uploads/2023/11/podman-pull-uptimekuma-deb12.webp)
+  <figcaption>Podman : Pull de l'image uptime-kuma de Tag 1</figcaption>
 </figure>
 
 L'outil Uptime Kuma fournira de la surveillance réseau.
@@ -330,8 +330,8 @@ L'outil Uptime Kuma fournira de la surveillance réseau.
 Vérifiez le résultat des téléchargements :
 
 <figure markdown>
-  ![Capture - Podman : Podman : Liste des images téléchargées](../wp-content/uploads/2023/11/podman-images-deb12.webp)
-  <figcaption>Podman : Podman : Liste des images téléchargées</figcaption>
+  ![Capture - Podman : Liste des images téléchargées](../wp-content/uploads/2023/11/podman-images-deb12.webp)
+  <figcaption>Podman : Liste des images téléchargées</figcaption>
 </figure>
 
 Les informations détaillées des images se trouvent sur le site [dockerhub](https://hub.docker.com/){ target="_blank" }.
@@ -354,6 +354,120 @@ Le d lance le conteneur en arrière plan.
 Le i autorise le mode interactif avec le conteneur.  
 Le t alloue un pseudo terminal au conteneur.  
 Le net ns attache le conteneur à l'espace nsctn1.
+
+<figure markdown>
+  ![Capture - Podman : Création du conteneur ctn1](../wp-content/uploads/2023/11/podman-creation-ctn1-deb12.webp)
+  <figcaption>Podman : Création du conteneur ctn1</figcaption>
+</figure>
+
+Le conteneur créé est stocké dans /var/lib/containers/storage/overlay-containers/.
+
+Vérifiez la création et le statut du conteneur :
+
+```bash
+sudo podman ps
+```
+
+<figure markdown>
+  ![Capture - Podman : Conteneur ctn1 créé et démarré](../wp-content/uploads/2023/11/podman-liste-conteneurs-deb12.webp)
+  <figcaption>Podman : Conteneur ctn1 créé et démarré</figcaption>
+</figure>
+
+Inspectez par curiosité les informations du conteneur :
+
+```bash
+sudo podman inspect ctn1 | grep net
+sudo podman inspect ctn1 | grep Address
+```
+
+Cdes Podman utiles :  
+Arrêt -> $ sudo podman stop ou kill nom-conteneur  
+Démarrage -> $ sudo podman start nom-conteneur  
+Suppression -> $ sudo podman rm nom-conteneur
+
+#### _2.4 - Création du conteneur Podman ctn2_
+
+A présent, créez et lancez le conteneur ctn2 :
+
+```bash
+sudo podman volume create uptime-kuma
+
+sudo podman run -dit --net ns:/var/run/netns/nsctn2 --name ctn2 -v uptime-kuma:/app/data uptime-kuma:1
+```
+
+Cdes déduites de cette [page](https://hub.docker.com/r/louislam/uptime-kuma){ target="_blank" } du site dockerhub.
+
+Vérifiez le résultat des créations :
+
+```bash
+sudo podman volume ls
+sudo podman ps
+```
+
+<figure markdown>
+  ![Capture - Podman : Conteneur ctn2 créé et démarré](../wp-content/uploads/2023/11/podman-creation-ctn2-deb12.webp)
+  <figcaption>Podman : Conteneur ctn2 créé et démarré</figcaption>
+</figure>
+
+Le conteneur ctn2 doit être à l'état UP.
+
+Le volume créé est stocké dans /var/lib/containers/storage/volumes/.
+
+Les données persistantes d'Uptime Kuma seront stockées sur le volume créé et resteront disponibles même après une suppression ou une MAJ du conteneur.
+
+Cdes Podman utiles :  
+Suppression -> $ sudo podman volume rm nom-volume
+
+Vérifiez l'ID de l'espace de noms réseau comme ceci :
+
+```bash
+sudo podman ps --namespace
+```
+
+Retour :
+
+```markdown
+CONTAINER ID NAMES PID  CGROUPNS   ... NET        ..      
+4e84e08e79f5 ctn1  1144 4026532389 ... 4026532388 ..
+215292d920df ctn2  1200 4026532394 ... 4026532393 ..
+```
+
+ou comme ceci :
+
+```bash
+sudo lsns -t net
+```
+
+Retour :
+
+```bash
+        NS ...  PID USER ... NSFS              ...
+4026532388 ... 1144 root ... /run/netns/nsctn1 ...
+4026532393 ... 1200 root ... /run/netns/nsctn2 ...
+```
+
+#### _2.5 - Interactions avec les conteneurs_
+
+La Cde podman exec est disponible pour cela.
+
+Commencez par tester celle-ci sur ctn1 :
+
+```bash
+sudo podman exec -it ctn1 bash
+```
+
+Un prompt root@ID du conteneur ctn1:/# doit s'afficher.
+
+Observez ensuite l'arborescence de ctn1 avec la Cde ls :
+
+```bash
+[root@4e84e08e79f5:/#] ls
+```
+
+<figure markdown>
+  ![Capture - Podman : Arborescence du conteneur ctn1](../wp-content/uploads/2023/11/podman-cde-exec-ctn1-deb12.webp)
+  <figcaption>Podman : Arborescence du conteneur ctn1</figcaption>
+</figure>
 
 
 
