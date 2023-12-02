@@ -530,6 +530,64 @@ sudo podman images
 
 ### 4 - Démarrage automatique des conteneurs
 
+Au préalable, recréez les conteneurs ctn1/ctn2 à partir des images locales qui intègrent les modifications permettant d'utiliser les Cdes ip address et ping.
+
+ctn1 :
+
+```bash
+sudo podman kill ctn1
+sudo podman rm ctn1
+
+sudo podman run -dit --net ns:/var/run/netns/nsctn1 --name ctn1 debian:1
+```
+
+ctn2 :
+
+```bash
+sudo podman kill ctn2
+sudo podman rm ctn2
+
+sudo podman run -dit --net ns:/var/run/netns/nsctn2 --name ctn2 -v uptime-kuma:/app/data uptime-kuma:2
+```
+
+Vérifiez ensuite le bon démarrage des 2 conteneurs :
+
+```bash
+sudo podman ps
+```
+
+<figure markdown>
+  ![Capture - Podman : Conteneurs issus des nouvelles images](../wp-content/uploads/2023/11/podman-creation-ctn-locaux-deb12.webp)
+  <figcaption>Podman : Conteneurs issus des nouvelles images</figcaption>
+</figure>
+
+Podman fournit une Cde pour générer le service de démarrage automatique d'un conteneur.
+
+Suivez la séquence de Cdes ci-dessous pour ctn1 :
+
+```bash
+cd /etc/systemd/system
+
+sudo podman generate systemd --new --files --name ctn1
+cat container-ctn1.service              # Lecture par curiosité
+
+sudo systemctl daemon-reload
+sudo systemctl start container-ctn1
+sudo systemctl status container-ctn1
+sudo systemctl enable container-ctn1
+```
+
+Effectuez la même séquence de Cdes mais pour ctn2.
+
+Puis rebootez la VM ovs et contrôlez le résultat :
+
+```bash
+sudo podman ps
+```
+
+Les conteneurs ctn1/ctn2 doivent avoir le statut UP.
+
+### 5 - Tests divers sur le réseau virtuel 
 
 
 ![Image - Rédacteur satisfait](/wp-content/uploads/2021/08/redacteur_satisfait_ter.jpg "Image Pixabay - Mohamed Hassan")
