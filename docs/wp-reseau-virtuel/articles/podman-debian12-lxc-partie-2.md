@@ -29,10 +29,6 @@ Le conteneur rootless ne disposant pas par défaut d'une adresse IP, c'est le ma
 
     Depuis la version 4.0, il est possible de faire appel à netavark pour configurer le réseau _(non traité ici)_.
 
-```bash
-[switch@ovs:~$] sudo apt install podman
-```
-
 Le conteneur ctn3 sera donc raccordé par défaut ainsi :
 
 <figure markdown>
@@ -40,7 +36,9 @@ Le conteneur ctn3 sera donc raccordé par défaut ainsi :
   <figcaption>Podman : Raccordement de ctn3 sur l'hôte</figcaption>
 </figure>
 
-
+```bash
+[switch@ovs:~$] sudo apt install podman
+```
 
 Si retour OK, la partie 1 est alors terminée.
 
