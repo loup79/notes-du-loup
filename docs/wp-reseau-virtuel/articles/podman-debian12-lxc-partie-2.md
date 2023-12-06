@@ -36,9 +36,49 @@ Le conteneur ctn3 sera donc raccordé par défaut ainsi :
   <figcaption>Podman : Raccordement de ctn3 sur l'hôte</figcaption>
 </figure>
 
+#### _6.1 - Création du conteneur Podman ctn3_
+
+Les conteneurs rootless sont créés et accessibles sans avoir besoin d'être root ou un utilisateur du groupe sudo.
+
+Ceci est plus sécurisé car l'on ne peut pas devenir root sur l'hôte même si l'on réussit à sortir du conteneur.
+
+Créez et lancez le conteneur ctn3 comme suit :
+
 ```bash
-[switch@ovs:~$] sudo apt install podman
+podman pull docker.io/louislam/uptime-kuma:1
+
+podman volume create uptime-kuma
+
+podman run -dit --name ctn3 -p 3001:3001 -v uptime-kuma:/app/data uptime-kuma:1
 ```
+
+Les données persistantes d'Uptime Kuma seront stockées sur le volume créé et resteront disponibles même après une suppression ou une MAJ du conteneur.
+
+Détail des options -dit et -p :  
+Le d lance le conteneur en arrière plan.  
+Le i autorise le mode interactif avec le conteneur.  
+Le t alloue un pseudo terminal au conteneur.  
+Le p mappe le port 3001 d'ovs sur le port 3001 de ctn3.
+
+Vérifiez le téléchargement et les créations :
+
+```bash
+podman images
+podman volume ls
+podman ps
+```
+
+Retour de la Cde podman ps :
+
+<figure markdown>
+  ![Capture - Podman : Conteneur ctn3 créé et démarré](../wp-content/uploads/2023/11/podman-ps-ctn3-deb12.webp)
+  <figcaption>Podman : Conteneur ctn3 créé et démarré</figcaption>
+</figure>
+
+L'image, le volume et le conteneur se trouvent dans :  
+/home/switch/.local/share/containers/storage/*
+
+#### _6.2 - Interaction avec le conteneur_
 
 Si retour OK, la partie 1 est alors terminée.
 
