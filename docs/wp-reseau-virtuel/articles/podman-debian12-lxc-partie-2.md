@@ -33,11 +33,11 @@ Le conteneur rootless ne disposant pas par défaut d'une adresse IP, c'est le ma
 [switch@ovs:~$] sudo apt install podman
 ```
 
-
+Le conteneur ctn3 sera donc raccordé par défaut ainsi :
 
 <figure markdown>
-  ![Image - Podman : Raccordement des conteneurs sur OVS](../wp-content/uploads/2023/11/podman-rootfull.webp){ width="430" }
-  <figcaption>Podman : Raccordement des conteneurs sur OVS</figcaption>
+  ![Image - Podman : Raccordement de ctn3 sur l'hôte](../wp-content/uploads/2023/11/podman-rootless.webp){ width="430" }
+  <figcaption>Podman : Raccordement de ctn3 sur l'hôte</figcaption>
 </figure>
 
 
