@@ -80,6 +80,83 @@ L'image, le volume et le conteneur se trouvent dans :
 
 #### _6.2 - Interaction avec le conteneur_
 
+Connectez-vous sur ctn3 :
+
+```bash
+podman exec -it ctn3 bash
+```
+
+Un prompt root@ID du conteneur ctn3:/# doit s'afficher :
+
+<figure markdown>
+  ![Capture - Podman : Arborescence du conteneur ctn3](../wp-content/uploads/2023/11/podman-cde-exec-ctn3-deb12.webp)
+  <figcaption>Podman : Arborescence du conteneur ctn3</figcaption>
+</figure>
+
+Le retour de la Cde cat /etc/resolv.conf doit montrer l'IP de la box Internet et les Cdes de mise à jour apt update et apt upgrade doivent fonctionner.
+
+Vérifiez depuis le navigateur Firefox de srvlan que l'URL http://192.168.3.15:3001 affiche bien la page setup de l'application Uptime Kuma.
+
+L'IP de l'URL est celle de l'hôte du conteneur soit ovs.
+
+Ajoutez ensuite le paquet iproute2 au conteneur :
+
+```bash
+[root@106374e6e828:/app#] apt install iproute2
+```
+
+et observez la configuration réseau par défaut :
+
+```bash
+[root@106374e6e828:/app#] ip address
+```
+
+<figure markdown>
+  ![Capture - Podman : Configuration réseau de ctn3](../wp-content/uploads/2023/11/podman-reseau-ctn3-deb12.webp)
+  <figcaption>Podman : Configuration réseau de ctn3</figcaption>
+</figure>
+
+Le résultat montre la présence de l'interface TAP _(tap0)_ au sein du conteneur.
+
+Si non installé, ajoutez également le paquet iputils-ping puis autorisez l'usage de la Cde ping depuis ctn3 en modifiant le paramètre suivant au niveau de l'hôte ovs :
+
+```bash
+[root@106374e6e828:/app#] exit
+
+sudo sysctl -w "net.ipv4.ping_group_range=0     2000000"
+```
+
+Fichier modifié = /proc/sys/net/ipv4/ping_group_range _(valeurs par défaut = 1 0)_.
+
+Reconnectez-vous sur ctn3 et tester la Cde ping :
+
+```bash
+podman exec -it ctn3 bash
+
+[root@106374e6e828:/app#] ping google.fr
+```
+
+<figure markdown>
+  ![Capture - Podman : Cde ping fonctionnelle depuis ctn3](../wp-content/uploads/2023/11/podman-ping-ctn3-deb12.webp)
+  <figcaption>Podman : Cde ping fonctionnelle depuis ctn3</figcaption>
+</figure>
+
+Pour l'autoriser de façon permanente, procédez ainsi :
+
+```bash
+[root@106374e6e828:/app#] exit
+
+sudo nano /etc/sysctl.d/99-allow-ping.conf
+```
+
+Entrez la ligne suivante :
+
+```bash
+net.ipv4.ping_group_range=0	2000000
+```
+
+### 7 - Sauvegarde du conteneur modifié
+
 Si retour OK, la partie 1 est alors terminée.
 
 ![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
