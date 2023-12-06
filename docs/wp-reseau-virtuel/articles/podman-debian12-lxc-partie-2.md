@@ -19,7 +19,15 @@ Le conteneur rootless _(non privilégié)_ se veut plus isolé de l'hôte LXC qu
 
 ### 6 - Conteneur ctn3 en mode rootless
 
-Installez le paquet podman et ses dépendances :
+Pour le raccordement réseau d'un conteneur rootless, Podman utilise par défaut le paquet slirp4netns qui fournit une interface réseau virtuelle de type Tun/Tap.
+
+Le conteneur partage alors le même espace de noms réseau que l'hôte, ce qui signifie qu'il partage la même interface réseau, les mêmes tables de routage, etc...
+
+Le conteneur rootless ne disposant pas par défaut d'une adresse IP, c'est le mappage de ports qui est utilisé pour joindre celui-ci.
+
+!!! Nota
+
+    Depuis la version 4.0, il est possible de faire appel à netavark pour configurer le réseau _(non traité ici)_.
 
 ```bash
 [switch@ovs:~$] sudo apt install podman
