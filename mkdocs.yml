@@ -48,13 +48,16 @@ nav:
         - wp-reseau-virtuel/articles/podman-debian12-lxc-partie-1.md
         - wp-reseau-virtuel/articles/podman-debian12-lxc-partie-2.md
   - Blog:
-      - blog/index.md
+    - blog/index.md
   # Référencer vos autres pages ci-dessus...
 
 ### Configuration du thème
 theme:
   name: material
-  language: fr    
+  language: fr
+  features:
+    - navigation.sections
+    - navigation.expand 
 
 ### Palettes de couleurs jour/nuit
   #palette:
@@ -88,6 +91,7 @@ plugins:
   - blog:
       blog_dir: blog
       post_date_format: short
+      archive: false
   - glightbox:
       touchNavigation: false
       loop: false
