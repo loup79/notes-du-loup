@@ -106,6 +106,16 @@ Lien - syntaxe :
 
 Exemple : [VirtualBox](https://www.virtualbox.org/wiki/Downloads){ target="_blank" }
 
+Lien - URL http et https :
+
+```markdown
+Exemple de lien actif : <http://192.168.x.y:7160>
+```
+
+```markdown
+Exemple de lien inactif : `http://192.168.x.y:7160`
+```
+
 ### - Cdes/Scripts et retours
 
 Cdes/Scripts _( code ```bash )_ :

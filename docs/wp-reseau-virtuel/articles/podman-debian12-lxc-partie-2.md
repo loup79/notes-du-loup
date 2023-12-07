@@ -95,7 +95,7 @@ Un prompt root@ID du conteneur ctn3:/# doit s'afficher :
 
 Le retour de la Cde cat /etc/resolv.conf doit montrer l'IP de la box Internet et les Cdes de mise à jour apt update et apt upgrade doivent fonctionner.
 
-Vérifiez depuis le navigateur Firefox de srvlan que l'URL http://192.168.3.15:3001 affiche bien la page setup de l'application Uptime Kuma.
+Vérifiez depuis le navigateur Firefox de srvlan que l'URL `http://192.168.3.15:3001` affiche bien la page setup de l'application Uptime Kuma.
 
 L'IP de l'URL est celle de l'hôte du conteneur soit ovs.
 
@@ -152,7 +152,7 @@ sudo nano /etc/sysctl.d/99-allow-ping.conf
 Entrez la ligne suivante :
 
 ```bash
-net.ipv4.ping_group_range=0	2000000
+net.ipv4.ping_group_range=0   2000000
 ```
 
 ### 7 - Sauvegarde du conteneur modifié
@@ -245,7 +245,7 @@ et testez les pings suivants :
 
 Tous doivent recevoir une réponse positive.
 
-Testez de nouveau depuis srvlan l'URL d'accès à Uptime Kuma soit http://192.168.3.15:3001.
+Testez de nouveau depuis srvlan l'URL d'accès à Uptime Kuma soit `http://192.168.3.15:3001`.
 
 Si la page setup s'affiche, alors c'est terminé.
 
@@ -253,8 +253,8 @@ Si la page setup s'affiche, alors c'est terminé.
 
 &nbsp;  
 Voilà pour les bases de Podman !  
-Le mémento 6.1 vous attend pour
-découvrir l'accès à distance sur  
+Le mémento 6.1 vous attend pour  
+découvrir l'accès à distance sur    
 les VM et les conteneurs.
 
 ### Mémento 6.1 en cours de construction

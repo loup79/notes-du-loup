@@ -55,9 +55,9 @@ OS/Arch:      linux/amd64
 La Cde podman info retournera plus de détails.
 
 Les dossiers et fichiers à suivre se trouvent dans :  
-/etc/containers/*  
-/home/switch/.local/share/containers/* _(rootless)_  
-/var/lib/containers/* _(rootfull)_
+/etc/containers/  
+/home/switch/.local/share/containers/ _(rootless)_  
+/var/lib/containers/ _(rootfull)_
 
 Vérifiez maintenant l'activation du socket de Podman :
 
@@ -339,7 +339,7 @@ Les informations détaillées des images se trouvent sur le site [dockerhub](htt
 Les images téléchargées sont stockées dans /var/lib/containers/storage/overlay-images/.
 
 Cde Podman utile :  
-Suppression -> $ sudo podman rmi nom-image
+Suppression -> sudo podman rmi nom-image
 
 #### _2.3 - Création du conteneur Podman ctn1_
 
@@ -381,9 +381,9 @@ sudo podman inspect ctn1 | grep Address
 ```
 
 Cdes Podman utiles :  
-Arrêt -> $ sudo podman stop ou kill nom-conteneur  
-Démarrage -> $ sudo podman start nom-conteneur  
-Suppression -> $ sudo podman rm nom-conteneur
+Arrêt -> sudo podman stop ou kill nom-conteneur  
+Démarrage -> sudo podman start nom-conteneur  
+Suppression -> sudo podman rm nom-conteneur
 
 #### _2.4 - Création du conteneur Podman ctn2_
 
@@ -416,7 +416,7 @@ Le volume créé est stocké dans /var/lib/containers/storage/volumes/.
 Les données persistantes d'Uptime Kuma seront stockées sur le volume créé et resteront disponibles même après une suppression ou une MAJ du conteneur.
 
 Cdes Podman utiles :  
-Suppression -> $ sudo podman volume rm nom-volume
+Suppression -> sudo podman volume rm nom-volume
 
 Vérifiez l'ID de l'espace de noms réseau comme ceci :
 
@@ -440,7 +440,7 @@ sudo lsns -t net
 
 Retour :
 
-```bash
+```markdown
         NS ...  PID USER ... NSFS              ...
 4026532388 ... 1144 root ... /run/netns/nsctn1 ...
 4026532393 ... 1200 root ... /run/netns/nsctn2 ...
@@ -475,7 +475,7 @@ Utilisez la Cde exit pour fermer la connexion en cours.
 
 Testez ensuite les 4 Cdes ci-dessus avec ctn2.
 
-Testez également depuis le navigateur Firefox de srvlan l'URL http://192.168.3.8:3001 qui doit retourner la page setup de l'application Uptime Kuma.
+Testez également depuis le navigateur Firefox de srvlan l'URL `http://192.168.3.8:3001` qui doit retourner la page setup de l'application Uptime Kuma.
 
 ### 3 - Sauvegarde d'un conteneur modifié
 
