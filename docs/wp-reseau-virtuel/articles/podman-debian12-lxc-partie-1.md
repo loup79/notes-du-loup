@@ -622,4 +622,4 @@ La partie 2 vous attend à présent
 pour la création d'un conteneur  
 Podman en mode rootless.
 
-[Partie 2](https://familleleloup.no-ip.org/virtualbox-debian11-lxc-partie-2/)
+[Partie 2](../podman-debian12-lxc-partie-2){ .md-button }

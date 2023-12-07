@@ -604,4 +604,4 @@ Le réseau virtuel de base est créé.
 Le mémento 5.2 vous attend pour  
 découvrir les conteneurs.
 
-### Article 5.2 en cours de construction
+[Mémento 5.2](../podman-debian12-lxc-partie-1){ .md-button }

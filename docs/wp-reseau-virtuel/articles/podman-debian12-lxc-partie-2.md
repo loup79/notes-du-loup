@@ -257,4 +257,4 @@ Le mémento 6.1 vous attend pour
 découvrir l'accès à distance sur  
 les VM et les conteneurs.
 
-[Partie 2](https://familleleloup.no-ip.org/virtualbox-debian11-lxc-partie-2/)
+### Mémento 6.1 en cours de construction
