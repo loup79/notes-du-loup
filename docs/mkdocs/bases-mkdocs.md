@@ -44,6 +44,20 @@ categories:
 
 Titres : h1 > h2 > h3 etc...
 
+Titres - Liens internes :
+
+Ajout, par exemple, de **{#titre-4}** au titre 4
+
+```markdown
+### 4 - Raccordement des 2 clients Debian sur OVS {#titre-4}
+```
+
+et création d'un lien au sein d'un paragraphe quelconque
+
+```markdown
+... d'une interface réseau virtuelle TAP _( [Voir le § 4](#titre-4) )_.
+```
+
 ### **- Images**
 
 Image - options : { loading=lazy }, {:target="_blank"}, { align=left }
