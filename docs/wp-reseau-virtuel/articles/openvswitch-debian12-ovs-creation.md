@@ -317,7 +317,7 @@ Sélectionnez ensuite celle-ci dans VirtualBox, puis :
 
 Redémarrez la VM.
 
-Il est impossible, OVS n'étant pas installé sur le PC hôte de VirtualBox, d'attribuer aux interfaces 2 et 3 un mode d'accès réseau généralement utilisé avec OVS soit un mode de type Accès par pont au travers d'une interface réseau virtuelle TAP _([Voir le § 4](#4-raccordement-des-2-clients-debian-sur-ovs))_.  
+Il est impossible, OVS n'étant pas installé sur le PC hôte de VirtualBox, d'attribuer aux interfaces 2 et 3 un mode d'accès réseau généralement utilisé avec OVS soit un mode de type Accès par pont au travers d'une interface réseau virtuelle TAP _( [Voir le § 4](#titre-4) )_.
   
 C'est donc le type Réseau interne qui sera utilisé.  
   
@@ -404,7 +404,7 @@ ExecStart=/sbin/ifup -a ...
 
 Suivre les prochaines MAJ de paquets Open vSwitch.
 
-### 4 - Raccordement des 2 clients Debian sur OVS
+### 4 - Raccordement des 2 clients Debian sur OVS {#titre-4}
 
 Open vSwitch est généralement installé sur le PC hôte de l'hyperviseur. Un bridge tel br0 utilise alors les interfaces réseau physiques du PC hôte pour l'accès à Internet et des interfaces réseau virtuelles TAP de niveau L2 pour l'accès aux VM.
 
