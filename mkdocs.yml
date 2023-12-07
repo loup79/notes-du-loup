@@ -47,6 +47,8 @@ nav:
         - wp-reseau-virtuel/articles/openvswitch-debian12-ovs-creation.md
         - wp-reseau-virtuel/articles/podman-debian12-lxc-partie-1.md
         - wp-reseau-virtuel/articles/podman-debian12-lxc-partie-2.md
+  - Blog:
+      - blog/index.md
   # Référencer vos autres pages ci-dessus...
 
 ### Configuration du thème
@@ -83,6 +85,9 @@ extra_css:
 
 ### Gestion des plugins du site
 plugins:
+  - blog:
+      blog_dir: blog
+      post_date_format: short
   - glightbox:
       touchNavigation: false
       loop: false
