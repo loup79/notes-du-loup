@@ -157,6 +157,24 @@ net.ipv4.ping_group_range=0	2000000
 
 ### 7 - Sauvegarde du conteneur modifié
 
+Sauvegardez les modifications réalisées au niveau du conteneur ctn3 en créant une image locale de l'application Uptime Kuma :
+
+```bash
+podman commit ctn3 uptime-kuma:2
+```
+
+Vérifiez la création de l'image locale :
+
+```bash
+podman images
+```
+
+<figure markdown>
+  ![Capture - Podman : Vue de l'image locale uptime-kuma:2](../wp-content/uploads/2023/11/podman-sauvegarde-image-ctn3-deb12.webp)
+  <figcaption>Podman : Vue de l'image locale uptime-kuma:2</figcaption>
+</figure>
+
+
 Si retour OK, la partie 1 est alors terminée.
 
 ![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
