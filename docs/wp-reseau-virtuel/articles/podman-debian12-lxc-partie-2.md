@@ -174,15 +174,87 @@ podman images
   <figcaption>Podman : Vue de l'image locale uptime-kuma:2</figcaption>
 </figure>
 
+et recréez le conteneur ctn3 à partir de celle-ci :
 
-Si retour OK, la partie 1 est alors terminée.
+```bash
+podman kill ctn3
+podman rm ctn3
+
+podman run -dit --name ctn3 -p 3001:3001 -v uptime-kuma:/app/data uptime-kuma:2
+```
+
+Vérifiez le démarrage du conteneur :
+
+```bash
+podman ps
+```
+
+<figure markdown>
+  ![Capture - Podman : Conteneur ctn3 issu de l'image locale](../wp-content/uploads/2023/11/podman-image-locale-creation-ctn3-deb12.webp)
+  <figcaption>Podman : Conteneur ctn3 issu de l'image locale</figcaption>
+</figure>
+
+### 8 - Démarrage automatique du conteneur
+
+Podman fournit une Cde pour générer le service de démarrage automatique d'un conteneur.
+
+Suivez la séquence de Cdes ci-dessous pour ctn3 :
+
+```bash
+cd /home/switch
+
+sudo loginctl enable-linger switch
+podman generate systemd --new --files --name ctn3
+cat container-ctn3.service               # Lecture par curiosité
+
+mkdir -p .config/systemd/user
+mv container-ctn3.service .config/systemd/user/container-ctn3.service
+
+podman stop ctn3
+
+systemctl --user daemon-reload
+systemctl --user start container-ctn3
+systemctl --user status container-ctn3
+systemctl --user enable container-ctn3
+```
+
+Puis rebootez la VM ovs et contrôlez le résultat :
+
+```bash
+podman ps
+```
+
+Le conteneur ctn3 doit avoir le statut UP.
+
+### 9 - Tests divers sur le réseau virtuel
+
+Connectez-vous sur le conteneur ctn3 :
+
+```bash
+podman exec -it ctn3 bash
+```
+
+et testez les pings suivants :
+
+```bash
+[root@... :/#] ping lemonde.fr          # Internet
+[root@... :/#] ping 192.168.2.1         # VM srvsec
+[root@... :/#] ping 192.168.4.2         # VM srvdmz
+[root@... :/#] ping 192.168.3.4         # VM debian12-vm2
+```
+
+Tous doivent recevoir une réponse positive.
+
+Testez de nouveau depuis srvlan l'URL d'accès à Uptime Kuma soit http://192.168.3.15:3001.
+
+Si la page setup s'affiche, alors c'est terminé.
 
 ![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
-Voilà, première étape franchie !  
-La partie 2 vous attend à présent  
-pour la création d'un conteneur  
-Podman en mode rootless.
+Voilà pour les bases de Podman !  
+Le mémento 6.1 vous attend pour
+découvrir l'accès à distance sur  
+les VM et les conteneurs.
 
 [Partie 2](https://familleleloup.no-ip.org/virtualbox-debian11-lxc-partie-2/)
