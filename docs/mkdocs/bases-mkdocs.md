@@ -40,9 +40,17 @@ categories:
 
 ## Aide à l'écriture
 
+### **- Titres**
+
 Titres : h1 > h2 > h3 etc...
 
+### **- Images**
+
 Image - options : { loading=lazy }, {:target="_blank"}, { align=left }
+
+Image - légende : Paragraphe oblique et gras _(Voir la feuille de style extra.css)_
+
+Image - centrage : ../image.webp**#center** _(Voir la feuille de style extra.css)_
 
 Image - syntaxe :
 
@@ -57,9 +65,24 @@ alignée
 &nbsp;  
 &nbsp;
 
-Image - légende : Paragraphe oblique et gras (Voir la feuille de style extra.css)
+ou image sans option _(Alerte markdown MD033)_
 
-Image centrée : ../image.webp#center (Voir la feuille de style extra.css)
+```markdown
+<figure markdown>
+  ![Logo de ...](../wp-reseau-virtuel/wp-content/uploads/2019/02/logo-virtualbox.jpg)
+</figure>
+```
+
+ou image avec option et légende _(Alerte markdown MD033)_
+
+```markdown
+<figure markdown>
+  ![Image - VBox : Logo...](../wp-reseau-virtuel/wp-content/uploads/2019/02/logo-virtualbox.jpg){ width="xxx" }
+  <figcaption>VBox : Logo...</figcaption>
+</figure>
+```
+
+### **- Liens**
 
 Lien - options : { target="_blank" }
 
@@ -69,7 +92,30 @@ Lien - syntaxe :
 
 Exemple : [VirtualBox](https://www.virtualbox.org/wiki/Downloads){ target="_blank" }
 
+### - Cdes/Scripts et retours
+
+Cdes/Scripts _( code ```bash )_ :
+
+```bash
+sudo nano /etc/systemd/system/networknamespace.service
+```
+
+Retours _(code ```markdown )_ :
+
+```markdown
+Client:       Podman Engine
+Version:      4.3.1
+API Version:  4.3.1
+Go Version:   go1.19.8
+Built:        Thu Jan 1 01:00:00 1970
+OS/Arch:      linux/amd64
+```
+
+### **- Divers**
+
 Paragraphe - surlignage : ==texte-surligné==  (== de chaque côté du texte)
+
+### **- Fenêtres spéciales**
 
 !!! note "Nota"
     "!!! note "Nota""
