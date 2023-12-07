@@ -254,7 +254,7 @@ Si la page setup s'affiche, alors c'est terminé.
 &nbsp;  
 Voilà pour les bases de Podman !  
 Le mémento 6.1 vous attend pour  
-découvrir l'accès à distance sur    
+découvrir l'accès à distance sur  
 les VM et les conteneurs.
 
 ### Mémento 6.1 en cours de construction
