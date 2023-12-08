@@ -5,13 +5,13 @@ authors: Gerard Leloup
 date: 2023-06-02
 ---
 
-# Objectif du Loup
+## Objectif du Loup
 
 **1 - Découvrir et tester GitHub avec :**
 
-- Un *MkDocs Server* local sur Debian.  
-- Le dépôt GitHub *notes-du-loup* ici présent.  
-- Un *Visual Studio Code Server* local sur Debian.
+- Un *MkDocs Server* installé localement.  
+- Un *Visual Studio Code Server* installé localement.  
+- Le dépôt GitHub *notes-du-loup* ici présent.
 
 Le Visual Studio Code Server sera utilisé pour :  
 
@@ -19,7 +19,7 @@ Le Visual Studio Code Server sera utilisé pour :
 
 Le dépôt GitHub sera utilisé pour :  
 
-- Héberger ladite documentation et présenter celle-ci sur un site web MkDocs-Material.
+- Héberger ladite documentation et présenter celle-ci sur un site web construit avec le thème MkDocs-Material.
 
 Le MkDocs Server local sera utilisé pour :  
 
@@ -27,7 +27,7 @@ Le MkDocs Server local sera utilisé pour :
 
 **2 - Transférer ensuite une documentation existante.**
 
-La première concerne mes notes dédiées informatique.
+La première concerne mes notes dédiées à l'informatique.
 
 La seconde concerne les articles de mon blog WordPress [InfoLoup](https://infoloup.no-ip.org) traitant de la création et de l'administration d'un petit réseau informatique local virtuel ceci avec l'aide de l'outil VirtualBox.
 
