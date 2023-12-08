@@ -16,16 +16,19 @@ docs_dir: docs
 # Structure du menu principal de navigation, chemins relatifs au dossier docs_dir
 nav: 
   - Accueil : index.md
-  - Informatique : 
+  - Informatique :
+    - informatique/index.md 
     - Debian : 
       - informatique/debian/infos-materiel-hardinfo.md
     - Synology :
       - informatique/synology/docker-maj-de-nextcloud.md
-  - MkDocs : 
+  - MkDocs :
+    - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
     - mkdocs/github-mkdocs.md
   - WP Réseau Virtuel :
+    - wp-reseau-virtuel/index.md
     - Pages :
       - wp-reseau-virtuel/pages/nouveautes-du-reseau-virtuel-2018.md
       - wp-reseau-virtuel/pages/prerequis.md
@@ -56,7 +59,7 @@ theme:
   name: material
   language: fr
   features:
-    - navigation.sections
+    - navigation.tabs
     - navigation.expand 
 
 ### Palettes de couleurs jour/nuit
@@ -91,6 +94,7 @@ plugins:
   - blog:
       blog_dir: blog
       post_date_format: short
+      post_url_format: "/{slug}"
       archive: false
   - glightbox:
       touchNavigation: false

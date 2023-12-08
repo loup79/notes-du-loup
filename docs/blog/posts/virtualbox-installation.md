@@ -32,6 +32,8 @@ Le tout fonctionnera de manière sécurisée, les systèmes d'exploitation invit
 
 _Le Homelab IPFire + Debian sera créé avec VBox 7.x.y._
 
+<!-- more -->
+
 Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et téléchargez ces 2 fichiers :
 
 \- L' exécutable VirtualBox 7.x.y platform packages, adapté au PC hôte.

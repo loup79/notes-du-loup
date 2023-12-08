@@ -9,6 +9,12 @@ img[src*='#center'] { display: block; margin: auto; }
 
 .md-typeset figcaption  { font-size: 13px; font-family: var(--md-text-font-family); }
 
+#__nav_1_label { display: none; }
+#__nav_2_label { display: none; }
+#__nav_3_label { display: none; }
+#__nav_4_label { display: none; }
+#__nav_5_label { display: none; }
+
 code.language-bash { background-color: #fcfaee;  font-size: 13px; font-family: var(--md-text-font-family); }
 code.language-markdown { background-color: #f5f5f5;  font-size: 13px; font-family: var(--md-text-font-family); }
 
