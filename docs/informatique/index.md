@@ -1,1 +1,1 @@
-# Informatique
+# Notes techniques diverses
