@@ -1,40 +1,43 @@
 ---
-title: "Accès réseau par pont"
+title: Accès réseau par pont
+summary: VirtualBox en mode d'accès réseau par pont.
 author: G.Leloup
 date: 2020-08-07
 categories: 
-  - "hyperviseur-virtualbox"
+  - hyperviseur-virtualbox
 ---
 
-[![Synoptique - Réseau virtuel : Présentation des flux ICMP (ping)](../wp-content/uploads/2023/03/virtualbox-acces-reseau-pont-430x303.jpg "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/03/virtualbox-acces-reseau-pont.jpg)
-
+<figure markdown>
+  ![Synoptique - Réseau virtuel : Présentation des flux ICMP (ping)](../images/2023/03/virtualbox-acces-reseau-pont.jpg){ width="430" }
+</figure>
 
 ## Pont réseau entre VM et PC hôte
 
-![Logo - VirtualBox](../wp-content/uploads/2019/02/logo-virtualbox.jpg){ align=left }
+![Logo - VirtualBox](../images/2019/02/logo-virtualbox.jpg){ align=left }
 
 &nbsp;  
 &nbsp;  
 Configuration d'un pont réseau *(bridge)*
 &nbsp;  
-&nbsp; 
+&nbsp;
 &nbsp;  
 &nbsp;  
 
-
-### 1 - Rôle
+### Rôle
 
 Le mode d'accès réseau par pont de VirtualBox crée un pont entre la carte réseau d'une VM et celle du PC hôte. La VM peut ainsi appartenir au même réseau local que celui du PC hôte.
 
 Le serveur DHCP utilisé par le PC hôte peut fournir une adresse IP dynamique à la VM mais ce n'est pas obligatoire, l'adresse IP pouvant être paramétrée comme fixe au niveau de la VM.
 
-### 2 - Intérêt
+### Intérêt
 
 Le pont offre l'avantage de pouvoir réaliser des tests depuis le PC hôte vers le réseau local virtuel comme celui de simuler des requêtes HTTP/FTP issues d'Internet.
 
-### 3 - Installation d'un pont entre l'hôte et srvlan
+<!-- more -->
 
-#### _3.1 - Modification sur srvlan de l'accès réseau_
+### Installation du pont réseau
+
+#### *srvlan - mode d'accès réseau*
 
 Arrêtez la VM srvlan.
 
@@ -46,17 +49,17 @@ Depuis VirtualBox, affichez la configuration de la VM :
 
 Redémarrez la VM.
 
-#### 3.2 - Modification sur srvlan de l'adresse IP fixe
+#### *srvlan - adresse IP fixe*
 
 Editez le fichier réseau interfaces :
 
-```markdown
+```bash
 [root@srvlan:~#\] nano /etc/network/interfaces
 ```
 
 et modifiez les lignes ci-dessous comme suit :
 
-```
+```bash
 auto eth
 iface eth0 inet static
 address 192.168.x.w          \# IP libre du réseau local PC hôte
@@ -68,11 +71,11 @@ gateway 192.168.x.z          \# IP de la box Internet, Freebox, etc...
 
 Relancez le service réseau sur la carte eth0 :
 
-```markdown
+```bash
 [root@srvlan:~#\] service network-interface restart INTERFACE=eth0
 ```
 
-#### _3.3 - Test de la liaison entre l'hôte et srvlan_
+#### *Test du pont*
 
 Effectuez un ping depuis le PC hôte vers srvlan et inversement.
 

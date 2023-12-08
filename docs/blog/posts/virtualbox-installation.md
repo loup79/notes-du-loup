@@ -1,17 +1,19 @@
 ---
 title: VirtualBox - Installation
-summary: 
+summary: Installtion du logicien VirtualBox.
 author: G.Leloup
 date: 2020-08-07
 categories: 
   - hyperviseur-virtualbox
 ---
 
-![Image](../../wp-reseau-virtuel/wp-content/uploads/2022/08/virtualbox_os.jpg)
+<figure markdown>
+![Image](../images/2022/08/virtualbox_os.jpg)
+</figure>
 
-## VirtualBox est un hyperviseur de type 2
+## VirtualBox - hyperviseur de type 2
 
-![Logo - VirtualBox](../wp-content/uploads/2019/02/logo-virtualbox.jpg){ align=left }
+![Logo - VirtualBox](../images/2019/02/logo-virtualbox.jpg){ align=left }
 
 &nbsp;  
 VirtualBox permet  
@@ -19,9 +21,9 @@ de créer des Machines
 Virtuelles (VM).  
 &nbsp;  
 
-### 1 - Installation
+### Installation
 
-#### _1.1 - Information générale_
+#### _Information générale_
 
 VirtualBox, installé sur le système d'exploitation hôte d'un ordinateur, utilisera les ressources matérielles de celui-ci pour créer des machines virtuelles _(VM)_ pouvant fonctionner simultanément sous différents systèmes d'exploitation invités.
 
@@ -29,7 +31,7 @@ Le système d'exploitation hôte accèdera seul au matériel physique de l'ordin
 
 Le tout fonctionnera de manière sécurisée, les systèmes d'exploitation invités n'interagiront pas directement avec le système d'exploitation hôte et n'interagiront pas entre eux.
 
-#### _1.2 - Téléchargement de VirtualBox_
+#### _Téléchargements_
 
 _Le Homelab IPFire + Debian sera créé avec VBox 7.x.y._
 
@@ -41,7 +43,7 @@ Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et tél
 
 \- L' extension VirtualBox 7.x.y Oracle VM VirtualBox Extension Pack, toutes plateformes.
 
-#### _1.3 - Installation de VirtualBox 7.x.y_
+#### _Installation de la version 7.x.y_
 
 Lancez l'exécutable et acceptez d'ajouter les cartes réseau qui vous seront proposées.
 
@@ -65,9 +67,9 @@ Ce pack inclut les guest additons, ceux-ci permettant :
 
 Vous pouvez à présent créer la première VM du réseau virtuel. Suivez pour cela la _liste des mémentos_ du site.
 
-[Liste des mémentos](/liste-des-mementos/){ .md-button }
+[Liste des mémentos](/liste-des-mementos/){ .md-button .md-button--primary }
 
-### 2 - Pour aller plus loin une fois les VM créées
+### Pour aller plus loin
 
 **a)** Lancer une VM sans ouvrir sa fenêtre graphique :
 
