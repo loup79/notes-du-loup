@@ -1,9 +1,10 @@
 ---
-title: "VirtualBox - Installation"
+title: VirtualBox - Installation
+summary: 
 author: G.Leloup
 date: 2020-08-07
 categories: 
-  - "hyperviseur-virtualbox"
+  - hyperviseur-virtualbox
 ---
 
 ![Image](../../wp-reseau-virtuel/wp-content/uploads/2022/08/virtualbox_os.jpg)

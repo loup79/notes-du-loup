@@ -139,6 +139,8 @@ OS/Arch:      linux/amd64
 
 Paragraphe - surlignage : ==texte-surligné==  (== de chaque côté du texte)
 
+Extraits - longueur : Inclure le séparateur `<!-- more -->` dans les articles.
+
 ### **- Fenêtres spéciales**
 
 !!! note "Nota"
