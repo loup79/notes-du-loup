@@ -1,10 +1,10 @@
 ---
 title: "srvlan - VBox/Deb12"
-summary: Installtion du logicien VirtualBox.
+summary: Création d'une VM serveur LAN de nom srvlan.
 author: G.Leloup
 date: 2023-07-13
 categories: 
-  - Serveur LAN Debian "srvlan"
+  - Serveur LAN "srvlan"
 ---
 
 <figure markdown>
@@ -76,7 +76,7 @@ Facultatif, accès au dossier partagé par le PC hôte :
 
 Les autres paramètres peuvent rester inchangés.
 
-#### _Installation de la distribution_
+#### _Installation de Debian 12_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
@@ -205,7 +205,7 @@ Sans fermer la VM, retirez l'image CD du lecteur virtuel :
 \-> Zone Attributs > Cliquez sur l'icône CD  
 \-> Retirer le disque du lecteur virtuel > OK
 
-### Applications préinstallées
+### Suppression de paquets Debian
 
 Supprimez ces applications non utiles sur srvlan :
 
@@ -250,7 +250,7 @@ Remplacez la ligne #background= par celle-ci :
 background=/usr/share/backgrounds/fond.jpg
 ```
 
-### Contenu du dossier partagé par l'hôte
+### Contenu partagé par le PC hôte
 
 Créez le dossier qui permettra d'afficher le contenu partagé par le PC hôte :
 
@@ -359,7 +359,7 @@ Pour cela, sélectionnez la VM srvlan dans VirtualBox :
 \-> Adapter 1 > Mode d'accès réseau > Réseau interne  
 \-> OK
 
-#### _Adresse IP fixe carte enp0s3_
+#### _IP de la carte réseau enp0s3_
 
 Configurez à présent une IP fixe sur la carte enp0s3 :  
 \- - Bureau Xfce, barre du haut  
@@ -391,7 +391,7 @@ Pour finir, stoppez la VM srvlan :
 \-> Déconnexion > Une fenêtre s'ouvre  
 \-> Bouton Eteindre
 
-#### _Création carte enp0s8_
+#### _Ajout d'une carte enp0s8_
 
 Le raccordement de la VM srvlan nécessite de créer une seconde carte réseau sur celle-ci.
 
@@ -440,7 +440,7 @@ Les fichiers configurés avec NetworkManager sont ici :
 !!! note "Nota"
     La VM srvlan n'accède plus à Internet, la VM suivante permettra de retrouver cet accès.
 
-#### _Routage interne au serveur_
+#### _Activation du routage interne_
 
 L'activation du routage avec la Cde ip\_forward permet, selon les règles définies dans la table de routage du serveur, le renvoi de paquets de données arrivés par une interface réseau vers une autre interface réseau.
 

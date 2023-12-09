@@ -1,9 +1,10 @@
 ---
 title: "srvsec - VBox/IPFire"
+summary: Création d'une VM pare-feu WAN de nom srvsec.
 author: G.Leloup
 date: 2023-07-14
 categories: 
-  - Serveur WAN IPFire "srvsec"
+  - Serveur WAN "srvsec"
 ---
 
 [![Image - Firewall ou pare-feu](../wp-content/uploads/2023/07/firewall-430x287.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/firewall.webp)

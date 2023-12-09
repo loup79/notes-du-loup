@@ -58,15 +58,11 @@ nav:
 theme:
   name: material
   language: fr
-  features:
-    - navigation.tabs
-    - navigation.expand 
 
-### Palettes de couleurs jour/nuit
-  #palette:
 #### Configuration du comportement de la navigation
   features:
     - navigation.tabs
+    - navigation.sections
     - navigation.top
     - navigation.footer
 copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
