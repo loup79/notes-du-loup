@@ -11,9 +11,9 @@ categories:
   ![Image Pixabay - Switch informatique de Bru-nO](../images/2023/10/openvswitch_3.webp){ width="430" }
 </figure>
 
-## Mémento 5.1 - Commutateur virtuel
+## Mémento 5.1 - Switch virtuel OvS
 
-Open vSwitch _(OVS)_ se comportera comme un véritable switch physique en proposant la gestion des adresses MAC tel un switch L2 ainsi que celle des adresses IP pour le routage des paquets IP tel un switch L3.
+Open vSwitch _(OvS)_ se comportera comme un véritable switch physique en proposant la gestion des adresses MAC tel un switch L2 ainsi que celle des adresses IP pour le routage des paquets IP tel un switch L3.
   
 Le switch virtuel sera, contrairement à une architecture standard, installé sur une VM et non sur le PC hôte de l'hyperviseur VirtualBox.
 
@@ -25,7 +25,7 @@ Le moyen d'approcher l'architecture standard sera de créer un conteneur à l'in
   
 La gestion possible de VLAN ne sera pas traitée ici.
 
-### 1 - Construction de la VM depuis VirtualBox
+### Construction de la VM
 
 L'utilisation de VirtualBox est considérée acquise.  
   
@@ -33,7 +33,7 @@ A défaut, référez-vous aux mémentos suivants :
 [VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
 [VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
-#### _1.1 - Création et configuration de la VM_
+#### _- Création et configuration_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.  
   
@@ -75,7 +75,7 @@ La VM s'affiche dans le panneau gauche de VirtualBox.
   
 Les autres paramètres peuvent rester inchangés.
 
-#### _1.2 - Installation de la distribution Debian_
+#### _Installation de Debian 12_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparait lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.  
@@ -124,8 +124,10 @@ Le système reboot et une fenêtre de connexion s'ouvre :
 -> Password : Entrez Votre MDP switch  
 Si tout est OK, affichage du prompt switch@ovs:~$
 
-![Capture - Open vSwitch : Premier démarrage de la VM ovs](../wp-content/uploads/2023/10/ovs-deb12-premier-demarrage.webp#center)  
-_**Open vSwitch : Premier démarrage de la VM ovs**_
+<figure markdown>
+  ![Capture - Open vSwitch : Premier démarrage de la VM ovs](../images/2023/10/ovs-deb12-premier-demarrage.webp)
+  <figcaption>Open vSwitch : Premier démarrage de la VM ovs</figcaption>
+</figure>
 
 Donnez à présent les droits d'administrateur root à l'utilisateur switch :
 
@@ -146,14 +148,16 @@ Pour info, la VM peut être arrêtée de 2 façons :
 [switch@ovs:~$] sudo shutdown -h now
 ```
 
-### 2 - Installation et configuration d'Open vSwitch
+### Installation et configuration d'OvS
 
 Au préalable, observez la configuration réseau active :
 
-![Capture - Open vSwitch : Cartes réseau de base lo et enp0s3](../wp-content/uploads/2023/10/ovs-deb12-ip-address.webp#center)
-_**Open vSwitch : Cartes réseau de base lo et enp0s3**_
+<figure markdown>
+  ![Capture - Open vSwitch : Cartes réseau de base lo et enp0s3](../images/2023/10/ovs-deb12-ip-address.webp)
+  <figcaption>Open vSwitch : Cartes réseau de base lo et enp0s3</figcaption>
+</figure>
 
-#### _2.1 - Installation_
+#### _- Installation_
 
 Installez le paquet openvswitch-switch :
 
@@ -163,14 +167,16 @@ Installez le paquet openvswitch-switch :
 
 Les paquets concernant les dépendances manquantes sont ajoutés automatiquement.
 
-Affichez maintenant la version d'Open vSwitch _(OVS)_ :
+Affichez maintenant la version d'Open vSwitch _(OvS)_ :
 
 ```bash
 [switch@ovs:~$] sudo ovs-vsctl show
 ```
 
-![Capture - Open vSwitch : Affichage de la version](../wp-content/uploads/2023/10/ovs-deb12-version-openvswitch.webp#center)
-_**Open vSwitch : Affichage de la version**_
+<figure markdown>
+  ![Capture - Open vSwitch : Affichage de la version](../images/2023/10/ovs-deb12-version-openvswitch.webp)
+  <figcaption>Open vSwitch : Affichage de la version</figcaption>
+</figure>
 
 ainsi que les informations du module openvswitch intégré dans le noyau linux :
 
@@ -178,8 +184,10 @@ ainsi que les informations du module openvswitch intégré dans le noyau linux :
 [switch@ovs:~$] sudo modinfo openvswitch
 ```
 
-![Capture - Open vSwitch : Informations sur le module noyau openvswitch.ko](../wp-content/uploads/2023/10/ovs-deb12-module-noyau-openvswitch.webp#center)
-_**Open vSwitch : Chemin du module openvswitch.ko**_
+<figure markdown>
+  ![Capture - Open vSwitch : Informations sur le module noyau openvswitch.ko](../images/2023/10/ovs-deb12-module-noyau-openvswitch.webp)
+  <figcaption>Open vSwitch : Chemin du module openvswitch.ko</figcaption>
+</figure>
 
 Contrôlez enfin le bon chargement du module :
 
@@ -189,6 +197,11 @@ Contrôlez enfin le bon chargement du module :
 
 ![Capture - Open vSwitch : Module openvswitch.ko chargé](../wp-content/uploads/2023/10/ovs-deb12-modules-lsmod.webp#center)
 _**Open vSwitch : Module openvswitch.ko chargé**_
+
+<figure markdown>
+  ![Capture - Fenêtre de connexion Xfce](../images/2023/09/client-deb12-login.webp){ width="430" }
+  <figcaption>Fenêtre de connexion Xfce</figcaption>
+</figure>
 
 \- - Liste des [principaux composants](../wp-content/uploads/2023/10/openvswitch-composants.webp#center){:target="_blank"} OVS installés - -
   
