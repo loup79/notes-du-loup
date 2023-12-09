@@ -17,7 +17,7 @@ IPFire étant installé, vous allez à présent créer le serveur srvdmz que vou
 
 La configuration sera identique à celle de la VM srvlan hormis la partie réseau.
 
-### 1 - Construction de la VM depuis VirtualBox
+### Construction de la VM
 
 L'utilisation de VirtualBox est considérée acquise.
 
@@ -25,7 +25,7 @@ A défaut, référez-vous aux mémentos suivants :
 [VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
 [VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
-#### _1.1 - Création et configuration de la VM_
+#### _Création et configuration_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.
 
@@ -74,7 +74,7 @@ Facultatif, accès au dossier partagé par le PC hôte :
 
 Les autres paramètres peuvent rester inchangés.
 
-#### _1.2 - Installation de la distribution Debian_
+#### _Installation de Debian 12_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
@@ -155,7 +155,7 @@ et redémarrez le serveur :
 
 Reconnectez-vous ensuite en tant qu'utilisateur srvdmz et rouvrez le terminal de Cdes.
 
-### 2 - Installation des utilitaires de VirtualBox
+### Ajout des utilitaires VirtualBox
 
 Ils permettront entre autres le copier/coller et l'accès au dossier partagé par le PC hôte.
 
@@ -202,7 +202,7 @@ Sans fermer la VM, retirez l'image CD du lecteur virtuel :
 \-> Zone Attributs > Cliquez sur l'icône CD  
 \-> Retirer le disque du lecteur virtuel > OK
 
-### 3 - Suppression d'applications préinstallées
+### Suppression de paquets Debian
 
 Supprimez ces applications non utiles sur srvdmz :
 
@@ -248,7 +248,7 @@ Remplacez la ligne #background= par celle-ci :
 background=/usr/share/backgrounds/fond.jpg
 ```
 
-### 4 - Montage du dossier partagé par le PC hôte
+### Contenu partagé par le PC hôte
 
 Créez le dossier qui permettra d'afficher le contenu partagé par le PC hôte :
 
@@ -317,7 +317,7 @@ Un lien symbolique vers le service est créé.
 
 Ouvrez le gestionnaire de fichiers thunar et observez le contenu de /home/srvdmz/Partage.
 
-### 5 - Configuration du réseau
+### Configuration réseau de la VM
 
 Avant, vérifiez l'IP courante avec la Cde ip address :
 
@@ -340,7 +340,7 @@ Pour cela, sélectionnez la VM srvdmz dans VirtualBox :
 \-> Adapter 1 > Mode d'accès réseau > Réseau interne  
 \-> OK
 
-#### _5.1 - Adressage IP fixe carte enp0s3_
+#### _IP de la carte réseau enp0s3_
 
 Configurez à présent une IP fixe sur la carte enp0s3 :  
 \- - Bureau Xfce, barre du haut  
@@ -408,4 +408,4 @@ Les serveurs sont prêts. Le mémento
 4.1 vous attend pour la création des  
 VM clientes du réseau local virtuel.
 
-[Mémento 4.1](../clients-debian12-vm1-vm2-creation/){ .md-button .md-button--primary }
+[Mémento 4.1](../posts/clients-debian12-vm1-vm2-creation.md){ .md-button .md-button--primary }
