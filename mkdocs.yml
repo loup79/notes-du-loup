@@ -58,8 +58,7 @@ nav:
 theme:
   name: material
   language: fr
-
-#### Configuration du comportement de la navigation
+# Comportement de la navigation
   features:
     - navigation.tabs
     - navigation.sections

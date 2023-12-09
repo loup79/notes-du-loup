@@ -15,7 +15,7 @@ categories:
 
 Comme pour les réseaux précédents, vous allez créer et placer la VM srvsec _(IPFire)_ en entrée du réseau local ou celle-ci servira entre autres de pare-feu.
 
-### 1 - Construction de la VM depuis VirtualBox
+### Construction de la VM
 
 L'utilisation de VirtualBox est considérée acquise.
 
@@ -23,7 +23,7 @@ A défaut, référez-vous aux mémentos suivants :
 [VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
 [VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
-#### _1.1 - Création et configuration_
+#### _Création et configuration_
 
 Téléchargez l'ISO x86\_64 version 2.x - Core Update y :  
 [https://www.ipfire.org/download](https://www.ipfire.org/download){ target="_blank" }
@@ -75,7 +75,7 @@ La VM s'affiche dans le panneau gauche de VirtualBox.
 
 Les autres paramètres peuvent rester inchangés.
 
-#### _1.2 - Installation de la distribution IPFire_
+#### _Installation d'IPFire_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
@@ -370,7 +370,7 @@ Retirez, si nécessaire, l'image ISO du lecteur CD virtuel :
 
 Redémarrez et vérifiez que tout se passe bien.
 
-#### _1.3 - Connexion sur l'interface WEB d'IPFire_
+#### _Accès à l'interface WEB_
 
 Ouvrez le navigateur Web de la VM srvlan et entrez l'adresse `https://192.168.2.1:444`.
 
@@ -390,7 +390,7 @@ La page d'accueil d'IPFire doit s'afficher :
   <figcaption>IPFire : Page d'accueil Web</figcaption>
 </figure>
 
-#### _1.4 - Route statique vers le réseau 192.168.3.0_
+#### _Ajout d'une route statique_
 
 Vérifiez depuis srvsec qu'un ping sur l'IP 192.168.3.1 de srvlan ne fonctionne pas actuellement.
 
