@@ -1,12 +1,15 @@
 ---
 title: "srvdmz - VBox/Deb12"
+summary: Création d'une VM serveur DMZ de nom srvdmz.
 author: G.Leloup
 date: 2021-08-02
 categories: 
-  - "serveur-srvdmz"
+  - Serveur DMZ "srvdmz"
 ---
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
+<figure markdown>
+  ![Capture - Debian 12 : Bureau Xfce personnalisé](../images/2023/07/srvdmz-deb12-bureau-xfce-bis.webp){ width="430" }
+</figure>
 
 ## Mémento 3.1 - Serveur srvdmz
 
@@ -19,15 +22,17 @@ La configuration sera identique à celle de la VM srvlan hormis la partie résea
 L'utilisation de VirtualBox est considérée acquise.
 
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](../virtualbox-installation/)  
-[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
+[VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
+[VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
 #### _1.1 - Création et configuration de la VM_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.
 
 Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
-[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)
+[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/){ target="_blank" }
+
+<!-- more -->
 
 \- Démarrez ensuite l'application VirtualBox 7.x, puis :  
 \- - Menu de VirtualBox > Machine > Nouvelle...  
@@ -116,8 +121,10 @@ L'installation se termine :
 
 Le système reboot et une fenêtre de connexion s'ouvre :
 
-[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-login-430x359.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-login.webp)
-_**Fenêtre de connexion Xfce**_
+<figure markdown>
+  ![Capture - Fenêtre de connexion Xfce](../images/2023/07/srvdmz-deb12-login.webp){ width="430" }
+  <figcaption>Fenêtre de connexion Xfce</figcaption>
+</figure>
 
 \-> Premier champ : Entrez srvdmz  
 \-> Second champ : Entrez Votre MDP srvdmz  
@@ -125,8 +132,10 @@ _**Fenêtre de connexion Xfce**_
 
 Le bureau Xfce s'ouvre :
 
-[![Capture - bureau Xfce](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-430x358.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce.webp)
-_**Bureau Xfce**_
+<figure markdown>
+  ![Capture - Bureau Xfce](../images/2023/07/srvdmz-deb12-bureau-xfce.webp){ width="430" }
+  <figcaption>Bureau Xfce</figcaption>
+</figure>
 
 Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intérieur du dock.
 
@@ -217,8 +226,10 @@ exfalso quodlibet
 
 La configuration de base est presque terminée :
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis-430x264.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/srvdmz-deb12-bureau-xfce-bis.webp)
-_**Debian 12 : Bureau Xfce personnalisé**_
+<figure markdown>
+  ![Capture - Debian 12 : Bureau Xfce personnalisé](../images/2023/07/srvdmz-deb12-bureau-xfce-bis.webp){ width="430" }
+  <figcaption>Debian 12 : Bureau Xfce personnalisé</figcaption>
+</figure>
 
 La consommation RAM actuelle est d'environ 500 Mo.
 
@@ -316,8 +327,10 @@ Avant, vérifiez l'IP courante avec la Cde ip address :
 
 Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
-![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/07/srvdmz-deb12-ip-address-580x322.webp#center)
-_**Résultat de la Cde ip address**_
+<figure markdown>
+  ![Capture - Résultat de la Cde ip address](../images/2023/07/srvdmz-deb12-ip-address-580x322.webp)
+  <figcaption>Résultat de la Cde ip address</figcaption>
+</figure>
 
 La VM srvdmz étant prévue en zone DMZ, il faut changer le mode d'accès réseau de sa carte réseau enp0s3.
 
@@ -362,13 +375,17 @@ Vérifiez par prudence la bonne configuration du réseau :
 [srvdmz@srvdmz:~$] nmcli      # Cde NetworkManager
 ```
 
-![Capture - Résultat de la Cde nmcli](../wp-content/uploads/2023/07/srvdmz-deb12-cde-nmcli-580x559.webp#center)
-_**Résultat de la Cde nmcli**_
+<figure markdown>
+  ![Capture - Résultat de la Cde nmcli](../images/2023/07/srvdmz-deb12-cde-nmcli-580x559.webp)
+  <figcaption>Résultat de la Cde nmcli</figcaption>
+</figure>
 
 Les fichiers configurés avec networkmanager sont ici :  
 /etc/NetworkManager/system-connections/
 
-_Nota : La VM srvdmz accède à Internet si la VM srvsec est démarrée._
+!!! note "Nota"
+
+    La VM srvdmz accède à Internet si la VM srvsec est démarrée.
 
 Le service réseau peut être redémarré avec cette Cde :
 
@@ -378,10 +395,12 @@ Le service réseau peut être redémarré avec cette Cde :
 
 Par curiosité, lisez la table de routage avec la Cde ip r :
 
-![Capture - Table de routage courante de srvdmz ](../wp-content/uploads/2023/07/srvdmz-deb12-table-routage-580x69.webp#center)
-_**Table de routage courante de srvdmz**_
+<figure markdown>
+  ![Capture - Table de routage courante de srvdmz](../images/2023/07/srvdmz-deb12-table-routage-580x69.webp)
+  <figcaption>Table de routage courante de srvdmz</figcaption>
+</figure>
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
 Bien !  
@@ -389,4 +408,4 @@ Les serveurs sont prêts. Le mémento
 4.1 vous attend pour la création des  
 VM clientes du réseau local virtuel.
 
-[Mémento 4.1](../clients-debian12-vm1-vm2-creation/){ .md-button }
+[Mémento 4.1](../clients-debian12-vm1-vm2-creation/){ .md-button .md-button--primary }
