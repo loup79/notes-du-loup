@@ -23,7 +23,7 @@ Virtuelles (VM).
 
 ### Installation
 
-#### _Information générale_
+#### _- Information générale_
 
 VirtualBox, installé sur le système d'exploitation hôte d'un ordinateur, utilisera les ressources matérielles de celui-ci pour créer des machines virtuelles _(VM)_ pouvant fonctionner simultanément sous différents systèmes d'exploitation invités.
 
@@ -31,7 +31,7 @@ Le système d'exploitation hôte accèdera seul au matériel physique de l'ordin
 
 Le tout fonctionnera de manière sécurisée, les systèmes d'exploitation invités n'interagiront pas directement avec le système d'exploitation hôte et n'interagiront pas entre eux.
 
-#### _Téléchargements_
+#### _- Téléchargements_
 
 _Le Homelab IPFire + Debian sera créé avec VBox 7.x.y._
 
@@ -43,7 +43,7 @@ Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et tél
 
 \- L' extension VirtualBox 7.x.y Oracle VM VirtualBox Extension Pack, toutes plateformes.
 
-#### _Installation de la version 7.x.y_
+#### _- Installation de la version 7_
 
 Lancez l'exécutable et acceptez d'ajouter les cartes réseau qui vous seront proposées.
 
@@ -222,4 +222,4 @@ C:\...>.\VBoxManage modifyvm "nom-vm" --nested-hw-virt on
 VBoxManage modifyvm "nom-vm" --nested-hw-virt on
 ```
 
----------- Fin ----------
+<center>---------- Fin ----------</center>

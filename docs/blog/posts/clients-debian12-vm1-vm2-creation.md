@@ -1,14 +1,17 @@
 ---
 title: "vm1 et 2 - VBox/Deb12"
+summary: Création des VM clients LAN.
 author: G.Leloup
 date: 2023-09-12
 categories: 
-  - "clients-debian"
+  - Clients LAN "vm1 vm2"
 ---
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis-430x210.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis.webp)
+<figure markdown>
+  ![Capture - Debian 12 : Bureau Xfce personnalisé](../images/2023/09/client-deb12-bureau-xfce-bis.webp){ width="430" }
+</figure>
 
-## Mémento 4.1 - Client vm1 cloné vm2
+## Mémento 4.1 - Clients vm1 vm2
 
 A présent, vous allez compléter le réseau virtuel avec 2 clients Linux reposant sur Debian 12.
   
@@ -16,20 +19,22 @@ L'environnement graphique proposé sera le même que pour srvlan et srvdmz soit 
   
 Le premier client sera cloné pour générer le second dont vous ne modifierez que le nom d'hôte et l'adresse IP.
 
-### 1 - Construction du premier client Linux
+### Construction de la VM vm1
 
 L'utilisation de VirtualBox est considérée acquise.  
   
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](../virtualbox-installation/)  
-[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
+[VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
+[VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
-#### _1.1 - Création et configuration de la VM_
+#### _- Création et configuration_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.  
   
 Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
-[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/)  
+[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/){ target="_blank" }
+
+<!-- more -->
   
 \- Démarrez ensuite l'application VirtualBox 7.x, puis :  
 \- - Menu de VirtualBox > Machine > Nouvelle...  
@@ -71,7 +76,7 @@ Facultatif, accès au dossier partagé par le PC hôte :
   
 Les autres paramètres peuvent rester inchangés.
 
-#### _1.2 - Installation de la distribution Debian_
+#### _- Installation de Debian 12_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
@@ -118,8 +123,10 @@ L'installation se termine :
   
 Le système reboot et une fenêtre de connexion s'ouvre :
 
-[![Capture - Fenêtre de connexion Xfce](../wp-content/uploads/2023/09/client-deb12-login-430x361.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-login.webp#center)
-_**Fenêtre de connexion Xfce**_
+<figure markdown>
+  ![Capture - Fenêtre de connexion Xfce](../images/2023/09/client-deb12-login.webp){ width="430" }
+  <figcaption>Fenêtre de connexion Xfce</figcaption>
+</figure>
 
 -> Premier champ : client-linux  
 -> Second champ : MDP de l'utilisateur client-linux  
@@ -127,8 +134,10 @@ _**Fenêtre de connexion Xfce**_
   
 Le bureau Xfce s'ouvre :
 
-[![Capture - Bureau Xfce](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-430x362.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-bureau-xfce.webp#center)
-_**Bureau Xfce**_
+<figure markdown>
+  ![Capture - Bureau Xfce](../images/2023/09/client-deb12-bureau-xfce.webp){ width="430" }
+  <figcaption>Bureau Xfce</figcaption>
+</figure>
 
 Ouvrez le terminal de Cdes en cliquant sur son icône située en bas à l'intérieur du dock.  
   
@@ -148,7 +157,7 @@ et redémarrez la VM :
   
 Reconnectez-vous ensuite en tant qu'utilisateur client-linux et rouvrez le terminal de Cdes.
 
-#### _1.3 - Installation des utilitaires de VirtualBox_
+#### _- Utilitaires VirtualBox_
 
 Ils permettront entre autres le copier/coller et l'accès au dossier partagé par le PC hôte.
 
@@ -195,7 +204,7 @@ Sans fermer la VM, retirez l'image CD du lecteur virtuel :
 -> Zone Attributs > Cliquez sur l'icône CD  
 -> Retirer le disque du lecteur virtuel > OK
 
-#### _1.4 - Mise en français de LibreOffice_
+#### _- Locale fr_FR de LibreOffice_
 
 Installez les paquets suivants :
 
@@ -206,8 +215,10 @@ Installez les paquets suivants :
 
 La configuration de base est presque terminée :
 
-[![Capture - Debian 12 : Bureau Xfce personnalisé](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis-430x210.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/09/client-deb12-bureau-xfce-bis.webp#center)
-_**Debian 12 : Bureau Xfce personnalisé**_
+<figure markdown>
+  ![Capture - Debian 12 : Bureau Xfce personnalisé](../images/2023/09/client-deb12-bureau-xfce-bis.webp){ width="430" }
+  <figcaption>Debian 12 : Bureau Xfce personnalisé</figcaption>
+</figure>
 
 Pour un même fond d'écran sur la fenêtre de login Lightdm et le bureau Xfce, procédez ainsi :
 
@@ -224,7 +235,7 @@ Remplacez la ligne #background= par celle-ci :
 background=/usr/share/backgrounds/fond.jpg
 ```
 
-#### _1.5 - Montage du dossier partagé par le PC hôte_
+#### _- Dossier partagé par l'hôte_
 
 Le trait d'union de l'utilisateur client-linux impose sous systemd de prendre des précautions concernant le nom à donner au service de montage du dossier partagé.  
   
@@ -312,7 +323,7 @@ Pour finir, ouvrez le gestionnaire de fichiers :
 et observez le contenu partagé par le PC hôte dans :  
 /home/clientx2dlinux/Partage
 
-#### _1.6 - Configuration du réseau (IP fixe)_
+#### _- Configuration réseau de vm1_
 
 Avant, vérifiez l'IP courante avec la Cde ip address :
 
@@ -322,8 +333,10 @@ Avant, vérifiez l'IP courante avec la Cde ip address :
 
 Résultat, IP 10.0.2.15, IP fournie par VirtualBox :
 
-![Capture - Résultat de la Cde ip address](../wp-content/uploads/2023/09/client-deb12-ip-address-580x317.webp#center)
-_**Résultat de la Cde ip address**_
+<figure markdown>
+  ![Capture - Résultat de la Cde ip address](../images/2023/09/client-deb12-ip-address-580x317.webp)
+  <figcaption>Résultat de la Cde ip address</figcaption>
+</figure>
 
 La VM debian12-vm1 étant prévue en zone LAN, il faut changer le mode d'accès réseau de sa carte enp0s3.
   
@@ -366,8 +379,10 @@ Vérifiez par prudence la bonne configuration du réseau :
 [client-linux@debian12-vm1:~#] nmcli  # Cde NetworkManager
 ```
 
-![Capture - Résultat de la Cde nmcli](../wp-content/uploads/2023/09/client-deb12-cde-nmcli-580x551.webp#center)
-_**Résultat de la Cde nmcli**_
+<figure markdown>
+  ![Capture - Résultat de la Cde nmcli](../images/2023/09/client-deb12-cde-nmcli-580x551.webp)
+  <figcaption>Résultat de la Cde nmcli</figcaption>
+</figure>
 
 Les fichiers configurés avec NetworkManager sont ici :  
 /etc/NetworkManager/system-connections/  
@@ -380,8 +395,10 @@ Le service réseau peut être redémarré avec cette Cde :
 
 Par curiosité, lisez la table de routage avec la Cde ip r :
 
-![Capture - Table de routage de debian12-vm1 ](../wp-content/uploads/2023/09/client-deb12-table-routage-580x66.webp#center)
-_**Table de routage de debian12-vm1**_
+<figure markdown>
+  ![Capture - Table de routage de debian12-vm1](../images/2023/09/client-deb12-table-routage-580x66.webp)
+  <figcaption>Table de routage de debian12-vm1</figcaption>
+</figure>
 
 Pour finir, sélectionnez la VM srvlan dans VirtualBox :  
 \- - Menu de VirtualBox > Machine > Configuration...  
@@ -389,13 +406,15 @@ Pour finir, sélectionnez la VM srvlan dans VirtualBox :
 -> Adapter 2 > Mode d'accès réseau = Réseau interne  
 -> Name > Remplacez intnet par switch_interne > OK  
   
-Les clients Linux seront ainsi raccordés correctement à srvlan au travers des liaisons nommées switch_interne.  
-  
-_Nota : La VM debian12-vm1 accède à Internet si les VM srvsec et srvlan sont démarrées._
+Les clients Linux seront ainsi raccordés correctement à srvlan au travers des liaisons nommées switch_interne.
 
-### 2 - Construction du deuxième client Linux
+!!! note "Nota"
 
-#### _2.1 - Clonage_
+    La VM debian12-vm1 accède à Internet si les VM srvsec et srvlan sont démarrées.
+
+### Construction de la VM vm2
+
+#### _- Clonage_
 
 Comme indiqué au début du mémento, vous allez commencer par cloner la VM debian12-vm1.
 
@@ -417,7 +436,7 @@ Le clonage s'exécute.
   
 Démarrez la nouvelle VM une fois le clonage terminé et connectez-vous sur celle-ci avec les login et MDP de l'hôte debian12-vm1.
 
-#### _2.2 - Changement du nom d'hôte hérité_
+#### _- Changement du nom d'hôte_
 
 Ouvrez le terminal et modifiez le nom d'hôte :
 
@@ -457,7 +476,7 @@ Operating System: Debian GNU/Linux 12 (bookworm)
     Architecture: x86-64
 ```
 
-#### _2.3 - Changement de l'adresse IP héritée_
+#### _- Changement de l'adresse IP_
 
 Effectuez les opérations suivantes :  
 \- - Bureau Xfce, barre du haut  
@@ -498,9 +517,9 @@ Vérifiez la configuration avec la Cde ip address.
   
 _Nota : Si problème d'IP, rebootez la VM et revérifiez._
 
-### 3 - Récapitulatif et test de la maquette réseau
+### Récapitulatif et tests divers
 
-#### _3.1 - Récapitulatif_
+#### _- Récapitulatif_
 
 Voilà, le réseau virtuel comprend déjà :  
 \- 1 PC hôte _(Windows ou Linux)_  
@@ -511,10 +530,12 @@ Voilà, le réseau virtuel comprend déjà :
   
 Retrouvez ceux-ci sur la maquette finale :
 
-[![Synoptique - Maquette du réseau local virtuel avec IPFire](../wp-content/uploads/2018/05/maquette-base-ipfire-430x301.png#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2018/05/maquette-base-ipfire.png#center)
-_**Configuration de base - Flux ICMP (ping)**_
+<figure markdown>
+  ![Synoptique - Maquette du réseau local virtuel avec IPFire](../images/2018/05/maquette-base-ipfire.png){ width="430" }
+  <figcaption>Configuration de base - Flux ICMP (ping)</figcaption>
+</figure>
 
-#### _3.2 - Préparation du test_
+#### _- Préparation du test_
 
 Le test impose d'ajouter 3 routes statiques dans la table de routage du PC hôte.  
   
@@ -553,7 +574,7 @@ Pour supprimer une route caduque, utilisez cette Cde :
 [C:\~] route delete 192.168.x.0 mask 255.255.255.0
 ```
 
-#### _3.3 - Contrôle du paramétrage serveur DNS_
+#### _- Contrôle du serveur DNS_
 
 Hormis IPFire, vérifiez dans les fichiers /etc/resolv.conf des VM la présence de :
 
@@ -563,13 +584,13 @@ nameserver 192.16...     # adresse IP de votre box Internet
 
 A défaut, corrigez ou ajoutez cette ligne manuellement.
 
-#### _3.4 - Test du réseau local virtuel (Cde ping)_
+#### _- Test du réseau local virtuel_
 
 Effectuez à présent le test de bon fonctionnement du réseau à l'aide de la Cde ping, ceci en vérifiant la conformité des résultats avec ceux indiqués sur la [maquette](../wp-content/uploads/2018/05/maquette-base-ipfire.png) réseau local virtuel.  
   
 Tout doit être correct pour pouvoir continuer.
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
 Bravo pour être arrivé jusqu'ici !  
@@ -577,4 +598,4 @@ Le mémento 5.1 vous attend pour
 l'intégration d'un switch virtuel  
 Open vSwitch.
 
-[Mémento 5.1](../openvswitch-debian12-ovs-creation){ .md-button }
+[Mémento 5.1](../posts/openvswitch-debian12-ovs-creation.md){ .md-button .md-button--primary }

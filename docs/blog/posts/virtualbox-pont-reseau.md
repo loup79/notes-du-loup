@@ -37,7 +37,7 @@ Le pont offre l'avantage de pouvoir réaliser des tests depuis le PC hôte vers 
 
 ### Installation du pont réseau
 
-#### *srvlan - mode d'accès réseau*
+#### *- srvlan - mode accès réseau*
 
 Arrêtez la VM srvlan.
 
@@ -49,7 +49,7 @@ Depuis VirtualBox, affichez la configuration de la VM :
 
 Redémarrez la VM.
 
-#### *srvlan - adresse IP fixe*
+#### *- srvlan - adresse IP fixe*
 
 Editez le fichier réseau interfaces :
 
@@ -75,8 +75,8 @@ Relancez le service réseau sur la carte eth0 :
 [root@srvlan:~#\] service network-interface restart INTERFACE=eth0
 ```
 
-#### *Test du pont*
+#### *- Test du pont*
 
 Effectuez un ping depuis le PC hôte vers srvlan et inversement.
 
-\---------- Fin ----------
+<center>---------- Fin ----------</center>

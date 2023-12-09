@@ -70,7 +70,7 @@ Image - syntaxe :
 
 `![Logo - ...](../wp-content/uploads/2019/02/logo-virtualbox.jpg){ align=left }`
 
-![Logo - VirtualBox](../wp-reseau-virtuel/wp-content/uploads/2019/02/logo-virtualbox.jpg){ align=left }
+![Logo - VirtualBox](../blog/images/2019/02/logo-virtualbox.jpg){ align=left }
 
 &nbsp;  
 Image  
@@ -83,7 +83,7 @@ ou image sans option _(Alerte markdown MD033)_
 
 ```markdown
 <figure markdown>
-  ![Logo de ...](../wp-reseau-virtuel/wp-content/uploads/2019/02/logo-virtualbox.jpg)
+  ![Logo de ...](../blog/images/2019/02/logo-virtualbox.jpg)
 </figure>
 ```
 
@@ -91,7 +91,7 @@ ou image avec option et légende _(Alerte markdown MD033)_
 
 ```markdown
 <figure markdown>
-  ![Image - VBox : Logo...](../wp-reseau-virtuel/wp-content/uploads/2019/02/logo-virtualbox.jpg){ width="xxx" }
+  ![Image - VBox : Logo...](../blog/images/2019/02/logo-virtualbox.jpg){ width="xxx" }
   <figcaption>VBox : Logo...</figcaption>
 </figure>
 ```
@@ -136,6 +136,8 @@ OS/Arch:      linux/amd64
 ```
 
 ### **- Divers**
+
+Texte - centrage : `<center>---------- Fin ----------</center>` _(Alerte markdown MD033)_
 
 Paragraphe - surlignage : ==texte-surligné==  (== de chaque côté du texte)
 
