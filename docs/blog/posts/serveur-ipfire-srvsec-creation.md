@@ -303,37 +303,49 @@ Entrez l'adresse IP de la carte 2 soit 192.168.4.1 > OK
 
 \-> RED soit la carte réseau 1 de VirtualBox > OK
 
-![Capture - IPFire : Adresse IP carte red](../wp-content/uploads/2023/07/IPFire_32.webp#center)
-_**Installation IPFire - Image 32**_
+<figure markdown>
+  ![Capture - IPFire : Adresse IP carte red](../images/2023/07/IPFire_32.webp)
+  <figcaption>Installation IPFire - Image 32</figcaption>
+</figure>
 
 \- Statique : Vérifiez que la case est bien cochée  
 \- Adresse IP : IP libre du serveur DHCP de votre Box  
 \- Gateway : IP de votre Box > OK
 
-![Capture - IPFire : Fin de la sélection des cartes réseau green, orange et red](../wp-content/uploads/2023/07/IPFire_33-430x211.webp#center)
-_**Installation IPFire - Image 33**_
+<figure markdown>
+  ![Capture - IPFire : Fin de la sélection des cartes réseau green, orange et red](../images/2023/07/IPFire_33.webp){ width="430" }
+  <figcaption>Installation IPFire - Image 33</figcaption>
+</figure>
 
 Les 3 cartes ont maintenant une adresse IP > Terminé
 
-![Capture - IPFire : Configuration d'adresse, sortie](../wp-content/uploads/2023/07/IPFire_34.webp#center)
-_**Installation IPFire - Image 34**_
+<figure markdown>
+  ![Capture - IPFire : Configuration d'adresse, sortie](../images/2023/07/IPFire_34.webp)
+  <figcaption>Installation IPFire - Image 34</figcaption>
+</figure>
 
 Quittez la Configuration d'adresse > Terminé
 
-![Capture - IPFire : Configuration dhcp](../wp-content/uploads/2023/07/IPFire_37-430x300.webp#center)
-_**Installation IPFire - Image 35**_
+<figure markdown>
+  ![Capture - IPFire : Configuration dhcp](../images/2023/07/IPFire_37.webp){ width="430" }
+  <figcaption>Installation IPFire - Image 35</figcaption>
+</figure>
 
 Cette fenêtre s'affiche, ne pas activer le DHCP > OK
 
-![Capture - IPFire : Installation terminée](../wp-content/uploads/2023/07/IPFire_38.webp#center)
-_**Installation IPFire - Image 36**_
+<figure markdown>
+  ![Capture - IPFire : Installation terminée](../images/2023/07/IPFire_38.webp)
+  <figcaption>Installation IPFire - Image 36</figcaption>
+</figure>
 
 Et voilà, c'est terminé > OK
 
 IPFire finit son démarrage et affiche le login de srvsec :
 
-[![Capture - IPFire : Premier démarrage](../wp-content/uploads/2023/07/IPFire_39-430x251.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_39.webp)
-_**IPFire : Premier démarrage**_
+<figure markdown>
+  ![Capture - IPFire : Premier démarrage](../images/2023/07/IPFire_39.webp){ width="430" }
+  <figcaption>IPFire : Premier démarrage</figcaption>
+</figure>
 
 Vous pouvez à présent vous connecter en tant que root.
 
@@ -360,7 +372,7 @@ Redémarrez et vérifiez que tout se passe bien.
 
 #### _1.3 - Connexion sur l'interface WEB d'IPFire_
 
-Ouvrez le navigateur Web de la VM srvlan et entrez l'adresse <https://192.168.2.1:444>.
+Ouvrez le navigateur Web de la VM srvlan et entrez l'adresse `https://192.168.2.1:444`.
 
 Un message d'alerte de sécurité s'affiche :  
 \-> Bouton Avancé...  
@@ -373,8 +385,10 @@ Une fenêtre de connexion s'ouvre :
 
 La page d'accueil d'IPFire doit s'afficher :
 
-[![Capture - IPFire : Page d'accueil Web](../wp-content/uploads/2023/07/IPFire_accueil_web-430x208.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_accueil_web.webp)
-_**IPFire : Page d'accueil Web**_
+<figure markdown>
+  ![Capture - IPFire : Page d'accueil Web](../images/2023/07/IPFire_accueil_web.webp){ width="430" }
+  <figcaption>IPFire : Page d'accueil Web</figcaption>
+</figure>
 
 #### _1.4 - Route statique vers le réseau 192.168.3.0_
 
@@ -385,12 +399,14 @@ Pour corriger cela, revenez sur srvlan :
 
 Remplissez les champs comme montré ci-dessous et cliquez ensuite sur le bouton Ajouter :
 
-[![Capture - IPFire : Ajout d'une route statique vers 192.168.3.0](../wp-content/uploads/2023/07/IPFire_ajout_route_statique-430x249.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/IPFire_ajout_route_statique.webp)
-_**IPFire : Ajout d'une route statique vers 192.168.3.0**_
+<figure markdown>
+  ![Capture - IPFire : Ajout d'une route statique vers 192.168.3.0](../images/2023/07/IPFire_ajout_route_statique.webp){ width="430" }
+  <figcaption>IPFire : Ajout d'une route statique vers 192.168.3.0</figcaption>
+</figure>
 
 Le ping doit maintenant recevoir une réponse positive.
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
 Voilà !  
@@ -398,4 +414,4 @@ IPFire est en place. Le mémento
 3.1 vous attend pour la création  
 du dernier serveur soit srvdmz.
 
-[Mémento srvdmz](../serveur-debian12-srvdmz-creation){ .md-button }
+[Mémento srvdmz](../posts/serveur-debian12-srvdmz-creation.md){ .md-button .md-button--primary }
