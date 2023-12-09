@@ -7,7 +7,9 @@ categories:
   - Serveur WAN "srvsec"
 ---
 
-[![Image - Firewall ou pare-feu](../wp-content/uploads/2023/07/firewall-430x287.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/07/firewall.webp)
+<figure markdown>
+  ![Image - Firewall ou pare-feu](../images/2023/07/firewall.webp){ width="430" }
+</figure>
 
 ## Mémento 2.1 - Serveur srvsec
 
@@ -18,13 +20,15 @@ Comme pour les réseaux précédents, vous allez créer et placer la VM srvsec _
 L'utilisation de VirtualBox est considérée acquise.
 
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](../virtualbox-installation/)  
-[VirtualBox – Mode d’accès réseau par pont](../virtualbox-pont-reseau/)
+[VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
+[VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
 #### _1.1 - Création et configuration_
 
 Téléchargez l'ISO x86\_64 version 2.x - Core Update y :  
-[https://www.ipfire.org/download](https://www.ipfire.org/download)
+[https://www.ipfire.org/download](https://www.ipfire.org/download){ target="_blank" }
+
+<!-- more -->
 
 \- Démarrez ensuite l'application VirtualBox 7.x, puis :  
 \- - Menu de VirtualBox > Machine > Nouvelle...  
@@ -79,28 +83,38 @@ Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, 
 \- - Menu de VirtualBox > Machine > Démarrer  
 \-> Démarrage normal _(La VM s'exécute)_
 
-![Capture - IPFire : Accueil Installation](../wp-content/uploads/2023/07/IPFire_1-430x319.webp#center)
-_**Installation IPFire - Image 1**_
+<figure markdown>
+  ![Capture - IPFire : Accueil Installation](../images/2023/07/IPFire_1-430x319.webp)
+  <figcaption>Installation IPFire - Image 1</figcaption>
+</figure>
 
 Validez Install IPFire 2.x - Core y > Touche Entrée
 
-![Capture - IPFire : Sélection de la langue](../wp-content/uploads/2023/07/IPFire_2.webp#center)
-_**Installation IPFire - Image 2**_
+<figure markdown>
+  ![Capture - IPFire : Sélection de la langue](../images/2023/07/IPFire_2.webp)
+  <figcaption>Installation IPFire - Image 2</figcaption>
+</figure>
 
 Sélectionnez le Français > OK
 
-![Capture - IPFire : Validation du démarrage de l'installation](../wp-content/uploads/2023/07/IPFire_3.webp#center)
-_**Installation IPFire - Image 3**_
+<figure markdown>
+  ![Capture - IPFire : Validation du démarrage de l'installation](../images/2023/07/IPFire_3.webp)
+  <figcaption>Installation IPFire - Image 3</figcaption>
+</figure>
 
 Validez Démarrer l'installation > Touche Entrée
 
-![Capture - IPFire : Acceptation de la licence](../wp-content/uploads/2023/07/IPFire_4-430x243.webp#center)
-_**Installation IPFire - Image 4**_
+<figure markdown>
+  ![Capture - IPFire : Acceptation de la licence](../images/2023/07/IPFire_4.webp)
+  <figcaption>Installation IPFire - Image 4</figcaption>
+</figure>
 
 Cochez J'accepte la licence > OK
 
-![Capture - IPFire : Préparation du disque dur](../wp-content/uploads/2023/07/IPFire_5.webp#center)
-_**Installation IPFire - Image 5**_
+<figure markdown>
+  ![Capture - IPFire : Préparation du disque dur](../images/2023/07/IPFire_5.webp)
+  <figcaption>Installation IPFire - Image 5</figcaption>
+</figure>
 
 Validez Supprime toutes les données > Touche Entrée
 
