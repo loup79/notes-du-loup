@@ -17,6 +17,8 @@ th { display: none; }
 td { background-color: rgb(251, 245, 245); }
 .td-bleu { background-color:#e7f5fe; }
 
+nav.md-post__action a { color: #772307; font-weight: bold; }
+
 @media (max-width: 360px) {
 /* Taille paragraphe */
 p, li {font-size: 12px;}
