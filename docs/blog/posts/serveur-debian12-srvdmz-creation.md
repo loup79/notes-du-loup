@@ -25,7 +25,7 @@ A défaut, référez-vous aux mémentos suivants :
 [VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
 [VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
-#### _Création et configuration_
+#### _- Création et configuration_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.
 
@@ -74,7 +74,7 @@ Facultatif, accès au dossier partagé par le PC hôte :
 
 Les autres paramètres peuvent rester inchangés.
 
-#### _Installation de Debian 12_
+#### _- Installation de Debian 12_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparaît lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.
@@ -340,7 +340,7 @@ Pour cela, sélectionnez la VM srvdmz dans VirtualBox :
 \-> Adapter 1 > Mode d'accès réseau > Réseau interne  
 \-> OK
 
-#### _IP de la carte réseau enp0s3_
+#### _- IP de la carte réseau enp0s3_
 
 Configurez à présent une IP fixe sur la carte enp0s3 :  
 \- - Bureau Xfce, barre du haut  

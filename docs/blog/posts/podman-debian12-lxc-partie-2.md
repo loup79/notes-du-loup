@@ -4,7 +4,7 @@ description: Podman, conteneurs rootfull et rootless.
 author: G.Leloup
 date: 2023-11-30
 categories: 
-  - "openvswitch-conteneurs"
+  - OvS + Conteneurs LXC
 ---
 
 <figure markdown>
@@ -13,7 +13,7 @@ categories:
 
 ## Mémento 5.2 - Conteneurs LXC
 
-Vouss allez à présent créer un conteneur plus sécurisé dit rootless, celui-ci diminuant le risque de voir l'utilisateur root du conteneur obtenir tous les droits sur l'hôte ovs.
+Vous allez à présent créer un conteneur plus sécurisé dit rootless, celui-ci diminuant le risque de voir l'utilisateur root du conteneur obtenir tous les droits sur l'hôte ovs.
 
 Le conteneur rootless _(non privilégié)_ se veut plus isolé de l'hôte LXC qu'un conteneur rootfull.
 
@@ -24,6 +24,8 @@ Pour le raccordement réseau d'un conteneur rootless, Podman utilise par défaut
 Le conteneur partage alors le même espace de noms réseau que l'hôte, ce qui signifie qu'il partage la même interface réseau, les mêmes tables de routage, etc...
 
 Le conteneur rootless ne disposant pas par défaut d'une adresse IP, c'est le mappage de ports qui est utilisé pour joindre celui-ci.
+
+<!-- more -->
 
 !!! Nota
 

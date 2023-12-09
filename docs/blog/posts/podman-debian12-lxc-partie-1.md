@@ -1,14 +1,14 @@
 ---
 title: "Podman - VBox/Deb12 1/2"
-description: Podman, conteneurs rootfull et rootless.
+summary: Podman, conteneurs rootfull et rootless.
 author: G.Leloup
 date: 2023-11-30
 categories: 
-  - "openvswitch-conteneurs"
+  - OvS + Conteneurs LXC
 ---
 
 <figure markdown>
-  ![Logo de Podman](../wp-content/uploads/2023/11/podman-logo.webp){ width="430" }
+  ![Logo de Podman](../images/2023/11/podman-logo.webp){ width="430" }
 </figure>
 
 ## Mémento 5.2 - Conteneurs LXC
@@ -20,6 +20,8 @@ En conteneurisation, l'isolation se fait au niveau de l'OS hôte. Les conteneurs
 Cette technique moins exigeante en ressources favorise l'exécution d'applications légères, ces dernières incluant tout le nécessaire pour tourner de manière autonome.
 
 Podman qui est un moteur LinuX Container permet de créer des conteneurs en tant que root _(mode rootfull)_ et en tant qu'utilisateur standard _(mode rootless)_.
+
+<!-- more -->
 
 Le mode rootless offre plus de sécurité car l'utilisateur standard peut créer, exécuter et gérer des conteneurs sans processus nécessitant des privilèges root.
 

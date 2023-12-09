@@ -1,12 +1,15 @@
 ---
 title: "Open vSwitch - VBox/Deb12"
+summary: Installation et configuration d'un switch virtuel Open vSwitch.
 author: G.Leloup
 date: 2023-11-03
 categories: 
-  - "Open vSwitch + Conteneurs"
+  - "OvS + Conteneurs LXC"
 ---
 
-[![Image Pixabay - Switch informatique de Bru-nO](../wp-content/uploads/2023/10/openvswitch_3-430x323.webp#center "Cliquez pour agrandir l'image")](../wp-content/uploads/2023/10/openvswitch_3.webp)
+<figure markdown>
+  ![Image Pixabay - Switch informatique de Bru-nO](../images/2023/10/openvswitch_3.webp){ width="430" }
+</figure>
 
 ## Mémento 5.1 - Commutateur virtuel
 
@@ -15,6 +18,8 @@ Open vSwitch _(OVS)_ se comportera comme un véritable switch physique en propos
 Le switch virtuel sera, contrairement à une architecture standard, installé sur une VM et non sur le PC hôte de l'hyperviseur VirtualBox.
 
 Le raccordement externe des clients LAN Debian sur le switch se fera à l'aide de ports patch.
+
+<!-- more -->
   
 Le moyen d'approcher l'architecture standard sera de créer un conteneur à l'intérieur de la VM et de connecter celui-ci sur OVS à l'aide d'une interface réseau virtuelle Veth _(Mémento suivant)_.  
   
@@ -25,15 +30,15 @@ La gestion possible de VLAN ne sera pas traitée ici.
 L'utilisation de VirtualBox est considérée acquise.  
   
 A défaut, référez-vous aux mémentos suivants :  
-[VirtualBox - Installation](../virtualbox-installation/){:target="_blank"}  
-[VirtualBox - Mode d’accès réseau par pont](../virtualbox-pont-reseau/){:target="_blank"}
+[VirtualBox - Installation](../posts/virtualbox-installation.md){ target="_blank" }  
+[VirtualBox - Mode d’accès réseau par pont](../posts/virtualbox-pont-reseau.md){ target="_blank" }
 
 #### _1.1 - Création et configuration de la VM_
 
 Le PC hôte doit être un PC 64 bits, courant de nos jours.  
   
 Téléchargez l'ISO debian-12.x.y-amd64\-netinst.iso :  
-[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/){:target="_blank"}  
+[https://cdimage.debian.org/.../current/amd64/iso-cd/](https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/){ target="_blank"}  
   
 \- Démarrez ensuite l'application VirtualBox 7.x, puis :  
 \- - Menu de VirtualBox > Machine > Nouvelle...  
