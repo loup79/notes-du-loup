@@ -25,7 +25,7 @@ Le moyen d'approcher l'architecture standard sera de créer un conteneur à l'in
   
 La gestion possible de VLAN ne sera pas traitée ici.
 
-### Construction de la VM
+### Construction de la VM ovs
 
 L'utilisation de VirtualBox est considérée acquise.  
   
@@ -75,7 +75,7 @@ La VM s'affiche dans le panneau gauche de VirtualBox.
   
 Les autres paramètres peuvent rester inchangés.
 
-#### _Installation de Debian 12_
+#### _- Installation de Debian 12_
 
 Conseil pratique avant de démarrer la nouvelle VM :  
 Si le curseur de la souris disparait lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.  
@@ -148,7 +148,7 @@ Pour info, la VM peut être arrêtée de 2 façons :
 [switch@ovs:~$] sudo shutdown -h now
 ```
 
-### Installation et configuration d'OvS
+### Installation-configuration d'OvS
 
 Au préalable, observez la configuration réseau active :
 
@@ -195,15 +195,12 @@ Contrôlez enfin le bon chargement du module :
 [switch@ovs:~$] lsmod | grep openvswitch
 ```
 
-![Capture - Open vSwitch : Module openvswitch.ko chargé](../wp-content/uploads/2023/10/ovs-deb12-modules-lsmod.webp#center)
-_**Open vSwitch : Module openvswitch.ko chargé**_
-
 <figure markdown>
-  ![Capture - Fenêtre de connexion Xfce](../images/2023/09/client-deb12-login.webp){ width="430" }
-  <figcaption>Fenêtre de connexion Xfce</figcaption>
+  ![Capture - Open vSwitch : Module openvswitch.ko chargé](../images/2023/10/ovs-deb12-modules-lsmod.webp)
+  <figcaption>Open vSwitch : Module openvswitch.ko chargé</figcaption>
 </figure>
 
-\- - Liste des [principaux composants](../wp-content/uploads/2023/10/openvswitch-composants.webp#center){:target="_blank"} OVS installés - -
+\- - Liste des [principaux composants](../images/2023/10/openvswitch-composants.webp){:target="_blank"} OVS installés - -
   
 \- /usr/sbin/ovs-vswitchd :  
 Le service de commutation _(compatible OpenFlow)_.  
@@ -238,8 +235,10 @@ Contrôlez l'activation du service openvswitch-switch :
 [switch@ovs:~$] sudo systemctl status openvswitch-switch
 ```
 
-![Capture - Open vSwitch : Service openvswitch-switch activé](../wp-content/uploads/2023/10/ovs-deb12-service-openvswitch-switch.webp#center)
-_**Open vSwitch : Service openvswitch-switch activé**_
+<figure markdown>
+  ![Capture - Open vSwitch : Service openvswitch-switch activé](../images/2023/10/ovs-deb12-service-openvswitch-switch.webp)
+  <figcaption>Open vSwitch : Service openvswitch-switch activé</figcaption>
+</figure>
 
 ainsi que celle des 2 services suivants :
 
@@ -248,7 +247,7 @@ ainsi que celle des 2 services suivants :
 [switch@ovs:~$] sudo systemctl status ovs-vswitchd
 ```
 
-#### _2.2 - Configuration_
+#### _- Configuration_
 
 Commencez par créer un bridge _(switch)_ de nom br0 :
 
@@ -257,8 +256,10 @@ Commencez par créer un bridge _(switch)_ de nom br0 :
 [switch@ovs:~$] sudo ovs-vsctl show
 ```
 
-![Capture - Open vSwitch : Vue création bridge br0](../wp-content/uploads/2023/10/ovs-deb12-creation-br0.webp#center)
-_**Open vSwitch : Vue création bridge br0**_
+<figure markdown>
+  ![Capture - Open vSwitch : Vue création bridge br0](../images/2023/10/ovs-deb12-creation-br0.webp)
+  <figcaption>Open vSwitch : Vue création bridge br0</figcaption>
+</figure>
 
 Un port et une interface virtuels de même nom ont été associés au bridge.
 
@@ -272,8 +273,10 @@ Observez les infos détaillées du bridge br0 comme suit :
 
 et la création de l'interface br0 avec la Cde ip address :
 
-![Capture - Open vSwitch : Vue interface br0](../wp-content/uploads/2023/10/ovs-deb12-interface-reseau-br0.webp#center)
-_**Open vSwitch : Vue interface br0**_
+<figure markdown>
+  ![Capture - Open vSwitch : Vue interface br0](../images/2023/10/ovs-deb12-interface-reseau-br0.webp)
+  <figcaption>Open vSwitch : Vue interface br0</figcaption>
+</figure>
 
 Testez l'interface enp0s3 avec un ping vers yahoo.fr, celui-ci doit recevoir une réponse positive.
 
@@ -284,8 +287,10 @@ Rattachez à présent l'interface enp0s3 au bridge br0 :
 [switch@ovs:~$] sudo ovs-vsctl show
 ```
 
-![Capture - Open vSwitch : Vue affectation enp0s3 sur br0](../wp-content/uploads/2023/10/ovs-deb12-affectation-port-enp0s3.webp#center)
-_**Open vSwitch : Vue affectation enp0s3 sur br0**_
+<figure markdown>
+  ![Capture - Open vSwitch : Vue affectation enp0s3 sur br0](../images/2023/10/ovs-deb12-affectation-port-enp0s3.webp)
+  <figcaption>Open vSwitch : Vue affectation enp0s3 sur br0</figcaption>
+</figure>
 
 Le port virtuel enp0s3 et l'interface virtuelle enp0s3 ne font qu'un.
 
@@ -293,14 +298,16 @@ Utilisez la Cde del-port pour détruire un port existant.
 
 Observez de nouveau le retour de la Cde ip address :
 
-![Capture - Open vSwitch : Mêmes adresses MAC enp0s3/br0](../wp-content/uploads/2023/10/ovs-deb12-affectation-interface-enp0s3.webp#center)
-_**Open vSwitch : Mêmes adresses MAC enp0s3/br0**_
+<figure markdown>
+  ![Capture - Open vSwitch : Mêmes adresses MAC enp0s3/br0](../images/2023/10/ovs-deb12-affectation-interface-enp0s3.webp)
+  <figcaption>Open vSwitch : Mêmes adresses MAC enp0s3/br0</figcaption>
+</figure>
 
 La carte virtuelle br0 possède à présent la même adresse MAC que la carte virtuelle enp0s3.
 
-### 3 - Intégration de la VM ovs dans le réseau virtuel
+### Intégration de la VM ovs
 
-#### _3.1 - Configuration réseau depuis VirtualBox_
+#### _- Configuration réseau VBox_
 
 Stoppez la VM :
 
@@ -343,7 +350,7 @@ Le mode promiscuité Allow VMs permettra à la VM ovs de travailler tel un switc
   
 Il est nécessaire, dans une infrastructure virtualisée telle Open vSwitch installé sur une VM, d'appliquer le mode promiscuité à une interface réseau devant agir comme un pont _(bridge)_.
 
-#### _3.2 - Modification du fichier réseau de Debian_
+#### _- Configuration réseau Debian_
 
 Vous allez à présent configurer OVS au boot de la VM.
 
@@ -398,8 +405,10 @@ Redémarrez ensuite le service networking.service :
 
 et contrôlez le résultat avec la Cde ip address :
 
-![Capture - Open vSwitch : Vue adresse IP sur interface br0](../wp-content/uploads/2023/10/ovs-deb12-adresse-ip-br0.webp#center)
-_**Open vSwitch : Vue adresse IP sur interface br0**_
+<figure markdown>
+  ![Capture - Open vSwitch : Vue adresse IP sur interface br0](../images/2023/10/ovs-deb12-adresse-ip-br0.webp)
+  <figcaption>Open vSwitch : Vue adresse IP sur interface br0</figcaption>
+</figure>
 
 Constat :  
 \- 2 nouvelles interfaces réseau enp0s8 et enp0s9  
@@ -422,7 +431,7 @@ ExecStart=/sbin/ifup -a ...
 
 Suivre les prochaines MAJ de paquets Open vSwitch.
 
-### 4 - Raccordement des 2 clients Debian sur OVS {#titre-4}
+### Raccordement vm1-2 sur OvS {#titre-4}
 
 Open vSwitch est généralement installé sur le PC hôte de l'hyperviseur. Un bridge tel br0 utilise alors les interfaces réseau physiques du PC hôte pour l'accès à Internet et des interfaces réseau virtuelles TAP de niveau L2 pour l'accès aux VM.
 
@@ -432,14 +441,16 @@ Vous allez donc raccorder les 2 clients Debian sur les interfaces réseau enp0s8
 
 Vous lierez les 3 bridges à l'aide de ports patch :
 
-![Image - Open vSwitch : Bridges montés en cascade](../wp-content/uploads/2023/10/ovs-deb12-patch-bridges.webp#center)
-_**Open vSwitch : Bridges montés en cascade**_
+<figure markdown>
+  ![Capture - Open vSwitch : Bridges montés en cascade](../images/2023/10/ovs-deb12-patch-bridges.webp)
+  <figcaption>Open vSwitch : Bridges montés en cascade</figcaption>
+</figure>
 
 L'ensemble des bridges rattachés avec des ports patch (ports de brassage) peut être vu comme un seul pont.  
   
 La création de VLAN et le routage de paquets IP entre ceux-ci restent possibles.
 
-#### _4.1 - Création des bridges et des ports patch_
+#### _- Création des bridges-ports_
 
 Créez les bridges br1 et br2 :
 
@@ -483,10 +494,12 @@ Contrôlez la prise en compte de la configuration :
 [switch@ovs:~$] sudo ovs-vsctl  show
 ```
 
-![Capture - Open vSwitch : Contrôle configuration patch](../wp-content/uploads/2023/10/ovs-deb12-controle-patch-bridges.webp#center)
-_**Open vSwitch : Contrôle configuration patch**_
+<figure markdown>
+  ![Capture - Open vSwitch : Contrôle configuration patch](../images/2023/10/ovs-deb12-controle-patch-bridges.webp)
+  <figcaption>Open vSwitch : Contrôle configuration patch</figcaption>
+</figure>
 
-#### _4.2 - Modification du fichier réseau de Debian_
+#### _- Configuration réseau Debian_
 
 Editez le fichier interfaces :
 
@@ -600,7 +613,7 @@ ainsi que le contenu de la Bdd d'Open vSwitch :
 [switch@ovs:~$] sudo ovs-vsctl show
 ```
 
-#### _4.3 - Configuration réseau depuis VirtualBox_
+#### _- Configuration réseau VBox_
 
 Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian12-vm\* comme suit :  
 -> Adapter 1  
@@ -608,13 +621,13 @@ Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian12-vm\* comme
 -> Name > Sélectionnez liaison_vm\* selon la VM  
 -> OK
 
-### 5 - Test de bon fonctionnement du switch virtuel
+### Test du fonctionnement d'OvS
 
-Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](../wp-content/uploads/2018/05/maquette-base-ipfire.png#center){:target="_blank"} réseau local virtuel.
+Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](../images/2018/05/maquette-base-ipfire.png){:target="_blank"} réseau local virtuel.
 
 Stoppez ensuite la VM ovs support d'Open vSwitch et assurez-vous que les 2 clients Debian ne peuvent plus communiquer entre eux.
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
 Voilà, c'est terminé !  
@@ -622,4 +635,4 @@ Le réseau virtuel de base est créé.
 Le mémento 5.2 vous attend pour  
 découvrir les conteneurs.
 
-[Mémento 5.2](../podman-debian12-lxc-partie-1){ .md-button }
+[Mémento 5.2](../posts/podman-debian12-lxc-partie-1.md){ .md-button .md-button--primary }
