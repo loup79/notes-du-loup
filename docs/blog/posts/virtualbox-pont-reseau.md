@@ -43,9 +43,9 @@ Arrêtez la VM srvlan.
 
 Depuis VirtualBox, affichez la configuration de la VM :  
 \- Section Réseau  
-\> Carte 1 > Mode d'accès réseau > Accès par pont  
-\> Nom > Sélectionnez la carte réseau active du PC hôte  
-\> OK
+\-> Carte 1 > Mode d'accès réseau > Accès par pont  
+\-> Nom > Sélectionnez la carte réseau active du PC hôte  
+\-> OK
 
 Redémarrez la VM.
 
