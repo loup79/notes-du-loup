@@ -21,7 +21,7 @@ La construction suit les 4 étapes titrées ci-dessous. Les 3 premières concern
 
 Commencez par installer le logiciel VirtualBox.
 
-&#9755; Mémento [VirtualBox](../virtualbox-installation/)
+&#9755; Mémento [VirtualBox](../blog/posts/virtualbox-installation.md)
 
 ### 2 ) Création des serveurs virtuels
 
