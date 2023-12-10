@@ -623,7 +623,7 @@ Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian12-vm\* comme
 
 ### Test du fonctionnement d'OvS
 
-Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](../images/2018/05/maquette-base-ipfire.png){:target="_blank"} réseau local virtuel.
+Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la [maquette](../images/2018/05/maquette-base-ipfire.png){ target="_blank" } réseau local virtuel.
 
 Stoppez ensuite la VM ovs support d'Open vSwitch et assurez-vous que les 2 clients Debian ne peuvent plus communiquer entre eux.
 

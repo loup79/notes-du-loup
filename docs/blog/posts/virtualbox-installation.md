@@ -8,7 +8,7 @@ categories:
 ---
 
 <figure markdown>
-![Image](../images/2022/08/virtualbox_os.jpg)
+![Image - Outil de virtuallisation VirtualBox](../images/2022/08/virtualbox_os.jpg)
 </figure>
 
 ## VirtualBox - hyperviseur de type 2
@@ -37,7 +37,7 @@ _Le Homelab IPFire + Debian sera créé avec VBox 7.x.y._
 
 <!-- more -->
 
-Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads) et téléchargez ces 2 fichiers :
+Accédez au site [VirtualBox](https://www.virtualbox.org/wiki/Downloads){ target="_blank" } et téléchargez ces 2 fichiers :
 
 \- L' exécutable VirtualBox 7.x.y platform packages, adapté au PC hôte.
 
