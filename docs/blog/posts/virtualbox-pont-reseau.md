@@ -8,7 +8,7 @@ categories:
 ---
 
 <figure markdown>
-  ![Synoptique - Réseau virtuel : Présentation des flux ICMP (ping)](../images/2023/03/virtualbox-acces-reseau-pont.jpg){ width="430" }
+  ![Synoptique - Principe du mode d'accès réseau par pont](../images/2023/03/virtualbox-acces-reseau-pont.jpg){ width="430" }
 </figure>
 
 ## Pont réseau entre VM et PC hôte
