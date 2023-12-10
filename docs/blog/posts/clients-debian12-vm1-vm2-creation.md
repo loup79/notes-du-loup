@@ -588,7 +588,7 @@ A défaut, corrigez ou ajoutez cette ligne manuellement.
 
 #### _- Test du réseau local virtuel_
 
-Effectuez à présent le test de bon fonctionnement du réseau à l'aide de la Cde ping, ceci en vérifiant la conformité des résultats avec ceux indiqués sur la [maquette](../wp-content/uploads/2018/05/maquette-base-ipfire.png) réseau local virtuel.  
+Effectuez à présent le test de bon fonctionnement du réseau à l'aide de la Cde ping, ceci en vérifiant la conformité des résultats avec ceux indiqués sur la [maquette](../images/2018/05/maquette-base-ipfire.png) réseau local virtuel.  
   
 Tout doit être correct pour pouvoir continuer.
 
