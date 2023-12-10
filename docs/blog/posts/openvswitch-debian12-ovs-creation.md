@@ -499,7 +499,7 @@ Contrôlez la prise en compte de la configuration :
   <figcaption>Open vSwitch : Contrôle configuration patch</figcaption>
 </figure>
 
-#### _- Configuration réseau Debian_
+#### _- Paramétrage réseau Debian_
 
 Editez le fichier interfaces :
 
@@ -613,7 +613,7 @@ ainsi que le contenu de la Bdd d'Open vSwitch :
 [switch@ovs:~$] sudo ovs-vsctl show
 ```
 
-#### _- Configuration réseau VBox_
+#### _- Paramétrage réseau VBox_
 
 Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian12-vm\* comme suit :  
 -> Adapter 1  
