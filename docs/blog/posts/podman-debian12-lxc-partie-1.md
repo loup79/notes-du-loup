@@ -29,7 +29,7 @@ Podman _(POD MANager)_ permet aussi de créer des pods soit des groupes de conte
 
 Podman se pose en concurrent de Docker et est pilotable graphiquement depuis l'outil Cockpit.
 
-### 1 - Installation et configuration de Podman
+### Installation de Podman
 
 Installez le paquet podman et ses dépendances :
 
@@ -106,13 +106,13 @@ Pour finir, redémarrez le service socket de Podman :
 [switch@ovs:~$] sudo systemctl restart podman.socket
 ```
 
-### 2 - Conteneurs ctn1/ctn2 en mode rootfull
+### Conteneurs en mode rootfull
 
 Le raccordement réseau d'un conteneur rootfull fait appel par défaut au paquet netavark qui fournit pour cela un bridge de nom podman.
 
 Mais pour un raccordement sur le bridge br0 d'Open vSwicth, la configuration ci-dessous propose d'exploiter les espaces de noms réseau Linux plutôt que netavark.
 
-#### _2.1 - Création des espaces de noms réseau_
+#### _- Espaces de noms réseau_
 
 Dans une configuration réseau plus ou moins complexe, le mode rootfull peut s'avérer plus adapté que le mode rootless pour notamment affecter des espaces de noms réseau et des adresses IP aux conteneurs.
 
@@ -121,7 +121,7 @@ Un conteneur joint à un espace de noms réseau peut communiquer avec les autres
 Vous raccorderez donc les conteneurs ctn1 et ctn2 au bridge br0 d'Open vSwitch comme ceci :
 
 <figure markdown>
-  ![Image - Podman : Raccordement des conteneurs sur OVS](../wp-content/uploads/2023/11/podman-rootfull.webp){ width="430" }
+  ![Image - Podman : Raccordement des conteneurs sur OVS](../images/2023/11/podman-rootfull.webp){ width="430" }
   <figcaption>Podman : Raccordement des conteneurs sur OVS</figcaption>
 </figure>
 
@@ -246,7 +246,7 @@ sudo ip netns exec nsctn2 ip route
 Retour de la Cde ip netns exec nsctn1 ip a :
 
 <figure markdown>
-  ![Capture - Podman : Espace de nom réseau nsctn1 : Interface veth UP](../wp-content/uploads/2023/11/espace-nom-reseau-nsctn1-deb12.webp)
+  ![Capture - Podman : Espace de nom réseau nsctn1 : Interface veth UP](../images/2023/11/espace-nom-reseau-nsctn1-deb12.webp)
   <figcaption>Podman : Espace de nom réseau nsctn1 : Interface veth UP</figcaption>
 </figure>
 
@@ -277,7 +277,7 @@ sudo ip netns exec nsctn1 ping 192.168.3.8     # -> nsctn2
 sudo ip netns exec nsctn2 ping 192.168.3.6     # -> nsctn1
 ```
 
-#### _2.2 - Téléchargement des images Docker_
+#### _- Images Docker_
 
 !!! note "Nota"
 
@@ -292,7 +292,7 @@ podman search debian
 ```
 
 <figure markdown>
-  ![Capture - Podman : Image debian sur docker.io](../wp-content/uploads/2023/11/podman-search-debian-deb12.webp)
+  ![Capture - Podman : Image debian sur docker.io](../images/2023/11/podman-search-debian-deb12.webp)
   <figcaption>Podman : Image debian sur docker.io</figcaption>
 </figure>
 
@@ -301,7 +301,7 @@ podman search uptime-kuma
 ```
 
 <figure markdown>
-  ![Capture - Podman : Image uptime-kuma sur docker.io](../wp-content/uploads/2023/11/podman-search-uptimekuma-deb12.webp)
+  ![Capture - Podman : Image uptime-kuma sur docker.io](../images/2023/11/podman-search-uptimekuma-deb12.webp)
   <figcaption>Podman : Image uptime-kuma sur docker.io</figcaption>
 </figure>
 
@@ -312,7 +312,7 @@ sudo podman pull docker.io/library/debian
 ```
 
 <figure markdown>
-  ![Capture - Podman : Pull de l'image debian](../wp-content/uploads/2023/11/podman-pull-debian-deb12.webp)
+  ![Capture - Podman : Pull de l'image debian](../images/2023/11/podman-pull-debian-deb12.webp)
   <figcaption>Podman : Pull de l'image debian</figcaption>
 </figure>
 
@@ -323,7 +323,7 @@ sudo podman pull docker.io/louislam/uptime-kuma:1
 ```
 
 <figure markdown>
-  ![Capture - Podman : Pull de l'image uptime-kuma de Tag 1](../wp-content/uploads/2023/11/podman-pull-uptimekuma-deb12.webp)
+  ![Capture - Podman : Pull de l'image uptime-kuma de Tag 1](../images/2023/11/podman-pull-uptimekuma-deb12.webp)
   <figcaption>Podman : Pull de l'image uptime-kuma de Tag 1</figcaption>
 </figure>
 
@@ -332,7 +332,7 @@ L'outil Uptime Kuma fournira de la surveillance réseau.
 Vérifiez le résultat des téléchargements :
 
 <figure markdown>
-  ![Capture - Podman : Liste des images téléchargées](../wp-content/uploads/2023/11/podman-images-deb12.webp)
+  ![Capture - Podman : Liste des images téléchargées](../images/2023/11/podman-images-deb12.webp)
   <figcaption>Podman : Liste des images téléchargées</figcaption>
 </figure>
 
@@ -343,7 +343,7 @@ Les images téléchargées sont stockées dans /var/lib/containers/storage/overl
 Cde Podman utile :  
 Suppression -> sudo podman rmi nom-image
 
-#### _2.3 - Création du conteneur Podman ctn1_
+#### _- Conteneur Podman ctn1_
 
 Créez et lancez le conteneur ctn1 comme suit :
 
@@ -358,7 +358,7 @@ Le t alloue un pseudo terminal au conteneur.
 Le net ns attache le conteneur à l'espace nsctn1.
 
 <figure markdown>
-  ![Capture - Podman : Création du conteneur ctn1](../wp-content/uploads/2023/11/podman-creation-ctn1-deb12.webp)
+  ![Capture - Podman : Création du conteneur ctn1](../images/2023/11/podman-creation-ctn1-deb12.webp)
   <figcaption>Podman : Création du conteneur ctn1</figcaption>
 </figure>
 
@@ -371,7 +371,7 @@ sudo podman ps
 ```
 
 <figure markdown>
-  ![Capture - Podman : Conteneur ctn1 créé et démarré](../wp-content/uploads/2023/11/podman-liste-conteneurs-deb12.webp)
+  ![Capture - Podman : Conteneur ctn1 créé et démarré](../images/2023/11/podman-liste-conteneurs-deb12.webp)
   <figcaption>Podman : Conteneur ctn1 créé et démarré</figcaption>
 </figure>
 
@@ -387,7 +387,7 @@ Arrêt -> sudo podman stop ou kill nom-conteneur
 Démarrage -> sudo podman start nom-conteneur  
 Suppression -> sudo podman rm nom-conteneur
 
-#### _2.4 - Création du conteneur Podman ctn2_
+#### _- Conteneur Podman ctn2_
 
 A présent, créez et lancez le conteneur ctn2 :
 
@@ -407,7 +407,7 @@ sudo podman ps
 ```
 
 <figure markdown>
-  ![Capture - Podman : Conteneur ctn2 créé et démarré](../wp-content/uploads/2023/11/podman-creation-ctn2-deb12.webp)
+  ![Capture - Podman : Conteneur ctn2 créé et démarré](../images/2023/11/podman-creation-ctn2-deb12.webp)
   <figcaption>Podman : Conteneur ctn2 créé et démarré</figcaption>
 </figure>
 
@@ -448,7 +448,7 @@ Retour :
 4026532393 ... 1200 root ... /run/netns/nsctn2 ...
 ```
 
-#### _2.5 - Interactions avec les conteneurs_
+#### _- Interactions avec ctn1/ctn2_
 
 La Cde podman exec est disponible pour cela.
 
@@ -467,7 +467,7 @@ Observez ensuite l'arborescence de ctn1 avec la Cde ls :
 ```
 
 <figure markdown>
-  ![Capture - Podman : Arborescence du conteneur ctn1](../wp-content/uploads/2023/11/podman-cde-exec-ctn1-deb12.webp)
+  ![Capture - Podman : Arborescence du conteneur ctn1](../images/2023/11/podman-cde-exec-ctn1-deb12.webp)
   <figcaption>Podman : Arborescence du conteneur ctn1</figcaption>
 </figure>
 
@@ -479,7 +479,7 @@ Testez ensuite les 4 Cdes ci-dessus avec ctn2.
 
 Testez également depuis le navigateur Firefox de srvlan l'URL `http://192.168.3.8:3001` qui doit retourner la page setup de l'application Uptime Kuma.
 
-### 3 - Sauvegarde d'un conteneur modifié
+### Ajout de paquets sur ctn1/ctn2
 
 !!! note "Nota"
 
@@ -526,11 +526,11 @@ sudo podman images
 ```
 
 <figure markdown>
-  ![Capture - Podman : Affichage des 2 nouvelles images locales](../wp-content/uploads/2023/11/podman-sauvegardes-images-deb12.webp)
+  ![Capture - Podman : Affichage des 2 nouvelles images locales](../images/2023/11/podman-sauvegardes-images-deb12.webp)
   <figcaption>Podman : Affichage des 2 nouvelles images locales</figcaption>
 </figure>
 
-### 4 - Démarrage automatique des conteneurs
+### Démarrage auto de ctn1/ctn2
 
 Au préalable, recréez les conteneurs ctn1/ctn2 à partir des images locales qui intègrent les modifications permettant d'utiliser les Cdes ip address et ping.
 
@@ -559,7 +559,7 @@ sudo podman ps
 ```
 
 <figure markdown>
-  ![Capture - Podman : Conteneurs issus des nouvelles images](../wp-content/uploads/2023/11/podman-creation-ctn-locaux-deb12.webp)
+  ![Capture - Podman : Conteneurs issus des nouvelles images](../images/2023/11/podman-creation-ctn-locaux-deb12.webp)
   <figcaption>Podman : Conteneurs issus des nouvelles images</figcaption>
 </figure>
 
@@ -589,7 +589,7 @@ sudo podman ps
 
 Les conteneurs ctn1/ctn2 doivent avoir le statut UP.
 
-### 5 - Tests divers sur le réseau virtuel
+### Test de pings sur le réseau
 
 Connectez-vous sur le conteneur ctn1 :
 
@@ -616,7 +616,7 @@ Pour finir, testez un ping depuis la VM srvsec sur ctn1 :
 
 Si retour OK, la partie 1 est alors terminée.
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
 Voilà, première étape franchie !  
@@ -624,4 +624,4 @@ La partie 2 vous attend à présent
 pour la création d'un conteneur  
 Podman en mode rootless.
 
-[Partie 2](../podman-debian12-lxc-partie-2){ .md-button }
+[Partie 2](../podman-debian12-lxc-partie-2){ .md-button .md-button--primary }
