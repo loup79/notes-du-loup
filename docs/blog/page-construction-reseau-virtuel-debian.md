@@ -33,7 +33,7 @@ Puis créez, comme le montre la [maquette](../images/2018/05/maquette-base-ipfir
 
 L'ensemble comprend 2 VM Debian et 1 VM Open vSwitch incluant 2 conteneurs LXC.
 
-&#9755; Mémentos [Clients](../blog/posts/clients-debian12-vm1-vm2-creation.md) / [Open vSwitch](../blog/category/ovs-conteneurs-lxc/)
+&#9755; Mémentos [Clients](../blog/posts/clients-debian12-vm1-vm2-creation.md) / [Open vSwitch](../category/ovs-conteneurs-lxc/)
 
 ### 4 ) Installation des services DNS, DHCP, WEB
 
