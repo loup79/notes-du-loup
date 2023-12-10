@@ -8,7 +8,7 @@ categories:
 ---
 
 <figure markdown>
-  ![Logo de Podman](../wp-content/uploads/2023/11/podman-logo.webp){ width="430" }
+  ![Logo de Podman](../images/2023/11/podman-logo.webp){ width="430" }
 </figure>
 
 ## Mémento 5.2 - Conteneurs LXC
@@ -17,7 +17,7 @@ Vous allez à présent créer un conteneur plus sécurisé dit rootless, celui-c
 
 Le conteneur rootless _(non privilégié)_ se veut plus isolé de l'hôte LXC qu'un conteneur rootfull.
 
-### 6 - Conteneur ctn3 en mode rootless
+### Conteneur en mode rootless
 
 Pour le raccordement réseau d'un conteneur rootless, Podman utilise par défaut le paquet slirp4netns qui fournit une interface réseau virtuelle de type Tun/Tap.
 
@@ -34,11 +34,11 @@ Le conteneur rootless ne disposant pas par défaut d'une adresse IP, c'est le ma
 Le conteneur ctn3 sera donc raccordé par défaut ainsi :
 
 <figure markdown>
-  ![Image - Podman : Raccordement de ctn3 sur l'hôte](../wp-content/uploads/2023/11/podman-rootless.webp){ width="430" }
+  ![Image - Podman : Raccordement de ctn3 sur l'hôte](../images/2023/11/podman-rootless.webp){ width="430" }
   <figcaption>Podman : Raccordement de ctn3 sur l'hôte</figcaption>
 </figure>
 
-#### _6.1 - Création du conteneur Podman ctn3_
+#### _- Conteneur Podman ctn3_
 
 Les conteneurs rootless sont créés et accessibles sans avoir besoin d'être root ou un utilisateur du groupe sudo.
 
@@ -73,14 +73,14 @@ podman ps
 Retour de la Cde podman ps :
 
 <figure markdown>
-  ![Capture - Podman : Conteneur ctn3 créé et démarré](../wp-content/uploads/2023/11/podman-ps-ctn3-deb12.webp)
+  ![Capture - Podman : Conteneur ctn3 créé et démarré](../images/2023/11/podman-ps-ctn3-deb12.webp)
   <figcaption>Podman : Conteneur ctn3 créé et démarré</figcaption>
 </figure>
 
 L'image, le volume et le conteneur se trouvent dans :  
 /home/switch/.local/share/containers/storage/*
 
-#### _6.2 - Interaction avec le conteneur_
+#### _- Interaction avec ctn3_
 
 Connectez-vous sur ctn3 :
 
@@ -91,7 +91,7 @@ podman exec -it ctn3 bash
 Un prompt root@ID du conteneur ctn3:/# doit s'afficher :
 
 <figure markdown>
-  ![Capture - Podman : Arborescence du conteneur ctn3](../wp-content/uploads/2023/11/podman-cde-exec-ctn3-deb12.webp)
+  ![Capture - Podman : Arborescence du conteneur ctn3](../images/2023/11/podman-cde-exec-ctn3-deb12.webp)
   <figcaption>Podman : Arborescence du conteneur ctn3</figcaption>
 </figure>
 
@@ -114,7 +114,7 @@ et observez la configuration réseau par défaut :
 ```
 
 <figure markdown>
-  ![Capture - Podman : Configuration réseau de ctn3](../wp-content/uploads/2023/11/podman-reseau-ctn3-deb12.webp)
+  ![Capture - Podman : Configuration réseau de ctn3](../images/2023/11/podman-reseau-ctn3-deb12.webp)
   <figcaption>Podman : Configuration réseau de ctn3</figcaption>
 </figure>
 
@@ -139,7 +139,7 @@ podman exec -it ctn3 bash
 ```
 
 <figure markdown>
-  ![Capture - Podman : Cde ping fonctionnelle depuis ctn3](../wp-content/uploads/2023/11/podman-ping-ctn3-deb12.webp)
+  ![Capture - Podman : Cde ping fonctionnelle depuis ctn3](../images/2023/11/podman-ping-ctn3-deb12.webp)
   <figcaption>Podman : Cde ping fonctionnelle depuis ctn3</figcaption>
 </figure>
 
@@ -157,7 +157,7 @@ Entrez la ligne suivante :
 net.ipv4.ping_group_range=0   2000000
 ```
 
-### 7 - Sauvegarde du conteneur modifié
+### Sauvegarde de ctn3 modifié
 
 Sauvegardez les modifications réalisées au niveau du conteneur ctn3 en créant une image locale de l'application Uptime Kuma :
 
@@ -172,7 +172,7 @@ podman images
 ```
 
 <figure markdown>
-  ![Capture - Podman : Vue de l'image locale uptime-kuma:2](../wp-content/uploads/2023/11/podman-sauvegarde-image-ctn3-deb12.webp)
+  ![Capture - Podman : Vue de l'image locale uptime-kuma:2](../images/2023/11/podman-sauvegarde-image-ctn3-deb12.webp)
   <figcaption>Podman : Vue de l'image locale uptime-kuma:2</figcaption>
 </figure>
 
@@ -192,11 +192,11 @@ podman ps
 ```
 
 <figure markdown>
-  ![Capture - Podman : Conteneur ctn3 issu de l'image locale](../wp-content/uploads/2023/11/podman-image-locale-creation-ctn3-deb12.webp)
+  ![Capture - Podman : Conteneur ctn3 issu de l'image locale](../images/2023/11/podman-image-locale-creation-ctn3-deb12.webp)
   <figcaption>Podman : Conteneur ctn3 issu de l'image locale</figcaption>
 </figure>
 
-### 8 - Démarrage automatique du conteneur
+### Démarrage auto de ctn3
 
 Podman fournit une Cde pour générer le service de démarrage automatique d'un conteneur.
 
@@ -228,7 +228,7 @@ podman ps
 
 Le conteneur ctn3 doit avoir le statut UP.
 
-### 9 - Tests divers sur le réseau virtuel
+### Test de pings sur le réseau
 
 Connectez-vous sur le conteneur ctn3 :
 
@@ -251,7 +251,7 @@ Testez de nouveau depuis srvlan l'URL d'accès à Uptime Kuma soit `http://192.1
 
 Si la page setup s'affiche, alors c'est terminé.
 
-![Image - Rédacteur satisfait](../wp-content/uploads/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
 Voilà pour les bases de Podman !  
@@ -259,4 +259,4 @@ Le mémento 6.1 vous attend pour
 découvrir l'accès à distance sur  
 les VM et les conteneurs.
 
-### Mémento 6.1 en cours de construction
+!!! Info "Mémento 6.1 en cours de construction"
