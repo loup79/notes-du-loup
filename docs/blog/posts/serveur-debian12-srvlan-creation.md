@@ -11,7 +11,7 @@ categories:
   ![Capture - Debian 12 : Bureau Xfce personnalisé](../images/2023/07/srvlan-deb12-bureau-xfce-bis.webp){ width="430" }
 </figure>
 
-## Mémento 1.12 - Serveur srvlan
+## Mémento 1.1 - Serveur srvlan
 
 L'architecture du réseau virtuel proposée sous Debian 12 sera la même que sous Debian 11 et le serveur srvlan supportera à nouveau le bureau léger Xfce.
 
