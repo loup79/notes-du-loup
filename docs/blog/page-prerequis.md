@@ -1,11 +1,13 @@
 ---
-title: "Prérequis"
-date: "2019-10-30"
+title: Prérequis
+summary: Besoins en matériel et connaissances.
+author: G.Leloup
+date: 2019-10-30
 ---
 
-## Configuration matérielle et logicielle
+## Matériel et connaissances
 
-![Image - Lecteur des nouveautés](../wp-content/uploads/2021/12/magicien_bis.png){ align=left }
+![Image - Lecteur des nouveautés](../images/2021/12/magicien_bis.png){ align=left }
 
 &nbsp;  
 Disposer d'un PC avec un VirtualBox  
@@ -16,7 +18,7 @@ récent déjà installé et fonctionnel.
 Le PC Windows ou Linux, hôte du réseau virtuel, doit avoir environ 200 Go d'espace de libre et de préférence être équipé des éléments suivants :
 
 | |
-| --- |
+| :---: |
 |1 Processeur assez puissant type Intel i3 ou i5|
 |8 Go de RAM _(6 Go sont à dédier au réseau virtuel)_|
   
@@ -25,7 +27,7 @@ Vous pourrez ainsi, la virtualisation consommant de la ressource processeur et m
 4 Go de RAM sont requis pour utiliser simultanément :
 
 | |
-| --- |
+| :---: |
 |Les 3 serveurs _srvsec_, _srvlan_ et _srvdmz_|
 |Le switch OpenvSwitch (sur VM _ovs_)|
 |L'une des 2 VM _debian11-vm*_|
@@ -35,4 +37,4 @@ Connaître un minimum les lignes de Cdes du système d'exploitation Linux est un
 
 Suivez, dans l'ordre, la liste ci-dessous pour au final jouer avec un petit réseau local virtuel.
 
-\-- [LISTE DES MEMENTOS](/liste-des-mementos/) --
+<center>-- [LISTE DES MEMENTOS](/liste-des-mementos/) --</center>

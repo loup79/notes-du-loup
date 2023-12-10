@@ -27,15 +27,12 @@ nav:
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
     - mkdocs/github-mkdocs.md
-  - WP Réseau Virtuel :
-    - wp-reseau-virtuel/index.md
     - Pages :
-      - wp-reseau-virtuel/pages/nouveautes-du-reseau-virtuel-2018.md
-      - wp-reseau-virtuel/pages/prerequis.md
-      - wp-reseau-virtuel/pages/elements-reseau-virtuel.md
       - wp-reseau-virtuel/pages/construction-reseau-virtuel-debian.md
   - Blog:
     - blog/page-accueil.md
+    - blog/page-prerequis.md
+    - blog/page-elements-reseau-virtuel.md
     - blog/index.md
   # Référencer vos autres pages ci-dessus...
 
