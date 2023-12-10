@@ -35,6 +35,7 @@ nav:
       - wp-reseau-virtuel/pages/elements-reseau-virtuel.md
       - wp-reseau-virtuel/pages/construction-reseau-virtuel-debian.md
   - Blog:
+    - blog/page-accueil.md
     - blog/index.md
   # Référencer vos autres pages ci-dessus...
 
@@ -72,6 +73,7 @@ extra_css:
 plugins:
   - blog:
       blog_dir: blog
+      categories_sort_reverse: true
       post_date_format: short
       post_url_format: "/{slug}"
       archive: false
