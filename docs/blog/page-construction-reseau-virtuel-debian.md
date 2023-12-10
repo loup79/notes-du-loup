@@ -1,6 +1,6 @@
 ---
 title: "Construction du réseau"
-date: "2023-03-18"
+date: 2023-03-18
 ---
 
 ## Machines virtuelles et services réseau

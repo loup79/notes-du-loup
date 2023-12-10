@@ -27,8 +27,6 @@ nav:
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
     - mkdocs/github-mkdocs.md
-    - Pages :
-      - wp-reseau-virtuel/pages/construction-reseau-virtuel-debian.md
   - Blog:
     - blog/page-accueil.md
     - blog/page-prerequis.md
