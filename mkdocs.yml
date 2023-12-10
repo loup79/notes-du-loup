@@ -31,8 +31,9 @@ nav:
     - blog/page-accueil.md
     - blog/page-prerequis.md
     - blog/page-elements-reseau-virtuel.md
+    - blog/page-construction-reseau-virtuel-debian.md
     - blog/index.md
-  # Référencer vos autres pages ci-dessus...
+  # Fin de la navigation
 
 ### Configuration du thème
 theme:
