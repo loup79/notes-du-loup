@@ -515,7 +515,9 @@ Le service réseau redémarre automatiquement, sinon :
 
 Vérifiez la configuration avec la Cde ip address.  
   
-_Nota : Si problème d'IP, rebootez la VM et revérifiez._
+!!! note "Nota"
+
+    Si problème d'IP, rebootez la VM et revérifiez.
 
 ### Récapitulatif et tests divers
 
