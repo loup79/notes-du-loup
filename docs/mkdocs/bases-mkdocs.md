@@ -7,7 +7,8 @@ date: 2023-06-01
 
 ## Les bases de MkDocs
 
-Pour la documentation complète, visiter [mkdocs.org](https://www.mkdocs.org){ target="_blank" }.
+Pour la doc complète, visiter [mkdocs.org](https://www.mkdocs.org){ target="_blank" }.  
+Pour la doc du thème, visiter [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/){ target="_blank" }.
 
 ## Commandes
 
