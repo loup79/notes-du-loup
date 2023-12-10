@@ -155,6 +155,9 @@ Extraits - longueur : Inclure le séparateur `<!-- more -->` dans les articles.
 
     Ceci est une alerte.
 
+!!! Info "Mémento 6.1 en cours de construction"
+    "!!! Info "Mémento 6.1 en cours de construction""
+
 ## Fichier .markdownlint.json
 
 Fichier créé à la racine du projet.
