@@ -414,7 +414,7 @@ Les clients Linux seront ainsi raccordés correctement à srvlan au travers des 
 
 ### Construction de la VM vm2
 
-#### _- Clonage_
+#### _- Clonage de vm1_
 
 Comme indiqué au début du mémento, vous allez commencer par cloner la VM debian12-vm1.
 
