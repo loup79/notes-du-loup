@@ -71,6 +71,7 @@ plugins:
       blog_dir: blog
       post_date_format: short
       post_url_format: "/{slug}"
+      categories_url_format: "{slug}"
       archive: false
   - glightbox:
       touchNavigation: false
