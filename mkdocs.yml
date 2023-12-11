@@ -16,7 +16,7 @@ docs_dir: docs
 # Structure du menu principal de navigation, chemins relatifs au dossier docs_dir
 nav: 
   - Accueil :
-    - page-accueil.md
+    - index.md
     - page-prerequis.md
     - page-elements-reseau-virtuel.md
     - page-construction-reseau-virtuel-debian.md
