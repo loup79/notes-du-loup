@@ -5,7 +5,7 @@ author: G.Leloup
 date: 2018-03-02
 ---
 
-## Hyperviseur - Serveurs - Clients - Switch
+## VBox - Serveurs - Clients - Switch
 
 Le PC ou serveur, hôte de l'hyperviseur VirtualBox, peut tourner sous Windows ou Linux.
 
