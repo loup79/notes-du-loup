@@ -5,37 +5,37 @@ author: G.Leloup
 date: 2023-03-18
 ---
 
-## Machines virtuelles et services réseau
+## VM et services réseau
 
 ![Image - Evolution de l'homme](images/2023/03/evolution.png){ align=left }
 
 &nbsp;  
 &nbsp;  
-4 ETAPES LOGIQUESS  
+4 ETAPES LOGIQUES  
 &nbsp;  
 &nbsp;
 
-La construction suit les 4 étapes titrées ci-dessous. Les 3 premières concernent la création des différentes machines virtuelles et la quatrième concerne l'installation des services sur le réseau.
+La construction suit les étapes titrées ci-dessous. Les 3 premières concernent la création des différentes machines virtuelles _(VM)_ et la quatrième l'installation des services réseau.
 
-### 1 ) Installation de l'outil de virtualisation
+### Installation de VirtualBox
 
 Commencez par installer le logiciel VirtualBox.
 
 &#9755; Mémento [VirtualBox](../blog/posts/virtualbox-installation.md)
 
-### 2 ) Création des serveurs virtuels
+### Création des serveurs virtuels
 
 Puis créez, comme le montre la [maquette](images/2018/05/maquette-base-ipfire.png), les serveurs des zones LAN, WAN et DMZ.
 
 &#9755; Mémentos [srvlan](../blog/posts/serveur-debian12-srvlan-creation.md) / [srvsec](../blog/posts/serveur-ipfire-srvsec-creation.md) / [srvdmz](../blog/posts/serveur-debian12-srvdmz-creation.md)
 
-### 3 ) Création des clients virtuels situés en zone LAN
+### Création des clients virtuels
 
 L'ensemble comprend 2 VM Debian et 1 VM Open vSwitch incluant 2 conteneurs LXC.
 
 &#9755; Mémentos [Clients](../blog/posts/clients-debian12-vm1-vm2-creation.md) / [Open vSwitch](../ovs-conteneurs-lxc/)
 
-### 4 ) Installation des services DNS, DHCP, WEB
+### Installation des services réseau
 
 Suivez, dans l'ordre, la liste des mémentos du blog pour au final pouvoir exploiter un petit réseau local virtuel.
 
