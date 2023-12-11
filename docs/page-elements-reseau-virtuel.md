@@ -12,7 +12,7 @@ Le PC ou serveur, hôte de l'hyperviseur VirtualBox, peut tourner sous Windows o
 Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS Debian Linux.  
 &nbsp;  
 
-[![Logo - VirtualBox](images/2019/02/logo-virtualbox.jpg "Logo VirtualBox"){ align=left }](https://www.virtualbox.org)
+[![Logo - VirtualBox](blog/images/2019/02/logo-virtualbox.jpg "Logo VirtualBox"){ align=left }](https://www.virtualbox.org){ target="_blank" }
 
 |                                             |                            |
 | --------------------------------            | -------:                   |
@@ -20,7 +20,7 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 | Hyperviseur de type 2 VirtualBox {.td-bleu} |&nbsp;  {.td-bleu}          |
 | Dernière version   {.td-bleu}               |&nbsp;  {.td-bleu}          |
 
-![Image - Serveur Linux](images/2018/03/logo-serveur-linux.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
+![Image - Serveur Linux](blog/images/2018/03/logo-serveur-linux.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
 
 |                         |             |
 | ----------------------- | ----------: |
@@ -28,7 +28,7 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 | VM _srvlan_ et _srvdmz_ {.td-bleu} | 2 x 1024 Mo {.td-bleu} |
 | Bureau Xfce4 installé  {.td-bleu}  | &nbsp;  {.td-bleu}           |
 
-[![Logo - IPFire](images/2020/11/logo-ipfire.png "Logo IPFire"){ align=left }](https://www.ipfire.org/)
+[![Logo - IPFire](blog/images/2020/11/logo-ipfire.png "Logo IPFire"){ align=left }](https://www.ipfire.org/){ target="_blank" }
 
 |                                    |            |
 | ---------------------------------- | ---------: |
@@ -36,7 +36,7 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 | VM _srvsec_    {.td-bleu}                    | 1 x 512 Mo {.td-bleu} |
 | OS LFS IPFire  {.td-bleu}                     | &nbsp;  {.td-bleu}          |
 
-![Logo - Linux Mascotte Tux](images/2019/02/logo-linux.png "Image Pixabay - FreeCliparts"){ align=left }
+![Logo - Linux Mascotte Tux](blog/images/2019/02/logo-linux.png "Image Pixabay - FreeCliparts"){ align=left }
 
 |                            |             |
 | -------------------------- | ----------: |
@@ -44,7 +44,7 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 | VM _debian1x-vm1_ et _vm2_ {.td-bleu} | 2 x 1024 Mo {.td-bleu} |
 | VM _ovs_   {.td-bleu}                | 1 x 1024 Mo {.td-bleu} |
 
-[![Logo - LXC](images/2021/12/logo-lxc.png "Logo LXC"){ align=left }](https://linuxcontainers.org)
+[![Logo - LXC](blog/images/2021/12/logo-lxc.png "Logo LXC"){ align=left }](https://linuxcontainers.org){ target="_blank" }
 
 |                               |             |
 | ----------------------------- | ----------: |
@@ -52,7 +52,7 @@ Toutes les VM créées avec VirtualBox, hormis la VM pare-feu, supportent un OS 
 | Conteneurs _ctn1_ et _ctn2_  {.td-bleu}  |    partagée {.td-bleu} |
 | sur la VM _ovs_  {.td-bleu}|  &nbsp; {.td-bleu} |
 
-![Image - Switch informatique](images/2019/02/logo-switch.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
+![Image - Switch informatique](blog/images/2019/02/logo-switch.png "Image Pixabay - OpenClipart-Vectors"){ align=left }
 
 |                       |             |
 | --------------------- | ----------: |

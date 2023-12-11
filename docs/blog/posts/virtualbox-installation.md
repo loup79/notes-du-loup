@@ -67,7 +67,7 @@ Ce pack inclut les guest additons, ceux-ci permettant :
 
 Vous pouvez à présent créer la première VM du réseau virtuel. Suivez pour cela la _liste des mémentos_ du site.
 
-[Liste des mémentos](../page-liste-des-mementos.md){ .md-button .md-button--primary }
+[Liste des mémentos](../../page-liste-des-mementos.md){ .md-button .md-button--primary }
 
 ### Pour aller plus loin
 

@@ -7,7 +7,7 @@ date: 2019-10-30
 
 ## Matériel et connaissances
 
-![Image - Lecteur des nouveautés](images/2021/12/magicien_bis.png){ align=left }
+![Image - Lecteur des nouveautés](blog/images/2021/12/magicien_bis.png){ align=left }
 
 &nbsp;  
 Disposer d'un PC avec un VirtualBox  
@@ -37,4 +37,4 @@ Connaître un minimum les lignes de Cdes du système d'exploitation Linux est un
 
 Suivez, dans l'ordre, la liste ci-dessous pour au final jouer avec un petit réseau local virtuel.
 
-<center>-- [LISTE DES MEMENTOS](../blog/page-liste-des-mementos.md) --</center>
+<center>-- [LISTE DES MEMENTOS](page-liste-des-mementos.md) --</center>

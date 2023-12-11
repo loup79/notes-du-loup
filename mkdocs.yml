@@ -15,7 +15,11 @@ site_author: "Gérard Leloup"
 docs_dir: docs
 # Structure du menu principal de navigation, chemins relatifs au dossier docs_dir
 nav: 
-  - Accueil : index.md
+  - Accueil :
+    - page-accueil.md
+    - page-prerequis.md
+    - page-elements-reseau-virtuel.md
+    - page-construction-reseau-virtuel-debian.md
   - Informatique :
     - informatique/index.md 
     - Debian : 
@@ -28,10 +32,6 @@ nav:
     - mkdocs/debian-mkdocs.md
     - mkdocs/github-mkdocs.md
   - Blog:
-    - blog/page-accueil.md
-    - blog/page-prerequis.md
-    - blog/page-elements-reseau-virtuel.md
-    - blog/page-construction-reseau-virtuel-debian.md
     - blog/index.md
   # Fin de la navigation
 
