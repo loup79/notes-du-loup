@@ -7,7 +7,7 @@ date: 2023-03-18
 
 ## Machines virtuelles et services réseau
 
-![Image - Evolution de l'homme](../images/2023/03/evolution.png){ align=left }
+![Image - Evolution de l'homme](images/2023/03/evolution.png){ align=left }
 
 &nbsp;  
 &nbsp;  
@@ -25,7 +25,7 @@ Commencez par installer le logiciel VirtualBox.
 
 ### 2 ) Création des serveurs virtuels
 
-Puis créez, comme le montre la [maquette](../images/2018/05/maquette-base-ipfire.png), les serveurs des zones LAN, WAN et DMZ.
+Puis créez, comme le montre la [maquette](images/2018/05/maquette-base-ipfire.png), les serveurs des zones LAN, WAN et DMZ.
 
 &#9755; Mémentos [srvlan](../blog/posts/serveur-debian12-srvlan-creation.md) / [srvsec](../blog/posts/serveur-ipfire-srvsec-creation.md) / [srvdmz](../blog/posts/serveur-debian12-srvdmz-creation.md)
 

@@ -7,7 +7,7 @@ date: 2018-02-27
 
 ## Bienvenue sur InfoLoup
 
-![Image - Lecteur des nouveautés](../images/2021/12/magicien_bis.png){ align=left }
+![Image - Lecteur des nouveautés](images/2021/12/magicien_bis.png){ align=left }
 
 &nbsp;  
 Découvrez les évolutions par  
@@ -26,7 +26,7 @@ La construction de cette nouvelle maquette repose toujours sur l'hyperviseur [Vi
 Ci-dessous, la configuration de base du réseau virtuel :
 
 <figure markdown>
-  ![Synoptique - Réseau virtuel : Présentation des flux ICMP (ping)](../images/2018/05/maquette-base-ipfire.png){ width="430" }
+  ![Synoptique - Réseau virtuel : Présentation des flux ICMP (ping)](images/2018/05/maquette-base-ipfire.png){ width="430" }
   <figcaption>Réseau virtuel : Présentation des flux ICMP (ping)</figcaption>
 </figure>
 

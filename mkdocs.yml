@@ -69,7 +69,6 @@ extra_css:
 plugins:
   - blog:
       blog_dir: blog
-      categories_sort_reverse: true
       post_date_format: short
       post_url_format: "/{slug}"
       archive: false
