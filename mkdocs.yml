@@ -20,6 +20,8 @@ nav:
     - page-prerequis.md
     - page-elements-reseau-virtuel.md
     - page-construction-reseau-virtuel-debian.md
+  - Blog:
+    - blog/index.md
   - Informatique :
     - informatique/index.md 
     - Debian : 
@@ -30,9 +32,7 @@ nav:
     - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
-    - mkdocs/github-mkdocs.md
-  - Blog:
-    - blog/index.md
+    - mkdocs/github-mkdocs.md  
   # Fin de la navigation
 
 ### Configuration du thème
