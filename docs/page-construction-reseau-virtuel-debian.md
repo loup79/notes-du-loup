@@ -33,7 +33,7 @@ Puis créez, comme le montre la [maquette](blog/images/2018/05/maquette-base-ipf
 
 L'ensemble comprend 2 VM Debian et 1 VM Open vSwitch incluant 2 conteneurs LXC.
 
-&#9755; Mémentos [Clients](blog/posts/clients-debian12-vm1-vm2-creation.md) / [Open vSwitch](../blog/ovs--conteneurs-lxc/)
+&#9755; Mémentos [Clients](blog/posts/clients-debian12-vm1-vm2-creation.md) / [Open vSwitch](blog/posts/openvswitch-debian12-ovs-creation.md/)
 
 ### Installation des services réseau
 
