@@ -22,7 +22,7 @@ nav:
     - page-construction-reseau-virtuel-debian.md
   - Réseau virtuel:
     - blog/index.md
-  - Informatique :
+  - Doc technique :
     - informatique/index.md 
     - Debian : 
       - informatique/debian/infos-materiel-hardinfo.md
