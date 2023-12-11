@@ -73,6 +73,8 @@ plugins:
       post_url_format: "/{slug}"
       categories_url_format: "{slug}"
       archive: false
+  - search :
+      lang: fr
   - glightbox:
       touchNavigation: false
       loop: false
