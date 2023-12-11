@@ -20,7 +20,7 @@ nav:
     - page-prerequis.md
     - page-elements-reseau-virtuel.md
     - page-construction-reseau-virtuel-debian.md
-  - Blog:
+  - Réseau virtuel:
     - blog/index.md
   - Informatique :
     - informatique/index.md 
@@ -28,7 +28,7 @@ nav:
       - informatique/debian/infos-materiel-hardinfo.md
     - Synology :
       - informatique/synology/docker-maj-de-nextcloud.md
-  - MkDocs :
+  - Notes MkDocs :
     - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
