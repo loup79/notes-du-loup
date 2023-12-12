@@ -7,7 +7,7 @@ date: 2018-03-02
 
 ## Réseau virtuel avec VirtualBox / Debian
 
-![Logo - VirtualBox](blog/images/2018/09/liste.png){ align=left }
+![Image - Liste des mémentos](blog/images/2018/09/liste.png){ align=left }
 
 &nbsp;  
 Exécutez la liste dans l'ordre pour au  
@@ -37,7 +37,7 @@ local virtuel.
 
 <center>*---------------------------------------------------------------*</center>
 
-![Logo - VirtualBox](blog/images/2018/09/emoticone_souriante_2018.png){ align=left }
+![Image - Emoticone souriante](blog/images/2018/09/emoticone_souriante_2018.png){ align=left }
 
 &nbsp;  
 Amusez-vous bien !
