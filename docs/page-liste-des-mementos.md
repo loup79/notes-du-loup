@@ -35,4 +35,9 @@ local virtuel.
 ??? Info "6 - Accès distants : Protocoles RDP, VNC, SSH"
     - [ ] 6.1 Contrôle à distance - VBox/Deb12
 
-<center>*-----------------------------------------------------------------------------------------*</center>
+<center>*---------------------------------------------------------------*</center>
+
+![Logo - VirtualBox](blog/images/2018/09/emoticone_souriante_2018.png){ align=left }
+
+&nbsp;  
+Amusez-vous bien !
