@@ -58,6 +58,7 @@ markdown_extensions:
   - pymdownx.caret
   - pymdownx.mark
   - pymdownx.tilde
+  - pymdownx.details
   - attr_list # Ex Attribut image { align=left }
   - md_in_html
   - tables
