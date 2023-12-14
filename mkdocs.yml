@@ -5,6 +5,9 @@ site_url: https://loup79.github.io/notes-du-loup/
 
 ### Configuration du dépôt
 # Ajoute en haut à droite de chaque page du site, icône, nom et lien vers le dépot GitHub du projet.
+repo_url: https://github.com/loup79/notes-du-loup
+repo_name: 'Dépot du Loup'
+edit_uri: edit/main/docs/
 
 ### Configuration des métadonnées
 site_description: Notes techniques du Loup
