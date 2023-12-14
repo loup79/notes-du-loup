@@ -47,6 +47,7 @@ theme:
     - navigation.sections
     - navigation.top
     - navigation.footer
+  
 copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
 
 ### Configuration des extensions MarkDown :
