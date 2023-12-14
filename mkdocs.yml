@@ -51,8 +51,16 @@ theme:
     - navigation.sections
     - navigation.top
     - navigation.footer
+
   icon:
     repo: fontawesome/brands/github
+
+  extra:
+    repos:
+      facts:
+        - latest
+        - stars
+        - forks
 
 copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
 
