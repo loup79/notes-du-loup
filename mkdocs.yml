@@ -55,13 +55,6 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
-  extra:
-    repos:
-      facts:
-        - latest
-        - stars
-        - forks
-
 copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
 
 ### Configuration des extensions MarkDown :
