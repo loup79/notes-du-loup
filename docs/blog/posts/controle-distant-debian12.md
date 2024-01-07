@@ -300,3 +300,43 @@ en ajoutant les lignes suivantes à la fin de celui-ci :
 #### - _Lancement auto du serveur_
 
 Pour cela, créez le service tigervncserver@.service :
+
+```bash
+[srvlan@srvlan:~$] cd /lib/systemd/system
+[srvlan@srvlan:~$] sudo cp tigervncserver@.service \
+/etc/systemd/system
+```
+
+Le caractère \ indique d'écrire la Cde sur une seule ligne.
+
+Configurez son démarrage automatique pour l'écran 1 :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl start tigervncserver@:1
+[srvlan@srvlan:~$] sudo systemctl enable tigervncserver@:1
+```
+
+Pour finir, redémarrez srvlan :
+
+```bash
+[srvlan@srvlan:~$] sudo reboot
+```
+
+et vérifiez le lancement automatique du serveur VNC :
+
+```bash
+[srvlan@srvlan:~$] vncserver -list
+```
+
+<figure markdown>
+  ![Capture - Serveur VNC : Port par défaut 5901 en écoute](../images/2024/01/acces-distant-vnc-liste-deb12.webp){ width="430" }
+  <figcaption>Serveur VNC : Port par défaut 5901 en écoute</figcaption>
+</figure>
+
+Pour info, le serveur peut être arrêté comme suit :
+
+```bash
+[srvlan@srvlan:~$] vncserver -kill :1
+```
+
+#### _- Règle de pare-feu VNC_
