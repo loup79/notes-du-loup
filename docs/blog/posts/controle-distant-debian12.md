@@ -177,3 +177,15 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
 -> Entrez Connexions RDP entrantes autorisées
 
 -> Ajouter > Appliquer les changements
+
+<figure markdown>
+  ![Capture - IPFire : Règle de pare-feu RDP](../images/2024/01/ipfire-rdp-deb12.webp){ width="430" }
+  <figcaption>IPFire : Règle de pare-feu RDP</figcaption>
+</figure>
+
+!!! Warning "Alerte"
+
+    Fermez ensuite votre session utilisateur srvlan, le serveur xrdp refusant par défaut d'afficher le bureau d'un utilisateur ayant une session déjà ouverte.
+
+#### _- Test de connexion_
+
