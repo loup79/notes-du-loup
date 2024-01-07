@@ -16,3 +16,17 @@ categories:
 Il peut être utile de pouvoir contrôler à distance les VM et les conteneurs LXC du réseau, notamment depuis un PC situé sur le même LAN que le PC hôte de VirtualBox. Des protocoles tels RDP, VNC ou SSH permettent cela.
 
 Etant sur le même LAN, les connexions distantes seront validées simplement par login et MDP.
+
+### RDP via le serveur de VBox
+
+Par défaut, le serveur Remote Desktop Protocol fourni par VirtualBox utilise le port TCP 3389.
+
+#### _- Accès RDP sur srvlan_
+
+Panneau gauche de VirtualBox, sélectionnez la VM :  
+- - Menu de VirtualBox > Machine > Configuration...  
+-> Affichage > Bureau à distance  
+-> Cochez Activer le serveur  
+-> Port serveur > Affectez un numéro de port, Ex : 7002  
+-> OK
+
