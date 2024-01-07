@@ -48,3 +48,70 @@ route add -p 192.168.3.0 mask 255.255.255.0 192.168.x.w
 route add -p 192.168.4.0 mask 255.255.255.0 192.168.x.w 
 ```
 
+192.168.x.w est l'IP de la carte réseau RED d'IPFire.  
+Le paramètre -p rend la route statique permanente.
+
+Utilisez la Cde route print pour afficher la table de routage de Windows.
+
+Menu Windows :  
+-> Accessoires Windows ou Outils Windows  
+-> Connexion Bureau à distance
+
+Activez la connexion RDP comme montré ci-dessous :
+
+<figure markdown>
+  ![Capture - Bureau à distance : IP PC hôte VM:port RDP srvlan](../images/2024/01/acces-distant-rdp-win11.webp)
+  <figcaption>Bureau à distance : IP PC hôte VM:port RDP srvlan</figcaption>
+</figure>
+
+<figure markdown>
+  ![Capture - Bureau à distance : Login retourné par srvlan](../images/2024/01/acces-distant-rdp-bis-win11.webp){ width="430" }
+  <figcaption>Bureau à distance : Login retourné par srvlan</figcaption>
+</figure>
+
+<figure markdown>
+  ![Capture - Bureau à distance : Session RDP ouverte sur srvlan](../images/2024/01/acces-distant-rdp-ter-win11.webp){ width="430" }
+  <figcaption>Bureau à distance : Session RDP ouverte sur srvlan</figcaption>
+</figure>
+
+\- - Depuis un PC distant sous Linux  
+Créez les mêmes routes statiques comme ceci :
+
+```bash
+sudo ip route add 192.168.2.0/24 via 192.168.x.w proto static metric 100
+
+sudo ip route add 192.168.3.0/24 via 192.168.x.w proto static metric 100
+
+sudo ip route add 192.168.4.0/24 via 192.168.x.w proto static metric 100  
+```
+
+Pour rendre celles-ci permanentes, vous devez tenir compte du gestionnaire de réseau actif.
+
+Si NetworkManager est utilisé, générez les routes statiques depuis son interface graphique et relancez le service réseau :
+
+```bash
+sudo systemctl restart NetworkManager
+```
+
+Si c'est le fichier réseau /etc/network/interfaces qui est utilisé, ajoutez les lignes suivantes en fin de fichier et relancez le service réseau :
+
+```bash
+up ip route add 192.168.2.0/24 via 192.168.x.w dev enp0s3
+up ip route add 192.168.3.0/24 via 192.168.x.w dev enp0s3
+up ip route add 192.168.4.0/24 via 192.168.x.w dev enp0s3
+
+sudo systemctl restart networking
+```
+
+Adaptez en conséquence le nom de l'interface réseau.
+
+Pour finir, vérifiez la prise en compte des routes :
+
+```bash
+ip route
+```
+
+Puis installez le client réseau Remmina disponible sur bien des distributions et lancez celui-ci.
+
+192.168.x.y = IP du PC hôte des VM _(Voir la maquette)_.  
+7002 est le numéro de port RDP dédié à la VM srvlan.
