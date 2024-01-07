@@ -138,3 +138,42 @@ Ceci permet notamment d'éviter un refus de connexion lié à des problèmes de 
 
 ### RDP via IPFire
 
+Cela ne concerne pas les VM non graphiques telles IPFire, OpenvSwitch et les conteneurs LXC.
+
+#### _- Serveur RDP sur srvlan_
+
+Installez le serveur RDP de nom xrdp :
+
+```bash
+[srvlan@srvlan:~$] sudo apt install xrdp
+[srvlan@srvlan:~$] sudo adduser xrdp ssl-cert
+```
+
+Le serveur est lancé de suite et configuré pour démarrer automatiquement au boot de la VM.
+
+Complément pour les curieux : Suivre les astuces facilitant l'exploitation du service xrdp.
+
+#### _- Règle de pare-feu pour le RDP_
+
+L'accès distant ne fonctionnera cette fois que si vous ajoutez une règle de pare-feu dans IPFire autorisant les demandes de connexion sur le port 3389.
+
+Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :  
+-> Pare-feu > Règles de pare-feu > Nouvelle règle
+
+\- Zone Source  
+-> Cochez Réseaux standards > Sélectionnez Tout
+
+\- Zone Destination  
+-> Cochez Réseaux standards > Sélectionnez Tout
+
+\- Zone Protocole  
+-> Sélectionnez TCP > Port de destination  
+-> Remplissez le champ vide avec le n° de port 3389
+
+-> Cochez ACCEPTER
+
+\- Zone Paramètres additionnels  
+-> Remarque  
+-> Entrez Connexions RDP entrantes autorisées
+
+-> Ajouter > Appliquer les changements
