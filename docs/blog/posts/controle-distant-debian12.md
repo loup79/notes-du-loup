@@ -113,5 +113,28 @@ ip route
 
 Puis installez le client réseau Remmina disponible sur bien des distributions et lancez celui-ci.
 
-192.168.x.y = IP du PC hôte des VM _(Voir la maquette)_.  
+192.168.x.y = IP du PC hôte des VM _([Voir la maquette](../images/2018/05/maquette-base-ipfire.png){ target="_blank" })_.  
 7002 est le numéro de port RDP dédié à la VM srvlan.
+
+<figure markdown>
+  ![Capture - Remmina : Fenêtre de connexion RDP](../images/2024/01/remmina-rdp-deb12.webp){ width="430" }
+  <figcaption>Remmina : Fenêtre de connexion RDP</figcaption>
+</figure>
+
+Appuyez sur la touche Entrée pour lancer la connexion :
+
+<figure markdown>
+  ![Capture - Remmina : Session RDP ouverte sur srvlan](../images/2024/01/remmina-rdp-srvlan-deb12.webp){ width="430" }
+  <figcaption>Remmina : Session RDP ouverte sur srvlan</figcaption>
+</figure>
+
+#### _- Remarques_
+
+Vous devez, pour vous connecter sur les autres VM du réseau, affecter à chacune un numéro de port RDP différent, Ex : port 6017 pour la VM srvdmz.
+
+Le serveur RDP de VirtualBox autorise des connexions directes sur les VM, pas besoin par exemple de traverser le pare-feu IPFire pour joindre srvlan.
+
+Ceci permet notamment d'éviter un refus de connexion lié à des problèmes de configuration de table de routage ou de règle de pare-feu sur le réseau virtuel. Cela peut aider à dépanner.
+
+### RDP via IPFire
+
