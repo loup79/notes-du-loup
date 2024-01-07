@@ -8,7 +8,7 @@ categories:
 ---
 
 <figure markdown>
-  ![Logo de Podman](../images/2024/01/acces-distants-deb12.webp){ width="430" }
+  ![Image Pixabay - La commande réseau de TheDigitalArtist](../images/2024/01/acces-distants-deb12.webp){ width="430" }
 </figure>
 
 ## Mémento 6.1 - RDP, VNC et SSH
@@ -24,9 +24,27 @@ Par défaut, le serveur Remote Desktop Protocol fourni par VirtualBox utilise le
 #### _- Accès RDP sur srvlan_
 
 Panneau gauche de VirtualBox, sélectionnez la VM :  
-- - Menu de VirtualBox > Machine > Configuration...  
+\- - Menu de VirtualBox > Machine > Configuration  
 -> Affichage > Bureau à distance  
 -> Cochez Activer le serveur  
 -> Port serveur > Affectez un numéro de port, Ex : 7002  
 -> OK
+
+<figure markdown>
+  ![Capture - VirtualBox : Réglages du bureau à distance](../images/2024/01/vbox-bureau-distance-deb12.webp){ width="430" }
+  <figcaption>VirtualBox : Réglages du bureau à distance</figcaption>
+</figure>
+
+#### _- Test de connexion_
+
+\- - Depuis un PC distant sous Windows  
+Créez, sur celui-ci, les 3 routes statiques permanentes qui permettront de joindre les VM :
+
+```bash
+route add -p 192.168.2.0 mask 255.255.255.0 192.168.x.w
+
+route add -p 192.168.3.0 mask 255.255.255.0 192.168.x.w
+
+route add -p 192.168.4.0 mask 255.255.255.0 192.168.x.w 
+```
 
