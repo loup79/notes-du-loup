@@ -35,6 +35,8 @@ Panneau gauche de VirtualBox, sélectionnez la VM :
   <figcaption>VirtualBox : Réglages du bureau à distance</figcaption>
 </figure>
 
+<!-- more -->
+
 #### _- Test de connexion_
 
 \- - Depuis un PC distant sous Windows  
@@ -153,7 +155,7 @@ Le serveur est lancé de suite et configuré pour démarrer automatiquement au b
 
 Complément pour les curieux : Suivre les astuces facilitant l'exploitation du service xrdp.
 
-#### _- Règle de pare-feu pour le RDP_
+#### _- Règle de pare-feu RDP_
 
 L'accès distant ne fonctionnera cette fois que si vous ajoutez une règle de pare-feu dans IPFire autorisant les demandes de connexion sur le port 3389.
 
@@ -189,3 +191,112 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
 
 #### _- Test de connexion_
 
+\- - Depuis un PC distant sous Windows  
+Menu Windows :  
+-> Accessoires Windows ou Outils Windows  
+-> Connexion Bureau à distance
+
+Entrez l'IP de srvlan 192.168.2.2 dans le champ Ordinateur et cliquez sur le bouton Connexion.
+
+Une alerte Impossible de vérifier l'identité ... > Oui
+
+Connexion établie, la fenêtre suivante s'affiche :
+
+<figure markdown>
+  ![Capture - Fenêtre de connexion du serveur xrdp](../images/2024/01/ipfire-xorgrdp-deb12.webp)
+  <figcaption>Fenêtre de connexion du serveur xrdp</figcaption>
+</figure>
+
+-> Session : Sélectionnez Xorg  
+-> username : Entrez srvlan  
+-> password : Entrez le MDP de srvlan > OK
+
+\- - Depuis un PC distant sous Linux  
+Utilisez de nouveau le logiciel Remmina :  
+-> Entrez l'IP de srvlan soit 192.168.2.2  
+-> Touche Entrée pour lancer la connexion
+
+### VNC via IPFire
+
+Cela ne concerne pas les VM non graphiques telles IPFire, OpenvSwitch et les conteneurs LXC.
+
+Par défaut, un serveur VNC (Virtual Network Computing) écoute sur le port TCP 5900+N° Ecran.
+
+#### _- Serveur VNC sur srvlan_
+
+Installez le serveur tigervnc-standalone-server :
+
+```bash
+[srvlan@srvlan:~$] sudo apt install tigervnc-standalone-server
+[srvlan@srvlan:~$] sudo apt install dbus-x11
+```
+
+Créez son MDP :
+
+```bash
+[srvlan@srvlan:~$] vncpasswd
+```
+
+Retour :
+
+```markdown
+Password > Votre MDP VNC (Ex : vncMDPsrvlan)
+Verify > Entrez de nouveau le MDP
+Would you like to enter a view-only ... (y/n) ? > n
+A view-only password is not used
+```
+
+Créez ensuite son fichier de configuration tigervnc.conf :
+
+```bash
+[srvlan@srvlan:~$] cd /home/srvlan
+[srvlan@srvlan:~$] nano .vnc/tigervnc.conf
+```
+
+et entrez le contenu suivant :
+
+```bash
+# Configuration du serveur tigervncserver
+$localhost="no";                      # Connexion distante autorisée
+$geometry="1360x768";                                 # Taille de l'écran
+$depth="24";                                    # Profondeur des couleurs
+$AlwaysShared = "yes";           # Connexions simultanées OK
+```
+
+Créez un fichier xstartup pour le démarrage sous Xfce4 :
+
+```bash
+[srvlan@srvlan:~$] nano .vnc/xstartup
+```
+
+et entrez le contenu suivant :
+
+```bash
+#!/bin/sh
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+exec /bin/sh /etc/xdg/xfce4/xinitrc
+```
+
+Déclarez le fichier comme étant exécutable :
+
+```bash
+[srvlan@srvlan:~$] chmod +x .vnc/xstartup
+```
+
+Pour terminer, modifiez le fichier vncserver.users :
+
+```bash
+[srvlan@srvlan:~$] sudo nano /etc/tigervnc/vncserver.users
+```
+
+en ajoutant les lignes suivantes à la fin de celui-ci :
+
+```bash
+# Utilisateur srvlan désigné pour l'écran 1
+:1=srvlan
+```
+
+#### - _Lancement auto du serveur_
+
+Pour cela, créez le service tigervncserver@.service :
