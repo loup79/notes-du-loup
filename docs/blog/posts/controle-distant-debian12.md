@@ -527,3 +527,91 @@ Installez le serveur OpenSSH :
 [switch@ovs:~$] sudo apt install openssh-server
 ```
 
+et contrôlez l'activation du démon SSH :
+
+```bash
+[switch@ovs:~$] sudo systemctl status sshd
+```
+
+Le résultat de la Cde doit montrer active (running).
+
+Editez ensuite le fichier de configuration sshd_config :
+
+```bash
+[switch@ovs:~$] sudo nano /etc/ssh/sshd_config
+```
+
+et remplacez la ligne #Port 22 par Port 222.
+
+Redémarrez le serveur pour traiter la modification :
+
+```bash
+[switch@ovs:~$] sudo systemctl restart sshd
+```
+
+#### _- Test de connexion sur ovs_
+
+Effectuez une connexion à l'aide de Putty :
+
+<figure markdown>
+  ![Capture - Putty : Configuration SSH pour OpenvSwitch](../images/2022/01/acces-distant-ssh-putty-ovs.webp){ width="430" }
+  <figcaption>Putty : Configuration SSH pour OpenvSwitch</figcaption>
+</figure>
+
+Résultat :
+
+<figure markdown>
+  ![Capture - Putty : Connexion SSH établie sur OpenvSwitch](../images/2024/01/acces-distant-ssh-putty-ovs-2023.webp){ width="430" }
+  <figcaption>Putty : Connexion SSH établie sur OpenvSwitch</figcaption>
+</figure>
+
+### SSH sur les conteneurs LXC
+
+#### _- Conteneur Podman ctn1_
+
+Installez depuis l'hôte ovs un serveur SSH sur ctn1 :
+
+```bash
+[switch@ovs:~$] sudo podman exec -it ctn1 bash
+
+[root@..:~#] apt update && apt upgrade
+[root@..:~#] apt install openssh-server
+```
+
+Editez ensuite son fichier de configuration sshd_config :
+
+```bash
+[root@..:~#] apt install nano
+[root@..:~#] nano /etc/ssh/sshd_config
+```
+
+et modifiez les 2 lignes suivantes comme ci-dessous :  
+\#Port 22 > Port 222  
+\#PermitRootLogin prohib...word > PermitRootLogin ==yes==
+
+Redémarrez le serveur SSH pour traiter la configuration :
+
+```bash
+[root@..:~#] /etc/init.d/ssh start
+[root@..:~#] /etc/init.d/ssh status     # normal = sshd is running
+```
+
+Attribuez un MDP à l'utilisateur root du conteneur :
+
+```bash
+[root@..:~#] passwd
+```
+
+Editez le fichier .bashrc de l'utilisateur root :
+
+```bash
+[root@..:~#] nano /root/.bashrc
+```
+
+et entrez le contenu suivant en fin de fichier :
+
+```bash
+# Lancement automatique du serveur ssh
+/etc/init.d/ssh start
+```
+
