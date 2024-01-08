@@ -370,7 +370,7 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
 #### _- Test de connexion VNC_
 
 \- - Depuis un PC distant sous Windows  
-Téléchargez le client VNC Viewer de RealVNC.
+Téléchargez le client [VNC Viewer](https://www.realvnc.com/fr/connect/download/viewer/){ target="_blank" } de RealVNC.
 
 Effectuez son installation et démarrez le logiciel.
 
@@ -420,7 +420,7 @@ Connexion établie, la fenêtre suivante s'affiche :
 </figure>
 
 \- - Depuis un PC distant sous Linux  
-a) Téléchargez le client VNC Viewer de votre version Linux.  
+a) Téléchargez le client [VNC Viewer](https://www.realvnc.com/fr/connect/download/viewer/){ target="_blank" } de votre version Linux.  
 Effectuez son installation et démarrez le logiciel.  
 Procédez ensuite comme sous Windows.
 
@@ -478,4 +478,52 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
   ![Capture - IPFire : Règle de pare-feu SSH](../images/2024/01/ipfire-ssh-deb12.webp){ width="430" }
   <figcaption>IPFire : Règle de pare-feu SSH</figcaption>
 </figure>
+
+#### _- Test de connexion SSH_
+
+\- - Depuis un PC distant sous Windows
+Téléchargez le client SSH [Putty](https://www.putty.org/){ target="_blank" } et installez celui-ci.
+
+Ensuite, démarrez et configurez Putty comme suit :
+
+<figure markdown>
+  ![Capture - Putty : Configuration SSH pour IPFire](../images/2022/05/acces-distant-ssh-putty-srvsec.webp){ width="430" }
+  <figcaption>Putty : Configuration SSH pour IPFire</figcaption>
+</figure>
+
+La VM srvsec étant de confiance, acceptez l'alerte de sécurité et lancez une seconde connexion.
+
+Résultat :
+
+<figure markdown>
+  ![Capture - Putty : Connexion SSH établie sur IPFire](../images/2024/01/acces-distant-ssh-putty-srvsec-2023.webp)
+  <figcaption>Putty : Connexion SSH établie sur IPFire</figcaption>
+</figure>
+
+Il n'y aura pas d'alerte de sécurité lors des connexions suivantes, utilisez la Cde exit pour quitter.
+
+\- - Depuis un PC distant sous Linux  
+a) Installez le paquet putty fourni par votre distribution.  
+Procédez ensuite comme sous Windows.
+
+b) Remmina peut également exploiter le protocole SSH.  
+Cliquez sur l'icône + (profil) située en haut à gauche.
+
+Une fenêtre Profil de connexion à distance s'ouvre.  
+Configurez la connexion SSH comme ci-dessous :
+
+<figure markdown>
+  ![Capture - Remmina : Configuration SSH pour IPFire](../images/2024/01/acces-distant-ssh-remmina-srvsec-deb12.webp){ width="430" }
+  <figcaption>Remmina : Configuration SSH pour IPFire</figcaption>
+</figure>
+
+### SSH sur ovs (OpenvSwitch)
+
+#### _- Serveur SSH sur ovs_
+
+Installez le serveur OpenSSH :
+
+```bash
+[switch@ovs:~$] sudo apt install openssh-server
+```
 
