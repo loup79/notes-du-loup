@@ -689,3 +689,16 @@ Pour interagir avec Debian, utilisez l'accès SSH de la VM ovs et exploitez les 
 
 De base, une connexion VNC n'est pas sécurisée mais il est possible de faire transiter celle-ci à l'intérieur d'un tunnel SSH pour régler ce problème.
 
+Ceci implique de configurer le serveur SSH d'IPFire afin qu'il accepte le transfert de ports TCP.
+
+Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :  
+-> Système > Accès SSH
+
+Une fenêtre Accès distant s'ouvre :  
+-> Cochez Autoriser le transfert TCP  
+-> Bouton Sauvegarder
+
+#### _- Accès VNC/SSH depuis Windows_
+
+Configurez un tunnel SSH avec Putty en respectant la chronologie des 2 captures suivantes :
+
