@@ -189,7 +189,7 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
 
     Fermez ensuite votre session utilisateur srvlan, le serveur xrdp refusant par défaut d'afficher le bureau d'un utilisateur ayant une session déjà ouverte.
 
-#### _- Test de connexion_
+#### _- Test de connexion RDP_
 
 \- - Depuis un PC distant sous Windows  
 Menu Windows :  
@@ -222,7 +222,7 @@ Cela ne concerne pas les VM non graphiques telles IPFire, OpenvSwitch et les con
 
 Par défaut, un serveur VNC (Virtual Network Computing) écoute sur le port TCP 5900+N° Ecran.
 
-#### _- Serveur VNC sur srvlan_
+#### _- Serveur VNC sur srvlan_ {#serveur-vnc}
 
 Installez le serveur tigervnc-standalone-server :
 
@@ -299,7 +299,7 @@ en ajoutant les lignes suivantes à la fin de celui-ci :
 
 #### - _Lancement auto du serveur_
 
-Pour cela, créez le service tigervncserver@.service :
+Pour cela, créez le service `tigervncserver@.service` :
 
 ```bash
 [srvlan@srvlan:~$] cd /lib/systemd/system
@@ -344,19 +344,19 @@ Pour info, le serveur peut être arrêté comme suit :
 Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :  
 -> Pare-feu > Règles de pare-feu > Nouvelle règle
 
-- Zone Source  
+\- Zone Source  
 -> Cochez Réseaux standards > Sélectionnez Tout
 
-- Zone Destination  
+\- Zone Destination  
 -> Cochez Réseaux standards > Sélectionnez Tout
 
-- Zone Protocole  
+\- Zone Protocole  
 -> Sélectionnez TCP > Port de destination  
 -> Remplissez le champ vide avec le n° de port 5901
 
 -> Cochez ACCEPTER
 
-- Zone Paramètres additionnels  
+\- Zone Paramètres additionnels  
 -> Remarque  
 -> Entrez Connexions VNC entrantes autorisées
 
@@ -367,7 +367,7 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
   <figcaption>IPFire : Règle de pare-feu VNC</figcaption>
 </figure>
 
-#### _- Test de connexion_
+#### _- Test de connexion VNC_
 
 \- - Depuis un PC distant sous Windows  
 Téléchargez le client VNC Viewer de RealVNC.
@@ -417,5 +417,65 @@ Connexion établie, la fenêtre suivante s'affiche :
 <figure markdown>
   ![Capture - VNC Viewer : Session VNC ouverte sur srvlan](../images/2024/01/acces-distant-vnc-srvlan-4-deb12.webp){ width="430" }
   <figcaption>VNC Viewer : Session VNC ouverte sur srvlan</figcaption>
+</figure>
+
+\- - Depuis un PC distant sous Linux  
+a) Téléchargez le client VNC Viewer de votre version Linux.  
+Effectuez son installation et démarrez le logiciel.  
+Procédez ensuite comme sous Windows.
+
+b) Remmina peut également exploiter le protocole VNC.  
+Cliquez sur l'icône + (profil) située en haut à gauche.
+
+Une fenêtre Profil de connexion à distance s'ouvre.  
+Configurez la connexion VNC comme ci-dessous :
+
+<figure markdown>
+  ![Capture - Remmina : Fenêtre de configuration/connexion VNC](../images/2024/01/acces-distant-vnc-remmina-deb12.webp){ width="430" }
+  <figcaption>Remmina : Fenêtre de configuration/connexion VNC</figcaption>
+</figure>
+
+Le MDP de l'utilisateur = Votre MDP VNC _( [Voir ci-dessus](#serveur-vnc) )_
+
+### SSH sur srvsec (IPFire)
+
+Par défaut, un serveur SSH (Secure SHell) écoute sur le port TCP 22.
+
+#### _- Activation du serveur SSH_
+
+Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :  
+-> Système > Accès SSH
+
+Une fenêtre Accès distant s'ouvre :  
+-> Cochez Accès SSH  
+-> Décochez Définir le port SSH à 22  
+-> Bouton Sauvegarder
+
+#### _- Règle de pare-feu SSH_
+
+Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :  
+-> Pare-feu > Règles de pare-feu > Nouvelle règle
+
+\- Zone Source  
+-> Cochez Réseaux standards > Sélectionnez Tout
+
+\- Zone Destination  
+-> Cochez Réseaux standards > Sélectionnez Tout
+
+\- Zone Protocole  
+-> Sélectionnez TCP > Port de destination  
+-> Remplissez le champ vide avec le n° de port 222
+
+-> Cochez ACCEPTER
+
+\- Zone Paramètres additionnels  
+-> Remarque  
+-> Entrez Connexions SSH entrantes autorisées
+
+-> Ajouter > Appliquer les changements
+
+<figure markdown>
+  ![Capture - IPFire : Règle de pare-feu SSH](../images/2024/01/ipfire-ssh-deb12.webp){ width="430" }
+  <figcaption>IPFire : Règle de pare-feu SSH</figcaption>
 </figure>
 
