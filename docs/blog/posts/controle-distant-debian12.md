@@ -239,7 +239,7 @@ Créez son MDP :
 
 Retour :
 
-```markdown
+```yaml
 Password > Votre MDP VNC (Ex : vncMDPsrvlan)
 Verify > Entrez de nouveau le MDP
 Would you like to enter a view-only ... (y/n) ? > n
@@ -614,4 +614,64 @@ et entrez le contenu suivant en fin de fichier :
 # Lancement automatique du serveur ssh
 /etc/init.d/ssh start
 ```
+
+Ensuite, déconnectez-vous du conteneur :
+
+```bash
+[root@...:~#] exit
+
+[switch@ovs:~$] 
+```
+
+et listez les images Podman utilisées en mode rootfull :
+
+```bash
+[switch@ovs:~$] sudo podman images
+```
+
+Retour :
+
+```yaml
+switch@ovs:~$ sudo podman images
+REPOSITORY                      TAG         
+localhost/uptime-kuma           2           ...
+localhost/debian                1           ...
+docker.io/louislam/uptime-kuma  1           ...
+docker.io/library/debian        latest      ...
+switch@ovs:~$
+```
+
+Créez une nouvelle image de ctn1 incluant le SSH :
+
+```bash
+sudo podman commit ctn1 debian:2       # Création image tag 2
+```
+
+et recréez ctn1 depuis celle-ci :
+
+```bash
+sudo systemctl stop container-ctn1         # Suppression de ctn1
+sudo podman ps                          # Vérification de la suppression
+
+sudo podman run -dit --net ns:/var/run/netns/nsctn1 --name ctn1 debian:2         # Création ctn1 depuis image tag 2
+
+cd /etc/systemd/system
+
+sudo podman generate systemd --new --files --name ctn1
+cat container-ctn1.service                         # Lecture par curiosité
+
+sudo systemctl daemon-reload
+sudo systemctl start container-ctn1
+sudo systemctl status container-ctn1
+```
+
+Redémarrez la VM ovs :
+
+```bash
+sudo reboot
+```
+
+et connectez-vous depuis Putty en procédant comme pour la VM ovs mais avec l'IP 192.168.3.6.
+
+#### _- Conteneurs ctn2 et ctn3_
 
