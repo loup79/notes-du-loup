@@ -239,7 +239,7 @@ Créez son MDP :
 
 Retour :
 
-```yaml
+```markdown
 Password > Votre MDP VNC (Ex : vncMDPsrvlan)
 Verify > Entrez de nouveau le MDP
 Would you like to enter a view-only ... (y/n) ? > n
@@ -674,4 +674,18 @@ sudo reboot
 et connectez-vous depuis Putty en procédant comme pour la VM ovs mais avec l'IP 192.168.3.6.
 
 #### _- Conteneurs ctn2 et ctn3_
+
+Les 2 conteneurs basés sur Debian supportent l'outil de surveillance réseau Uptime Kuma dont la configuration s'effectue directement depuis son interface Web.
+
+Pour interagir avec Debian, utilisez l'accès SSH de la VM ovs et exploitez les 2 Cdes suivantes :
+
+```bash
+[switch@ovs:~$] sudo podman exec -it ctn2 bash
+
+[switch@ovs:~$] podman exec -it ctn3 bash
+```
+
+### VNC au travers d'un tunnel SSH
+
+De base, une connexion VNC n'est pas sécurisée mais il est possible de faire transiter celle-ci à l'intérieur d'un tunnel SSH pour régler ce problème.
 
