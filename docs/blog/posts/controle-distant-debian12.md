@@ -340,3 +340,82 @@ Pour info, le serveur peut être arrêté comme suit :
 ```
 
 #### _- Règle de pare-feu VNC_
+
+Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :  
+-> Pare-feu > Règles de pare-feu > Nouvelle règle
+
+- Zone Source  
+-> Cochez Réseaux standards > Sélectionnez Tout
+
+- Zone Destination  
+-> Cochez Réseaux standards > Sélectionnez Tout
+
+- Zone Protocole  
+-> Sélectionnez TCP > Port de destination  
+-> Remplissez le champ vide avec le n° de port 5901
+
+-> Cochez ACCEPTER
+
+- Zone Paramètres additionnels  
+-> Remarque  
+-> Entrez Connexions VNC entrantes autorisées
+
+-> Ajouter > Appliquer les changements
+
+<figure markdown>
+  ![Capture - IPFire : Règle de pare-feu VNC](../images/2024/01/ipfire-vnc-deb12.webp){ width="430" }
+  <figcaption>IPFire : Règle de pare-feu VNC</figcaption>
+</figure>
+
+#### _- Test de connexion_
+
+\- - Depuis un PC distant sous Windows  
+Téléchargez le client VNC Viewer de RealVNC.
+
+Effectuez son installation et démarrez le logiciel.
+
+Configurez ensuite une connexion pour joindre srvlan :  
+\- Menu Fichier  
+-> Nouvelle connexion...
+
+\- Une fenêtre Propriétés s'ouvre.  
+-> Onglet Général  
+Paramétrez VNC Viewer comme ci-dessous :
+
+<figure markdown>
+  ![Capture - VNC Viewer : Paramètres onglet Général](../images/2024/01/acces-distant-vnc-srvlan-1-deb12.webp){ width="430" }
+  <figcaption>VNC Viewer : Paramètres onglet Général</figcaption>
+</figure>
+
+-> Onglet Options  
+Paramétrez VNC Viewer comme ci-dessous :
+
+<figure markdown>
+  ![Capture - VNC Viewer : Paramètres onglet Options](../images/2024/01/acces-distant-vnc-srvlan-2-deb12.webp){ width="430" }
+  <figcaption>VNC Viewer : Paramètres onglet Options</figcaption>
+</figure>
+
+Résultat, VNC Viewer montre la nouvelle connexion :
+
+<figure markdown>
+  ![Capture - VNC Viewer : Connexion VNC créée pour srvlan](../images/2024/01/acces-distant-vnc-srvlan-3-deb12.webp){ width="430" }
+  <figcaption>VNC Viewer : Connexion VNC créée pour srvlan</figcaption>
+</figure>
+
+Test de connexion :  
+-> Double-cliquez sur l'icône srvlan
+
+Une fenêtre Chiffrement s'ouvre :  
+-> Cochez Ne plus afficher cet avertissement  
+-> Continuer
+
+Une fenêtre Authentification s'ouvre :  
+-> Entrez votre MDP VNC pour srvlan > OK
+
+Connexion établie, la fenêtre suivante s'affiche :
+
+<figure markdown>
+  ![Capture - VNC Viewer : Session VNC ouverte sur srvlan](../images/2024/01/acces-distant-vnc-srvlan-4-deb12.webp){ width="430" }
+  <figcaption>VNC Viewer : Session VNC ouverte sur srvlan</figcaption>
+</figure>
+
