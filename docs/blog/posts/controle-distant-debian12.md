@@ -464,7 +464,7 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
 
 \- Zone Protocole  
 -> Sélectionnez TCP > Port de destination  
--> Remplissez le champ vide avec le n° de port 222
+-> Remplissez le champ vide avec le n° de port ==222==
 
 -> Cochez ACCEPTER
 
@@ -481,7 +481,7 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
 
 #### _- Test de connexion SSH_
 
-\- - Depuis un PC distant sous Windows
+\- - Depuis un PC distant sous Windows  
 Téléchargez le client SSH [Putty](https://www.putty.org/){ target="_blank" } et installez celui-ci.
 
 Ensuite, démarrez et configurez Putty comme suit :
