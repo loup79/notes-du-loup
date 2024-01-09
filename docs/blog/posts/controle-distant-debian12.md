@@ -702,3 +702,44 @@ Une fenêtre Accès distant s'ouvre :
 
 Configurez un tunnel SSH avec Putty en respectant la chronologie des 2 captures suivantes :
 
+<figure markdown>
+  ![Capture - Putty : Configuration tunnel SSH pour VNC](../images/2024/01/acces-distant-srvlan-vnc-ssh1-deb12.webp){ width="430" }
+  <figcaption>Putty : Configuration tunnel SSH pour VNC</figcaption>
+</figure>
+
+<figure markdown>
+  ![Capture - Putty : Configuration tunnel SSH pour VNC](../images/2024/01/acces-distant-srvlan-vnc-ssh2-deb12.webp){ width="430" }
+  <figcaption>Putty : Configuration tunnel SSH pour VNC</figcaption>
+</figure>
+
+Puis lancez, depuis le client VNC Viewer de RealVNC, une connexion VNC locale (127.0.0.1) :
+
+<figure markdown>
+  ![Capture - RealVNC : Demande d'une connexion VNC locale](../images/2024/01/acces-distant-srvlan-vnc-ssh3-deb12.webp)
+  <figcaption>RealVNC : Demande d'une connexion VNC locale</figcaption>
+</figure>
+
+La demande locale d'accès au port TCP 5901 utilisé par le protocole VNC sera automatiquement envoyée à l'intérieur du tunnel SSH vers le serveur SSH d'IPFire qui transfèrera celle-ci vers le serveur VNC de srvlan.
+
+Pensez à fermer, une fois votre communication VNC terminée, la connexion SSH de Putty.
+
+#### _- Accès VNC/SSH depuis Linux_
+
+Le plus simple est d'utiliser de nouveau Remmina.  
+Cliquez sur l'icône + (profil) située en haut à gauche.
+
+Une fenêtre Profil de connexion à distance s'ouvre.  
+Configurez la connexion VNC comme ci-dessous :
+
+<figure markdown>
+  ![Capture - Remmina : Configuration VNC avec tunnel SSH](../images/2024/01/acces-distant-srvlan-vnc-ssh1-remmina-deb12.webp){ width="430" }
+  <figcaption>Remmina : Configuration VNC avec tunnel SSH</figcaption>
+</figure>
+
+<figure markdown>
+  ![Capture - Remmina : Configuration VNC avec tunnel SSH](../images/2024/01/acces-distant-srvlan-vnc-ssh2-remmina-deb12.webp){ width="430" }
+  <figcaption>Remmina : Configuration VNC avec tunnel SSH</figcaption>
+</figure>
+
+La connexion SSH sera cette fois fermée automatiquement en fin de communication VNC.
+
