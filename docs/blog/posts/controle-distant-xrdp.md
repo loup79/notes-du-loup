@@ -67,4 +67,55 @@ L'alerte ne devrait plus apparaître.
 
 ### Connexions Network Manager
 
+Un utilisateur du groupe sudo connecté au travers du serveur xrdp ne peut pas modifier les paramètres d'une connexion réseau configurée depuis NetworkManager.
+
+Comme pour l'astuce précédente, il suffit de créer les droits nécessaires pour régler ce souci.
+
+Créez le fichier 50-allow-network-manager.pkla :
+
+```bash
+cd /etc/polkit-1
+
+sudo nano localauthority/50-local.d/50-allow-network-manager.pkla
+```
+
+et entrez le contenu suivant :
+
+```bash
+[Network Manager Utilisateurs sudo]
+Identity=unix-group:sudo
+Action=org.freedesktop.NetworkManager.*
+ResultAny=auth_admin
+ResultInactive=auth_admin
+ResultActive=auth_admin
+```
+
+Ajoutez optionnellement dans NetworkManager.conf :
+
+```bash
+sudo nano /etc/NetworkManager/NetworkManager.conf
+```
+
+le contenu suivant à l'intérieur de la section [main] :
+
+```bash
+[main] 
+auth-polkit=true
+```
+
+Relancez polkit pour prendre en compte le fichier .pkla :
+
+```bash
+sudo systemctl restart polkit
+```
+
+et NetworkManager pour recharger sa configuration :
+
+
+```bash
+sudo systemctl restart NetworkManager
+```
+
+Modifier les connexions de NetworkManager sous xrdp devrait maintenant être possible.
+
 ### Reboot/Shutdown sous Xfce4
