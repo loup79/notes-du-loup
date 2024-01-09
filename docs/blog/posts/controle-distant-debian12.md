@@ -698,7 +698,7 @@ Une fenêtre Accès distant s'ouvre :
 -> Cochez Autoriser le transfert TCP  
 -> Bouton Sauvegarder
 
-#### _- Accès VNC/SSH depuis Windows_
+#### _- VNC/SSH depuis Windows_
 
 Configurez un tunnel SSH avec Putty en respectant la chronologie des 2 captures suivantes :
 
@@ -723,7 +723,7 @@ La demande locale d'accès au port TCP 5901 utilisé par le protocole VNC sera a
 
 Pensez à fermer, une fois votre communication VNC terminée, la connexion SSH de Putty.
 
-#### _- Accès VNC/SSH depuis Linux_
+#### _- VNC/SSH depuis Linux_
 
 Le plus simple est d'utiliser de nouveau Remmina.  
 Cliquez sur l'icône + (profil) située en haut à gauche.
@@ -743,3 +743,22 @@ Configurez la connexion VNC comme ci-dessous :
 
 La connexion SSH sera cette fois fermée automatiquement en fin de communication VNC.
 
+### Bilan
+
+Les VM et conteneurs LXC sont joignables à distance.
+
+La sécurité des accès reste néanmoins perfectible :  
+\- En ne travaillant pas avec des n° de port par défaut.  
+\- En réglant plus finement les sources dans IPFire.  
+\- En utilisant les clés publiques et privées de SSH.  
+\- Etc...
+
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+
+&nbsp;  
+Terminé pour l'instant !  
+Le mémento 7.1 vous attend  
+pour l'installation d'un serveur  
+DNS statique sur srvlan.
+
+!!! Info "Mémento 7.1 en cours de construction"

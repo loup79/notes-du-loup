@@ -259,4 +259,4 @@ Le mémento 6.1 vous attend pour
 découvrir l'accès à distance sur  
 les VM et les conteneurs.
 
-!!! Info "Mémento 6.1 en cours de construction"
+[Mémento 6.1](../posts/controle-distant-debian12.md){ .md-button .md-button--primary }
