@@ -55,6 +55,8 @@ ResultInactive=no
 ResultActive=yes
 ```
 
+<!-- more -->
+
 Le caractère \ indique d'écrire le tout sur une seule ligne.
 
 Relancez polkit pour prendre en compte le fichier .pkla :

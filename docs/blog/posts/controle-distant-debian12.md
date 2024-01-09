@@ -153,7 +153,7 @@ Installez le serveur RDP de nom xrdp :
 
 Le serveur est lancé de suite et configuré pour démarrer automatiquement au boot de la VM.
 
-Complément pour les curieux : Suivre les astuces facilitant l'exploitation du service xrdp.
+Complément pour les curieux : Suivre les [astuces](../posts/controle-distant-debian12.md) facilitant l'exploitation du service xrdp.
 
 #### _- Règle de pare-feu RDP_
 
