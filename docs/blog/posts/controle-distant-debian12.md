@@ -17,7 +17,7 @@ Il peut être utile de pouvoir contrôler à distance les VM et les conteneurs L
 
 Etant sur le même LAN, les connexions distantes seront validées simplement par login et MDP.
 
-### RDP viaa VirtualBox
+### RDP via VirtualBox
 
 Par défaut, le serveur Remote Desktop Protocol fourni par VirtualBox utilise le port TCP 3389.
 
@@ -185,7 +185,7 @@ Accédez à l'interface graphique d'IPFire depuis le navigateur Web de srvlan :
   <figcaption>IPFire : Règle de pare-feu RDP</figcaption>
 </figure>
 
-!!! Warning "Alerte"
+!!! Nota "Important"
 
     Fermez ensuite votre session utilisateur srvlan, le serveur xrdp refusant par défaut d'afficher le bureau d'un utilisateur ayant une session déjà ouverte.
 
