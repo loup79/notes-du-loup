@@ -4,7 +4,7 @@ summary: Utilisation des protocoles de connexion RDP, VNC, SSH.
 author: G.Leloup
 date: 2023-12-10
 categories: 
-  - Accès RDP-VNC-SSH
+  - 7 - Accès RDP-VNC-SSH
 ---
 
 <figure markdown>

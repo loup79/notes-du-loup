@@ -4,7 +4,7 @@ summary: Création d'une VM serveur DMZ de nom srvdmz.
 author: G.Leloup
 date: 2023-08-02
 categories: 
-  - Serveur DMZ "srvdmz"
+  - 4 - Serveur DMZ "srvdmz"
 ---
 
 <figure markdown>

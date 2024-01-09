@@ -4,7 +4,7 @@ summary: Installation et configuration d'un switch virtuel Open vSwitch.
 author: G.Leloup
 date: 2023-11-03
 categories: 
-  - "OvS + Conteneurs LXC"
+  - 6 - OvS + Conteneurs LXC
 ---
 
 <figure markdown>

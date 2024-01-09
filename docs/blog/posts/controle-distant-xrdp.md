@@ -4,7 +4,7 @@ summary: Modifications diverse pour améliorer le confort d'utilisation du proto
 author: G.Leloup
 date: 2023-12-10
 categories: 
-  - Accès RDP-VNC-SSH
+  - 7 - Accès RDP-VNC-SSH
 ---
 
 <figure markdown>

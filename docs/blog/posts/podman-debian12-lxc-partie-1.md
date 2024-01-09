@@ -4,7 +4,7 @@ summary: Podman, conteneurs rootfull et rootless.
 author: G.Leloup
 date: 2023-11-30
 categories: 
-  - OvS + Conteneurs LXC
+  - 6 - OvS + Conteneurs LXC
 ---
 
 <figure markdown>

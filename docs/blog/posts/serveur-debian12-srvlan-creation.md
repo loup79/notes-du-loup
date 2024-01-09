@@ -4,7 +4,7 @@ summary: Création d'une VM serveur LAN de nom srvlan.
 author: G.Leloup
 date: 2023-07-13
 categories: 
-  - Serveur LAN "srvlan"
+  - 2 - Serveur LAN "srvlan"
 ---
 
 <figure markdown>

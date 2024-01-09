@@ -4,7 +4,7 @@ summary: Création des VM clients LAN.
 author: G.Leloup
 date: 2023-09-12
 categories: 
-  - Clients LAN "vm1 vm2"
+  - 5 - Clients LAN "vm1 vm2"
 ---
 
 <figure markdown>

@@ -4,7 +4,7 @@ summary: Création d'une VM pare-feu WAN de nom srvsec.
 author: G.Leloup
 date: 2023-07-14
 categories: 
-  - Serveur WAN "srvsec"
+  - 3 - Serveur WAN "srvsec"
 ---
 
 <figure markdown>
