@@ -149,5 +149,4 @@ Redémarrez le système :
 sudo reboot
 ```
 
-
-
+<center>---------- Fin ----------</center>
