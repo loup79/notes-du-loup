@@ -111,7 +111,6 @@ sudo systemctl restart polkit
 
 et NetworkManager pour recharger sa configuration :
 
-
 ```bash
 sudo systemctl restart NetworkManager
 ```
@@ -119,3 +118,36 @@ sudo systemctl restart NetworkManager
 Modifier les connexions de NetworkManager sous xrdp devrait maintenant être possible.
 
 ### Reboot/Shutdown sous Xfce4
+
+Les menus Eteindre et Déconnexion... du bureau Xfce4 sont grisés sous xrdp, donc inactifs.
+
+Pour y remédier, créez un fichier 55-allow-reboot.pkla :
+
+```bash
+cd /etc/polkit-1
+
+sudo nano localauthority/50-local.d/55-allow-reboot.pkla
+```
+
+et entrez le contenu suivant :
+
+```bash
+[Autoriser le shutdown depuis XRDP]
+Identity=unix-user:*
+Action=org.freedesktop.login1.power-off
+ResultAny=yes
+
+[Autoriser le reboot depuis XRDP]
+Identity=unix-user:*
+Action=org.freedesktop.login1.reboot
+ResultAny=yes
+```
+
+Redémarrez le système :
+
+```bash
+sudo reboot
+```
+
+
+
