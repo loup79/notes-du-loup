@@ -17,7 +17,7 @@ Il peut être utile de pouvoir contrôler à distance les VM et les conteneurs L
 
 Etant sur le même LAN, les connexions distantes seront validées simplement par login et MDP.
 
-### RDP via le serveur de VBox
+### RDP via VirtualBox
 
 Par défaut, le serveur Remote Desktop Protocol fourni par VirtualBox utilise le port TCP 3389.
 
