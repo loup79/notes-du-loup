@@ -15,11 +15,11 @@ categories:
 
 Astuces facilitant l'exploitation du service xrdp.
 
-1. Supprimer l'alerte "Périphérique ... couleurs"
-2. Modifier les connections de NetworkManager
-3. Autoriser le Reboot/Shutdown sous Xfce4
+1. [Supprimer l'alerte "Périphérique ... couleurs"](#lien1)
+2. [Modifier les connections de NetworkManager](#lien2)
+3. [Autoriser le Reboot/Shutdown sous Xfce4](#lien3)
 
-### Périphérique gestion couleurs
+### Périphérique gestion couleurs {#lien1}
 
 A l'ouverture des connexions sur le serveur xrdp, Debian renvoie systématiquement cette alerte :
 
@@ -65,7 +65,7 @@ sudo systemctl restart polkit
 
 L'alerte ne devrait plus apparaître.
 
-### Connexions Network Manager
+### Connexions Network Manager {#lien2}
 
 Un utilisateur du groupe sudo connecté au travers du serveur xrdp ne peut pas modifier les paramètres d'une connexion réseau configurée depuis NetworkManager.
 
@@ -117,7 +117,7 @@ sudo systemctl restart NetworkManager
 
 Modifier les connexions de NetworkManager sous xrdp devrait maintenant être possible.
 
-### Reboot/Shutdown sous Xfce4
+### Reboot/Shutdown sous Xfce4 {#lien3}
 
 Les menus Eteindre et Déconnexion... du bureau Xfce4 sont grisés sous xrdp, donc inactifs.
 
