@@ -567,7 +567,7 @@ Résultat :
 
 ### SSH sur les conteneurs LXC
 
-#### _- Conteneur Podman ctn1_
+#### _- Conteneur ctn1_
 
 Installez depuis l'hôte ovs un serveur SSH sur ctn1 :
 
