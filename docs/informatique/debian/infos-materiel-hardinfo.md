@@ -1,7 +1,7 @@
 ---
 title: Debian - Outil Hardinfo
 summary: Application graphique informant sur le matériel installé.
-authors: Gerard Leloup
+author: G.Leloup
 date: 2023-06-01
 ---
 

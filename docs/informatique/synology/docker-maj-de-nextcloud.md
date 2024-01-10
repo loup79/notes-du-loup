@@ -1,7 +1,7 @@
 ---
 title: Docker - MAJ de Nextcloud
 summary: Mise à jour du conteneur docker Nextcloud sur un serveur Synology.
-authors: Gerard Leloup
+author: G.Leloup
 date: 2023-06-02
 ---
 
