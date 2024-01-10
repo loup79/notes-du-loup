@@ -19,6 +19,9 @@ td { background-color: rgb(251, 245, 245); }
 
 nav.md-post__action a { color: #772307; font-weight: bold; }
 
+/* Suppression des boutons suivant et précédent */
+.md-footer__inner { display: none ! important }
+
 @media (max-width: 360px) {
 /* Taille paragraphe */
 p, li {font-size: 12px;}
@@ -30,6 +33,3 @@ code.language-bash, code.language-markdown { font-size: 10px;  font-family: cons
 .md-typeset h2 { font-size: 16px; }
 .md-typeset h3, .md-typeset h4 { font-size: 12px; }
 }
-
-/* Suppression des boutons suivant et précédent */
-.md-footer__inner { display: none ! important }
