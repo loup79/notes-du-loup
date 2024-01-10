@@ -3,7 +3,7 @@
 .md-typeset h2, .md-typeset h3 { font-weight: bold; }
 .md-typeset h2 a { color: #5a5959; }
 .md-typeset h4 a, .md-typeset h5 a  { color: #000; }
-.md-typeset h5 { text-transform: lowercase; font-size: .7rem; }
+.md-typeset h5 { text-transform: none; font-size: .7rem; }
 
 /* Gestion des tableaux */
 .md-typeset__table { table-layout: fixed; min-width: 100%; }
