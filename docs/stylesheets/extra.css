@@ -32,7 +32,7 @@ nav.md-post__action a { color: #772307; font-weight: bold; }
 /* Gestion des boutons suivant et précédent */
 .md-footer__inner { display: none ! important }
 
-/* Gestion format téléphone */
+/* Gestion format téléphone Galaxy S5 */
 @media (max-width: 360px) {
 /* Gestion des blocs paragraphes, liens, préformatés et codes */
 p, li {font-size: 12px;}
@@ -43,4 +43,20 @@ code.language-bash, code.language-markdown { font-size: 10px;  font-family: cons
 .md-typeset h1 { font-size: 17px; }
 .md-typeset h2 { font-size: 16px; }
 .md-typeset h3, .md-typeset h4 { font-size: 12px; }
+}
+
+/* Gestion format téléphone Galaxy S10 */
+@media (min-width: 361px) and (max-width: 768px) {
+/* Gestion des blocs paragraphes, liens, préformatés et codes */
+p, li {font-size: 12px;}
+.md-content__inner > pre { margin-left : 1px; margin-right: 1px; margin-bottom: 1em; margin-top: 1em; padding: 1px; }
+code.language-bash, code.language-markdown { font-size: 12px;  font-family: consolas; }
+.md-typeset pre>code { padding: 3px; }
+
+/* Gestion des titres */
+.md-typeset h1 { font-size: 22px; }
+.md-typeset h2 { font-size: 20px; }
+.md-typeset h3 { font-size: 18px; }
+.md-typeset h4 { font-size: 16px; }
+
 }
