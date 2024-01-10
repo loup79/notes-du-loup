@@ -33,7 +33,7 @@ local virtuel.
     - [x] [5.2 Podman - VBox/Deb12: 2/2](blog/posts/podman-debian12-lxc-partie-2.md)
 
 ??? Info "6 - Accès distants : Protocoles RDP, VNC, SSH"
-    - [ ] 6.1 Contrôle à distance - VBox/Deb12
+    - [x] [6.1 Contrôle à distance - VBox/Deb12](blog/posts/controle-distant-debian12.md)
 
 <center>*---------------------------------------------------------------*</center>
 
