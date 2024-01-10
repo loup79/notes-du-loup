@@ -27,16 +27,16 @@ sudo dpkg-reconfigure exim4-config
 et répondre aux questions comme suit :
 
 ```text
-    Choississez « Envoi par relais (« smarthost ») — pas de courrier local »
-    « Nom de courrier du système » : saisir « le nom d'hôte Debian »
-    « Liste d’adresses IP où Exim sera en attente de connexions SMTP entrantes » : saisir « 127.0.0.1 »
-    « Autres destinations dont le courrier doit être accepté » : laisser vide
-    « Nom de domaine visible pour les utilisateurs locaux » : saisir « localhost »
-    « Nom réseau ou adresse IP du système « smarthost » » : saisir « smtp.orange.fr::587 »
-    « Faut-il cacher le nom local de courrier dans les courriers sortants ? » : choisir « Non »
-    « Faut-il minimiser les requêtes DNS (connexions à la demande) ? » : choisir « Non »
-    « Faut-il séparer la configuration dans plusieurs fichiers ? » : choisir « Oui »
-    « Destinataire des courriers de « root » et « postmaster » : « choisir l'utilisateur principal de Debian »
+Choississez « Envoi par relais (« smarthost ») — pas de courrier local »
+« Nom de courrier du système » : saisir « le nom d'hôte Debian »
+« Liste d’adresses IP où Exim sera en attente de connexions SMTP entrantes » : saisir « 127.0.0.1 »
+« Autres destinations dont le courrier doit être accepté » : laisser vide
+« Nom de domaine visible pour les utilisateurs locaux » : saisir « localhost »
+« Nom réseau ou adresse IP du système « smarthost » » : saisir « smtp.orange.fr::587 »
+« Faut-il cacher le nom local de courrier dans les courriers sortants ? » : choisir « Non »
+« Faut-il minimiser les requêtes DNS (connexions à la demande) ? » : choisir « Non »
+« Faut-il séparer la configuration dans plusieurs fichiers ? » : choisir « Oui »
+« Destinataire des courriers de « root » et « postmaster » : « choisir l'utilisateur principal de Debian »
 ```
 
 Le fichier modifié *update-exim4.conf.conf* se situe dans */etc/exim4/*.
