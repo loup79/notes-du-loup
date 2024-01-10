@@ -20,13 +20,13 @@ La configuration ci-dessous permet l'envoi de courriers au travers du serveur SM
 
 Pour configurer Exim, il faut commencer par lancer la Cde suivante :
 
-```bash
+```text
 sudo dpkg-reconfigure exim4-config
 ```
 
 et répondre aux questions comme suit :
 
-```bash
+```text
     Choississez « Envoi par relais (« smarthost ») — pas de courrier local »
     « Nom de courrier du système » : saisir « le nom d'hôte Debian »
     « Liste d’adresses IP où Exim sera en attente de connexions SMTP entrantes » : saisir « 127.0.0.1 »
@@ -43,7 +43,7 @@ Le fichier modifié *update-exim4.conf.conf* se situe dans */etc/exim4/*.
 
 Le contenu configuré doit montrer ceci :
 
-```bash
+```text
 dc_eximconfig_configtype='satellite'
 dc_other_hostnames=''
 dc_local_interfaces='127.0.0.1'
@@ -61,13 +61,13 @@ dc_localdelivery='mail_spool'
 
 Éditer ensuite le fichier */etc/exim4/passwd.client* et ajouter cette ligne :
 
-```bash
+```text
 smtp.orange.fr:<nom-du-compte>@orange.fr:mot-de-passe
 ```
 
 Éditer également le fichier */etc/email-addresses* et ajoutez ces lignes :
 
-```bash
+```text
 root: <nom-du-compte>@orange.fr
 USER: <nom-du-compte>@orange.fr
 USER@localhost: <nom-du-compte>@orange.fr
@@ -80,7 +80,7 @@ L'adresse e-mail doit être celle d'un compte connu d'Orange, pas celle du desti
 
 Éditer le fichier */etc/aliases* et ajouter ces lignes :
 
-```bash
+```text
 root: <nom de l'utilisateur Debian>
 <nom de l'utilisateur Debian>: <nom-du-compte>@gmail.com
 ```
@@ -89,7 +89,7 @@ L'adresse e-mail doit être celle du destinataire, pas celle connue de Orange.
 
 Enregistrer la modification du fichier *aliases* :
 
-```bash
+```text
 newaliases
 ```
 
@@ -97,13 +97,13 @@ newaliases
 
 Pour accéder au smarthost d'Orange, créer le fichier */etc/exim4/exim4.conf.localmacros* :
 
-```bash
+```text
 sudo nano /etc/exim4/exim4.conf.localmacros
 ```
 
 et entrer le contenu suivant :
 
-```bash
+```text
 MAIN_TLS_ENABLE = 1
 REMOTE_SMTP_SMARTHOST_HOSTS_REQUIRE_TLS = *
 TLS_ON_CONNECT_PORTS = 587
@@ -112,7 +112,7 @@ REMOTE_SMTP_SMARTHOST_TLS_VERIFY_HOSTS = !*
 
 Ajouter ce contenu dans */etc/exim4/exim4.conf.template* juste après .ifdef REMOTE_SMTP_SMARTHOST_HOSTS_REQUIRE_TLS ... .endif :
 
-```bash
+```text
 .ifdef REQUIRE_PROTOCOL
     protocol = REQUIRE_PROTOCOL
 .endif
@@ -120,7 +120,7 @@ Ajouter ce contenu dans */etc/exim4/exim4.conf.template* juste après .ifdef REM
 
 Puis le contenu suivant juste après .ifdef MAIN_TLS_ENABLE :
 
-```bash
+```text
 .ifdef TLS_ON_CONNECT_PORTS
     tls_on_connect_ports = TLS_ON_CONNECT_PORTS
 .endif
@@ -130,13 +130,13 @@ Puis le contenu suivant juste après .ifdef MAIN_TLS_ENABLE :
 
 Pour l'authentification utilisateur SASL exigée par Orange, installer le paquet *sasl2-bin* :
 
-```bash
+```text
 sudo apt install sasl2-bin
 ```
 
 Démarrer le démon *saslauthd* et l'activer au boot :
 
-```bash
+```text
 sudo systemctl start saslauthd  
 sudo systemctl status saslauthd  
 sudo systemctl enable saslauthd
@@ -144,7 +144,7 @@ sudo systemctl enable saslauthd
 
 Editer ensuite le fichier */etc/exim4/exim4.conf.template* et décommenter les lignes suivantes :
 
-```bash
+```text
 plain_saslauthd_server:
     driver = plaintext
     public_name = PLAIN
@@ -158,7 +158,7 @@ plain_saslauthd_server:
 
 Ajouter l'utilisateur *Debian-exim* au groupe *sasl* :
 
-```bash
+```text
 sudo adduser Debian-exim sasl
 ```
 
@@ -166,7 +166,7 @@ sudo adduser Debian-exim sasl
 
 Pour finir, mettre à jour la configuration :
 
-```bash
+```text
 sudo update-exim4.conf
 sudo systemctl restart exim4
 sudo systemctl status exim4
@@ -178,85 +178,85 @@ La Cde *update-exim4.conf* met à jour le fichier */var/lib/exim4/config.autogen
 
 Editer le fichier *automysqlbackup* :
 
-```bash
+```text
 sudo nano /etc/default/automysqlbackup
 ```
 
 et modifier cette ligne comme suit :
 
-```bash
+```text
 MAILADDR="<nom-du-compte>@gmail.com"
 ```
 
 Puis, éditer le fichier *autopostgresqlbackup* :
 
-```bash
+```text
 sudo nano /etc/default/autopostgresqlbackup
 ```
 
 et modifier cette ligne comme suit :
 
-```bash
+```text
 MAILADDR=""
 ```
 
 Supprimer ce fichier pour éviter un *warning* généré par le script cron *chkrootkit* :
 
-```bash
+```text
 /etc/chkrootkit.conf
 ```
 
 Envoyer les mails émis par toutes les tâches *cron.daily* sur `nom-du-compte@gmail.com` au lieu de *root* comme suit :
 
-```bash
+```text
 sudo crontab -e
 ```
 
 Ajoutez :
 
-```bash
+```text
 MAILTO=<nom-du-compte>@gmail.com
 ```
 
 ou
 
-```bash
+```text
 sudo nano /etc/crontab
 ```
 
 Ajouter sous la ligne *PATH=...*  :
 
-```bash
+```text
 MAILTO="<nom-du-compte>@gmail.com"
 ```
 
 et redémarrer le service *cron* :
 
-```bash
+```text
 sudo systemctl restart cron
 ```
 
 Editer la tâche cron *zz-backup2l* :
 
-```bash
+```text
 sudo nano /etc/cron.daily/zz-backup2l
 ```
 
 et commenter la Cde *cron* suivante :
 
-```bash
+```text
 # ! command -v backup2l > /dev/null || nice -n 19 backup2l -b
 ```
 
 Enfin, éditer le fichier */etc/rsbackup/defaults* :
 
-```bash
+```text
 sudo nano /etc/rsbackup/defaults
 ```
 
 et modifier cette ligne comme suit :
 
-```bash
+```text
 email=<nom-du-compte>@gmail.com
 ```
 
@@ -264,13 +264,13 @@ email=<nom-du-compte>@gmail.com
 
 Tester l’envoi d’un e-mail :
 
-```bash
+```text
 sudo mail <nom-du-compte>@gmail.com
 ```
 
 en procédant comme suit :
 
-```bash
+```text
  Subject: -> Saisir le sujet puis Touche « Entrée »
  Saisir le corps du mail puis Touche « Entrée » suivi de Touches « Ctrl+D »
  CC: -> Touche « Entrée »
@@ -286,13 +286,13 @@ Vérifier dans le fichier */var/log/exim4/mainlog* que tout s'est bien passé.
 
 Lister les messages en file d'attente :
 
-```bash
+```text
 sudo exim -bp
 ```
 
 Vider un message de la file d'attente :
 
-```bash
+```text
 sudo exim -Mrm <id du message>
 ```
 

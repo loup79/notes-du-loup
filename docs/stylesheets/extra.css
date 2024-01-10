@@ -23,7 +23,7 @@ td { background-color: rgb(251, 245, 245); }
 .md-typeset figcaption  { font-size: 13px; font-family: var(--md-text-font-family); }
 
 /* Gestion des blocs code */
-code.language-bash { background-color: #fcfaee;  font-size: 13px; font-family: var(--md-text-font-family); }
+code.language-bash, code.language-text { background-color: #fcfaee;  font-size: 13px; font-family: var(--md-text-font-family); }
 code.language-markdown { background-color: #f5f5f5;  font-size: 13px; font-family: var(--md-text-font-family); }
 
 /* Gestion du lien continuer à lire */
