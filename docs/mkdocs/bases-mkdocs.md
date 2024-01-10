@@ -119,7 +119,7 @@ Exemple de lien inactif : `http://192.168.x.y:7160`
 
 ### - Cdes/Scripts et retours
 
-Cdes/Scripts _( code ```bash )_ :
+Cdes/Scripts _( code ```bash, text, yaml, json )_ :
 
 ```bash
 sudo nano /etc/systemd/system/networknamespace.service
