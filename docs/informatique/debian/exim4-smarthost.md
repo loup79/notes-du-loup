@@ -206,7 +206,7 @@ Supprimer ce fichier pour éviter un *warning* généré par le script cron *chk
 /etc/chkrootkit.conf
 ```
 
-Envoyer les mails émis par toutes les tâches *cron.daily* sur 'nom-du-compte@gmail.com' au lieu de *root* comme suit :
+Envoyer les mails émis par toutes les tâches *cron.daily* sur `nom-du-compte@gmail.com` au lieu de *root* comme suit :
 
 ```bash
 sudo crontab -e
