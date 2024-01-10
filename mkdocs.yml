@@ -52,6 +52,7 @@ theme:
     - navigation.sections
     - navigation.top
     - navigation.footer
+    - content.code.copy
 
   icon:
     repo: fontawesome/brands/github
