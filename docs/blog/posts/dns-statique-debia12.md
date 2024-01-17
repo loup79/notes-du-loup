@@ -438,7 +438,7 @@ search intra.loupipfire.fr
 nameserver 192.168.3.1
 ```
 
-#### _- Tests DNS depuis srvlan_
+#### _- Tests du DNS depuis srvlan_
 
 a) Vérifiez la syntaxe du fichier /etc/bind/named.conf :
 
@@ -529,3 +529,97 @@ intra.loupipfire.fr. 86400 IN SOA srvlan.intra.loupipfire.fr. root.intra.loupipf
 Received 85 bytes from 192.168.3.1#53 in 0 ms
 ```
 
+La Cde dig est incluse dans le paquet bind9-dnsutils installé de base :
+
+```bash
+[srvlan@srvlan:~$] sudo dig SOA srvlan.intra.loupipfire.fr  
+```
+
+Celle-ci retourne normalement :
+
+```markdown
+; <<>> DiG 9.18.19-1~deb12u1-Debian <<>> SOA srvlan.intra.loupipfire.fr
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 26365
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: ce938125a123e1bd0100000065a1... (good)
+;; QUESTION SECTION:
+;srvlan.intra.loupipfire.fr. IN SOA
+
+;; AUTHORITY SECTION:
+intra.loupipfire.fr. 86400 IN SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. 1 604800 84600 2419200 604800
+
+;; Query time: 0 msec
+;; SERVER: 192.168.3.1#53(192.168.3.1) (UDP)
+;; WHEN: Fri Jan 12 17:26:23 CET 2024
+;; MSG SIZE  rcvd: 124  
+```
+
+e) Testez la résolution DNS interne et externe :
+
+```bash
+[srvlan@srvlan:~$] ping debian12-vm1
+[srvlan@srvlan:~$] ping debian12-vm2.intra.loupipfire.fr
+[srvlan@srvlan:~$] ping srvlan
+[srvlan@srvlan:~$] ping srvlan.intra.loupipfire.fr
+[srvlan@srvlan:~$] ping ctn2
+[srvlan@srvlan:~$] ping lemonde.fr  
+```
+
+Le ping srvlan renvoie 127.0.1.1.  
+Le ping srvlan.intra.loupipfire.fr renvoie 192.168.3.1.
+
+f) Pour finir, vérifiez le chargement des zones :
+
+```bash
+sudo named-checkconf -z   # Liste des zones chargées 
+```
+
+### Déclaration d'un DNS externe
+
+Le DNS utilise 13 destinations de serveurs racines pour gérer les requêtes d'accès à Internet. Ces serveurs sont chargés de renvoyer lesdites requêtes vers des serveurs DNS de premier niveau appropriés _(.com, .fr, etc...)_.
+
+Le résolveur bind9 exploite par défaut le fichier /usr/share/dns/root.hints pour interroger ces serveurs racines _(adresses de a.root-servers.net à m.root-servers.net)_ et obtenir les réponses aux requêtes d'accès à Internet.
+
+Actuellement bind9 traite les requêtes locales _(Ex : ping debian12-vm1.intra.loupipfire.fr)_ ainsi que les requêtes d'accès à Internet _(Ex : ping lemonde.fr)_ et construit son cache en fonction.
+
+Test d'une requête locale :
+
+```bash
+[srvlan@srvlan:~$] nslookup ovs.intra.loupipfire.fr 
+```
+
+Retour :
+
+```markdown
+Server: 192.168.3.1 (IP serveur DNS soit srvlan)
+Address:    192.168.3.1#53
+
+Name: ovs.intra.loupipfire.fr
+Address: 192.168.3.15
+```
+
+La VM srvlan est l'autorité pour la réponse.
+
+Test d'une requête d'accès à Internet :
+
+```bash
+[srvlan@srvlan:~$] nslookup mappy.fr
+```
+
+Retour :
+
+```markdown
+Server:     192.168.3.1 (IP serveur DNS soit srvlan)
+Address:    192.168.3.1#53
+
+Non-authoritative answer:
+Name:    mappy.fr
+Address: 193.203.32.57
+```
+
+Constat, srvlan n'est plus l'autorité pour la réponse.
