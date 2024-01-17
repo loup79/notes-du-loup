@@ -302,3 +302,13 @@ ctn2       IN     A     192.168.3.8
 \- Détail des paramètres -  
 a) Directives SOA (Start of Authority) :
 
+|                    |                                                                               |
+| :----------------- | :---------------------------------------------------------------------------- |
+| @ {.td-bord}       | Représente le nom de domaine de la zone soit intra.loupipfire.fr {.td-bord}   |
+| IN SOA {.td-bord}  | Désigne srvlan comme autorité pour la zone intra.loupipfire.fr {.td-bord}     |
+| 1 {.td-bord}       | N° de série du fichier, à changer à chaque modification de celui-ci {.td-bord}|
+| 604800 {.td-bord}  | Un DNS esclave attendra 1w avant de rafraichir ses données {.td-bord}         |
+| 84600 {.td-bord}   | Si échec, il réessaiera 1d après  {.td-bord}                                  |
+| 2419200 {.td-bord} | Si échec durant 4w, il cessera de répondre en tant qu'autorité {.td-bord}     |
+| 604800 {.td-bord}  | Mise en cache des réponses négatives durant 1w  {.td-bord}                    |
+

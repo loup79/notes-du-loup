@@ -7,12 +7,13 @@
 
 /* Gestion des tableaux */
 .md-typeset__table { table-layout: fixed; min-width: 100%; }
-.md-typeset table:not([class]) { display: table; }
+.md-typeset table:not([class]) { display: table; border: 0.05rem solid; }
 
 table { background-color: rgb(251, 245, 245); }
 th { display: none; }
 td { background-color: rgb(251, 245, 245); }
 .td-bleu { background-color:#e7f5fe; }
+.td-bord { border-right: 0.05rem solid; }
 
 /* img[src*='#center'] { display: block; margin: auto; } */
 
