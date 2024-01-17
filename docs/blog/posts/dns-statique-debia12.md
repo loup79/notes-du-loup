@@ -47,3 +47,51 @@ sudo reboot
 ```
 
 VM = Machine virtuelle et CTN = Conteneur Podman
+
+#### _- Situation actuelle zone LAN_
+
+a) Une IP fixe et un nom d'hôte pour chaque VM/CTN.  
+Ex : IP fixe 192.168.3.2 pour l'hôte debian12-vm1
+
+Cde utile pour découvrir les adresses IP :
+
+```bash
+[user@hostname:~$] ip address
+```
+
+Cdes utiles pour découvrir les noms d'hôtes :
+
+```bash
+[user@hostname:~$] cat /etc/hostname
+[user@hostname:~$] cat /etc/hosts               # Ligne 127.0.1.1
+```
+
+b) Une Box Internet déclarée comme serveur DNS.
+
+Cde utile pour découvrir les serveurs DNS exploités :
+
+```bash
+[user@hostname:~$] cat /etc/resolv.conf
+```
+
+c) Des pings qui émis depuis le LAN montrent un retour :  
+- Positif sur un nom de domaine Internet  
+Ex : ping www.google.fr
+
+\- Positif sur leur propre nom d'hôte  
+Ex : ping debian12-vm1 depuis la VM debian12-vm1
+
+\- Négatif sur les autres noms d'hôtes de la zone LAN
+
+Exemple de retour :
+
+```markdown
+client-linux@debian12-vm1:~$ ping srvlan
+ping: srvlan: Nom ou service inconnu
+client-linux@debian12-vm1:~$
+```
+
+Un serveur DNS local solutionnera le retour négatif.
+
+### Mise en place du DNS statique
+
