@@ -312,3 +312,70 @@ a) Directives SOA (Start of Authority) :
 | 2419200 {.td-bord} | Si échec durant 4w, il cessera de répondre en tant qu'autorité {.td-bord}     |
 | 604800 {.td-bord}  | Mise en cache des réponses négatives durant 1w  {.td-bord}                    |
 
+Le n° de série peut être une date suivie d'un n° d'ordre :  
+Ex : AAAAMMJJxx
+
+b) Enregistrements de type NS et A :
+
+|                    |                                                                               |
+| :----------------- | :---------------------------------------------------------------------------- |
+| IN NS {.td-bord}   | Indique le nom du serveur DNS pour la zone  {.td-bord}                        |
+| IN A {.td-bord}    | Relie un nom d’hôte (domaine - s/domaine) à une adresse IPv4 {.td-bord}       |
+
+Créez maintenant le fichier pour la zone inverse :
+
+```bash
+[srvlan@srvlan:~$] cd /etc/bind
+[srvlan@srvlan:~$] sudo nano db.intra.loupipfire.fr.inverse    
+```
+
+et insérez les lignes suivantes :
+
+```bash
+;
+;  DNS - Fichier de zone pour la résolution inverse
+;
+$TTL 86400
+@   IN   SOA   srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. (
+1
+1w
+1d
+4w
+1w )
+;
+@       IN     NS     srvlan.intra.loupipfire.fr.
+1       IN     PTR     srvlan.intra.loupipfire.fr.
+15       IN     PTR     ovs.intra.loupipfire.fr. 
+2       IN     PTR     debian12-vm1.intra.loupipfire.fr. 
+4       IN     PTR     debian12-vm2.intra.loupipfire.fr.
+6       IN     PTR     ctn1.intra.loupipfire.fr.
+8       IN     PTR     ctn2.intra.loupipfire.fr.    
+```
+
+\- Détail des paramètres -  
+a) Directives SOA (Start of Authority) :  
+Idem fichier de zone pour la résolution directe.
+
+b) Enregistrements de type PTR :
+
+|                    |                                                                               |
+| :----------------- | :---------------------------------------------------------------------------- |
+| IN PTR {.td-bord}  | Relie une adresse IP à un nom d'hôte  {.td-bord}                              |
+
+!!! note "Nota"
+
+    Le conteneur sécurisé rootless ctn3 n'a pas été traité, le service réseau slirp4netns qui lui est associé manque de certaines fonctionnalités notamment celle de ne pas donner au conteneur une adresse IP routable.
+
+#### _- Mise à jour de Bind 9_
+
+Redémarrez le service DNS :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl restart bind9    
+```
+
+### Configuration finale et tests
+
+#### _- Modification du fichier hosts_
+
+Editez le fichier DNS hosts :
