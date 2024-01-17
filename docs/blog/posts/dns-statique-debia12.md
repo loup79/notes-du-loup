@@ -623,3 +623,160 @@ Address: 193.203.32.57
 ```
 
 Constat, srvlan n'est plus l'autorité pour la réponse.
+
+Vous allez à présent, pour alléger le travail de srvlan, demander que les requêtes d'accès à Internet _(les demandes de résolutions externes)_ soient dorénavant traitées par les serveurs DNS de Google.
+
+Editez pour cela le fichier DNS named.conf.options :
+
+```bash
+[srvlan@srvlan:~$] sudo nano /etc/bind/named.conf.options
+```
+
+et modifiez celui-ci afin qu'il contienne ces lignes :
+
+```bash
+options {
+     directory "/var/cache/bind";
+     
+     dnssec-validation auto;      
+
+     // Limiter les réponses récursives aux
+     // réseaux/IP des interfaces du serveur DNS srvlan
+     allow-recursion { localnets; }; 
+
+     // Pour les autres réseaux/IP,
+     // transfert des requêtes DNS vers Internet.
+     // Adresses IPv4 des serveurs DNS de Google.
+     forward only;
+     forwarders { 8.8.8.8; 8.8.4.4; }; 
+     
+     listen-on-v6 { any; };
+};    
+```
+
+Redémarrez maintenant le service bind9 :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl restart bind9 
+```
+
+et testez une requête d'accès à Internet :
+
+```bash
+[srvlan@srvlan:~$] nslookup yahoo.fr 
+```
+
+Retour :
+
+```markdown
+Server: 192.168.3.1
+Address: 192.168.3.1#53
+
+Non-authoritative answer:
+Name: yahoo.fr
+Address: 44.228.206.170
+Name: yahoo.fr
+Address: 34.213.101.254
+Name: yahoo.fr
+Address: 13.50.184.192
+Name: yahoo.fr
+Address: 13.251.69.97
+...
+```
+
+La résolution externe se fait toujours mais utilisez-vous les DNS de Google ?
+
+Pour le savoir, remplacez les IP du paramètre forwarders par des IP quelconques, redémarrez le service bind9 afin de vider le cache DNS actif et relancez la requête :
+
+```bash
+[srvlan@srvlan:~$] nslookup yahoo.fr  
+```
+
+Retour :
+
+```markdown
+;; communications error to 192.168.3.1#53: timed out
+Server: 192.168.3.1
+Address: 192.168.3.1#53
+
+** server can't find yahoo.fr: SERVFAIL 
+```
+
+La résolution externe ne fonctionne plus, vous utilisiez bien les DNS de Google.
+
+Remettez maintenant les bonnes adresses IP er redémarrez le service bind9.
+
+### Tests DNS depuis les VM/CTN
+
+#### _- VM ovs et CTN ctn1/ctn2_
+
+Se connecter en SSH sur la VM ovs _([voir Mémento 6.1](../posts/controle-distant-debian12.md){ target="_blank" })_.
+
+Editez ensuite son fichier DNS resolv.conf :
+
+```bash
+[switch@ovs:~$] sudo nano /etc/resolv.conf  
+```
+
+et remplacez le contenu existant par celui-ci :
+
+```bash
+# Fichier resolv.conf - Client DNS
+
+# Nom du domaine local
+domain intra.loupipfire.fr 
+
+# Ajout auto du nom de domaine local aux
+# noms d'hôtes non pleinement qualifiés
+search intra.loupipfire.fr
+
+# Adresses IP du ou des serveurs DNS à interroger
+nameserver 192.168.3.1  
+```
+
+Rebootez la VM :
+
+```bash
+[switch@ovs:~$] sudo reboot 
+```
+
+Puis, utilisez cette Cde pour interagir avec ctn1/ctn2 :
+
+```bash
+[switch@ovs:~$] sudo podman exec -it ctn1 ou 2 bash 
+```
+
+et contrôlez le contenu des 2 fichiers resolv.conf qui doivent montrer ceci :
+
+```markdown
+search intra.loupipfire.fr
+nameserver 192.168.3.1 
+```
+
+Celui-ci a été mis à jour automatiquement lors de la reconstruction des 2 conteneurs Podman.
+
+Vérifiez l'ID du Name Server pour intra.loupipfire.fr :
+
+```bash
+[switch@ovs:~$] dig NS intra.loupipfire.fr +short  
+```
+
+Retour :
+
+```markdown
+srvlan.intra.loupipfire.fr.  
+```
+
+Pour finir, depuis les 3 systèmes, pinguez les VM suivantes et observez les FQDN retournés :
+
+```bash
+ping srvlan
+ping debian12-vm1.intra.loupipfire.fr
+ping debian12-vm2  
+```
+
+FQDN = nom_hôte.nom_domaine
+
+#### _- VM debian12-vm*_
+
+Idem srvlan.
