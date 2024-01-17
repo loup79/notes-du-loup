@@ -75,7 +75,7 @@ Cde utile pour découvrir les serveurs DNS exploités :
 ```
 
 c) Des pings qui émis depuis le LAN montrent un retour :  
-- Positif sur un nom de domaine Internet  
+\- Positif sur un nom de domaine Internet  
 Ex : ping www.google.fr
 
 \- Positif sur leur propre nom d'hôte  
@@ -94,4 +94,94 @@ client-linux@debian12-vm1:~$
 Un serveur DNS local solutionnera le retour négatif.
 
 ### Mise en place du DNS statique
+
+Le système fournit bind 9 et unbound soit les 2 serveurs DNS les plus utilisés sous Debian.
+
+Le choix se portera sur bind 9 qui contrairement à unbound peut être utilisé à la fois comme serveur de noms récursif et serveur de noms faisant autorité.
+
+Un serveur DNS récursif recherchera le résultat d'une requête DNS dans son cache ou à défaut interrogera un serveur DNS faisant autorité pour obtenir le résultat.
+
+Un serveur DNS faisant autorité contiendra le résultat, il n'interrogera pas d'autres serveurs et sera l’autorité finale contenant tous les noms d'hôtes et adresses IP d'une zone donnée.
+
+Le service DNS sera statique car les données seront pour l'instant renseignées manuellement.
+
+#### _- Installation de bind 9_
+
+Installez le paquet bind9 :
+
+```bash
+[srvlan@srvlan:~$] sudo apt install bind9
+```
+
+et vérifiez le démarrage de celui-ci :
+
+```bash
+[srvlan@srvlan:~$] systemctl status bind9
+```
+
+Retour :
+
+```markdown
+● named.service - BIND Domain Name Server
+   Loaded: loaded (/lib/systemd/system/named.ser...
+     Active: active (running) since Thu 2024-01-...
+       Docs: man:named(8)
+   Main PID: 3234 (named)
+     Status: "running"
+      Tasks: 4 (limit: 1077)
+     Memory: 33.0M
+        CPU: 87ms
+     CGroup: /system.slice/named.service
+        └─3234 /usr/sbin/named -f -u bind
+```
+
+Vérifiez son lancement automatique au boot de la VM :
+
+```bash
+[srvlan@srvlan:~$] systemctl is-enabled named
+```
+
+Retour :
+
+```markdown
+enabled
+```
+
+Vérifiez la version installée :
+
+```bash
+[srvlan@srvlan:~$] sudo named -v
+```
+
+Retour :
+
+```markdown
+BIND 9.18.19...-Debian (Extended Support V...) <id:>
+```
+
+Vérifiez l'utilisation des ports TCP/UDP 53 et 953 :
+
+```bash
+[srvlan@srvlan:~$] sudo ss -tulpn | grep named
+```
+
+Retour partiel :
+
+```markdown
+udp UNC... 0 0        192.168.3.1:53   ..."named"...      
+udp UNC... 0 0        192.168.2.2:53   ..."named"...      
+udp UNC... 0 0          127.0.0.1:53   ..."named"...      
+udp UNC... 0 0              [::1]:53   ..."named"...      
+udp UNC... 0 0   [fe80::...enp0s3:53   ..."named"...     
+udp UNC... 0 0   [fe80::...enp0s8:53   ..."named"...      
+tcp LIS... 0 10       192.168.3.1:53   ..."named"...      
+tcp LIS... 0 10       192.168.2.2:53   ..."named"...      
+tcp LIS... 0 10         127.0.0.1:53   ..."named"...      
+tcp LIS... 0 5         127.0.0.1:953   ..."named"...      
+tcp LIS... 0 10             [::1]:53   ..."named"...      
+tcp LIS... 0 10  [fe80::...enp0s3:53   ..."named"...      
+tcp LIS... 0 10  [fe80::...enp0s8:53   ..."named"...      
+tcp LIS... 0 5             [::1]:953   ..."named"...
+```
+
 
