@@ -777,7 +777,7 @@ ping debian12-vm2
 
 FQDN = nom_hôte.nom_domaine
 
-#### _- VM debian12-vm*_ { #vm-debian }
+#### _- VM debian12-vm*_ {#vm-debian}
 
 Idem srvlan.
 
@@ -844,7 +844,7 @@ Arrêtez le service DNS fourni par srvlan :
 
 Redémarrez les clients debian12-vm* et ovs afin de vider leurs caches DNS.
 
-Les pings du [§ VM debian12-vm* ](#vm-debian) lancés depuis les VM debian12-vm* devraient échouer.
+Les pings du [§ VM debian12-vm*](#vm-debian) lancés depuis les VM debian12-vm* devraient échouer.
 
 Redémarrez le service DNS et vérifiez que les pings fonctionnent à nouveau.
 
