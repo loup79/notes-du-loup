@@ -28,7 +28,7 @@ Pour la doc du thème, visiter [Material for MkDocs](https://squidfunk.github.io
 
 Exemple à respecter :
 
-```bash
+```markdown
 ---    
 title: Titre du fichier  
 summary: Description sommaire.  
@@ -37,6 +37,30 @@ date: 2023-06-01
 categories:   
   - "Open vSwitch + Conteneurs"  
 ---
+```
+
+ou
+
+```markdown
+---    
+title: Titre du fichier  
+summary: Description sommaire.  
+authors: 
+  - Nom de l'auteur  
+date: 2023-06-01  
+categories:   
+  - "Open vSwitch + Conteneurs"  
+---
+```
+
+si l'on veut exploiter le fichier _blog/.authors.yml_ dont le contenu peut ressembler à ceci :
+
+```markdown
+authors:
+  Nom de l'auteur:
+    name: Pseudonyme
+    description: Divers
+    avatar: https://xxx/blog/avatar.png
 ```
 
 ## Aide à l'écriture
