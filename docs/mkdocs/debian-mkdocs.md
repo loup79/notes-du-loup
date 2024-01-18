@@ -1,90 +1,106 @@
 ---
 title: Debian - MkDocs
 summary: Installation de MkDocs sur Debian.
-authors: Gerard Leloup
+author: G.Leloup
 date: 2023-06-01
 ---
 
-# MkDocs du Debian 11
+## MkDocs sous Debian 11
 
 Tuto pour installer MkDocs sur une VM Debian 11.
 
-### **1- Installation**
+### Installation
+
 Préalable : Python version 3 installé sur la Debian.
 
 Vérifier la version courante de Python :
-```
-$ python3 --version
+
+```bash
+python3 --version
 ```
 
-Ensuite ajouter si manquant le module *pip* :
-```
-$ sudo apt install python3-pip
+Ensuite ajouter si manquant le module _pip_ :
+
+```bash
+sudo apt install python3-pip
 ```
 
 et utiliser celui-ci pour installer MkDocs :
-```
-$ sudo pip install mkdocs
-$ mkdocs --version
+
+```bash
+sudo pip install mkdocs
+mkdocs --version
 ```
 
 Les fichiers de MkDocs sont installés dans :
-```
+
+```bash
 /usr/local/lib/python3.x/dist-packages/
 ```
 
-### **2 - Création d'un projet MkDocs + site Web**
-Projet ou site de développement :
-```
-$ cd /home/user/espace-travail-user
-$ mkdocs new notes-du-user
-$ cd notes-du-user
-$ tree
+### Création d'un projet + site Web
+
+Créer le projet ou site de développement :
+
+```bash
+cd /home/user/espace-travail-user
+mkdocs new notes-du-user
+cd notes-du-user
+tree
 ```
 
-Retour de la Cde *tree* :
-```
+Retour de la Cde _tree_ :
+
+```markdown
 .
 ├── docs
 │   └── index.md
 └── mkdocs.yml
 ```
 
-Site de production :
-```
-$ cd /home/user/espace-travail-user/notes-du-user
-$ sudo mkdir /var/www/html/mkdocs
-$ mkdocs build -c -d /var/www/html/mkdocs/
+Créer le site de production :
+
+```bash
+cd /home/user/espace-travail-user/notes-du-user
+sudo mkdir /var/www/html/mkdocs
+mkdocs build -c -d /var/www/html/mkdocs/
 ```
 
-Le dossier *mkdocs* est exploité par un serveur web *nginx*.
+Le dossier _mkdocs_ est exploité par un serveur web _nginx_.
 
-### **3 - Installation d'un thème pour Mkdocs**
-Installer le thème multilingue *mkdocs-material* :
-```
-$ sudo pip3 install mkdocs-material
+### Ajout thème MkDocs Material
+
+Installer le thème multilingue _mkdocs-material_ :
+
+```bash
+sudo pip3 install mkdocs-material
 ```
 
 Les fichiers du thème sont installés dans :
-```
+
+```bash
 /usr/local/lib/python3.x/dist-packages
 ```
 
-**Nota -** Lien GitHub du thème : [Material pour MkDocs](https://squidfunk.github.io/mkdocs-material/)
+!!! note "Nota"
+    Lien GitHub du thème : [Material pour MkDocs](https://squidfunk.github.io/mkdocs-material/){ target="_blank" }
 
-Pour info, 2 thèmes de base nommés *readthedocs* et *mkdocs* sont dans :
-```
+Pour info, 2 thèmes de base nommés _readthedocs_ et _mkdocs_ sont déjà présents dans :
+
+```bash
 /usr/local/lib/python3.x/dist-packages/mkdocs/themes/
 ```
 
-Editer ensuite le fichier *mkdocs.yml* comme suit :
-```
-$ cd /home/user/espace-travail-user/notes-du-user
-$ nano mkdocs.yml
+Editer ensuite le fichier _mkdocs.yml_ comme suit :
+
+```bash
+cd /home/user/espace-travail-user/notes-du-user
+nano mkdocs.yml
 ```
 
 et entrer le contenu suivant :
-```
+
+```bash
 site_name: Documents du user
 
 theme:
@@ -97,25 +113,31 @@ copyright: Copyright &copy; 2023 - Cartier Jacques
 ```
 
 Pour vérifier la version du thème, utiliser cette Cde :
-```
-$ sudo pip show mkdocs-material
+
+```bash
+sudo pip show mkdocs-material
 ```
 
 Pour mettre à jour le thème, utiliser cette Cde :
-```
-$ sudo pip install --upgrade --force-reinstall mkdocs-material
+
+```bash
+sudo pip install --upgrade --force-reinstall mkdocs-material
 ```
 
-#### **4 - Serveur de développement**
-Pour lancer le serveur, procéder ainsi :
+### Serveur de développement
+
+Pour lancer le serveur de développement, procéder ainsi :
+
+```bash
+cd /home/user/espace-travail-user/notes-du-user
+mkdocs serve --dev-addr=192.168.1.x:8000
 ```
-$ cd /home/user/espace-travail-user/notes-du-user
-$ mkdocs serve --dev-addr=192.168.1.x:8000
-```
+
 L'IP 192.168.1.x est celle de la VM Debian 11.
 
 Retour normal :
-```
+
+```markdown
 INFO     -  Building documentation...
 INFO     -  Cleaning site directory
 INFO     -  Documentation built in 1.20 seconds
@@ -123,13 +145,15 @@ INFO     -  [12:10:49] Watching paths for changes: 'docs', 'mkdocs.yml'
 INFO     -  [12:10:49] Serving on http://192.168.1.x:8000/
 ```
 
-Touches *CTRL+C* pour fermer le serveur.
+Touches _CTRL+C_ pour fermer le serveur.
 
-### **5 - MAJ du serveur de production**
-La mise à jour s'effectue ainsi :
-```
-$ cd /home/user/espace-travail-user/notes-du-user
-$ sudo mkdocs build -c -d /var/www/html/mkdocs/
+### Serveur de production
+
+La mise à jour du serveur de production s'effectue ainsi :
+
+```bash
+cd /home/user/espace-travail-user/notes-du-user
+sudo mkdocs build -c -d /var/www/html/mkdocs/
 ```
 
-**Fin**
+**Fin.**
