@@ -106,6 +106,11 @@ Un serveur DNS faisant autorité contiendra le résultat, il n'interrogera pas d
 
 Le service DNS sera statique car les données seront pour l'instant renseignées manuellement.
 
+<figure markdown>
+  ![Synoptique - DNS : Fonctionnement de la récursion DNS](../images/2024/01/dns-recursif.webp){ width="430" }
+  <figcaption>DNS : Fonctionnement de la récursion DNS</figcaption>
+</figure>
+
 #### _- Installation de bind 9_
 
 Installez le paquet bind9 :
