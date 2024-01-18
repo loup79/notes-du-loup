@@ -1,7 +1,8 @@
 ---
 title: "DNS statique - VBox/Deb12"
 summary: Le DNS statique gérera un sous-domaine de nom intra.loupipfire.fr.
-
+authors: 
+  - G.Leloup
 date: 2024-01-17
 categories: 
   - 8 - DNS - DHCP - DNS dynamique
