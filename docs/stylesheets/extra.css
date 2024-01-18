@@ -25,7 +25,7 @@ td { background-color: rgb(251, 245, 245); }
 
 /* Gestion des blocs code */
 code.language-bash, code.language-text { background-color: #fcfaee;  font-size: 13px; font-family: var(--md-text-font-family); }
-code.language-markdown { background-color: #f5f5f5;  color: #000066; font-size: 13px; font-family: Monaco,Consolas,"Andale Mono","DejaVu Sans Mono",monospace; }
+code.language-markdown { background-color: #f5f5f5;  color: #000066; font-size: 13px; font-family: Consolas; }
 
 /* Gestion du lien continuer à lire */
 nav.md-post__action a { color: #772307; font-weight: bold; }
