@@ -777,6 +777,83 @@ ping debian12-vm2
 
 FQDN = nom_hôte.nom_domaine
 
-#### _- VM debian12-vm*_
+#### _- VM debian12-vm*_ { #vm-debian }
 
 Idem srvlan.
+
+Faites un clic droit sur l'applet réseau NetworkManager :  
+-> Modifier les connexions...
+
+Une fenêtre Connexions réseau s'ouvre :  
+-> Sélectionnez la connexion réseau affichée  
+-> Cliquez sur la roue dentée située en bas à gauche
+
+Une fenêtre Modification de la Connexion ... s'ouvre :  
+-> Onglet Paramètres IPv4
+
+Modifiez ensuite la valeur des champs suivants :  
+-> Serveurs DNS > 192.168.3.1  
+-> Domaines de recherche > intra.loupipfire.fr  
+-> Bouton Enregistrer  
+-> Authentifiez-vous si une demande est affichée
+
+Puis effectuez une MAJ des paramètres nameserver et search du fichier DNS /etc/resolv.conf :
+
+```bash
+[client-linux@debian12-vm*:~$] sudo systemctl restart NetworkManager
+```
+
+Installez le paquet incluant la Cde DNS nslookup :
+
+```bash
+[client-linux@debian12-vm*:~$]  sudo apt install dnsutils
+```
+
+et vérifiez l'IP du Name Server pour intra.loupipfire.fr :
+
+```bash
+[client-linux@debian12-vm*:~$] nslookup ovs.intra.loupipfire.fr
+```
+
+Retour :
+
+```markdown
+Server: 192.168.3.1
+Address: 192.168.3.1#53
+
+Name: ovs.intra.loupipfire.fr
+Address: 192.168.3.15
+```
+
+Pinguez les VM suivantes et observez les FQDN retournés :
+
+```bash
+[client-linux@debian12-vm*:~$] ping srvlan.intra.loupipfire.fr
+[client-linux@debian12-vm*:~$] ping ovs
+```
+
+Pour terminer, lancez le navigateur Web et vérifiez le bon accès à Internet.
+
+### Simulation de panne
+
+Arrêtez le service DNS fourni par srvlan :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl stop bind9
+```
+
+Redémarrez les clients debian12-vm* et ovs afin de vider leurs caches DNS.
+
+Les pings du [§ VM debian12-vm* ](#vm-debian) lancés depuis les VM debian12-vm* devraient échouer.
+
+Redémarrez le service DNS et vérifiez que les pings fonctionnent à nouveau.
+
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+
+&nbsp;  
+Voilà, c'est fini pour le DNS statique.  
+Le mémento 7.2 vous attend à  
+présent pour installer un  
+serveur DHCP.
+
+!!! Info "Mémento 7.2 en cours de construction"
