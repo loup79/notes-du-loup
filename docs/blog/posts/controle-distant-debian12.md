@@ -1,7 +1,8 @@
 ---
 title: "Contrôle à distance - VBox/Deb12"
 summary: Utilisation des protocoles de connexion RDP, VNC, SSH.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2023-12-10
 categories: 
   - 7 - Accès RDP-VNC-SSH

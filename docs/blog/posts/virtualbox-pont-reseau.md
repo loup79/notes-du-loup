@@ -1,7 +1,8 @@
 ---
 title: Accès réseau par pont
 summary: VirtualBox en mode d'accès réseau par pont.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2020-08-07
 categories: 
   - 1 - Hyperviseur Virtualbox

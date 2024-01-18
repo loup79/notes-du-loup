@@ -1,7 +1,8 @@
 ---
 title: "XRDP – Astuces / Debian"
 summary: Modifications diverse pour améliorer le confort d'utilisation du protocole RDP.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2023-12-10
 categories: 
   - 7 - Accès RDP-VNC-SSH

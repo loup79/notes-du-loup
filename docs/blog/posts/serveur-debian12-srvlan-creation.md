@@ -1,7 +1,8 @@
 ---
 title: "srvlan - VBox/Deb12"
 summary: Création d'une VM serveur LAN de nom srvlan.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2023-07-13
 categories: 
   - 2 - Serveur LAN "srvlan"

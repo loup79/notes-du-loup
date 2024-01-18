@@ -1,7 +1,8 @@
 ---
 title: "srvdmz - VBox/Deb12"
 summary: Création d'une VM serveur DMZ de nom srvdmz.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2023-08-02
 categories: 
   - 4 - Serveur DMZ "srvdmz"

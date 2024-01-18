@@ -1,7 +1,8 @@
 ---
 title: "vm1 et 2 - VBox/Deb12"
 summary: Création des VM clients LAN.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2023-09-12
 categories: 
   - 5 - Clients LAN "vm1 vm2"

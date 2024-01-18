@@ -1,7 +1,8 @@
 ---
 title: "Open vSwitch - VBox/Deb12"
 summary: Installation et configuration d'un switch virtuel Open vSwitch.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2023-11-03
 categories: 
   - 6 - OvS + Conteneurs LXC

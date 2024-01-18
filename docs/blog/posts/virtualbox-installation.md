@@ -1,7 +1,8 @@
 ---
 title: VirtualBox - Installation
 summary: Installtion du logicien VirtualBox.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2020-08-07
 categories: 
   - 1 - Hyperviseur Virtualbox
