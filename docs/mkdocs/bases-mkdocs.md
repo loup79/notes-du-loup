@@ -1,7 +1,7 @@
 ---
 title: Bases - MkDocs
 summary: Utilisation de MkDocs.
-authors: Gerard Leloup
+author: G.Leloup
 date: 2023-06-01
 ---
 
@@ -20,7 +20,7 @@ Pour la doc du thème, visiter [Material for MkDocs](https://squidfunk.github.io
 ## Schéma d'un projet
 
     mkdocs.yml    # Le fichier de configuration.
-    docs/
+      docs/
         index.md  # Le fichier de la page d'accueil.
         ...       # Autres pages markdown, images et autres fichiers.
 
@@ -28,7 +28,7 @@ Pour la doc du thème, visiter [Material for MkDocs](https://squidfunk.github.io
 
 Exemple à respecter :
 
-```markdown
+```bash
 ---    
 title: Titre du fichier  
 summary: Description sommaire.  
@@ -49,13 +49,13 @@ Titres - Liens internes :
 
 Ajout, par exemple, de **{#titre-4}** au titre 4
 
-```markdown
+```bash
 ### 4 - Raccordement des 2 clients Debian sur OVS {#titre-4}
 ```
 
 et création d'un lien au sein d'un paragraphe quelconque
 
-```markdown
+```bash
 ... d'une interface réseau virtuelle TAP _( [Voir le § 4](#titre-4) )_.
 ```
 
@@ -82,7 +82,7 @@ alignée
 
 ou image sans option _(Alerte markdown MD033)_
 
-```markdown
+```bash
 <figure markdown>
   ![Logo de ...](../blog/images/2019/02/logo-virtualbox.jpg)
 </figure>
@@ -90,7 +90,7 @@ ou image sans option _(Alerte markdown MD033)_
 
 ou image avec option et légende _(Alerte markdown MD033)_
 
-```markdown
+```bash
 <figure markdown>
   ![Image - VBox : Logo...](../blog/images/2019/02/logo-virtualbox.jpg){ width="xxx" }
   <figcaption>VBox : Logo...</figcaption>
@@ -109,11 +109,11 @@ Exemple : [VirtualBox](https://www.virtualbox.org/wiki/Downloads){ target="_blan
 
 Lien - URL http et https :
 
-```markdown
+```bash
 Exemple de lien actif : <http://192.168.x.y:7160>
 ```
 
-```markdown
+```bash
 Exemple de lien inactif : `http://192.168.x.y:7160`
 ```
 
@@ -163,7 +163,7 @@ Extraits - longueur : Inclure le séparateur `<!-- more -->` dans les articles.
 
 Fichier créé à la racine du projet.
 
-```markdown
+```bash
 {
   "MD013": false, (valeur par défaut)
   "MD033": {
