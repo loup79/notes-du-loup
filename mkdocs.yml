@@ -33,6 +33,8 @@ nav:
       - informatique/debian/exim4-smarthost.md
     - Synology :
       - informatique/synology/docker-maj-de-nextcloud.md
+    - Windows :
+      - informatique/windows/windows-virtualbox-start-auto-vm.md
   - Notes MkDocs :
     - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
