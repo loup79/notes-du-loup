@@ -126,6 +126,8 @@ Pour le créer et l'activer, démarrez l'application _regedit_ de Windows, puis 
 
 Créez une clé _REG_DWORD_ de nom _VBoxSDS_ avec la valeur _1_ et redémarrez Windows.
 
+C'est terminé pour Windows.
+
 ### - - Sous Linux - -
 
 #### _Partie 1_
