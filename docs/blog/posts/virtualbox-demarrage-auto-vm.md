@@ -12,6 +12,18 @@ categories:
 
 ### - - Sous Windows - -
 
+VirtualBox est installé par défaut dans :
+
+```bash
+C:\Program Files\Oracle\VirtualBox\
+```
+
+Son fichier de configuration _VirtualBox.xml_ est dans :
+
+```bash
+C:\Utilisateurs\user\.VirtualBox\
+```
+
 #### _Fichier autostart.properties_
 
 Créez un fichier de nom _autostart.properties_ dans le dossier _/Utilisateurs/user/.VirtualBox_ et remplissez-le avec le contenu suivant :
@@ -83,6 +95,8 @@ Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_
 > cd "C:\Program Files\Oracle\VirtualBox"
 > .\VBoxManage.exe modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
 ```
+
+_headless_ = Mode de démarrage _sans fenêtre d'affichage graphique_, ceci dans le cas d'une utilisation d'un accès à distance sur la VM type RDP ou VNC.
 
 Prévoir 60 secondes d'écart entre chaque démarrage de VM.
 
