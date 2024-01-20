@@ -58,7 +58,7 @@ Cde pouvant être utilisée depuis le _Terminal(administrateur)_ de Windows pour
 
 <!-- more -->
 
-Pour rendre cette variable permanente, utilisez l'application _sysdm.cpl_ qui peut être lanccé depuis le champ _Exécuter_ du menu Windows.
+Pour rendre cette variable permanente, utilisez l'application _sysdm.cpl_ qui peut être lancée depuis le champ _Exécuter_ du menu Windows.
 
 Une fenêtre _Propriétés système_ s'ouvre :  
 -> Onglet _Paramètres système avancés_  
