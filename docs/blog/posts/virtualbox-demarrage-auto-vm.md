@@ -18,7 +18,7 @@ VirtualBox est installé par défaut dans :
 C:\Program Files\Oracle\VirtualBox\
 ```
 
-Son fichier de configuration _VirtualBox.xml_ est dans :
+et son fichier de configuration _VirtualBox.xml_ est dans :
 
 ```bash
 C:\Utilisateurs\user\.VirtualBox\
@@ -89,6 +89,12 @@ Ensuite activez le service de démarrage automatique des VM comme suit depuis le
 
 Le MDP du l'utilisateur _user_ sera demandé.
 
+Pour info, le service peut par la suite être désactivé ainsi :
+
+```bash
+> .\VBoxAutostartSvc delete --user=user
+```
+
 Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_ :
 
 ```bash
@@ -96,9 +102,15 @@ Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_
 > .\VBoxManage.exe modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
 ```
 
-_headless_ = Mode de démarrage _sans fenêtre d'affichage graphique_, ceci dans le cas d'une utilisation d'un accès à distance sur la VM type RDP ou VNC.
+L'option _--defaultfrontend headless_ implique un mode de démarrage _sans fenêtre d'affichage graphique_, ceci dans le cas d'une utilisation d'un accès à distance sur la VM de type RDP ou VNC.
 
 Prévoir 60 secondes d'écart entre chaque démarrage de VM.
+
+Une VM déclarée en autostart voit son fichier de configuration _*.vbox_ situé dans le dossier de celle-ci contenir la ligne suivante :
+
+```bash
+<Autostart enabled="true" delay="90" autostop="Disabled"/>
+```
 
 ### - - Sous Linux - -
 
