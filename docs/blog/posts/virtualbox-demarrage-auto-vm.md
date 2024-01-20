@@ -10,6 +10,8 @@ categories:
 
 ## Démarrage automatique des VM
 
+Pratique si les VM tournent sur un serveur en cours de démarrage.
+
 ### - - Sous Windows - -
 
 VirtualBox est installé par défaut dans :
