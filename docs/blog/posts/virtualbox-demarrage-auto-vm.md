@@ -112,6 +112,18 @@ Une VM déclarée en autostart voit son fichier de configuration _*.vbox_ situé
 <Autostart enabled="true" delay="90" autostop="Disabled"/>
 ```
 
+#### _Service VBoxSVC_
+
+VirtualBox prend en charge l'exécution du service _VBoxSVC_ dans la session 0 _(zéro)_ de Windows.
+
+VBoxSVC fonctionne comme un service Windows normal et permet aux VM headless de continuer à fonctionner même si l'utilisateur _user_ ferme sa session Windows.
+
+Pour le créer et l'activer, démarrez l'application _regedit_ de Windows, puis :
+
+-> HKEY_LOCAL_MACHINE\Software\Oracle\VirtualBox
+
+Créez une clé _REG_DWORD_ de nom _VBoxSDS_ avec la valeur _1_ et redémarrez Windows.
+
 ### - - Sous Linux - -
 
 #### _Partie 1_
