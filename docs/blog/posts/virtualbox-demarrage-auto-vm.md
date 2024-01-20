@@ -130,7 +130,7 @@ C'est terminé pour Windows.
 
 ### - - Sous Debian 12 - -
 
-#### _Partie 1_
+#### _Fichier autostartvm.cfg_
 
 Virtualbox fournit, pour le démarrage automatique des VM, un service appelé _vboxautostart-service_.
 
