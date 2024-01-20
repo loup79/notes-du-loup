@@ -128,8 +128,47 @@ Créez une clé _REG_DWORD_ de nom _VBoxSDS_ avec la valeur _1_ et redémarrez W
 
 C'est terminé pour Windows.
 
-### - - Sous Linux - -
+### - - Sous Debian 12 - -
 
 #### _Partie 1_
+
+Virtualbox fournit, pour le démarrage automatique des VM, un service appelé _vboxautostart-service_.
+
+Ouvrez le fichier _/etc/default/virtualbox_ :
+
+```bash
+sudo nano /etc/default/virtualbox
+```
+
+et ajoutez le contenu suivant :
+
+```bash
+VBOXAUTOSTART_DB=/etc/vbox
+VBOXAUTOSTART_CONFIG=/etc/vbox/autostartvm.cfg
+```
+
+Créer un fichier _autostartvm.cfg_ :
+
+```bash
+sudo nano /etc/vbox/autostartvm.cfg
+```
+
+et entrez le contenu suivant :
+
+```bash
+default_policy = deny
+nom-du-user = {
+allow = true
+startup_delay = 10
+}
+# Saut de ligne obligatoire après l'acollade
+```
+
+Ajoutez l'utilisateur _nom-du-user_ au groupe _vboxusers_ :
+
+```bash
+sudo usermod -aG vboxusers nom-du-user
+```
+
 
 **Fin**.
