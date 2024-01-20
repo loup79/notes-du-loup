@@ -132,8 +132,6 @@ C'est terminé pour Windows.
 
 #### _Fichier autostartvm.cfg_
 
-Virtualbox fournit, pour le démarrage automatique des VM, un service appelé _vboxautostart-service_.
-
 Ouvrez le fichier _/etc/default/virtualbox_ :
 
 ```bash
@@ -183,5 +181,27 @@ sudo chmod g+w /etc/vbox
 ```
 
 Redémarrez l'hôte Debian pour la prise en compte des permissions.
+
+#### _Service vboxautostart-service_
+
+Virtualbox fournit dans le dossier _/lib/systemd/system/_ un service appelé _vboxautostart-service_ qui se chargera de lancer les VM configurées pour un démarrage automatique.
+
+Commencez par autoriser le démarrage automatique des VM :
+
+```bash
+VBoxManage setproperty autostartdbpath /etc/vbox
+```
+
+Puis stoppez les VM et listez celles-ci :
+
+```bash
+VBoxManage list vms
+```
+
+Se rendre dans le dossier des VM et entrer :
+
+```bash
+VBoxManage modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
+```
 
 **Fin**.
