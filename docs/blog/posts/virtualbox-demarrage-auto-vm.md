@@ -10,7 +10,7 @@ categories:
 
 ## Démarrage automatique des VM
 
-Pratique si les VM tournent sur un serveur en cours de démarrage.
+Pratique si les VM tournent par exemple sur un serveur en cours de démarrage.
 
 ### - - Sous Windows - -
 
