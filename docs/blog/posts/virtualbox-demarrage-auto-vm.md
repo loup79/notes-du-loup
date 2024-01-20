@@ -23,12 +23,12 @@ C:\Program Files\Oracle\VirtualBox\
 et son fichier de configuration _VirtualBox.xml_ est dans :
 
 ```bash
-C:\Utilisateurs\user\.VirtualBox\
+C:\Utilisateurs\nom-du-user\.VirtualBox\
 ```
 
 #### _Fichier autostart.properties_
 
-Créez un fichier de nom _autostart.properties_ dans le dossier _\Utilisateurs\user\\.VirtualBox\_ et remplissez-le avec le contenu suivant :
+Créez un fichier de nom _autostart.properties_ dans le dossier _\Utilisateurs\nom-du-user\\.VirtualBox\_ et remplissez-le avec le contenu suivant :
 
 ```bash
 # La politique par défaut est de refuser "deny" 
@@ -39,7 +39,7 @@ default_policy = deny
 # L'utilisateur ci-dessous est autorisé à
 # démarrer les machines virtuelles mais ceci 
 # après un délai de 30 secondes
-user = {
+nom-du-user = {
      allow = true
      startup_delay = 30
 }
@@ -55,7 +55,7 @@ Créez au préalable une variable d'environnement Windows de nom _VBOXAUTOSTART_
 La Cde ci-dessous peut être utilisée depuis le _Terminal(administrateur)_ de Windows pour créer temporairement celle-ci :
 
 ```bash
-> set VBOXAUTOSTART_CONFIG=C:\Users\user\.VirtualBox\autostart.properties
+> set VBOXAUTOSTART_CONFIG=C:\Users\nom-du-user\.VirtualBox\autostart.properties
 ```
 
 <!-- more -->
@@ -72,7 +72,7 @@ Une fenêtre _Propriétés système_ s'ouvre :
 _VBOXAUTOSTART_CONFIG_.
 
 -> Champ _Valeur de la variable_, entrez :  
-_C:\Users\user\\.VirtualBox\autostart.properties_.
+_C:\Users\nom-du-user\\.VirtualBox\autostart.properties_.
 
 -> Bouton _OK_
 
@@ -86,15 +86,15 @@ Ensuite, activez le service de démarrage automatique des VM depuis le _Terminal
 
 ```bash
 > cd "C:\Program Files\Oracle\VirtualBox"
-> .\VBoxAutostartSvc.exe install --user=user
+> .\VBoxAutostartSvc.exe install --user=nom-du-user
 ```
 
-Le MDP du l'utilisateur _user_ sera demandé.
+Le MDP du l'utilisateur _nom-du-user_ sera demandé.
 
 Pour info, le service peut par la suite être désactivé ainsi :
 
 ```bash
-> .\VBoxAutostartSvc delete --user=user
+> .\VBoxAutostartSvc delete --user=nom-du-user
 ```
 
 Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_ :
@@ -104,7 +104,7 @@ Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_
 > .\VBoxManage.exe modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
 ```
 
-L'option _--defaultfrontend headless_ implique un mode de démarrage _sans fenêtre d'affichage graphique_, ceci dans le cas d'une utilisation d'un accès à distance sur la VM de type RDP ou VNC.
+L'option _--defaultfrontend headless_ implique un mode de démarrage _sans fenêtre d'affichage graphique_, ceci dans le cas par exemple d'une utilisation d'un accès à distance sur la VM de type RDP ou VNC.
 
 Prévoir 60 secondes d'écart entre chaque démarrage de VM.
 
@@ -118,7 +118,7 @@ Une VM déclarée en autostart voit son fichier de configuration _*.vbox_ situé
 
 VirtualBox prend en charge l'exécution du service _VBoxSVC_ dans la session 0 _(zéro)_ de Windows.
 
-VBoxSVC fonctionne comme un service Windows normal et permet aux VM headless de continuer à fonctionner même si l'utilisateur _user_ ferme sa session Windows.
+VBoxSVC fonctionne comme un service Windows normal et permet aux VM headless de continuer à fonctionner même si l'utilisateur _nom-du-user_ ferme sa session Windows.
 
 Pour le créer et l'activer, démarrez l'application _regedit_ de Windows, puis :
 
