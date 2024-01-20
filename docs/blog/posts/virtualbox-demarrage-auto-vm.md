@@ -12,6 +12,8 @@ categories:
 
 Pratique si les VM tournent par exemple sur un serveur en cours de démarrage.
 
+VM crées sous VirtualBox 7.x.
+
 ### - - Sous Windows - -
 
 VirtualBox est installé par défaut dans :
