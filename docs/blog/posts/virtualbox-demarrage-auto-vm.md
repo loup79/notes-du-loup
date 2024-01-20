@@ -106,7 +106,7 @@ Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_
 
 L'option _--defaultfrontend headless_ implique un mode de démarrage _sans fenêtre d'affichage graphique_, ceci dans le cas par exemple d'une utilisation d'un accès à distance sur la VM de type RDP ou VNC.
 
-Prévoir 60 secondes d'écart entre chaque démarrage de VM.
+Prévoir environ 60 secondes d'écart entre chaque démarrage de VM.
 
 Une VM déclarée en autostart voit son fichier de configuration _*.vbox_ situé dans le dossier de celle-ci contenir la ligne suivante :
 
@@ -203,5 +203,9 @@ Se rendre dans le dossier des VM et entrer :
 ```bash
 VBoxManage modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
 ```
+
+Prévoir environ 60 secondes d'écart entre chaque démarrage de VM.
+
+C'est terminé pour Debian 12.
 
 **Fin**.
