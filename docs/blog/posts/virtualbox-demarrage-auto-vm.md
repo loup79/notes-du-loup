@@ -206,6 +206,6 @@ VBoxManage modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend head
 
 Prévoir environ 60 secondes d'écart entre chaque démarrage de VM.
 
-C'est terminé pour Debian 12.
+C'est terminé pour Debian.
 
 **Fin**.
