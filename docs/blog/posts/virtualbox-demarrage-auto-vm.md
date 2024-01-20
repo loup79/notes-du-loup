@@ -52,7 +52,7 @@ Le service qui exploitera ce fichier s'appelle _VirtualBox Autostart Service_.
 
 Créez au préalable une variable d'environnement Windows de nom _VBOXAUTOSTART_CONFIG_.
 
-Cde pouvant être utilisée depuis le _Terminal(administrateur)_ de Windows pour créer temporairement celle-ci :
+La Cde ci-dessous peut être utilisée depuis le _Terminal(administrateur)_ de Windows pour créer temporairement celle-ci :
 
 ```bash
 > set VBOXAUTOSTART_CONFIG=C:\Users\user\.VirtualBox\autostart.properties
