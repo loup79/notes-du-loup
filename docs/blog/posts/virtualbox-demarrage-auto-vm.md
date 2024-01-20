@@ -10,9 +10,7 @@ categories:
 
 ## Démarrage automatique des VM
 
-Pratique si les VM tournent par exemple sur un serveur en cours de démarrage.
-
-VM crées sous VirtualBox 7.x.
+Une solution pratique lorsque des VM installées par exemple sur un serveur doivent être lancées au démarrage de celui-ci.
 
 ### - - Sous Windows 11 - -
 
