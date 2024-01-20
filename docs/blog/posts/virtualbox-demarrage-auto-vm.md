@@ -76,7 +76,7 @@ _C:\Users\user\\.VirtualBox\autostart.properties_.
 
 -> Bouton _OK_
 
-La création de la variable _VBOXAUTOSTART_CONFIG_ peut être vérifiée depuis l'application _regedit_ en accédant à la clé ci-dessous :
+La création de la variable _VBOXAUTOSTART_CONFIG_ peut être vérifiée depuis l'application _regedit_ en accédant à la clé Windows ci-dessous :
 
 ```bash
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
