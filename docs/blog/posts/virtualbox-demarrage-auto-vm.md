@@ -26,7 +26,7 @@ C:\Utilisateurs\user\.VirtualBox\
 
 #### _Fichier autostart.properties_
 
-Créez un fichier de nom _autostart.properties_ dans le dossier _/Utilisateurs/user/.VirtualBox_ et remplissez-le avec le contenu suivant :
+Créez un fichier de nom _autostart.properties_ dans le dossier _\Utilisateurs\user\\.VirtualBox_ et remplissez-le avec le contenu suivant :
 
 ```bash
 # La politique par défaut est de refuser "deny" 
