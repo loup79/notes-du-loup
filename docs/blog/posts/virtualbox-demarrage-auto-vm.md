@@ -108,7 +108,7 @@ L'option _--defaultfrontend headless_ implique un mode de démarrage _sans fenê
 
 Prévoir environ 60 secondes d'écart entre chaque démarrage de VM.
 
-Une VM déclarée en autostart voit son fichier de configuration _*.vbox_ situé dans le dossier de celle-ci contenir la ligne suivante :
+Une VM déclarée en _autostart_ voit son fichier de configuration _*.vbox_ situé dans le dossier de celle-ci contenir la ligne suivante :
 
 ```bash
 <Autostart enabled="true" delay="90" autostop="Disabled"/>
