@@ -170,5 +170,18 @@ Ajoutez l'utilisateur _nom-du-user_ au groupe _vboxusers_ :
 sudo usermod -aG vboxusers nom-du-user
 ```
 
+Affectez le dossier _/etc/vbox/_ au groupe _vboxusers_ :
+
+```bash
+sudo chgrp vboxusers /etc/vbox
+```
+
+Autorisez le groupe à écrire dans le dossier :
+
+```bash
+sudo chmod g+w /etc/vbox
+```
+
+Redémarrez l'hôte Debian pour la prise en compte des permissions.
 
 **Fin**.
