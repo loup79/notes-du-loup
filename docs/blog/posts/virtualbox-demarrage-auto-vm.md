@@ -198,7 +198,7 @@ Puis stoppez les VM et listez celles-ci :
 VBoxManage list vms
 ```
 
-Se rendre dans le dossier des VM et entrer :
+Accédez au dossier des VM et entrez pour chacune de celles-ci :
 
 ```bash
 VBoxManage modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
