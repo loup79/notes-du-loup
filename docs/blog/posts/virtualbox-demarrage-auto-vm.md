@@ -10,7 +10,7 @@ categories:
 
 ## Démarrage automatique des VM
 
-Une solution pratique lorsque des VM installées par exemple sur un serveur doivent être lancées au démarrage de celui-ci.
+Lancez vos VM automatiquement lors d'un redémarrage de Windows ou Debian.
 
 ### - - Sous Windows 11 - -
 
