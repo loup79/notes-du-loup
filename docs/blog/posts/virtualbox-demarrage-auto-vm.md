@@ -46,7 +46,7 @@ nom-du-user = {
 # Saut de ligne obligatoire après l'acollade
 ```
 
-Le service qui exploitera ce fichier s'appelle _VirtualBox Autostart Service_.
+Le service qui exploitera ce fichier s'appelle _VirtualBox Autostart Service_ (VBoxAutostartSvc).
 
 #### _Service VBoxAutostartSvc_
 
