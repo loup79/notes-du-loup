@@ -3,7 +3,7 @@ title: VirtualBox - Start auto des VM
 summary: Démarrage automatique des VM sous Windows et Debain.
 authors: 
   - G.Leloup
-date: 2024-01-20
+date: 2020-08-06
 categories: 
   - 1 - Hyperviseur Virtualbox
 ---
@@ -46,7 +46,7 @@ nom-du-user = {
 # Saut de ligne obligatoire après l'acollade
 ```
 
-Le service qui exploitera ce fichier s'appelle _VirtualBox Autostart Service_ (VBoxAutostartSvc).
+Le service qui exploitera ce fichier s'appelle *V*irtualBox *A*utostart *S*ervice _(VBoxAutostartSvc)_.
 
 #### _Service VBoxAutostartSvc_
 
@@ -76,7 +76,7 @@ _C:\Users\nom-du-user\\.VirtualBox\autostart.properties_.
 
 -> Bouton _OK_
 
-La création de la variable _VBOXAUTOSTART_CONFIG_ peut être vérifiée depuis l'application _regedit_ en accédant à la clé Windows ci-dessous :
+La création de la variable _VBOXAUTOSTART_CONFIG_ peut être vérifiée depuis l'application _regedit_ en accédant à la clé _Environment_ ci-dessous :
 
 ```bash
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
@@ -118,7 +118,7 @@ Une VM déclarée en _autostart_ voit son fichier de configuration _*.vbox_ situ
 
 VirtualBox prend en charge l'exécution du service _VBoxSVC_ dans la session 0 _(zéro)_ de Windows.
 
-VBoxSVC fonctionne comme un service Windows normal et permet aux VM headless de continuer à fonctionner même si l'utilisateur _nom-du-user_ ferme sa session Windows.
+VBoxSVC fonctionne comme un service Windows normal et permet aux VM _headless_ de continuer à fonctionner même si l'utilisateur _nom-du-user_ ferme sa session Windows.
 
 Pour le créer et l'activer, démarrez l'application _regedit_ de Windows, puis :
 
