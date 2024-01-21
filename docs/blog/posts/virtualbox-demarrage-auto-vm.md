@@ -10,7 +10,7 @@ categories:
 
 ## Démarrage automatique des VM
 
-Lancez vos VM automatiquement lors d'un redémarrage de Windows ou Debian.
+Lancez vos VM automatiquement lors d'un redémarrage du système Windows ou Debian.
 
 ### - - Sous Windows 11 - -
 
