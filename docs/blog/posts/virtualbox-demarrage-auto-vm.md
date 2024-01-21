@@ -30,7 +30,7 @@ et son fichier de configuration _VirtualBox.xml_ est dans :
 C:\Utilisateurs\nom-du-user\.VirtualBox\
 ```
 
-#### _Fichier autostart.properties_
+#### _- Fichier autostart.properties_
 
 Créez un fichier de nom _autostart.properties_ dans le dossier _\Utilisateurs\nom-du-user\\.VirtualBox\\_ et remplissez-le avec le contenu suivant :
 
@@ -52,7 +52,7 @@ nom-du-user = {
 
 Le service qui exploitera ce fichier s'appelle *V*irtualBox *A*utostart *S*ervice _(VBoxAutostartSvc)_.
 
-#### _Service VBoxAutostartSvc_
+#### _- Svc VBoxAutostartSvc_
 
 Créez au préalable une variable d'environnement Windows de nom _VBOXAUTOSTART_CONFIG_.
 
@@ -119,7 +119,7 @@ Une VM déclarée en _autostart_ voit son fichier de configuration _*.vbox_ situ
 <Autostart enabled="true" delay="90" autostop="Disabled"/>
 ```
 
-#### _Service VBoxSVC_
+#### _- Svc VBoxSVC_
 
 VirtualBox prend en charge l'exécution du service _VBoxSVC_ dans la session 0 _(zéro)_ de Windows.
 
@@ -135,7 +135,7 @@ C'est terminé pour Windows.
 
 ### - - Sous Debian 12 - -
 
-#### _Fichier autostartvm.cfg_
+#### _- Fichier autostartvm.cfg_
 
 Ouvrez le fichier _/etc/default/virtualbox_ :
 
@@ -187,7 +187,7 @@ sudo chmod g+w /etc/vbox
 
 Redémarrez l'hôte Debian pour la prise en compte des permissions.
 
-#### _Service vboxautostart-service_
+#### _- Svc vboxautostart-service_
 
 Virtualbox fournit dans le dossier _/lib/systemd/system/_ un service appelé _vboxautostart-service_ qui se chargera de lancer les VM paramétrées en démarrage auto.
 
