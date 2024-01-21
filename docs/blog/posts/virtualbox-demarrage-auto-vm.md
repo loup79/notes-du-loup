@@ -82,7 +82,7 @@ La création de la variable _VBOXAUTOSTART_CONFIG_ peut être vérifiée depuis 
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
 ```
 
-Ensuite, activez le service de démarrage automatique des VM depuis le _Terminal(administrateur)_ de Windows comme ceci :
+Ensuite, activez le service de démarrage auto des VM depuis le _Terminal(administrateur)_ de Windows comme ceci :
 
 ```bash
 > cd "C:\Program Files\Oracle\VirtualBox"
