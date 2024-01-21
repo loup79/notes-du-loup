@@ -175,7 +175,7 @@ Affectez le dossier _/etc/vbox/_ au groupe _vboxusers_ :
 sudo chgrp vboxusers /etc/vbox
 ```
 
-Autorisez le groupe à écrire dans le dossier :
+et autorisez le groupe à écrire dans le dossier :
 
 ```bash
 sudo chmod g+w /etc/vbox
