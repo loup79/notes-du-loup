@@ -57,7 +57,7 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
-copyright: Copyright &copy; 2023 - Leloup G&eacute;rard
+copyright: Copyright &copy; 2024 - Leloup G&eacute;rard
 
 ### Configuration des extensions MarkDown :
 markdown_extensions:
