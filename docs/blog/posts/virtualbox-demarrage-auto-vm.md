@@ -32,7 +32,7 @@ Créez un fichier de nom _autostart.properties_ dans le dossier _\Utilisateurs\n
 
 ```bash
 # La politique par défaut est de refuser "deny" 
-# le démarrage d'une machine virtuelle,l'autre
+# le démarrage d'une machine virtuelle, l'autre
 # option est de l'autoriser "allow".
 default_policy = deny
 
