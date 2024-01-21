@@ -185,7 +185,7 @@ Redémarrez l'hôte Debian pour la prise en compte des permissions.
 
 #### _Service vboxautostart-service_
 
-Virtualbox fournit dans le dossier _/lib/systemd/system/_ un service appelé _vboxautostart-service_ qui se chargera de lancer les VM configurées pour un démarrage automatique.
+Virtualbox fournit dans le dossier _/lib/systemd/system/_ un service appelé _vboxautostart-service_ qui se chargera de lancer les VM paramétrées en démarrage auto.
 
 Commencez par autoriser le démarrage auto des VM :
 
@@ -193,7 +193,7 @@ Commencez par autoriser le démarrage auto des VM :
 VBoxManage setproperty autostartdbpath /etc/vbox
 ```
 
-Puis stoppez les VM et listez celles-ci :
+Puis stoppez les VM et listez les noms de celles-ci :
 
 ```bash
 VBoxManage list vms
