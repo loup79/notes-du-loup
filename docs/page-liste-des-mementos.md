@@ -15,6 +15,11 @@ final pouvoir exploiter un petit réseau
 local virtuel.  
 &nbsp;
 
+??? Info "0 - Hyperviseur VirtualBox"
+    - [x] [VirtualBox – Installation](blog/posts/virtualbox-installation.md)
+    - [x] [VirtualBox – Accès réseau par pont](blog/posts/virtualbox-pont-reseau.md)
+    - [x] [VirtualBox – Start auto des VM](blog/posts/virtualbox-demarrage-auto-vm.md)
+
 ??? Info "1 - Serveur LAN Debian : srvlan"
     - [x] [1.1 srvlan – VBox/Deb12](blog/posts/serveur-debian12-srvlan-creation.md)
 
