@@ -8,6 +8,10 @@ categories:
   - 0 - Hyperviseur Virtualbox
 ---
 
+<figure markdown>
+![Image - www.liblogo.com - Virtualbox Logo](../images/2024/01/virtualbox-demarrage-auto.webp)
+</figure>
+
 ## Démarrage automatique des VM
 
 Lancez vos VM automatiquement lors d'un redémarrage du système Windows ou Debian.
