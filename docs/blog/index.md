@@ -1,1 +1,1 @@
-# Index des articles
+# Index de tous les articles
