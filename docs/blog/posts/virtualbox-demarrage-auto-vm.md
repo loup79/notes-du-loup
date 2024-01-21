@@ -119,9 +119,9 @@ Une VM déclarée en _autostart_ voit son fichier de configuration _*.vbox_ situ
 
 VirtualBox prend en charge l'exécution du service _VBoxSVC_ dans la session 0 _(zéro)_ de Windows.
 
-VBoxSVC fonctionne comme un service Windows normal et permet aux VM _headless_ de continuer à fonctionner même si l'utilisateur _nom-du-user_ ferme sa session Windows.
+VBoxSVC fonctionne alors comme un service Windows normal et permet aux VM _headless_ de continuer à fonctionner même si l'utilisateur _nom-du-user_ ferme sa session Windows.
 
-Pour le créer et l'activer, démarrez l'application _regedit_ de Windows, puis :
+Pour activer le service, démarrez l'application _regedit_ de Windows, puis :
 
 -> HKEY_LOCAL_MACHINE\Software\Oracle\VirtualBox
 
