@@ -94,7 +94,7 @@ Le MDP de l'utilisateur _nom-du-user_ sera demandé.
 Pour info, le service peut par la suite être désactivé ainsi :
 
 ```bash
-> .\VBoxAutostartSvc delete --user=nom-du-user
+> .\VBoxAutostartSvc.exe delete --user=nom-du-user
 ```
 
 Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_ :
