@@ -146,7 +146,7 @@ VBOXAUTOSTART_DB=/etc/vbox
 VBOXAUTOSTART_CONFIG=/etc/vbox/autostartvm.cfg
 ```
 
-Créer un fichier _autostartvm.cfg_ :
+Créez ensuite le fichier _autostartvm.cfg_ :
 
 ```bash
 sudo nano /etc/vbox/autostartvm.cfg
