@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2023-07-13
 categories: 
-  - 2 - Serveur LAN "srvlan"
+  - 1 - Serveur LAN "srvlan"
 ---
 
 <figure markdown>

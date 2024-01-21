@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2020-08-06
 categories: 
-  - 1 - Hyperviseur Virtualbox
+  - 0 - Hyperviseur Virtualbox
 ---
 
 ## Démarrage automatique des VM

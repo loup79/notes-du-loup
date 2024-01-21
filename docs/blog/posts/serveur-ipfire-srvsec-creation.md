@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2023-07-14
 categories: 
-  - 3 - Serveur WAN "srvsec"
+  - 2 - Serveur WAN "srvsec"
 ---
 
 <figure markdown>

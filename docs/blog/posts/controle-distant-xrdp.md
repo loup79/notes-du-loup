@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2023-12-10
 categories: 
-  - 7 - Accès RDP-VNC-SSH
+  - 6 - Accès RDP-VNC-SSH
 ---
 
 <figure markdown>

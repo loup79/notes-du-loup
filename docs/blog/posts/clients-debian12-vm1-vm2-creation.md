@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2023-09-12
 categories: 
-  - 5 - Clients LAN "vm1 vm2"
+  - 4 - Clients LAN "vm1 vm2"
 ---
 
 <figure markdown>

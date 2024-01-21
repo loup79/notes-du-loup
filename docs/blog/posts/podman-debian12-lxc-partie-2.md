@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2023-11-30
 categories: 
-  - 6 - OvS + Conteneurs LXC
+  - 5 - OvS + Conteneurs LXC
 ---
 
 <figure markdown>

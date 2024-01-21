@@ -35,6 +35,9 @@ local virtuel.
 ??? Info "6 - Accès distants : Protocoles RDP, VNC, SSH"
     - [x] [6.1 Contrôle à distance - VBox/Deb12](blog/posts/controle-distant-debian12.md)
 
+??? Info "7 - DNS - DHCP - DNS dynamique"
+    - [x] [7.1 DNS statique - VBox/Deb12](blog/posts/dns-statique-debian12.md)
+
 <center>*---------------------------------------------------------------*</center>
 
 ![Image - Emoticone souriante](blog/images/2018/09/emoticone_souriante_2018.png){ align=left }
