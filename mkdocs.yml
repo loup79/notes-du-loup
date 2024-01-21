@@ -84,6 +84,7 @@ plugins:
       blog_dir: blog
       post_date_format: short
       post_url_format: "/{slug}"
+      categories_name: Filtrage par catégorie
       categories_url_format: "{slug}"
       archive: false
   - search :
