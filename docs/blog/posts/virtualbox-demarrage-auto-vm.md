@@ -91,7 +91,7 @@ Ensuite, activez le service de démarrage auto des VM depuis le _Terminal(admini
 
 Le MDP de l'utilisateur _nom-du-user_ sera demandé.
 
-Pour info, le service peut par la suite être désactivé ainsi :
+Pour info, le service peut être désactivé ainsi :
 
 ```bash
 > .\VBoxAutostartSvc.exe delete --user=nom-du-user
