@@ -101,6 +101,7 @@ Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_
 
 ```bash
 > cd "C:\Program Files\Oracle\VirtualBox"
+
 > .\VBoxManage.exe modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
 ```
 
