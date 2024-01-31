@@ -19,7 +19,7 @@ Vérifier la version courante de Python :
 python3 --version
 ```
 
-et vérifier l'installation des modules Python suivants :
+et l'installation des modules Python suivants :
 
 ```bash
 sudo apt list python3-pip python3-dev python3-venv python3-full
@@ -27,12 +27,28 @@ sudo apt list python3-pip python3-dev python3-venv python3-full
 
 A défaut, installer les modules manquants à l'aide de la Cde _sudo apt install_.
 
-Ensuite, créer un dossier qui recevra un environnement virtuel Python, ceci pour ne pas interférer avec la version de Python installé sur l'OS :
+Ensuite, créer un dossier qui recevra un environnement virtuel Python, ceci pour ne pas interférer par la suite avec la version de Python installé sur l'OS :
 
 ```bash
+cd /home/user
 mkdir -p /home/user/Documents/notes-du-user/env
 cd /home/user/Documents/notes-du-user
 ```
+
+et installer l'environnement Python dans le dossier _env_ :
+
+```bash
+python3 -m venv env
+```
+
+Aciver celui-ci afin de pouvoir l'exploiter :
+
+```bash
+cd env
+source ./bin/activate
+```
+
+Le prompt du terminal se change en ==_(env) user@deb..._==.
 
 et utiliser celui-ci pour installer MkDocs :
 
