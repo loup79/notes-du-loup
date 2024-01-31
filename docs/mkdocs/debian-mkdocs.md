@@ -172,7 +172,20 @@ copyright: Copyright &copy; 2024 - Cartier Jacques
 
 192.168.x.y = IP de la VM Debian.
 
-### Plugins ajoutés
+### Plugins activés
+
+```markdown
+plugins:
+  - blog:
+      blog_dir: blog
+      post_date_format: short
+      post_url_format: "/{slug}"
+      categories_name: Filtrage par catégorie
+      categories_url_format: "{slug}"
+      archive: false
+  - search :
+      lang: fr
+```
 
 ### Serveur de développement
 
