@@ -31,8 +31,8 @@ Ensuite, créer un dossier qui recevra un ==environnement virtuel Python==, ceci
 
 ```bash
 cd /home/user
-mkdir -p /home/user/Documents/notes-du-user/env
-cd /home/user/Documents/notes-du-user
+mkdir -p /home/user/Documents/notes-user/env
+cd /home/user/Documents/notes-user
 ```
 
 et installer l'environnement Python dans le dossier _env_ :
@@ -76,15 +76,15 @@ mkdocs, version 1.5.3 from /home/user.../site-packages/mkdocs (Python 3.11)
 ```
 
 Les fichiers de MkDocs sont installés dans :  
-_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/_
+_/home/user/Documents/notes-user/env/lib/python3.xy/site-packages/mkdocs/_
 
 Les thèmes de base sont installés dans :  
-_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/themes/_
+_/home/user/Documents/notes-user/env/lib/python3.xy/site-packages/mkdocs/themes/_
 
 Pour mettre à jour _MkDocs_, utiliser cette Cde :
 
 ```bash
-(env) user@deb...: cd /home/user/Documents/notes-du-user/env
+(env) user@deb...: cd /home/user/Documents/notes-user/env
 (env) user@deb...: pip install -U mkdocs
 ```
 
@@ -97,7 +97,7 @@ Ajouter le thème comme ceci :
 ```
 
 Les dossiers et fichiers du thème sont installés dans :  
-_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/material/_
+_/home/user/Documents/notes-user/env/lib/python3.xy/site-packages/material/_
 
 !!! note "Nota"
     Lien GitHub du thème : [Material pour MkDocs](https://squidfunk.github.io/mkdocs-material/){ target="_blank" }
@@ -128,8 +128,8 @@ Créer le Projet/Dossier _(Site de développement)_ de la documentation à venir
 
 ```bash
 (env) user@deb...: cd /home/user/Documents/
-(env) user@deb...: mkdocs new notes-du-user
-(env) user@deb...: cd notes-du-user
+(env) user@deb...: mkdocs new notes-user
+(env) user@deb...: cd notes-user
 (env) user@deb...: ls
 ```
 
@@ -142,7 +142,7 @@ docs env mkdocs.yml
 Créer un fichier de nom _requirements.txt_ :
 
 ```bash
-(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: cd /home/user/Documents/notes-user
 (env) user@deb...: pip freeze > requirements.txt
 ```
 
@@ -151,7 +151,7 @@ Ce fichier permettrait à un développeur voulant travailller sur ce projet de c
 Activer le thème _Material for MkDocs_ en modifiant le fichier _mkdocs.yml_ comme suit :
 
 ```bash
-(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: cd /home/user/Documents/notes-user
 (env) user@deb...: nano mkdocs.yml
 ```
 
@@ -177,7 +177,7 @@ copyright: Copyright &copy; 2024 - Cartier Jacques
 Pour lancer le serveur associé au site de développement, procéder ainsi :
 
 ```bash
-(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: cd /home/user/Documents/notes-user
 (env) user@deb...: mkdocs serve
 ```
 
@@ -205,10 +205,10 @@ Pour créer le site Web sur un serveur de production, procéder ainsi :
 Préalable : Un serveur _WEB/PHP_ installé sur l'OS Debian utilisant la racine _/var/www/html/_.
 
 ```bash
-(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: cd /home/user/Documents/notes-user
 (env) user@deb...: sudo mkdir /var/www/html/mkdocs
 
-(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build -d /var/www/html/mkdocs/
+(env) user@deb...: sudo /home/user/Documents/notes-user/env/bin/mkdocs build -d /var/www/html/mkdocs/
 ```
 
 Retour normal :
@@ -222,13 +222,13 @@ INFO     -  Documentation built in 0.18 seconds
 La Cde suivante _mkdocs build_ :
 
 ```bash
-(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build -d /var/www/html/mkdocs/
+(env) user@deb...: sudo /home/user/Documents/notes-user/env/bin/mkdocs build -d /var/www/html/mkdocs/
 ```
 
 peut être remplacée par :
 
 ```bash
-(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build
+(env) user@deb...: sudo /home/user/Documents/notes-user/env/bin/mkdocs build
 ```
 
 si l'instruction :
@@ -239,11 +239,11 @@ site_dir: '../../../../var/www/html/mkdocs/'
 
 est présente dans le fichier _mkdocs.yml_.
 
-La mise à jour du serveur de production s'effectue ainsi :
+La MAJ du serveur de production pourra alors s'effectuer ainsi :
 
 ```bash
-cd /home/user/espace-travail-user/notes-du-user
-sudo mkdocs build -c -d /var/www/html/mkdocs/
+(env) user@deb...: cd /home/user/Documents/notes-user
+(env) user@deb...: sudo /home/user/Documents/notes-user/env/bin/mkdocs build -c
 ```
 
 **Fin.**
