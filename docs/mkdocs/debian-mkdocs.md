@@ -9,9 +9,9 @@ date: 2023-06-01
 
 Tuto pour installer MkDocs sur une VM Debian.
 
-### Installation
+### Environnement virtuel Python
 
-Préalable : Python version 3 installé sur l'OS Debian.
+Préalable : Python version 3 installé de base sur l'OS Debian.
 
 Vérifier la version courante de Python :
 
@@ -27,7 +27,7 @@ sudo apt list python3-pip python3-dev python3-venv python3-full
 
 A défaut, installer les modules manquants à l'aide de la Cde _sudo apt install_.
 
-Ensuite, créer un dossier qui recevra un environnement virtuel Python, ceci pour ne pas interférer par la suite avec la version de Python installé sur l'OS :
+Ensuite, créer un dossier qui recevra un ==environnement virtuel Python==, ceci pour ne pas interférer par la suite avec la version de Python installée sur l'OS :
 
 ```bash
 cd /home/user
@@ -41,14 +41,26 @@ et installer l'environnement Python dans le dossier _env_ :
 python3 -m venv env
 ```
 
-Aciver celui-ci afin de pouvoir l'exploiter :
+Activer celui-ci afin de pouvoir l'exploiter :
 
 ```bash
 cd env
 source ./bin/activate
 ```
 
-Le prompt du terminal se change en ==_(env) user@deb..._==.
+Le prompt du terminal Debian se change en ==_(env) user@deb..._==.
+
+!!! note "Nota"
+    Pour sortir de l'environnement Python, utiliser la Cde :  
+    (env) deactivate
+
+Rester dans l'environnement et mettre à jour le gestionnaire de paquets Python de nom _pip_ :
+
+```bash
+(env) user@deb...: python3 -m pip install --upgrade pip
+```
+
+### Installation de MkDocs
 
 et utiliser celui-ci pour installer MkDocs :
 
