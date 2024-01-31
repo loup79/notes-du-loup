@@ -62,18 +62,17 @@ Rester dans l'environnement et mettre à jour le gestionnaire de paquets Python 
 
 ### Installation de MkDocs
 
-et utiliser celui-ci pour installer MkDocs :
+Installer MkDocs avec la Cde suivante :
 
 ```bash
-sudo pip install mkdocs
-mkdocs --version
+(env) user@deb...: python3 -m pip install mkdocs
 ```
 
-Les fichiers de MkDocs sont installés dans :
+Les fichiers de MkDocs sont installés dans :    
+_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/_
 
-```bash
-/usr/local/lib/python3.x/dist-packages/
-```
+Les thèmes de base sont installés dans :  
+_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/themes_
 
 ### Création d'un projet + site Web
 
