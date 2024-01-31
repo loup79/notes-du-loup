@@ -66,13 +66,29 @@ Installer MkDocs avec la Cde suivante :
 
 ```bash
 (env) user@deb...: python3 -m pip install mkdocs
+(env) user@deb...: mkdocs --version
+```
+
+Retour :
+
+```markdown
+mkdocs, version 1.5.3 from /home/user.../site-packages/mkdocs (Python 3.11)
 ```
 
 Les fichiers de MkDocs sont installés dans :    
 _/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/_
 
 Les thèmes de base sont installés dans :  
-_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/themes_
+_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/themes/_
+
+Ajouter le thème _Material for MkDocs_ :
+
+```bash
+(env) user@deb...: python3 -m pip install mkdocs-material
+```
+
+Les dossiers et fichiers du thème sont installés dans :  
+_/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/material/_
 
 ### Création d'un projet + site Web
 
