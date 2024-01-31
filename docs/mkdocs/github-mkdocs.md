@@ -1,5 +1,5 @@
 ---
-title: GitHub - MkDocs
+title: MkDocs - Site sur GitHub
 summary: Installation de MkDocs sur GitHub.
 author: G.Leloup
 date: 2023-06-01

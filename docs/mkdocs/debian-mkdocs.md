@@ -1,17 +1,17 @@
 ---
-title: Debian - MkDocs
+title: MkDocs - Site sur Debian
 summary: Installation de MkDocs sur Debian.
 author: G.Leloup
 date: 2023-06-01
 ---
 
-## MkDocs sous Debian 11
+## MkDocs en local sur Debian
 
-Tuto pour installer MkDocs sur une VM Debian 11.
+Tuto pour installer MkDocs sur une VM Debian.
 
 ### Installation
 
-Préalable : Python version 3 installé sur la Debian.
+Préalable : Python version 3 installé sur l'OS Debian.
 
 Vérifier la version courante de Python :
 
@@ -19,10 +19,19 @@ Vérifier la version courante de Python :
 python3 --version
 ```
 
-Ensuite ajouter si manquant le module _pip_ :
+et vérifier l'installation des modules Python suivants :
 
 ```bash
-sudo apt install python3-pip
+sudo apt list python3-pip python3-dev python3-venv python3-full
+```
+
+A défaut, installer les modules manquants à l'aide de la Cde _sudo apt install_.
+
+Ensuite, créer un dossier qui recevra un environnement virtuel Python, ceci pour ne pas interférer avec la version de Python installé sur l'OS :
+
+```bash
+mkdir -p /home/user/Documents/notes-du-user/env
+cd /home/user/Documents/notes-du-user
 ```
 
 et utiliser celui-ci pour installer MkDocs :

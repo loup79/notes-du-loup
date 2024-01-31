@@ -1,5 +1,5 @@
 ---
-title: Bases - MkDocs
+title: MkDocs - Bases
 summary: Utilisation de MkDocs.
 author: G.Leloup
 date: 2023-06-01
