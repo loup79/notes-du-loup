@@ -57,6 +57,13 @@ Penser, en cas de problème de page blanche suite à un login, à redémarrer co
 sudo systemctl restart code-server@user
 ```
 
+### Extensions ajoutées
+
+French Language Pack for Visual Studio Code  
+Jupyter  (Editeur Web Python)
+Markdown All in One (Utilitaire Markdown)  
+Python  (Langage de programmation)
+
 ### Suppression du serveur
 
 Pour supprimer si nécessaire celui-ci :
