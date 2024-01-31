@@ -72,6 +72,8 @@ Cliquer sur l'icône EXPLORATEUR du menu de VS Code Server :
 -> Bouton _OK_  
 -> Bouton _Oui, je fais confiance aux auteurs_
 
+Il ne reste plus qu'à créer la documentation.
+
 ### Suppression du serveur
 
 Pour supprimer si nécessaire celui-ci :
