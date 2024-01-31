@@ -11,7 +11,7 @@ Tuto pour installer VS Code Server sur une VM Debian.
 
 L'outil servira notamment à créer la documentation ==Markdown== du projet MkDocs.
 
-### Installation ou MAJ
+### Installation/MAJ du serveur
 
 Créer le dossier suivant :
 
@@ -43,7 +43,7 @@ _/usr/lib/systemd/_
 _/home/user/.config/_  
 _/home/user/.local/share/_
 
-### Accès au serveur
+### Accès Web au serveur
 
 Le serveur est accessible depuis l'URL :  
 `http://127.0.0.1:8080`
@@ -63,6 +63,14 @@ French Language Pack for Visual Studio Code
 Jupyter  (Editeur Web Python)
 Markdown All in One (Utilitaire Markdown)  
 Python  (Langage de programmation)
+
+### Accès au projet MkDocs
+
+Cliquer sur l'icône EXPLORATEUR du menu de VS Code Server :  
+-> Bouton _Ouvrir le dossier_  
+-> Sélectionner le dossier _MkDocs_ de nom _notes-user_  
+-> Bouton _OK_  
+-> Bouton _Oui, je fais confiance aux auteurs_
 
 ### Suppression du serveur
 
