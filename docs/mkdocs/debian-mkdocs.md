@@ -75,13 +75,15 @@ Retour :
 mkdocs, version 1.5.3 from /home/user.../site-packages/mkdocs (Python 3.11)
 ```
 
-Les fichiers de MkDocs sont installés dans :    
+Les fichiers de MkDocs sont installés dans :  
 _/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/_
 
 Les thèmes de base sont installés dans :  
 _/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/themes/_
 
-Ajouter le thème _Material for MkDocs_ :
+### Thème Material for MkDocs
+
+Ajouter le thème comme ceci :
 
 ```bash
 (env) user@deb...: python3 -m pip install mkdocs-material
@@ -89,6 +91,29 @@ Ajouter le thème _Material for MkDocs_ :
 
 Les dossiers et fichiers du thème sont installés dans :  
 _/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/material/_
+
+!!! note "Nota"
+    Lien GitHub du thème : [Material pour MkDocs](https://squidfunk.github.io/mkdocs-material/){ target="_blank" }
+
+Pour vérifier la version du thème, utiliser cette Cde :
+
+```bash
+(env) user@deb...: pip show mkdocs-material
+```
+
+Retour :
+
+```markdown
+Name : mkdocs-material
+Version : 9.5.5
+...
+```
+
+Pour mettre à jour le thème, utiliser cette Cde :
+
+```bash
+(env) user@deb...: pip install --upgrade --force-reinstall mkdocs-material
+```
 
 ### Projet/Dossier documentation
 
@@ -116,50 +141,18 @@ Créer un fichier de nom _requirements.txt_ :
 
 Ce fichier permettrait à un développeur voulant travailller sur ce projet de connaitre les prérequis de l'environnement Python à utiliser, non nécessaire dans le cadre d'un site MkDocs local.
 
-Créer le site de production :
+Activer le thème _Material for MkDocs_ en modifiant le fichier _mkdocs.yml_ comme suit :
 
 ```bash
-cd /home/user/espace-travail-user/notes-du-user
-sudo mkdir /var/www/html/mkdocs
-mkdocs build -c -d /var/www/html/mkdocs/
+(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: nano mkdocs.yml
 ```
 
-Le dossier _mkdocs_ est exploité par un serveur web _nginx_.
+entrer le contenu suivant :
 
-### Ajout thème MkDocs Material
-
-Installer le thème multilingue _mkdocs-material_ :
-
-```bash
-sudo pip3 install mkdocs-material
-```
-
-Les fichiers du thème sont installés dans :
-
-```bash
-/usr/local/lib/python3.x/dist-packages
-```
-
-!!! note "Nota"
-    Lien GitHub du thème : [Material pour MkDocs](https://squidfunk.github.io/mkdocs-material/){ target="_blank" }
-
-Pour info, 2 thèmes de base nommés _readthedocs_ et _mkdocs_ sont déjà présents dans :
-
-```bash
-/usr/local/lib/python3.x/dist-packages/mkdocs/themes/
-```
-
-Editer ensuite le fichier _mkdocs.yml_ comme suit :
-
-```bash
-cd /home/user/espace-travail-user/notes-du-user
-nano mkdocs.yml
-```
-
-et entrer le contenu suivant :
-
-```bash
+```markdown
 site_name: Documents du user
+dev_addr: '192.168.x.y:8000'
 
 theme:
   name: material
@@ -167,28 +160,18 @@ theme:
   features:
     - navigation.footer
 
-copyright: Copyright &copy; 2023 - Cartier Jacques
+copyright: Copyright &copy; 2024 - Cartier Jacques
 ```
 
-Pour vérifier la version du thème, utiliser cette Cde :
-
-```bash
-sudo pip show mkdocs-material
-```
-
-Pour mettre à jour le thème, utiliser cette Cde :
-
-```bash
-sudo pip install --upgrade --force-reinstall mkdocs-material
-```
+192.168.x.y = IP de la VM Debian.
 
 ### Serveur de développement
 
-Pour lancer le serveur de développement, procéder ainsi :
+Pour lancer le serveur associé au site de développement, procéder ainsi :
 
 ```bash
-cd /home/user/espace-travail-user/notes-du-user
-mkdocs serve --dev-addr=192.168.1.x:8000
+(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: mkdocs serve --dev-addr=192.168.x.y:8000
 ```
 
 L'IP 192.168.1.x est celle de la VM Debian 11.
@@ -206,6 +189,16 @@ INFO     -  [12:10:49] Serving on http://192.168.1.x:8000/
 Touches _CTRL+C_ pour fermer le serveur.
 
 ### Serveur de production
+
+Créer le site de production :
+
+```bash
+cd /home/user/espace-travail-user/notes-du-user
+sudo mkdir /var/www/html/mkdocs
+mkdocs build -c -d /var/www/html/mkdocs/
+```
+
+Le dossier _mkdocs_ est exploité par un serveur web _nginx_.
 
 La mise à jour du serveur de production s'effectue ainsi :
 
