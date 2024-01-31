@@ -172,6 +172,8 @@ copyright: Copyright &copy; 2024 - Cartier Jacques
 
 192.168.x.y = IP de la VM Debian.
 
+### Plugins ajoutés
+
 ### Serveur de développement
 
 Pour lancer le serveur affichant le site Web de développement, procéder ainsi :
