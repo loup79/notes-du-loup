@@ -1,5 +1,5 @@
 ---
-title: MkDocs - Site sur Debian
+title: MkDocs - Site Web sur Debian
 summary: Installation de MkDocs sur Debian.
 author: G.Leloup
 date: 2023-06-01
@@ -219,8 +219,25 @@ INFO     -  Building documentation to directory: /var/www/html/mkdocs
 INFO     -  Documentation built in 0.18 seconds
 ```
 
-La dernière Cde peut être remplacée par _sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build_ si l'instruction
-_site_dir: '../../../../var/www/html/mkdocs/'_ est présente dans le fichier _mkdocs.yml_.
+La Cde suivante _mkdocs build_ :
+
+```bash
+(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build -d /var/www/html/mkdocs/
+```
+
+peut être remplacée par :
+
+```bash
+(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build
+```
+
+si l'instruction :
+
+```markdown
+site_dir: '../../../../var/www/html/mkdocs/'
+```
+
+est présente dans le fichier _mkdocs.yml_.
 
 La mise à jour du serveur de production s'effectue ainsi :
 
