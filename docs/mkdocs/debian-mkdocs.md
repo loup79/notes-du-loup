@@ -90,25 +90,31 @@ Ajouter le thème _Material for MkDocs_ :
 Les dossiers et fichiers du thème sont installés dans :  
 _/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/material/_
 
-### Création d'un projet + site Web
+### Projet/Dossier documentation
 
-Créer le projet ou site de développement :
+Créer le Projet/Dossier _(Site de développement)_ de la documentation à venir :
 
 ```bash
-cd /home/user/espace-travail-user
-mkdocs new notes-du-user
-cd notes-du-user
-tree
+(env) user@deb...: cd /home/user/Documents/
+(env) user@deb...: mkdocs new notes-du-user
+(env) user@deb...: cd notes-du-user
+(env) user@deb...: ls
 ```
 
-Retour de la Cde _tree_ :
+Retour de la Cde _ls_ :
 
 ```markdown
-.
-├── docs
-│   └── index.md
-└── mkdocs.yml
+docs env mkdocs.yml
 ```
+
+Créer un fichier de nom _requirements.txt_ :
+
+```bash
+(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: pip freeze > requirements.txt
+```
+
+Ce fichier permettrait à un développeur voulant travailller sur ce projet de connaitre les prérequis de l'environnement Python à utiliser, non nécessaire dans le cadre d'un site MkDocs local.
 
 Créer le site de production :
 
