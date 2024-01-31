@@ -27,7 +27,7 @@ sudo apt list python3-pip python3-dev python3-venv python3-full
 
 A défaut, installer les modules manquants à l'aide de la Cde _sudo apt install_.
 
-Ensuite, créer un dossier qui recevra un ==environnement virtuel Python==, ceci pour ne pas interférer par la suite avec la version de Python installée sur l'OS :
+Ensuite, créer un dossier qui recevra un ==environnement virtuel Python==, ceci pour ne pas interférer par la suite avec la version de Python installée sur l'OS Debian :
 
 ```bash
 cd /home/user
@@ -48,7 +48,7 @@ cd env
 source ./bin/activate
 ```
 
-Le prompt du terminal Debian se change en ==_(env) user@deb..._==.
+Le prompt du terminal se change en ==_(env) user@deb..._==.
 
 !!! note "Nota"
     Pour sortir de l'environnement Python, utiliser la Cde :  
@@ -78,7 +78,7 @@ mkdocs, version 1.5.3 from /home/user.../site-packages/mkdocs (Python 3.11)
 Les fichiers de MkDocs sont installés dans :  
 _/home/user/Documents/notes-user/env/lib/python3.xy/site-packages/mkdocs/_
 
-Les thèmes de base sont installés dans :  
+Les thèmes de base _mkdocs_ et _readthedocs_ sont dans :  
 _/home/user/Documents/notes-user/env/lib/python3.xy/site-packages/mkdocs/themes/_
 
 Pour mettre à jour _MkDocs_, utiliser cette Cde :
@@ -146,7 +146,7 @@ Créer un fichier de nom _requirements.txt_ :
 (env) user@deb...: pip freeze > requirements.txt
 ```
 
-Ce fichier permettrait à un développeur voulant travailller sur ce projet de connaitre les prérequis de l'environnement Python à utiliser, non nécessaire dans le cadre d'un site MkDocs local.
+Ce fichier permettrait à un développeur voulant travailler sur ce projet de connaitre les prérequis de l'environnement Python à utiliser, non nécessaire dans le cadre d'un site MkDocs local.
 
 Activer le thème _Material for MkDocs_ en modifiant le fichier _mkdocs.yml_ comme suit :
 
@@ -174,7 +174,7 @@ copyright: Copyright &copy; 2024 - Cartier Jacques
 
 ### Serveur de développement
 
-Pour lancer le serveur associé au site de développement, procéder ainsi :
+Pour lancer le serveur affichant le site Web de développement, procéder ainsi :
 
 ```bash
 (env) user@deb...: cd /home/user/Documents/notes-user
@@ -188,7 +188,7 @@ INFO     -  Building documentation...
 INFO     -  Cleaning site directory
 INFO     -  Documentation built in 1.20 seconds
 INFO     -  [12:10:49] Watching paths for changes: 'docs', 'mkdocs.yml'
-INFO     -  [12:10:49] Serving on http://192.168.1.x:8000/
+INFO     -  [12:10:49] Serving on http://192.168.x.y:8000/
 ```
 
 Touches _CTRL+C_ pour fermer le serveur.
@@ -200,7 +200,7 @@ Le ==serveur de développement== doit montrer le ==site Web== utilisant le thèm
 
 ### Serveur de production
 
-Pour créer le site Web sur un serveur de production, procéder ainsi :
+Pour afficher le site Web sur un serveur de production, procéder ainsi :
 
 Préalable : Un serveur _WEB/PHP_ installé sur l'OS Debian utilisant la racine _/var/www/html/_.
 
@@ -239,7 +239,7 @@ site_dir: '../../../../var/www/html/mkdocs/'
 
 est présente dans le fichier _mkdocs.yml_.
 
-La MAJ du serveur de production pourra alors s'effectuer ainsi :
+La MAJ du serveur pourra alors s'effectuer ainsi :
 
 ```bash
 (env) user@deb...: cd /home/user/Documents/notes-user
