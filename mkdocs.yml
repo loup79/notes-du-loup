@@ -37,6 +37,7 @@ nav:
     - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
+    - mkdocs/vscodeserver-mkdocs.md
     - mkdocs/github-mkdocs.md  
   # Fin de la navigation
 
