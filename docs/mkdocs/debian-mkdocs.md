@@ -81,6 +81,13 @@ _/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/_
 Les thèmes de base sont installés dans :  
 _/home/user/Documents/notes-du-user/env/lib/python3.xy/site-packages/mkdocs/themes/_
 
+Pour mettre à jour _MkDocs_, utiliser cette Cde :
+
+```bash
+(env) user@deb...: cd /home/user/Documents/notes-du-user/env
+(env) user@deb...: pip install -U mkdocs
+```
+
 ### Thème Material for MkDocs
 
 Ajouter le thème comme ceci :
@@ -201,7 +208,7 @@ Préalable : Un serveur _WEB/PHP_ installé sur l'OS Debian utilisant la racine 
 (env) user@deb...: cd /home/user/Documents/notes-du-user
 (env) user@deb...: sudo mkdir /var/www/html/mkdocs
 
-(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build -c -d /var/www/html/mkdocs/
+(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build -d /var/www/html/mkdocs/
 ```
 
 Retour normal :
@@ -212,7 +219,8 @@ INFO     -  Building documentation to directory: /var/www/html/mkdocs
 INFO     -  Documentation built in 0.18 seconds
 ```
 
-Le dossier _mkdocs_ est exploité par un serveur web _nginx_.
+La dernière Cde peut être remplacée par _sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build_ si l'instruction
+_site_dir: '../../../../var/www/html/mkdocs/'_ est présente dans le fichier _mkdocs.yml_.
 
 La mise à jour du serveur de production s'effectue ainsi :
 
