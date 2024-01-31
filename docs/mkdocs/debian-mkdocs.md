@@ -171,10 +171,8 @@ Pour lancer le serveur associé au site de développement, procéder ainsi :
 
 ```bash
 (env) user@deb...: cd /home/user/Documents/notes-du-user
-(env) user@deb...: mkdocs serve --dev-addr=192.168.x.y:8000
+(env) user@deb...: mkdocs serve
 ```
-
-L'IP 192.168.1.x est celle de la VM Debian 11.
 
 Retour normal :
 
@@ -188,14 +186,30 @@ INFO     -  [12:10:49] Serving on http://192.168.1.x:8000/
 
 Touches _CTRL+C_ pour fermer le serveur.
 
+Tester l'URL:  
+`http://192.168.x.y:8000`
+
+Le ==serveur de développement== doit montrer le ==site Web== utilisant le thème ==Material for MkDocs==.
+
 ### Serveur de production
 
-Créer le site de production :
+Pour créer le site Web sur un serveur de production, procéder ainsi :
+
+Préalable : Un serveur _WEB/PHP_ installé sur l'OS Debian utilisant la racine _/var/www/html/_.
 
 ```bash
-cd /home/user/espace-travail-user/notes-du-user
-sudo mkdir /var/www/html/mkdocs
-mkdocs build -c -d /var/www/html/mkdocs/
+(env) user@deb...: cd /home/user/Documents/notes-du-user
+(env) user@deb...: sudo mkdir /var/www/html/mkdocs
+
+(env) user@deb...: sudo /home/user/Documents/notes-du-user/env/bin/mkdocs build -c -d /var/www/html/mkdocs/
+```
+
+Retour normal :
+
+```markdown
+INFO     -  Cleaning site directory
+INFO     -  Building documentation to directory: /var/www/html/mkdocs
+INFO     -  Documentation built in 0.18 seconds
 ```
 
 Le dossier _mkdocs_ est exploité par un serveur web _nginx_.
