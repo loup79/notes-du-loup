@@ -130,4 +130,19 @@ Déployer ou publier le site comme suit :
 
 4 - Cliquer sur le bouton _Save_.
 
+### Cdes Git depuis la VM Debian
+
+Se rendre au préalable dans le dossier _/home/user/Documents/notes-user/_.
+
+```bash
+git branch
+```
+
+Retour :
+
+```markdown
+  gh-pages
+* main
+```
+
 **Fin.**
