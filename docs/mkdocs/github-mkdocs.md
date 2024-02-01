@@ -50,7 +50,11 @@ Le dossier _notes-user_ correspond à un nom de dépôt.
 
 Modifier ensuite le contenu du fichier _README.md_, ceci en utilisant le langage _Markdown_ et terminer en cliquant sur le bouton _Commit changes_.
 
-Automatiser l'installation de _MkDocs_ en exploitant les possibilités de _GitHub Actions_.
+### Installation de MkDocs
+
+L'installation sera automatisée en exploitant les possibilités de _GitHub Actions_.
+
+_MkDocs_ et le thème _Material for Mkdocs_ seront installés à la racine du dépôt GitHub soit le dossier _notes-user_.
 
 GitHub Actions va déployer le site MkDocs en tant que GitHub Pages, en utilisant le thème Material.
 
