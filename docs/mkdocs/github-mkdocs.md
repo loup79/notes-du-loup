@@ -145,4 +145,30 @@ Retour :
 * main
 ```
 
+```bash
+git status
+```
+
+Retour :
+
+```markdown
+Sur la branche main
+Votre branche est à jour avec 'origin/main'.
+
+rien à valider, la copie de travail est propre
+```
+
+```bash
+git switch gh-pages
+```
+
+Retour :
+
+```markdown
+Sur la branche main
+Votre branche est à jour avec 'origin/main'.
+
+rien à valider, la copie de travail est propre
+```
+
 **Fin.**
