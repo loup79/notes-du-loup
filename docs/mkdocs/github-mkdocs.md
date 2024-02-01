@@ -171,4 +171,10 @@ et ont 1 et 1 commits différents chacune respectivement.
   (utilisez "git pull" pour fusionner la branche distante dans la vôtre)
 ```
 
+Pour corriger la divergence indiquée ci-dessus :
+
+```bash
+git pull origin gh-pages --rebase
+```
+
 **Fin.**
