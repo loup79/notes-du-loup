@@ -11,9 +11,9 @@ Tuto pour installer MkDocs sur GitHub.
 
 ### Situation de base
 
-MkDocs et Git installés sur une VM Debian.
+MkDocs, Git et VS Code Server installés sur une VM Debian.
 
-Configurer le _user.name_ et le _user.email_ de git :
+Configurer le _user.name_ et le _user.email_ de git ainsi :
 
 ```bash
 git config --global user.name "Jacques Cartier"
@@ -33,57 +33,56 @@ user.name=Jacques Cartier
 user.email=j.cartier@gmail.com
 ```
 
-### Compte GitHub
+### Création du compte GitHub
 
-Créer un compte GitHub en s'aidant du lien suivant :  
+Créer ensuite un compte GitHub en s'aidant du lien suivant :  
 [Bien démarrer avec votre compte GitHub](https://docs.github.com/fr/get-started/onboarding/getting-started-with-your-github-account){ target="_blank" }
 
-Se connecter ensuite sur celui-ci et créer un dossier en utilisant l'URL :  
-[https://github.com/new](https://github.com/new){ target="_blank" }
+Se connecter ensuite sur celui-ci et créer un dossier en utilisant l'URL : [https://github.com/new](https://github.com/new){ target="_blank" }
 
 \- Donner un nom au dossier _(Ex: notes-user)_  
 \- Cocher _Public_  
 \- Cocher _Add a README file_  
 \- Cliquer sur le bouton _Create repository_
 
-Le dossier _notes-user_ correspond à un nom de dépôt.
+Le dossier/dépôt GitHub créé avec le nom _notes-user_ inclus une branche de base appelée _main_.
 
-Modifier ensuite le contenu du fichier _README.md_, ceci en utilisant le langage _Markdown_ et terminer en cliquant sur le bouton _Commit changes_.
+Cette branche contiendra ==la documentation de MkDocs== qui sera mise à jour automatiquement depuis le _VS Code Server_ installé sur la VM Debian.
 
-### Installation de MkDocs
+Finir en modifant le contenu du fichier _README.md_, ceci en utilisant le langage _Markdown_ et terminer en cliquant sur le bouton _Commit changes_.
 
-L'installation sera automatisée en exploitant les possibilités de _GitHub Actions_.
+### Création du site Web MkDocs
 
-_MkDocs_ et le thème _Material for Mkdocs_ seront installés à la racine du dépôt GitHub soit le dossier _notes-user_.
+La création sera automatisée en exploitant les possibilités de _GitHub Pages_ qui est un service d’hébergement de site Web statique.
 
-GitHub Actions va déployer le site MkDocs en tant que GitHub Pages, en utilisant le thème Material.
+Le site Web de _MkDocs_ et le thème _Material for Mkdocs_ seront installlés dans une branche appelée _gh-pages_.
 
-Procédure pour installer MkDocs :
+!!! note ""
+    GitHub Pages est conçu pour héberger des pages personnelles ou de projet à partir d'un dépôt GitHub.
 
-1 - Dans GitHub, accéder au dépôt _notes-du-user_ et cliquer sur _Settings_.
+Création de la branche ==_gh-pages_== :
+
+1 - Dans GitHub, accéder au dépôt _notes-user_ et cliquer sur _Settings_.
 
 2 - Section _Code and automation_ de la barre latérale, cliquer sur _Pages_.
 
-!!! note "Nota"
-    GitHub Pages est conçu pour héberger des pages personnelles, d'organisation ou de projet à partir d'un dépôt GitHub.
+La suite suppose qu'un fichier _mkdocs.yml_ soit présent dans le dossier de premier niveau du dépôt GitHub _(branche main)_ ainsi que la _documentation Mkdocs_ dans le dossier _docs/_.
 
-L'action suppose qu'un fichier _mkdocs.yml_ est présent dans le répertoire de premier niveau soit la branche _main_ du dépôt et que les fichiers sources _(Markdown, etc.)_ se trouvent dans le dossier _docs/_.
+Pour cela, ajouter ceux-ci en cliquant sur le bouton _Add file_ et sélectionner _Upload files_
 
-Pour cela, cliquer sur le bouton _Add file_ et sélectionner _Upload files_
-
-Faire glisser le contenu du dossier _/home/user/espace-travail-user/notes-du-user/_ de la VM Debian qui contient au départ un dossier de nom _docs_ et un fichier de nom _mkdocs.yml_.
+Faire glisser le contenu du dossier _/home/user/Documents/notes-user/_ de la VM Debian qui contient au départ un dossier de nom _docs_ et un fichier de nom _mkdocs.yml_.
 
 3 - Dans la zone _Build and deployment_, sous _Source_, sélectionner _Deploy from a branch_.
 
 4 - Sous _Branch_, sélectionner _main_.
 
-Sera utilisé un workflow GitHub Actions pour publier le site web MkDocs.
+Un workflow GitHub _(processus automatisé)_ sera utilisé pour publier le site web MkDocs.
 
-Pour cela, cliquer sur le bouton "Add file" et sélectionner Create a new file
+Pour cela, cliquer sur le bouton _Add file_ et sélectionner _Create a new file_.
 
-Créer un fichier _/notes-du-user/.github/workflows/ci.yml_ contenant :
+Créer un fichier _/notes-user/.github/workflows/ci.yml_ contenant :
 
-```bash
+```markdown
 name: ci 
 on:
   push:
@@ -113,16 +112,22 @@ jobs:
 
 [Référence du code ci-dessus](https://squidfunk.github.io/mkdocs-material/publishing-your-site/){ target="_blank" }
 
-Cliquer ensuite sur le bouton _Commit changes..._, vérifier le contenu de la fenêtre popup et cliquer sur le bouton _Commit changes_.
+-> Cliquer ensuite sur le bouton _Commit changes..._  
+-> Vérifier le contenu de la fenêtre popup  
+-> Cliquer sur le bouton _Commit changes_
 
-Le site se construit automatiquement et si tout est OK GitHub génère une branche nommée _gh-pages_.
+Le site se construit automatiquement et GitHub génère une branche nommée ==_gh-pages_==.
 
-Ensuite déployer le site comme suit :
+### Déploiement du site Web
 
-1 - Dans GitHub, accéder au dépôt _notes-du-user_ et cliquer sur _Settings_.
+Déployer ou publier le site comme suit :
+
+1 - Dans GitHub, accéder au dépôt _notes-user_ et cliquer sur _Settings_.
 
 2 - Section _Code and automation_ de la barre latérale, cliquer sur _Pages_.
 
-3 - Sous _Branch_, sélectionner _gh-pages_ et cliquer sur le bouton _Save_.
+3 - Sous _Branch_, sélectionner _gh-pages_.
+
+4 - Cliquer sur le bouton _Save_.
 
 **Fin.**
