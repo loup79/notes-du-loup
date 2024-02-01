@@ -9,6 +9,8 @@ date: 2023-06-01
 
 Tuto pour installer MkDocs sur une VM Debian.
 
+Lien utile : [De Jupyter à MkDocs](https://ens-fr.gitlab.io/mkdocs/){ target="_blank" }
+
 ### Environnement virtuel Python
 
 Préalable : Python version 3 installé de base sur l'OS Debian.
