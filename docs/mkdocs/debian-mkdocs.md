@@ -159,7 +159,6 @@ entrer le contenu suivant :
 
 ```markdown
 site_name: Documents du user
-dev_addr: '192.168.x.y:8000'
 
 theme:
   name: material
@@ -169,8 +168,6 @@ theme:
 
 copyright: Copyright &copy; 2024 - Cartier Jacques
 ```
-
-192.168.x.y = IP de la VM Debian.
 
 ### Plugins activés
 
@@ -196,6 +193,12 @@ Pour lancer le serveur affichant le site Web de développement, procéder ainsi 
 (env) user@deb...: mkdocs serve
 ```
 
+ou procéder ainsi en dehors de l'environneent Python :
+
+```bash
+user@deb...: /home/user/Documents/notes-user/env/bin/mkdocs serve
+```
+
 Retour normal :
 
 ```markdown
@@ -203,13 +206,13 @@ INFO     -  Building documentation...
 INFO     -  Cleaning site directory
 INFO     -  Documentation built in 1.20 seconds
 INFO     -  [12:10:49] Watching paths for changes: 'docs', 'mkdocs.yml'
-INFO     -  [12:10:49] Serving on http://192.168.x.y:8000/
+INFO     -  [12:10:49] Serving on http://127.0.0.1:8000/
 ```
 
 Touches _CTRL+C_ pour fermer le serveur.
 
 Tester l'URL:  
-`http://192.168.x.y:8000`
+`http://127.0.0.1:8000`
 
 Le ==serveur de développement== doit montrer le ==site Web== utilisant le thème ==Material for MkDocs==.
 
