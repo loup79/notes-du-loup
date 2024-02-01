@@ -11,7 +11,7 @@ Tuto pour installer MkDocs sur GitHub.
 
 ### Situation de base
 
-MkDocs et Git installés sur une VM Debian 11.
+MkDocs et Git installés sur une VM Debian.
 
 Configurer le _user.name_ et le _user.email_ de git :
 
@@ -33,24 +33,24 @@ user.name=Jacques Cartier
 user.email=j.cartier@gmail.com
 ```
 
-### Thème MkDocs Material
+### Compte GitHub
 
-Au préalable, créer un compte GitHub en s'aidant du lien suivant :  
+Créer un compte GitHub en s'aidant du lien suivant :  
 [Bien démarrer avec votre compte GitHub](https://docs.github.com/fr/get-started/onboarding/getting-started-with-your-github-account){ target="_blank" }
 
 Se connecter ensuite sur celui-ci et créer un dossier en utilisant l'URL :  
 [https://github.com/new](https://github.com/new){ target="_blank" }
 
-\- Donner un nom au dossier (Ex: notes-du-user)  
+\- Donner un nom au dossier _(Ex: notes-user)_  
 \- Cocher _Public_  
 \- Cocher _Add a README file_  
 \- Cliquer sur le bouton _Create repository_
 
-Le dossier _notes-du-user_ correspond à un nom de dépôt.
+Le dossier _notes-user_ correspond à un nom de dépôt.
 
 Modifier ensuite le contenu du fichier _README.md_, ceci en utilisant le langage _Markdown_ et terminer en cliquant sur le bouton _Commit changes_.
 
-Automatiser l'installation de MkDocs en exploitant les possibilités de GitHub Actions.
+Automatiser l'installation de _MkDocs_ en exploitant les possibilités de _GitHub Actions_.
 
 GitHub Actions va déployer le site MkDocs en tant que GitHub Pages, en utilisant le thème Material.
 
