@@ -162,13 +162,13 @@ rien à valider, la copie de travail est propre
 git switch gh-pages
 ```
 
-Retour :
+Retour possible :
 
 ```markdown
-Sur la branche main
-Votre branche est à jour avec 'origin/main'.
-
-rien à valider, la copie de travail est propre
+Basculement sur la branche 'gh-pages'
+Votre branche et 'origin/gh-pages' ont divergé,
+et ont 1 et 1 commits différents chacune respectivement.
+  (utilisez "git pull" pour fusionner la branche distante dans la vôtre)
 ```
 
 **Fin.**
