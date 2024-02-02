@@ -171,7 +171,9 @@ theme:
 copyright: Copyright &copy; 2024 - Cartier Jacques
 ```
 
-### Plugins activés
+### Plugins
+
+Activer le plugin _blog_ fourni de base avec le thème _Material for MkDocs_ en ajoutant le contenu suivant dans le fichier _mkdocs.yml_ :
 
 ```markdown
 plugins:
@@ -182,8 +184,48 @@ plugins:
       categories_name: Filtrage par catégorie
       categories_url_format: "{slug}"
       archive: false
+```
+
+Activer le plugin de recherche _blog_ fourni de base en ajoutant le contenu suivant dans le fichier _mkdocs.yml_ :
+
+```markdown
+plugins:
+  - blog:
+      .....
   - search :
       lang: fr
+```
+
+Installer le plugin _glightbox_ comme suit :
+
+```bash
+cd /home/user/Documents/notes-user/env
+source ./bin/activate
+(env) user@deb...: pip install mkdocs-glightbox
+(env) user@deb...: deactivate
+```
+
+et ajouter le contenu suivant dans le fichier _mkdocs.yml_ :
+
+```markdown
+plugins:
+  - blog:
+      .....
+  - search :
+      .....
+  - glightbox:
+      touchNavigation: false
+      loop: false
+      effect: zoom
+      slide_effect: none
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: false
+      skip_classes:
+        - custom-skip-class-name
+      auto_caption: true
+      caption_position: bottom
 ```
 
 ### Serveur de développement
