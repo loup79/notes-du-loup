@@ -173,7 +173,7 @@ copyright: Copyright &copy; 2024 - Cartier Jacques
 
 ### Plugins
 
-Activer le plugin _blog_ fourni de base avec le thème _Material for MkDocs_ en ajoutant le contenu suivant dans le fichier _mkdocs.yml_ :
+Activer le plugin _blog_ en ajoutant le contenu suivant dans le fichier _mkdocs.yml_ :
 
 ```markdown
 plugins:
@@ -186,7 +186,7 @@ plugins:
       archive: false
 ```
 
-Activer le plugin de recherche _blog_ fourni de base en ajoutant le contenu suivant dans le fichier _mkdocs.yml_ :
+Activer le plugin _search_ en ajoutant le contenu suivant dans le fichier _mkdocs.yml_ :
 
 ```markdown
 plugins:
@@ -199,8 +199,8 @@ plugins:
 Installer le plugin _glightbox_ comme suit :
 
 ```bash
-cd /home/user/Documents/notes-user/env
-source ./bin/activate
+user@deb...: cd /home/user/Documents/notes-user/env
+user@deb...:source ./bin/activate
 (env) user@deb...: pip install mkdocs-glightbox
 (env) user@deb...: deactivate
 ```
@@ -306,6 +306,13 @@ La MAJ du serveur pourra alors s'effectuer ainsi :
 ```bash
 (env) user@deb...: cd /home/user/Documents/notes-user
 (env) user@deb...: sudo /home/user/Documents/notes-user/env/bin/mkdocs build -c
+```
+
+ou comme ceci en dehors de l'environneent Python :
+
+```bash
+user@deb...: cd /home/user/Documents/notes-user
+user@deb...: sudo /home/user/Documents/notes-user/env/bin/mkdocs build -c
 ```
 
 **Fin.**
