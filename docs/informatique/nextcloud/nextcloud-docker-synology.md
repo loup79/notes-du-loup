@@ -43,12 +43,20 @@ apt install smbclient
 
 #### Module PHP bz2
 
-Si remarque concernant le module PHP bz2 manquent, entrer la Cde suivante :
+Si remarque concernant le module PHP bz2 manquant, entrer la Cde suivante :
 
 ```bash
 apt install -y libbz2-dev && docker-php-ext-install bz2
 ```
 
 Redémarrer ensuite le conteneur Nextcloud.
+
+#### Fenêtre de maintenance
+
+Si remarque concernant l'heure de début de la fenêtre de maintenance, ajouter ce qui suit dans le fichier *config.php*  de Nextcloud :
+
+```markdown
+'maintenance_window_start' => 1,
+```
 
 **Fin.**

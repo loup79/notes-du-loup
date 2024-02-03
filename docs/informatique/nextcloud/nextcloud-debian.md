@@ -54,4 +54,29 @@ Relancer Redis et Apache :
 
 Utiliser la Cde *systemctl* si *systemd* est utilisé.
 
+### Module PHP bz2
+
+Si remarque concernant le module PHP bz2 manquant, entrer les Cdes suivantes :
+
+```bash
+apt install -y libbz2-dev
+apt install phpx.y-bz2
+```
+
+Redémarrer ensuite le conteneur Nextcloud.
+
+### Fenêtre de maintenance
+
+Si remarque concernant l'heure de début de la fenêtre de maintenance :
+
+```bash
+sudo nano /var/www/html/nextcloud/config/config.php
+```
+
+Ajouter la ligne suivante :
+
+```markdown
+'maintenance_window_start' => 1,
+```
+
 **Fin.**
