@@ -1,12 +1,12 @@
 ---
-title: "Nextcloud - Docker"
+title: "Nextcloud sur Synology"
 summary: Conteneur Nextcloud sur un serveur Synology.
 authors: 
   - G.Leloup
 date: 2023-06-02
 ---
 
-## Docker - MAJ de Nextcloud
+## Conteneur Nextcloud
 
 ### MAJ de Nextcloud (2023)
 
@@ -27,62 +27,28 @@ Redémarrer ensuite le conteneur qui ira chercher sa configuration dans :
 
 ### MAJ de Nextcloud (2024)
 
-C'est à présent plus simple, l'outil DSM7 _Container Manager_ prévenant au niveau de l'onglet _Image_ si une mises à jour est disponible.
+C'est à présent plus simple, l'application DSM7 **Container Manager** prévenant au niveau de son onglet *Image* si une mises à jour est disponible.
 
 Il suffit de lancer la MAJ pour reconstruire le conteneur Nextcloud.
 
-### Applications à réinstaller
+#### Applications à réinstaller
+
+Cdes à lancer depuis le terminal associé au conteneur :
 
 ```bash
 apt update
-apt install nano
+apt install nano  # Utile pour modifier les fichiers du conteneur
 apt install smbclient
 ```
 
-### Ajout optionnel de Redis
+#### Module PHP bz2
 
-Installer les paquets suivants :
-
-```bash
-apt update
-apt install redis-server redis-tools
-```
-
-Le serveur est lancé depuis le dossier */etc/init.d*.
-
-Compléter le fichier *config.php* de Nextcloud comme suit :
+Si remarque concernant le module PHP bz2 manquent, entrer la Cde suivante :
 
 ```bash
-'filelocking.enabled' => true,
-  'memcache.locking' => '\OC\Memcache\Redis',
-  'redis' => 
-  array (
-    'host' => '/var/run/redis/redis-server.sock',
-    'port' => 0,
-  ),
+apt install -y libbz2-dev && docker-php-ext-install bz2
 ```
 
-Modifier ensuite le fichier */etc/redis/redis.conf* comme suit :
-
-```bash
-port 0
-unixsocket /run/redis/redis-server.sock
-unixsocketperm 770
-```
-
-Intégrer l'utilisateur *www-data* dans le groupe *redis* :
-
-```bash
-usermod -a -G redis www-data
-```
-
-Relancer Redis et Apache :
-
-```bash
-/etc/init.d/redis-server restart
-/etc/init.d/apache2 restart
-```
-
-Utiliser la Cde *systemctl* si *systemd* est utilisé.
+Redémarrer ensuite le conteneur Nextcloud.
 
 **Fin.**
