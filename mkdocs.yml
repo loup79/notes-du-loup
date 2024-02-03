@@ -31,8 +31,9 @@ nav:
     - Debian : 
       - informatique/debian/infos-materiel-hardinfo.md
       - informatique/debian/exim4-smarthost.md
-    - Synology :
-      - informatique/synology/docker-maj-de-nextcloud.md
+    - Nextcloud :
+      - informatique/nextcloud/nextcloud-docker-synology.md
+      - informatique/nextcloud/nextcloud-debian.md
   - Notes MkDocs :
     - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
