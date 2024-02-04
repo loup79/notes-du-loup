@@ -1,8 +1,11 @@
 ---
 title: Debian - Exim4 et Smarthost
 summary: Envoi de courriers au travers du serveur SMTP de Orange.
-author: G.Leloup
+authors: 
+  - G.Leloup
 date: 2023-01-02
+categories: 
+  - Debian
 ---
 
 ## Exim4 - Smarthost
@@ -42,6 +45,8 @@ Choississez « Envoi par relais (« smarthost ») — pas de courrier local »
 Le fichier modifié *update-exim4.conf.conf* se situe dans */etc/exim4/*.
 
 Le contenu configuré doit montrer ceci :
+
+<!-- more -->
 
 ```text
 dc_eximconfig_configtype='satellite'

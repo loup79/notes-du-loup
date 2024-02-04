@@ -4,6 +4,8 @@ summary: Conteneur Nextcloud sur un serveur Synology.
 authors: 
   - G.Leloup
 date: 2023-06-02
+categories: 
+  - Nextcloud
 ---
 
 ## Conteneur Nextcloud
@@ -26,6 +28,8 @@ Redémarrer ensuite le conteneur qui ira chercher sa configuration dans :
 **/volume1/docker/nextcloud/config**.
 
 ### MAJ de Nextcloud (2024)
+
+<!-- more -->
 
 C'est à présent plus simple, l'application DSM7 **Container Manager** prévenant au niveau de son onglet *Image* si une mises à jour est disponible.
 

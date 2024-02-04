@@ -4,6 +4,8 @@ summary: Nextcloud sur un serveur Debian.
 authors: 
   - G.Leloup
 date: 2024-01-02
+categories: 
+  - Nextcloud
 ---
 
 ## Nextcloud
@@ -32,6 +34,8 @@ Compléter le fichier *config.php* de Nextcloud comme suit :
 ```
 
 Modifier ensuite le fichier */etc/redis/redis.conf* comme suit :
+
+<!-- more -->
 
 ```bash
 port 0

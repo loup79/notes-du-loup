@@ -26,14 +26,8 @@ nav:
     - page-liste-des-mementos.md
   - Réseau virtuel:
     - blog/index.md
-  - Doc technique :
+  - Divers informatique :
     - informatique/index.md 
-    - Debian : 
-      - informatique/debian/infos-materiel-hardinfo.md
-      - informatique/debian/exim4-smarthost.md
-    - Nextcloud :
-      - informatique/nextcloud/nextcloud-docker-synology.md
-      - informatique/nextcloud/nextcloud-debian.md
   - Notes MkDocs :
     - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
@@ -84,6 +78,13 @@ extra_css:
 plugins:
   - blog:
       blog_dir: blog
+      post_date_format: short
+      post_url_format: "/{slug}"
+      categories_name: Filtrage par catégorie
+      categories_url_format: "{slug}"
+      archive: false
+  - blog:
+      blog_dir: informatique
       post_date_format: short
       post_url_format: "/{slug}"
       categories_name: Filtrage par catégorie
