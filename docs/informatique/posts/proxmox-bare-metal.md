@@ -120,6 +120,14 @@ Login et MDP par défaut :
 Login : `admin@example.com`  
 MDP : changeme
 
+Commencer par changer le Login et MDP une fois rentré dans l'interface WEB.
+
+Vérifier le statut de _Nginx Proxy Manager_ :
+
+```bash
+# systemctl status npm
+```
+
 #### Nom de domaine et DynDNS
 
 Enregistrer un nom de domaine sur le site [Duck DNS](https://www.duckdns.org/){ target="_blank" }, Ex : `wxyz.duckdns.org`.
@@ -168,6 +176,47 @@ Le script _duck.sh_ sera exécuté toutes les 5 minutes afin que Duck DNS ait co
 
 #### Certificat Let's Encrypt
 
+Créer un certificat en utilisant le _DNS Challenge_ ce qui évite l'obligation d'être en écoute sur les ports HTTP 80 et HTTPS 443.
 
+Pour remplacer le numéro du port HTTPS 443 qu'utilise par défaut _Nginx Proxy Manager_, procéder ainsi :
+
+```bash
+# sed-patch 's|listen 443 |listen 7230 |' /etc/nginx/conf.d/default.conf && \ sed-patch 's|listen 443 |listen 7230 |' /app/templates/_listen.conf && \
+```
+
+7230 sera alors le nouveau numéro de port sur lequel écoutera _Nginx Proxy Manager_.
+
+Redémarrer le conteneur et vérifier les port d'écoute avec la Cde suivante :
+
+```bash
+# ss -tnalup
+```
+
+#### Proxy Hosts
+
+Certains _Proxy Hosts_ peuvent nécessiter d'ajouter dans leur configuration des en-têtes HTTP.
+
+Dans ce cas ajouter dans l'onget Advanced de l'hôte zone _Custom Nginx Configuration_ :
+
+```markdown
+location /
+{
+    proxy_pass http://IP-du-conteneur:8080;
+    proxy_set_header Host sous-domaine.domaine.duckdns.org:7230;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header REMOTE-HOST $remote_addr;
+    proxy_set_header   Upgrade          $http_upgrade;  
+    proxy_set_header   Connection       "Upgrade";
+    proxy_connect_timeout      60;   
+    proxy_send_timeout         90;   
+    proxy_read_timeout         90; 
+    proxy_buffer_size          4k; 
+    proxy_buffers              4 32k;
+    proxy_busy_buffers_size    64k;  
+    proxy_temp_file_write_size 64k;
+    add_header X-Cache $upstream_cache_status;
+}
+```
 
 **Fin.**
