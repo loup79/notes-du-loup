@@ -50,6 +50,8 @@ Contrôler ensuite l'activation du service :
 
 Retour par défaut :
 
+<!-- more -->
+
 ```markdown
 Status: disabled/running
 ```
