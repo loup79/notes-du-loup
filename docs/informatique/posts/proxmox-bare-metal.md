@@ -12,9 +12,9 @@ categories:
 
 ### RDP Copier/Coller
 
-Penser à positionner la fonction _Presse-papiers_ à **oui** dans la configuration de _mRemoteNG_ pour chacune des VM Linux tournant sous Proxmox.
+Penser à positionner la fonction _Presse-papiers_ à **oui** dans la configuration de _mRemoteNG_ pour les VM tournant sous Proxmox.
 
-Rien à faire de particulier du côté du serveur _xrdp_ installé sur les VM.
+Rien à faire de particulier du côté des serveurs _xrdp_ installés sur les VM.
 
 ### Gestion du pare-feu
 
@@ -42,7 +42,7 @@ janv. 08 11:28:53 labos5 pve-firewall[1185]: starting server
 janv. 08 11:28:53 labos5 systemd[1]: Started pve-firewall.service - Proxmox VE firewall.
 ```
 
-Vérifier ensuite son activation :
+Contrôler ensuite l'activation du service :
 
 ```bash
 # pve-firewall status
@@ -54,12 +54,12 @@ Retour par défaut :
 Status: disabled/running
 ```
 
-Cela signifie que le service est par défaut démarré mais non activé.
+On peut voir que le service est par défaut démarré mais non activé.
 
 #### Niveau Centre de données
 
 Onglet _Pare-feu_ du menu _Centre de données_ :  
-Créer 3 règles de pare-feu pour autoriser les accès aux ports WEB, SSH et RDP de proxmox.
+Créer 3 règles de pare-feu pour autoriser les accès aux ports WEB, SSH et RDP de Proxmox.
 
 Sous-onglet _Options_ :  
 Activer le pare-feu en mettant la valeur du champ _Pare-feu_ à **oui**.
@@ -103,7 +103,7 @@ Lien utile :
 
 #### Création du conteneur
 
-Créer un conteneur LXC contenant l'application _Nginx Proxy Manager_ qui servira de _reverse proxy_ pour l'ensemble des VM et conteneurs de Proxmox.
+Créer un conteneur LXC contenant l'application _Nginx Proxy Manager_ qui servira de _reverse proxy_ pour l'ensemble des VM/CTN de Proxmox.
 
 Pour cela, se connecter en SSH sur le serveur Proxmox et entrer la Cde suivante :
 
@@ -122,7 +122,7 @@ MDP : changeme
 
 Commencer par changer le Login et MDP une fois rentré dans l'interface WEB.
 
-Vérifier le statut de _Nginx Proxy Manager_ :
+Vérifier par curiosité le statut du service _Nginx Proxy Manager_ :
 
 ```bash
 # systemctl status npm
@@ -186,17 +186,17 @@ Pour remplacer le numéro du port HTTPS 443 qu'utilise par défaut _Nginx Proxy 
 
 7230 sera alors le nouveau numéro de port sur lequel écoutera _Nginx Proxy Manager_.
 
-Redémarrer le conteneur et vérifier les port d'écoute avec la Cde suivante :
+Redémarrer le conteneur et vérifier les ports d'écoute avec la Cde suivante :
 
 ```bash
 # ss -tnalup
 ```
 
-#### Proxy Hosts
+#### En-têtes des Proxy Hosts
 
 Certains _Proxy Hosts_ peuvent nécessiter d'ajouter dans leur configuration des en-têtes HTTP.
 
-Dans ce cas ajouter dans l'onget Advanced de l'hôte zone _Custom Nginx Configuration_ :
+Dans ce cas, ajouter le contenu suivant dans l'onget _Advanced_ de l'hôte en zone _Custom Nginx Configuration_ :
 
 ```markdown
 location /
