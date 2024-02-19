@@ -22,7 +22,7 @@ Le DHCP sera activé sur la VM srvlan pour la zone LAN.
 
 Il est aujourd'hui préconisé d'utiliser Kea DHCP à la place d'ISC DHCP qui n'est plus maintenu.
 
-#### _Rôle du serveur DHCP_
+#### _- Rôle du serveur DHCP_
 
 Il permet à un hôte qui se connecte sur un réseau local d'obtenir automatiquement sa configuration IP, ceci pour une durée déterminée appelée bail DHCP.
 
@@ -32,7 +32,7 @@ Les hôtes enregistrés via un serveur DHCP peuvent aussi être ajoutés dynamiq
 
 DHCP représente donc une suite logique au DNS dans la construction du réseau local virtuel.
 
-#### _Fonctionnement du protocole_
+#### _- Fonctionnement global_
 
 Le DHCP repose sur des requêtes UDP émises par les clients et traitées par le serveur.
 
@@ -56,7 +56,7 @@ Le serveur DHCP Kea utilisé ci-dessous est issu de l'organisme déjà créateur
 
 ### Installation et configuration
 
-#### _Installation du service Kea_
+#### _- Installation du service Kea_
 
 Installez ce paquet pour gérer la zone LAN en IPv4 :
 
@@ -99,7 +99,7 @@ févr.. srvlan kea-dhcp4[...]: INFO  DHCP4_STARTED
 
 Le service est démarré et activé par défaut _(enabled)_.
 
-#### _Configuration_
+#### _- Configuration_
 
 Le fichier de configuration kea-dhcp4.conf se trouve dans le dossier /etc/kea/.
 
@@ -248,7 +248,7 @@ UN... 0  0  192.168.3.1:67  0.0.0.0:*  users:(("kea-dhcp4"...))
 
 ### Gestion des logs DHCP
 
-#### _Création d'un fichier de logs_
+#### _- Création d'un fichier de logs_
 
 Editez le fichier de configuration kea-dhcp4-server :
 
@@ -340,7 +340,7 @@ Relancez le service DNS :
 
 ### Tests du service Kea
 
-#### _Préparation_
+#### _- Préparation_
 
 Au préalable, éditez le fichier apparmor suivant :
 
@@ -417,7 +417,7 @@ Entrez la Cde de traçage qui permettra d'observer en temps réel les messages D
 [root@srvlan:~#] tail -f /var/log/kea/kea-dhcp4.packets.log  
 ```
 
-#### _Test depuis debian12-vm*_
+#### _- Test depuis debian12-vm*_
 
 Référez-vous au [Mémento 4.1](../posts/clients-debian12-vm1-vm2-creation.md){ target="_blank" } pour modifier les paramètres réseau.
 
@@ -469,7 +469,7 @@ Le fichier /var/log/kea/kea-dhcp4.log du serveur doit également montrer ceci :
 
 Procédez de la même manière que pour debian12-vm1.
 
-#### _Test depuis ctn1_
+#### _- Test depuis ctn1_
 
 Pour affecter à ctn1 une adresse MAC fixe et le déclarer client DHCP, éditez ce script d'ovs :
 
