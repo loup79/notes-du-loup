@@ -54,7 +54,7 @@ Le client au final reçoit une confirmation de son IP temporaire (bail) ainsi qu
 
 Le serveur DHCP Kea utilisé ci-dessous est issu de l'organisme déjà créateur du serveur DNS BIND 9 soit l'Internet Software Consortium _(ISC)_.
 
-### Installation et configuration du service
+### Installation et configuration
 
 #### _Installation du service Kea_
 
@@ -98,4 +98,96 @@ févr.. srvlan kea-dhcp4[...]: INFO  DHCP4_STARTED
 ```
 
 Le service est démarré et activé par défaut _(enabled)_.
+
+#### _Configuration_
+
+Le fichier de configuration kea-dhcp4.conf se trouve dans le dossier /etc/kea/.
+
+Sauvegardez celui-ci en le renommant ainsi :
+
+```bash
+[srvlant@srvlan:~$] cd /etc/kea
+
+[srvlant@srvlan:~$] sudo mv kea-dhcp4.conf kea-dhcp4.conf_save
+```
+
+Créez ensuite un nouveau fichier kea-dhcp4.conf :
+
+```bash
+[srvlant@srvlan:~$] sudo nano kea-dhcp4.conf
+```
+
+et entrez ce qui suit en respectant le format JSON :
+
+```json
+// Serveur DHCP Kea
+// Configuration de base IPv4
+
+{
+"Dhcp4": {
+    // Interface réseau enp0s8 en écoute DHCP.
+    "interfaces-config": {
+        "interfaces": ["enp0s8"]
+    },
+
+    // Serveur en autorité DHCP pour la zone LAN.
+    "authoritative": true,
+
+    // Pas de MAJ dynamique du serveur DNS Bind9.
+    "ddns-send-updates" : false,
+
+    // Position du fichier contenant les baux DHCP.
+    "lease-database": {
+        "type": "memfile",
+        "persist": true,
+        "name": "/var/lib/kea/kea-leases4.csv",
+        "lfc-interval": 3600
+    },
+
+    // Bail (renew=50%,rebind=87.5%,valid=100%=8H).
+    "renew-timer": 14400,
+    "rebind-timer": 27720,
+    "valid-lifetime": 28800,
+
+    "option-data": [
+    // Serveur DNS proposé aux clients DHCP.
+        {
+            "name": "domain-name-servers",
+            "data": "192.168.3.1"
+        },
+        
+    // Domaine proposé aux clients pour
+    // résoudre les noms d'hôtes via le DNS.
+        {
+            "name": "domain-search",
+            "data": "intra.loupipfire.fr"
+        }
+    ],
+
+    // Plage d'adresses IP pour la zone LAN.
+    "subnet4": [
+        {
+            "subnet": "192.168.3.0/24",
+            "pools": [ { "pool": "192.168.3.30 - 192.168.3.50" } ],
+            "option-data": [
+                {
+                    "name": "routers",
+                    "data": "192.168.3.1"
+                }
+            ],
+            
+            // IP réservée pour le conteneur ctn1.
+            "reservations": [
+                {
+                    "hw-address": "e2:f0:31:2a:b6:05",
+                    "ip-address": "192.168.3.20"
+                }
+            ]
+        }
+    ]
+}
+}
+```
+
+Remarques :
 
