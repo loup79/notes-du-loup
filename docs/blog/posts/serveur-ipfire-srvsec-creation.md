@@ -415,4 +415,4 @@ IPFire est en place. Le mémento
 3.1 vous attend pour la création  
 du dernier serveur soit srvdmz.
 
-[Mémento srvdmz](../posts/serveur-debian12-srvdmz-creation.md){ .md-button .md-button--primary }
+[Mémento 3.1](../posts/serveur-debian12-srvdmz-creation.md){ .md-button .md-button--primary }

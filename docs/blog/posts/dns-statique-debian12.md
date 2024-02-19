@@ -862,4 +862,4 @@ Le mémento 7.2 vous attend à
 présent pour installer un  
 serveur DHCP.
 
-!!! Info "Mémento 7.2 en cours de construction"
+[Mémento 7.2](../posts/dhcp-kea-debian12.md){ .md-button .md-button--primary }

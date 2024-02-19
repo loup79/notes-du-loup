@@ -686,7 +686,7 @@ Pour interagir avec Debian, utilisez l'accès SSH de la VM ovs et exploitez les 
 [switch@ovs:~$] podman exec -it ctn3 bash
 ```
 
-### VNC au travers d'un tunnel SSH
+### VNC via un tunnel SSH
 
 De base, une connexion VNC n'est pas sécurisée mais il est possible de faire transiter celle-ci à l'intérieur d'un tunnel SSH pour régler ce problème.
 
@@ -762,4 +762,4 @@ Le mémento 7.1 vous attend
 pour l'installation d'un serveur  
 DNS statique sur srvlan.
 
-!!! Info "Mémento 7.1 en cours de construction"
+[Mémento 7.1](../posts/dns-statique-debian12.md){ .md-button .md-button--primary }
