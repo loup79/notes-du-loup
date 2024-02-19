@@ -417,7 +417,7 @@ Entrez la Cde de traçage qui permettra d'observer en temps réel les messages D
 [root@srvlan:~#] tail -f /var/log/kea/kea-dhcp4.packets.log  
 ```
 
-#### _Test depuis les debian12-vm*_
+#### _Test depuis debian12-vm*_
 
 Référez-vous au [Mémento 4.1](../posts/clients-debian12-vm1-vm2-creation.md){ target="_blank" } pour modifier les paramètres réseau.
 
@@ -468,3 +468,74 @@ Le fichier /var/log/kea/kea-dhcp4.log du serveur doit également montrer ceci :
 \- VM debian12-vm2
 
 Procédez de la même manière que pour debian12-vm1.
+
+#### _Test depuis ctn1_
+
+Pour affecter à ctn1 une adresse MAC fixe et le déclarer client DHCP, éditez ce script d'ovs :
+
+```bash
+[switch@ovs:~$] sudo nano /root/networknamespace.sh 
+```
+
+et remplacez la ligne ci-dessous concernant ctn1 :
+
+```markdown
+## Activation des extrémités vctn1/2 et lo côté nsctn1...
+...
+...
+ip netns exec nsctn1 ip link set vctn1 up 
+... 
+```
+
+par celle-ci :
+
+```markdown
+ip netns exec nsctn1 ip link set vctn1 address e2:f0:31:2a:b6:05 up
+```
+
+!!! note "Nota"
+    L'adresse MAC doit être celle entrée ci-dessus dans le fichier kea-dhcp4.conf de srvlan.
+
+Commentez ensuite la ligne affectant une IP fixe à ctn1 :
+
+```markdown
+## Ajout adresses IP extrémités vctn1/2 côté nsctn1...
+#ip netns exec nsctn1 ip addr add 192.168.3.6/24 dev vctn1
+...
+```
+
+et ajoutez ceci à la fin du fichier juste avant exit 0 :
+
+```markdown
+## Déclaration de l'interface vctn1 comme client DHCP.
+ip netns exec nsctn1 dhclient -4 vctn1
+```
+
+Puis rebootez la VM ovs et contrôlez le résultat :
+
+```bash
+[switch@ovs:~$] sudo reboot
+
+[switch@ovs:~$] sudo podman exec -it ctn1 bash
+
+Starting OpenBSD Secure Shell server: sshd.
+root@...:/# ip address
+```
+
+Le conteneur doit avoir reçue l'adresse IP 192.168.3.20.
+
+### Bilan
+
+Le DHCP remplit son rôle mais la résolution DNS locale sur les VM `debian12-vm*` et les conteneurs `ctn*` est perdue suite aux modifications du DNS statique.
+
+Il est, pour corriger cela et disposer à l'avenir d'une modification automatique des fichiers DNS, nécessaire de mettre en place un DNS dynamique.
+
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+
+&nbsp;  
+Nouvelle étape franchie.  
+Le mémento 7.3 vous attend à  
+présent pour modifier le DNS statique  
+en DNS dynamique.
+
+!!! Info "Mémento 7.3 en cours de construction"
