@@ -351,3 +351,120 @@ Au préalable, éditez le fichier apparmor suivant :
 
 et ajoutez ce contenu à la fin de celui-ci :
 
+```markdown
+# Section ajoutée pour tracer les messages DHCP
+  owner /var/log/kea/kea-dhcp4.packets.log rw,
+  owner /var/log/kea/kea-dhcp4.packets.log.[0-9]* rw,
+  owner /var/log/kea/kea-dhcp4.packets.log.lock rwk,
+
+// Ci-dessous, accolade existante
+} 
+```
+
+Ceci permettra de créer un fichier kea-dhcp4.packets.log qui stockera les messages DHCP clients <- -> serveur.
+
+Editez ensuite le fichier de configuration du serveur :
+
+```bash
+[srvlan@srvlan:~$] sudo nano /etc/kea/kea-dhcp4.conf 
+```
+
+et ajoutez ce contenu à l'intérieur de la section loggers :
+
+```markdown
+/ Gestion des logs du serveur DHCP.
+    "loggers": [
+        {
+          "name": "kea-dhcp4",
+          ...
+        },
+        {
+          "name": "kea-dhcp4.packets",
+          "output_options": [
+            {
+              "output": "/var/log/kea/kea-dhcp4.packets.log",
+              "maxver": 3
+            }
+          ],
+          "severity": "DEBUG",
+          "debuglevel": 99
+        }
+// Ci-dessous, crochet et accolades existants
+      ]
+}
+} 
+```
+
+Ne pas oublier d'ajouter une virgule derrière l'accolade de fin du name précédent.
+
+Redémarrez les services AppArmor et DHCP :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl restart apparmor
+[srvlan@srvlan:~$] sudo systemctl status apparmor
+
+[srvlan@srvlan:~$] sudo systemctl restart kea-dhcp4-server
+[srvlan@srvlan:~$] sudo systemctl status kea-dhcp4-server  
+```
+
+Un fichier vide kea-dhcp4.packets.log a été créé dans le dossier /var/log/kea/.
+
+Ouvrez à présent un second terminal et connectez-vous en tant que root (Cde : su root).
+
+Entrez la Cde de traçage qui permettra d'observer en temps réel les messages DHCP échangés :
+
+```bash
+[root@srvlan:~#] tail -f /var/log/kea/kea-dhcp4.packets.log  
+```
+
+#### _Test depuis les debian12-vm*_
+
+Référez-vous au [Mémento 4.1](../posts/clients-debian12-vm1-vm2-creation.md){ target="_blank" } pour modifier les paramètres réseau.
+
+\- VM debian12-vm1
+
+Ajustez la Méthode de l'onglet Paramètres IPv4 sur Automatique (DHCP).
+
+Supprimez ensuite l'adresse IP statique et enregistrez.
+
+Redémarrez la VM Debian :
+
+```bash
+[client-linux@debian12-vm1:~$] sudo reboot  
+```
+
+et contrôlez l'affectation d'une nouvelle adresse IP :
+
+```bash
+[client-linux@debian12-vm1 :~$ ] ip address 
+```
+
+qui doit faire partie de la plage DHCP du serveur DHCP.
+
+Démarrez Firefox et vérifiez le bon accès à Internet.
+
+\- VM srvlan  
+Vérifiez que le terminal de traçage contient ces lignes :
+
+<figure markdown>
+  ![Capture - Kea DHCP : Séquence d'affectation d'une IP](../images/2024/02/kea-discover-deb12.webp){ width="580" }
+  <figcaption>Kea DHCP : Séquence d'affectation d'une IP</figcaption>
+</figure>
+
+et que le fichier des baux /var/lib/kea/kea-leases4.csv contient celles-ci :
+
+<figure markdown>
+  ![Capture - Kea DHCP : Format du fichier kea-leases4.csv](../images/2024/02/kea-lease-deb12.webp){ width="580" }
+  <figcaption>Kea DHCP : Format du fichier kea-leases4.csv</figcaption>
+</figure>
+
+Le fichier /var/log/kea/kea-dhcp4.log du serveur doit également montrer ceci :
+
+<figure markdown>
+  ![Capture - Kea DHCP : Bail alloué à la VM debian12-vm1](../images/2024/02/kea-dhcp4-log-deb12.webp){ width="580" }
+  <figcaption>Kea DHCP : Bail alloué à la VM debian12-vm1</figcaption>
+</figure>
+
+\- VM debian12-vm2
+
+Procédez de la même manière que pour debian12-vm1.
