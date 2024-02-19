@@ -299,3 +299,55 @@ et affichez le contenu du fichier kea-dhcp4.log qui a été créé dans le dossi
 ### Modification du DNS statique
 
 Ouvrez le fichier DNS de zone directe intra.loupipfire.fr :
+
+```bash
+[srvlan@srvlan:~$] cd /etc/bind
+[srvlan@srvlan:~$] sudo nano db.intra.loupipfire.fr.directe 
+```
+
+et supprimez ou commentez (;) les 4 lignes suivantes :
+
+```markdown
+debian12-vm1   IN   A   192.168.3.2
+debian12-vm2   IN   A   192.168.3.4
+ctn1           IN   A   192.168.3.6
+ctn2           IN   A   192.168.3.8 
+```
+
+Ouvrez le fichier DNS de zone inverse intra.loupipfire.fr :
+
+```bash
+[srvlan@srvlan:~$] sudo nano db.intra.loupipfire.fr.inverse 
+```
+
+et supprimez ou commentez (;) les 4 lignes suivantes :
+
+```markdown
+2 IN PTR debian12-vm1.intra.loupipfire.fr. 
+4 IN PTR debian12-vm2.intra.loupipfire.fr.
+6 IN PTR ctn1.intra.loupipfire.fr.
+8 IN PTR ctn2.intra.loupipfire.fr. 
+```
+
+Relancez le service DNS :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl restart bind9 
+```
+
+!!! note "Nota"
+    Ne modifiez pas les lignes des hôtes srvlan/ovs.
+
+### Tests du service Kea
+
+#### _Préparation_
+
+Au préalable, éditez le fichier apparmor suivant :
+
+```bash
+[srvlan@srvlan:~$] cd /etc/apparmor.d
+[srvlan@srvlan:~$] sudo nano usr.sbin.kea-dhcp4 
+```
+
+et ajoutez ce contenu à la fin de celui-ci :
+
