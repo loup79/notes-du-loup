@@ -191,3 +191,111 @@ et entrez ce qui suit en respectant le format JSON :
 
 Remarques :
 
+\- La carte enp0s8, située côté LAN, sera surveillée par le serveur DHCP.
+
+\- A 50% de la durée du bail, la séquence de prolongation/renouvellement de celui-ci débutera.
+
+\- L'IP fixe réservée pour ctn1 se situe en dehors de la plage des IP dédiée aux autres clients.
+
+\- Attention, l'adresse MAC de ctn1 actuellement dynamique devra être déclarée fixe ci-dessous.
+
+Redémarrez le service DHCP et vérifiez son statut :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl restart kea-dhcp4-server
+[srvlan@srvlan:~$] sudo systemctl status kea-dhcp4-server 
+```
+
+Retour du statut :
+
+```markdown
+● kea-dhcp4-server.service - Kea IPv4 DHCP daemon
+     Loaded: ...service; enabled; preset: enabled)
+     Active: active (running) since Tue 2024-...
+       Docs: man:kea-dhcp4(8)
+   Main PID: 3638 (kea-dhcp4)
+      Tasks: 5 (limit: 1077)
+     Memory: 3.7M
+        CPU: 40ms
+     CGroup: /system.slice/kea-dhcp4-server.service
+             └─3638 /usr/sbin/kea-dhcp4 -c /etc...
+
+févr.. DHCPSRV_CFGMGR...IFACE listening ... enp0s8
+févr.. DHCPSRV_CFGMGR_SOCKET_ ... socket type raw
+févr.. DHCPSRV_CFGMGR_NEW_SUBNET... 192.168.3.0 ...
+févr.. DHCP4_CONFIG_COMPLETE DHCP... DDNS: disabled
+févr.. DHCPSRV_MEMFILE_DB ...kea-leases4.csv ...
+févr.. DHCPSRV_MEMFILE_LEASE...kea-leases4.csv.2
+févr.. DHCPSRV_MEMFILE_LEASE...kea-leases4.csv
+févr.. DHCPSRV_MEMFILE_LFC... Cleanup ... 3600 sec
+févr.. DHCP4_MULTI_THREADING_INFO enabled: no, ...
+févr.. DHCP4_STARTED Kea DHCPv4 server ... started 
+```
+
+Celui-ci ne montre pas d'erreur, le service DHCP sera lancé automatiquement au boot de srvlan.
+
+Vérifiez l'utilisation par le service du port UDP 67 :
+
+```bash
+[srvlan@srvlan:~$] sudo ss -anup | grep dhcp
+```
+
+Retour :
+
+```markdown
+UN... 0  0  192.168.3.1:67  0.0.0.0:*  users:(("kea-dhcp4"...))
+```
+
+### Gestion des logs DHCP
+
+#### _Création d'un fichier de logs_
+
+Editez le fichier de configuration kea-dhcp4-server :
+
+```bash
+[srvlan@srvlan:~$] sudo nano /etc/kea/kea-dhcp4.conf
+```
+
+et entrez ce qui suit sous la section subnet4 :
+
+```markdown
+"subnet4": [
+        ...
+    ],
+    // Gestion des logs du serveur DHCP.
+    "loggers": [
+        {
+          "name": "kea-dhcp4",
+          "output_options": [
+            {
+              "output": "/var/log/kea/kea-dhcp4.log",
+              "pattern": "%D{%Y-%m-%d %H:%M:%S.%q} %-5p %m\n"
+            }
+          ],
+          "severity": "INFO",
+          "debuglevel": 0
+        }
+      ]
+// Ci-dessous, accolades existantes
+}
+}
+```
+
+Ne pas oublier d'ajouter une virgule derrière le crochet de fin de section subnet4.
+
+Redémarrez le serveur DHCP :
+
+```bash
+[srvlan@srvlan:~$] sudo systemctl restart kea-dhcp4-server
+[srvlan@srvlan:~$] sudo systemctl status kea-dhcp4-server 
+```
+
+et affichez le contenu du fichier kea-dhcp4.log qui a été créé dans le dossier /var/log/kea/.
+
+```bash
+[srvlan@srvlan:~$] sudo cat /var/log/kea/kea-dhcp4.log 
+```
+
+### Modification du DNS statique
+
+Ouvrez le fichier DNS de zone directe intra.loupipfire.fr :
