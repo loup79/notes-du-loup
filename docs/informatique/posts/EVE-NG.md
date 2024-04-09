@@ -8,7 +8,7 @@ categories:
   - EVE-NG
 ---
 
-## Ajout d'une VM Debian LXQt
+## Ajout d'une VM Debian
 
 **Mars 2024.**
 
@@ -23,15 +23,15 @@ Se rendre dans le dossier prévu pour les images QEMU :
 cd /opt/unetlab/addons/qemu/
 ```
 
-et créer le dossier qui recevra la VM :
+et créer celui qui recevra l'image de la VM :
 
 ```bash
 sudo mkdir linux-nom
 ```
 
-Transférer ensuite l'image ISO de la distribution Debian Linux dans ce dossier à l'aide de FileZilla en protocole SFTP.
+Puis transférer dans ce dossier une image ISO de Debian, ceci à l'aide de FileZilla en protocole SFTP.
 
-Pour l'authentification SFTP, utiliser l'utilisateur _root_ d'EVE-NG + le MDP de _root_.
+Pour l'authentification SFTP, choisir l'utilisateur _root_ d'EVE-NG + le MDP de _root_.
 
 Une fois l'image ISO transférée, renommer celle-ci :
 
@@ -49,7 +49,15 @@ sudo /opt/qemu/bin/qemu-img create -f qcow2 virtioa.qcow2 12G
 
 12G = Taille souhaitée du disque dur.
 
-Puis ouvrir, selon le processeur supportant EVE-NG, le template associé _linux.yml_ :
+Vérifier le processeur supportant EVE-NG :
+
+```bash
+lsmod | grep ^kvm_
+```
+
+Retour = _amd_ ou _intel_.
+
+Puis ouvrir, selon le retour, le template associé _linux.yml_ :
 
 ```bash
 sudo nano /opt/unetlab/html/templates/amd ou intel/linux.yml
@@ -63,6 +71,71 @@ et compléter la ligne _qemu_options_ avec le paramètre :
 
 La VM disposera ainsi au démarrage d'un clavier français.
 
+### Accès Internet (pnet1)
+
+L'exploitation du noeud Réseau _pnet0 (Cloud0)_ pour accéder à Internet ne fonctionne pas sous Proxmox et VirtualBox.
+
+Utiliser _pnet1_ à la place de _pnet0_ nécessite de configurer EVE-NG.
+
+Activer le routage interne en éditant le fichier _sysctl.conf_ :
+
+```bash
+sudo nano /etc/sysctl.conf
+```
+
+et en décommentant la ligne suivante :
+
+```markdown
+#net.ipv4.ip_forward = 1
+```
+
+Installer ensuite ces 2 paquets :
+
+```bash
+sudo apt install iptables-persistent netfilter-persistent
+```
+
+et créer la règle _iptables_ suivante :
+
+```bash
+sudo iptables -t nat -A POSTROUTING -o pnet0 -s 15.128.128.0/24 -j MASQUERADE
+```
+
+L'IP de _pnet1_ devra faire partie du réseau _15.128.128.0_.
+
+Sauvegarder la nouvelle règle _iptables_ :
+
+```bash
+su root
+sudo iptables-save > /etc/iptables/rules.v4
+exit
+```
+
+et vérifier la bonne création de celle-ci :
+
+```bash
+sudo iptables -t nat -L
+```
+
+Finir en éditant le fichier réseau _interfaces_ :
+
+```bash
+sudo nano /etc/network/interfaces
+```
+
+et en modifiant la section _#Cloud device_ comme suit :
+
+```markdown
+# Cloud devices
+iface eth1 inet manual
+auto pnet1
+iface pnet1 inet static
+    bridge_ports eth1
+    bridge_stp off
+    address 15.128.128.1
+    netmask 255.255.255.0
+```
+
 ### Ajout de la VM dans un labo
 
 Menu Add an object -> _Node_  
@@ -71,9 +144,66 @@ Menu Add an object -> _Node_
 \- Configurer les paramètres _CPU_ _RAM_ et _Ethernets_  
 \- Cliquer sur le bouton _Save_
 
+Relier la VM au noeud Réseau _pnet1 (Cloud1)_.
+
 Il suffit ensuite d'un clic droit sur l'icône du noeud + _Start_ pour démarrer la VM et procéder à son installation et sa configuration.
 
-Pour finir, relier le noeud au Network _pnet1 (Cloud1)_ et non au Network _Management(Cloud0)_, l'exploitation du _Cloud0_ posant aujourd'hui un problème sous Proxmox.
+### Configuration de la VM
+
+Installer et activer le service _ssh_ :
+
+```bash
+sudo apt install openssh-server
+```
+
+Une VM d'IP _15.128.128.x_ et reliée au noeud Réseau _pnet1_ pourra ainsi être configurée directement depuis EVE-NG :
+
+```bash
+sudo ssh utilisateur-vm@ip-vm
+```
+
+Cela peut dépanner dans certains cas de figure.
+
+Installer également le service _telnet_ dans le cas d'un serveur Debian :
+
+```bash
+sudo apt-get install xinetd telnetd
+```
+
+Créez pour cela un fichier de configuration _telnet_ :
+
+```bash
+sudo nano /etc/xinetd.d/telnet
+```
+
+et y entrer le contenu suivant :
+
+```markdown
+service telnet
+{
+disable = no
+flags = REUSE
+socket_type = stream
+wait = no
+user = root
+server = /usr/sbin/telnetd
+log_on_failure += USERID
+}
+```
+
+Redémarrer le service _telnet_ :
+
+```bash
+sudo systemctl restart xinetd
+```
+
+Pour finir, activer une connexion série _ttyS0_ :
+
+```bash
+sudo systemctl enable serial-getty@ttyS0.service
+```
+
+EVE-NG pourra ainsi se connecter en Telnet sur le serveur Debian.
 
 ### Validation de la VM
 
@@ -103,7 +233,7 @@ rm -f /opt/unetlab/addons/qemu/linux-nom/cdrom.iso
 
 ### Noms d'hôtes et utilisateurs
 
-Si l'on crée un autre noeud à partir de la même image, celui-ci héritera des paramètres de celle-ci, notamment le nom d'hôte et le nom d'utilisateur principal.
+Si l'on crée un nouveau noeud à partir de l'image validée ci-dessus, celui-ci héritera des paramètres comme le nom d'hôte et le nom de l'utilisateur principal.
 
 Sur une Debian, procéder comme suit pour modifier ces 2 paramètres :
 
