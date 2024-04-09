@@ -177,4 +177,13 @@ Pour corriger la divergence indiquée ci-dessus :
 git pull origin gh-pages --rebase
 ```
 
+### Copie du site Web sur le QNAP
+
+Générer une copie du site comme suit :
+
+```bash
+cd /home/user/Documents/notes-user/
+sudo mkdocs build -c -d /var/www/html/mkdocs/
+```
+
 **Fin.**
