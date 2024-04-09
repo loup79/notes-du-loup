@@ -237,7 +237,7 @@ Pour lancer le serveur affichant le site Web de développement, procéder ainsi 
 (env) user@deb...: mkdocs serve
 ```
 
-ou procéder ainsi en dehors de l'environneent Python :
+ou procéder ainsi en dehors de l'environnement Python :
 
 ```bash
 user@deb...: /home/user/Documents/notes-user/env/bin/mkdocs serve
@@ -308,7 +308,7 @@ La MAJ du serveur pourra alors s'effectuer ainsi :
 (env) user@deb...: sudo /home/user/Documents/notes-user/env/bin/mkdocs build -c
 ```
 
-ou comme ceci en dehors de l'environneent Python :
+ou comme ceci en dehors de l'environnement Python :
 
 ```bash
 user@deb...: cd /home/user/Documents/notes-user
