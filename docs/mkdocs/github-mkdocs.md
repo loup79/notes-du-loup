@@ -186,4 +186,24 @@ cd /home/user/Documents/notes-user/
 sudo mkdocs build -c -d /var/www/html/mkdocs/
 ```
 
+### Thème Material for MkDocs
+
+Mise à jour pour le site sur GitHub :
+
+```bash
+cd /home/user/Documents/notes-user/
+sudo pip3 install --upgrade --force-reinstall mkdocs-material 
+```
+
+Mise à jour pour le site sur le QNAP :
+
+Les fichiers du thème se trouvent dans _/home/user/.local/lib/python3.9/site-packages/material_.
+
+```bash
+cd /home/user/.local/lib/python3.9/site-packages/material/
+pip3 show mkdocs-material
+sudo pip3 install --upgrade --force-reinstall mkdocs-material
+pip3 show mkdocs-material 
+```
+
 **Fin.**
