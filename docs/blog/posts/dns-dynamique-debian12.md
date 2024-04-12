@@ -44,7 +44,7 @@ Retour :
 ping: debian12-vm1: Échec temporaire dans la résolution ...
 ```
 
-Idem avec l'hôte ctn2 :
+Idem avec l'hôte `ctn2` :
 
 ```bash
 [srvlan@srvlan:~$] ping ctn2.intra.loupipfire.fr 
