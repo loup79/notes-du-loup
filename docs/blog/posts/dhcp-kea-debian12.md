@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2024-02-19
 categories: 
-  - 7 - DNS - DHCP - DNS dynamique
+  - 7 - DNS + DHCP + DDNS
 ---
 
 <figure markdown>

@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2023-12-10
 categories: 
-  - 6 - Accès RDP-VNC-SSH
+  - 6 - Accès RDP + VNC + SSH
 ---
 
 <figure markdown>
@@ -256,12 +256,12 @@ Créez ensuite son fichier de configuration tigervnc.conf :
 
 et entrez le contenu suivant :
 
-```bash
+```markdown
 # Configuration du serveur tigervncserver
-$localhost="no";                      # Connexion distante autorisée
-$geometry="1360x768";                                 # Taille de l'écran
-$depth="24";                                    # Profondeur des couleurs
-$AlwaysShared = "yes";           # Connexions simultanées OK
+$localhost="no";            # Connexion distante autorisée
+$geometry="1360x768";       # Taille de l'écran
+$depth="24";                # Profondeur des couleurs
+$AlwaysShared = "yes";      # Connexions simultanées OK
 ```
 
 Créez un fichier xstartup pour le démarrage sous Xfce4 :
@@ -272,7 +272,7 @@ Créez un fichier xstartup pour le démarrage sous Xfce4 :
 
 et entrez le contenu suivant :
 
-```bash
+```markdown
 #!/bin/sh
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
@@ -293,7 +293,7 @@ Pour terminer, modifiez le fichier vncserver.users :
 
 en ajoutant les lignes suivantes à la fin de celui-ci :
 
-```bash
+```markdown
 # Utilisateur srvlan désigné pour l'écran 1
 :1=srvlan
 ```
@@ -611,7 +611,7 @@ Editez le fichier .bashrc de l'utilisateur root :
 
 et entrez le contenu suivant en fin de fichier :
 
-```bash
+```markdown
 # Lancement automatique du serveur ssh
 /etc/init.d/ssh start
 ```
@@ -632,7 +632,7 @@ et listez les images Podman utilisées en mode rootfull :
 
 Retour :
 
-```yaml
+```markdown
 switch@ovs:~$ sudo podman images
 REPOSITORY                      TAG         
 localhost/uptime-kuma           2           ...
