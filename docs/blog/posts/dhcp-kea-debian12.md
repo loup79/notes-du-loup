@@ -538,4 +538,4 @@ Le mémento 7.3 vous attend à
 présent pour modifier le DNS statique  
 en DNS dynamique.
 
-!!! Info "Mémento 7.3 en cours de construction"
+[Mémento 7.3](../posts/dns-dynamique-debian12.md){ .md-button .md-button--primary }
