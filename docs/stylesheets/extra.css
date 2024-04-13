@@ -37,8 +37,7 @@ nav.md-post__action a { color: #772307; font-weight: bold; }
 @media (max-width: 360px) {
 /* Gestion des blocs paragraphes, liens, préformatés et codes */
 p, li {font-size: 12px;}
-.md-content__inner > pre { margin-left : 1px; margin-right: 1px; margin-bottom: 1em; margin-top: 1em; padding: 1px;}
-code.language-bash, code.language-markdown { font-size: 10px;  font-family: consolas; }
+div.language-bash.highlight code, div.language-markdown.highlight code { font-size: 12px; }
 
 /* Gestion des titres */
 .md-typeset h1 { font-size: 17px; }
@@ -49,10 +48,8 @@ code.language-bash, code.language-markdown { font-size: 10px;  font-family: cons
 /* Gestion format téléphone Galaxy S10 */
 @media (min-width: 360px) and (max-width: 768px) {
 /* Gestion des blocs paragraphes, liens, préformatés et codes */
-.md-typeset p, li { font-size: 12px; }
-.md-content__inner > pre { margin-left : 1px; margin-right: 1px; margin-bottom: 1em; margin-top: 1em; padding: 1px; }
-code.language-bash, code.language-markdown { font-size: 12px;  font-family: consolas; }
-.md-typeset pre>code { padding: 3px; }
+p, li { font-size: 12px; }
+div.language-bash.highlight code, div.language-markdown.highlight code { font-size: 12px; }
 
 /* Gestion des titres */
 .md-typeset h1 { font-size: 22px; }
