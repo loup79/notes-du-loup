@@ -250,7 +250,7 @@ Pour finir, redémarrer la VM et relancer la Cde _hostnamectl_ pour vérifier la
 
 \- Utilisateur principal
 
-En tant que _root_ depuis le bureau LXQt, ouvrir une console avec la combinaison de touches _CTRL+ALT+F2_ et entrer les 2 Cdes suivantes :
+Se déconnecter du bureau LXQt puis ouvrir une console _root_ avec la combinaison de touches _CTRL+ALT+F2_ et entrer les 2 Cdes suivantes :
 
 ```bash
 usermod -d /home/le-nouveau-nom -m -l le-nouveau-nom ancien-nom
