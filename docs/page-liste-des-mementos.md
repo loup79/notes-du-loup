@@ -44,6 +44,9 @@ local virtuel.
     - [x] [7.1 DNS statique - VBox/Deb12](blog/posts/dns-statique-debian12.md)
     - [x] [7.2 DHCP Kea - VBox/Deb12](blog/posts/dhcp-kea-debian12.md)
     - [x] [7.3 DNS dynamique - VBox/Deb12](blog/posts/dns-dynamique-debian12.md)
+
+??? Info "8 - LAMP - HTTPS - CMS"
+    - [x] [8.1 LAMP - VBox/Deb12 1/2](blog/posts/lamp-https-cms-partie-1-debian12.md)
   
 <center>*---------------------------------------------------------------*</center>
 
