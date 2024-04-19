@@ -688,4 +688,4 @@ Le mémento 8.1 vous attend pour la
 mise en place d'un serveur Web PHP  
 MySQL sur la VM `srvdmz`.
 
-!!! Info "Mémento 8.1 en cours de construction"
+[Mémento 8.1](../posts/lamp-https-cms-partie-1-debian12.md){ .md-button .md-button--primary }
