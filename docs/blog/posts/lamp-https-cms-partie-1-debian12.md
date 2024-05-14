@@ -610,4 +610,4 @@ site Web PHP MySQL. La partie 2
 vous attend pour la création d'un  
 blog Dotclear sécurisé HTTPS.
 
-!!! Info "Partie 2 en cours de construction"
+[Mémento 8.1 - Partie 2/2](../posts/lamp-https-cms-partie-2-debian12.md){ .md-button .md-button--primary }
