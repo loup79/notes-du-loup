@@ -257,14 +257,14 @@ Testez depuis le navigateur Firefox l'URL :
 Cliquez ensuite sur le cadenas de la barre d'adresse puis sur la ligne Connexion sécurisée :
 
 <figure markdown>
-  ![Capture - HTTPS : Site loupvirtuel.fr sécurisé](../images/2024/04/https-1-deb12.webp){ width="580" }
+  ![Capture - HTTPS : Site loupvirtuel.fr sécurisé](../images/2024/04/https-1-deb12.webp){ width="430" }
   <figcaption>HTTPS : Site loupvirtuel.fr sécurisé</figcaption>
 </figure>
 
 Cliquez enfin sur la ligne Plus d'informations et sur Afficher le certificat :
 
 <figure markdown>
-  ![Capture - HTTPS : Détail du certificat SSL pour loupvirtuel.fr](../images/2024/04/https-2-deb12.webp){ width="580" }
+  ![Capture - HTTPS : Détail du certificat SSL pour loupvirtuel.fr](../images/2024/04/https-2-deb12.webp){ width="430" }
   <figcaption>HTTPS : Détail du certificat SSL pour loupvirtuel.fr</figcaption>
 </figure>
 
@@ -345,7 +345,7 @@ Un dossier dotclear a été créé dans /var/www/html.
 Créez avec le gestionnaire Adminer une Bdd loupvirtuel d'interclassement utf8mb4_general_ci :
 
 <figure markdown>
-  ![Capture - Adminer : Création d'une Bdd loupvirtuel](../images/2024/04/creation-bdd-loupvirtuel-deb12.webp){ width="580" }
+  ![Capture - Adminer : Création d'une Bdd loupvirtuel](../images/2024/04/creation-bdd-loupvirtuel-deb12.webp){ width="430" }
   <figcaption>Adminer : Création d'une Bdd loupvirtuel</figcaption>
 </figure>
 
@@ -433,7 +433,7 @@ Si tout est OK, une page titrée C'est terminé ! s'affiche :
 -> Bouton Gérer votre blog pour l'accès à l'administration
 
 <figure markdown>
-  ![Capture - Dotclear : Panneau d'administration](../images/2024/04/dotclear-administration-deb12.webp){ width="580" }
+  ![Capture - Dotclear : Panneau d'administration](../images/2024/04/dotclear-administration-deb12.webp){ width="430" }
   <figcaption>Dotclear : Panneau d'administration</figcaption>
 </figure>
 
@@ -448,7 +448,7 @@ Amusez-vous maintenant avec Dotclear et créez votre propre page d'accueil.
 Exemple de page d'accueil :
 
 <figure markdown>
-  ![Capture - Dotclear : Page d'accueil de loupvirtuel.fr](../images/2024/04/dotclear-accueil-deb12.webp){ width="580" }
+  ![Capture - Dotclear : Page d'accueil de loupvirtuel.fr](../images/2024/04/dotclear-accueil-deb12.webp){ width="430" }
   <figcaption>Dotclear : Page d'accueil de loupvirtuel.fr</figcaption>
 </figure>
 
