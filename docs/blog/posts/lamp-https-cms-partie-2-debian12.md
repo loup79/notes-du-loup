@@ -3,7 +3,7 @@ title: "LAMP - VBox/Deb12 2/2"
 summary: Création d’un serveur Web sous Linux avec Apache, MariaDB et PHP.
 authors: 
   - G.Leloup
-date: 2024-05-14
+date: 2024-04-18
 categories: 
   - 8 - LAMP + HTTPS + CMS
 ---
@@ -73,6 +73,8 @@ Créez une clé privée pour le serveur Apache :
 ```bash
 [srvdmz@srvdmz:~$] sudo openssl genrsa -out loupvirtuel.key 2048  
 ```
+
+<!-- more -->
 
 et générez le certificat CSR associé à cette clé :
 
