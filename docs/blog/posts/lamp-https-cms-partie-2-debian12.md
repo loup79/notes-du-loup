@@ -341,6 +341,94 @@ Créez avec le gestionnaire Adminer une Bdd loupvirtuel d'interclassement utf8mb
   <figcaption>Adminer : Création d'une Bdd loupvirtuel</figcaption>
 </figure>
 
+et ajoutez les modules PHP 8.2 suivants :
+
+```bash
+[srvdmz@srvdmz:~$] sudo apt install php8.2-mbstring php8.2-gd php8.2-xml
+```
+
+Modifiez le propriétaire et le groupe du dossier dotclear :
+
+```bash
+[srvdmz@srvdmz:~$] sudo chown -R www-data:www-data /var/www/html/dotclear 
+```
+
+Editez ensuite l'hôte virtuel loupvirtuel créé ci-dessus :
+
+```bash
+[srvdmz@srvdmz:~$] cd /etc/apache2/sites-available
+[srvdmz@srvdmz:~$] sudo nano loupvirtuel.conf   
+```
+
+et modifiez sa section <VirtualHost *:443> comme suit :
+
+```markdown
+<VirtualHost *:443>
+
+DocumentRoot /var/www/html/dotclear/
+ServerName loupvirtuel.fr
+
+<Directory /var/www/html/dotclear/>
+     Options -Indexes +FollowSymlinks +MultiViews
+     AllowOverride ALL
+     Require all granted
+</Directory>
+
+ErrorLog /var/log/apache2/loupvirtuel.error.log
+CustomLog /var/log/apache2/loupvirtuel.access.log combined
+
+SSLEngine On
+SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
+SSLCertificateFile /etc/ssl/loupvirtuel.crt
+SSLCertificateKeyFile /etc/ssl/loupvirtuel.key
+
+</VirtualHost>     
+```
+
+Rechargez enfin la configuration de Apache :
+
+```bash
+[srvdmz@srvdmz:~$] sudo systemctl reload apache2  
+```
+
+Vous êtes maintenant prêt pour effectuer une installation de Dotclear sans incident.
+
+#### _- Installation et test_
+
+Ouvrez Firefox, videz son historique et lancez l'URL `https://loupvirtuel.fr`.
+
+Une page Assistant d'installation de Dotclear s'ouvre :  
+-> Type de base de données : MySQLi  
+-> Nom d'hôte de la base de données : localhost  
+-> Nom de la base de données : loupvirtuel  
+-> Nom d'utilisateur de la base de données : root  
+-> MDP de la base de données : Votre MDP root Mysql  
+-> Préfixe des tables de la base de données : dc_  
+-> Email principal : Votre adresse Email personnelle
+
+-> Bouton Continuer
+
+Une page Installation de Dotclear s'ouvre :  
+\- Informations utilisateur  
+-> Prénom : Votre prénom  
+-> Nom : Votre nom  
+-> Email : Votre adresse Email personnelle
+
+\- Identifiant et mot de passe  
+-> Nom d'utilisateur : Ce que vous voulez  
+-> Nouveau mot de passe : Ce que vous voulez  
+-> Confirmer le mot de passe :
+
+-> Bouton Enregistrer
+
+Si tout est OK, une page titrée C'est terminé ! s'affiche :  
+-> Bouton Gérer votre blog pour l'accès à l'administration
+
+<figure markdown>
+  ![Capture - Dotclear : Panneau d'administration](../images/2024/04/dotclear-administration-deb12.webp){ width="580" }
+  <figcaption>Dotclear : Panneau d'administration</figcaption>
+</figure>
+
 ![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
