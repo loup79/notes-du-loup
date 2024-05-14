@@ -172,13 +172,149 @@ Vous devriez à présent trouver dans la liste des autorités gérées par Firef
 
 #### _- Hôte virtuel et test HTTPS_
 
-Enfin, depuis la VM `Debian12-vm1`, testez l'URL :  
-`http://192.168.4.2`
+Au préalable, demandez à Apache de prendre en compte son module ssl :
+
+```bash
+[srvdmz@srvdmz:~$] sudo a2enmod ssl    
+```
+
+Retour :
+
+```markdown
+Considering dependency setenvif for ssl:
+Module setenvif already enabled
+Considering dependency mime for ssl:
+Module mime already enabled
+Considering dependency socache_shmcb for ssl:
+Enabling module socache_shmcb.
+Enabling module ssl.
+See /usr/share/doc/apache2/README.Debian.gz on ...
+To activate the new configuration, you need to run:
+  systemctl restart apache2    
+```
+
+Créez maintenant un hôte virtuel de nom loupvirtuel :
+
+```bash
+[srvdmz@srvdmz:~$] cd /etc/apache2/sites-available
+[srvdmz@srvdmz:~$] sudo touch loupvirtuel.conf    
+```
+
+Editez celui-ci :
+
+```bash
+[srvdmz@srvdmz:~$] sudo nano loupvirtuel.conf     
+```
+
+et entrez le contenu suivant :
+
+```markdown
+<VirtualHost *:80>
+ServerName loupvirtuel.fr
+ServerAlias www.loupvirtuel.fr srvdmz.loupvirtuel.fr
+Redirect permanent / https://loupvirtuel.fr/
+</VirtualHost>
+<VirtualHost *:443>
+DocumentRoot /var/www/html/
+ServerName loupvirtuel.fr
+<Directory /var/www/html/>
+     Options -Indexes +FollowSymlinks +MultiViews
+     AllowOverride None
+     Require all granted
+</Directory>
+ErrorLog /var/log/apache2/loupvirtuel.error.log
+CustomLog /var/log/apache2/loupvirtuel.access.log combined
+SSLEngine On
+SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
+SSLCertificateFile /etc/ssl/loupvirtuel.crt
+SSLCertificateKeyFile /etc/ssl/loupvirtuel.key
+</VirtualHost>     
+```
+
+Demandez ensuite à Apache de traiter cet hôte virtuel :
+
+```bash
+[srvdmz@srvdmz:~$] sudo a2ensite loupvirtuel     
+```
+
+et redémarrez celui-ci :
+
+```bash
+[srvdmz@srvdmz:~$] sudo systemctl restart apache2     
+```
+
+Testez depuis le navigateur Firefox l'URL :  
+`https://loupvirtuel.fr`
+
+Cliquez ensuite sur le cadenas de la barre d'adresse puis sur la ligne Connexion sécurisée :
 
 <figure markdown>
-  ![Capture - Apache : Accueil /var/www/html/index.html](../images/2024/04/srvdmz-apache-accueil-deb12.webp){ width="430" }
-  <figcaption>Apache : Accueil /var/www/html/index.html</figcaption>
+  ![Capture - HTTPS : Site loupvirtuel.fr sécurisé](../images/2024/04/https-1-deb12.webp){ width="580" }
+  <figcaption>HTTPS : Site loupvirtuel.fr sécurisé</figcaption>
 </figure>
+
+Cliquez enfin sur la ligne Plus d'informations et sur Afficher le certificat :
+
+<figure markdown>
+  ![Capture - HTTPS : Détail du certificat SSL pour loupvirtuel.fr](../images/2024/04/https-2-deb12.webp){ width="580" }
+  <figcaption>HTTPS : Détail du certificat SSL pour loupvirtuel.fr</figcaption>
+</figure>
+
+Les 2 captures ci-dessus montrent le site loupvirtuel.fr validé HTTPS.
+
+Par curiosité, complétez la vérification SSL :
+
+```bash
+[srvdmz@srvdmz:~$] cd /etc/ssl
+
+[srvdmz@srvdmz:~$] sudo openssl s_client \
+-CAfile loupvirtuel-ca.pem -connect loupvirtuel.fr:443     
+```
+
+Le caractère \ indique d'écrire la Cde sur une seule ligne.
+
+Vous devriez trouver dans le retour et dans l'ordre :  
+\- depth =1 ... -> verifiy return :1  
+\- depth =0 ... -> verifiy return :1  
+\- SSL handshake ... -> Verification : OK  
+\- New, TLSv1.3 ... -> Verify return code: 0 (ok)  
+\- Post handshake ... -> Verify return code: 0 (ok)  
+\- Post handshake ... -> Verify return code: 0 (ok)
+
+Aucun message d'erreur ne doit apparaître.
+
+#### _- Tests depuis la VM srvlan ..._
+
+La configuration actuelle exige, pour joindre le domaine loupvirtuel.fr depuis les VM srvlan et debian12-vm*, de modifier leurs fichiers DNS respectifs /etc/hosts.
+
+Editez chacun des 3 fichiers DNS et ajoutez cette ligne :
+
+```markdown
+192.168.4.2     loupvirtuel.fr
+```
+
+Exemple pour le fichier hosts de la VM srvlan :
+
+```markdown
+127.0.0.1	localhost
+127.0.1.1	srvlan
+192.168.3.1     srvlan.intra.loupipfire.fr srvlan
+192.168.4.2     loupvirtuel.fr
+```
+
+Puis, copiez le certificat CA dans le dossier partagé :
+
+```bash
+[srvdmz@srvdmz:~$] cd /etc/ssl
+[srvdmz@srvdmz:~$] sudo cp loupvirtuel-ca.pem /home/srvdmz/Partage/
+```
+
+et importez celui-ci dans les navigateurs Web des VM en procédant comme avec srvdmz mais en sélectionnant le fichier loupvirtuel-ca.pem situé dans /home/srvlan/Partage/ ou /home/clientx2dlinux/Partage/.
+
+Pour finir, testez pour chacune des VM l'accès à l'URL :
+https://loupvirtuel.fr
+
+### Installation du CMS Dotclear
 
 ![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
