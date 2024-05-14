@@ -268,7 +268,7 @@ Cliquez enfin sur la ligne Plus d'informations et sur Afficher le certificat :
   <figcaption>HTTPS : Détail du certificat SSL pour loupvirtuel.fr</figcaption>
 </figure>
 
-Les 2 captures ci-dessus montrent le site loupvirtuel.fr validé HTTPS.
+Les 2 captures ci-dessus montrent le site `loupvirtuel.fr` validé HTTPS.
 
 Par curiosité, complétez la vérification SSL :
 
@@ -293,7 +293,7 @@ Aucun message d'erreur ne doit apparaître.
 
 #### _- Tests depuis srvlan, etc..._
 
-La configuration actuelle exige, pour joindre le domaine loupvirtuel.fr depuis les VM srvlan et debian12-vm*, de modifier leurs fichiers DNS respectifs /etc/hosts.
+La configuration actuelle exige, pour joindre le domaine `loupvirtuel.fr` depuis les VM `srvlan` et `debian12-vm*`, de modifier leurs fichiers DNS respectifs /etc/hosts.
 
 Editez chacun des 3 fichiers DNS et ajoutez cette ligne :
 
@@ -317,10 +317,10 @@ Puis, copiez le certificat CA dans le dossier partagé :
 [srvdmz@srvdmz:~$] sudo cp loupvirtuel-ca.pem /home/srvdmz/Partage/
 ```
 
-et importez celui-ci dans les navigateurs Web des VM en procédant comme avec srvdmz mais en sélectionnant le fichier loupvirtuel-ca.pem situé dans /home/srvlan/Partage/ ou /home/clientx2dlinux/Partage/.
+et importez celui-ci dans les navigateurs Web des VM en procédant comme avec `srvdmz` mais en sélectionnant le fichier loupvirtuel-ca.pem situé dans /home/srvlan/Partage/ ou /home/clientx2dlinux/Partage/.
 
-Pour finir, testez pour chacune des VM l'accès à l'URL :
-https://loupvirtuel.fr
+Pour finir, testez pour chacune des VM l'accès à l'URL :  
+`https://loupvirtuel.fr`
 
 ### Installation du CMS Dotclear
 
