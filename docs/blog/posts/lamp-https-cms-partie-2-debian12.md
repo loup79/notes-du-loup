@@ -16,7 +16,7 @@ categories:
 
 ### Protocole HTTPS
 
-Ce protocole servira à garantir la sécurité et l’intégrité des informations échangées entre le site loupvirtuel.fr et les navigateurs Web.
+Ce protocole servira à garantir la sécurité et l’intégrité des informations échangées entre le site `loupvirtuel.fr` et les navigateurs Web.
 
 HTTPS combinera le HTTP avec une couche de chiffrement SSL/TLS.
 
@@ -24,7 +24,7 @@ Vous utiliserez, pour le chiffrement, l'outil openssl installé avec Apache.
 
 Les clés et certificats dédiés au HTTPS seront créés dans le dossier /etc/ssl/.
 
-Le domaine loupvirtuel.fr étant fictif, impossible de demander à une Autorité de Certification existante de le valider. Il faudra en créer une localement.
+Le domaine `loupvirtuel.fr` étant fictif, impossible de demander à une Autorité de Certification existante de le valider. Il faudra en créer une localement.
 
 #### _- Certificat PEM (CA)_
 
@@ -216,20 +216,26 @@ ServerName loupvirtuel.fr
 ServerAlias www.loupvirtuel.fr srvdmz.loupvirtuel.fr
 Redirect permanent / https://loupvirtuel.fr/
 </VirtualHost>
+
 <VirtualHost *:443>
+
 DocumentRoot /var/www/html/
 ServerName loupvirtuel.fr
+
 <Directory /var/www/html/>
      Options -Indexes +FollowSymlinks +MultiViews
      AllowOverride None
      Require all granted
 </Directory>
+
 ErrorLog /var/log/apache2/loupvirtuel.error.log
 CustomLog /var/log/apache2/loupvirtuel.access.log combined
+
 SSLEngine On
 SSLOptions +FakeBasicAuth +ExportCertData +StrictRequire
 SSLCertificateFile /etc/ssl/loupvirtuel.crt
 SSLCertificateKeyFile /etc/ssl/loupvirtuel.key
+
 </VirtualHost>     
 ```
 
