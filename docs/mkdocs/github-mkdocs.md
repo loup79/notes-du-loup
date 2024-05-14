@@ -202,7 +202,7 @@ Les fichiers du thème se trouvent dans _/home/user/.local/lib/python3.x/site-pa
 ```bash
 cd /home/user/.local/lib/python3.x/site-packages/material/
 pip3 show mkdocs-material
-sudo pip3 install --upgrade --force-reinstall mkdocs-material
+pip3 install --upgrade --force-reinstall mkdocs-material
 pip3 show mkdocs-material 
 ```
 
