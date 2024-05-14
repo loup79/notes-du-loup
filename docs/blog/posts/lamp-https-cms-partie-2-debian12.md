@@ -316,6 +316,31 @@ https://loupvirtuel.fr
 
 ### Installation du CMS Dotclear
 
+CMS = Content Management System
+
+Dotclear est un moteur de blog français performant et facile d'utilisation que j'exploite personnellement pour gérer mes notes techniques.
+
+#### _- Téléchargement / Extraction_
+
+```bash
+[srvdmz@srvdmz:~$] cd /var/www/html
+[srvdmz@srvdmz:~$] sudo wget https://download.dotclear.net/latest.tar.gz
+
+[srvdmz@srvdmz:~$] sudo tar zxvf latest.tar.gz
+[srvdmz@srvdmz:~$] sudo rm latest.tar.gz
+```
+
+Un dossier dotclear a été créé dans /var/www/html.
+
+#### _- Préparation de l'installation_
+
+Créez avec le gestionnaire Adminer une Bdd loupvirtuel d'interclassement utf8mb4_general_ci :
+
+<figure markdown>
+  ![Capture - Adminer : Création d'une Bdd loupvirtuel](../images/2024/04/creation-bdd-loupvirtuel-deb12.webp){ width="580" }
+  <figcaption>Adminer : Création d'une Bdd loupvirtuel</figcaption>
+</figure>
+
 ![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
