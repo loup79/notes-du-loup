@@ -68,6 +68,109 @@ Email Address []:Rien -> Touche Entrée
 
 #### _- Certificats CSR/CRT_
 
+Créez une clé privée pour le serveur Apache :
+
+```bash
+[srvdmz@srvdmz:~$] sudo openssl genrsa -out loupvirtuel.key 2048  
+```
+
+et générez le certificat CSR associé à cette clé :
+
+```bash
+[srvdmz@srvdmz:~$] sudo openssl req -new -key loupvirtuel.key -out loupvirtuel.csr   
+```
+
+Gérez le retour pour le **C**ertificate **S**igning **R**equest ainsi :
+
+```markdown
+You are about ...
+-----
+Country Name (2 letter code) [AU]:FR
+State or ... Name (full name) [Some...]:Var
+Locality Name (eg, city) []:Cuers
+Organization Name (eg...) [Internet ... Ltd]:InfoLoup
+Organizational Unit Name (eg...) []:Blog Loup Virtuel
+Common Name (e.g... FQDN ...) []:loupvirtuel.fr
+Email Address []:admin@loupvirtuel.fr
+
+Please enter ...
+-----
+A challenge password []:Rien -> Touche Entrée
+An optional company name []:Rien -> Touche Entrée
+```
+
+Le certificat CSR sera traité par le CA comme une demande de signature.
+
+Il est recommandé aujourd'hui d'ajouter l'extension d'identification de noms de domaines alternatifs _(subjectAltName)_ à la demande de signature.
+
+Pour cela, créez un fichier d'extension de nom csr.ext :
+
+```bash
+[srvdmz@srvdmz:~$] sudo nano csr.ext   
+```
+
+et entrez ce contenu répondant à la norme X509v3 :
+
+```markdown
+authorityKeyIdentifier=keyid,issuer 
+basicConstraints=CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = loupvirtuel.fr
+DNS.2 = localhost
+DNS.3 = srvdmz.loupvirtuel.fr
+IP.1 = 127.0.0.1 
+```
+
+Enfin, traitez le CSR et son extension en générant un certificat CRT final signé pour Apache :
+
+```bash
+[srvdmz@srvdmz:~$] sudo openssl x509 -req -in loupvirtuel.csr -CA loupvirtuel-ca.pem -CAkey loupvirtuel-ca.key -CAcreateserial  -out loupvirtuel.crt -days 3650 -sha256 -extfile csr.ext    
+```
+
+Retour pour le certificat final _(CRT)_ :
+
+```markdown
+Certificate request self-signature ok
+subject=C = FR, ST = Var, L = Cuers, O = InfoLoup, OU = Blog Loup Virtuel, CN = loupvirtuel.fr, emailAddress = admin@loupvirtuel.fr
+Enter pass ... loupvirtuel-ca.key: Votre pass phrase CA 
+```
+
+!!! note "Nota"
+    C'est en tant que CA _(autorité de certification)_ que vous venez de générer le certificat CRT.
+
+Bilan des clés et certificats créés dans /etc/ssl/ :
+
+* loupvirtuel-ca.key
+* loupvirtuel-ca.pem
+* loupvirtuel.key
+* loupvirtuel.csr
+* csr.ext
+* loupvirtuel-ca.srl
+* loupvirtuel.crt
+
+#### _- Certificat PEM dans Firefox_
+
+Afin que le HTTPS fonctionne sans alerte avec un certificat CA auto-signé, il est nécessaire d'importer celui-ci dans la configuration du navigateur Web Firefox.
+
+Pour cela, accédez aux Paramètres du navigateur Web :  
+-> Vie privée et sécurité -> Certificats  
+-> Bouton Afficher les certificats...
+
+Une fenêtre Gestionnaire de certificats s'ouvre :  
+-> Onglet Autorités -> Bouton Importer...
+
+-> /etc/ssl/ -> Sélectionnez loupvirtuel-ca.pem -> Ouvrir
+
+Une fenêtre Téléchargement du certificat s'ouvre :  
+-> Cochez les 2 demandes de confirmation  
+-> OK -> OK
+
+Vous devriez à présent trouver dans la liste des autorités gérées par Firefox l'Autorité de Certification de nom Internet-CA.
+
+#### _- Hôte virtuel et test HTTPS_
 
 Enfin, depuis la VM `Debian12-vm1`, testez l'URL :  
 `http://192.168.4.2`
@@ -76,9 +179,6 @@ Enfin, depuis la VM `Debian12-vm1`, testez l'URL :
   ![Capture - Apache : Accueil /var/www/html/index.html](../images/2024/04/srvdmz-apache-accueil-deb12.webp){ width="430" }
   <figcaption>Apache : Accueil /var/www/html/index.html</figcaption>
 </figure>
-
-!!! note "Nota"
-    Un mémento futur traitera de l'accès au serveur Web depuis Internet.
 
 ![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
