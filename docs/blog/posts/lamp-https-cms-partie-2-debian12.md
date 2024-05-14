@@ -304,10 +304,10 @@ Editez chacun des 3 fichiers DNS et ajoutez cette ligne :
 Exemple pour le fichier hosts de la VM srvlan :
 
 ```markdown
-127.0.0.1	localhost
-127.0.1.1	srvlan
-192.168.3.1     srvlan.intra.loupipfire.fr srvlan
-192.168.4.2     loupvirtuel.fr
+127.0.0.1      localhost
+127.0.1.1      srvlan
+192.168.3.1    srvlan.intra.loupipfire.fr srvlan
+192.168.4.2    loupvirtuel.fr
 ```
 
 Puis, copiez le certificat CA dans le dossier partagé :
