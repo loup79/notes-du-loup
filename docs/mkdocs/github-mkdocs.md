@@ -192,7 +192,7 @@ Mise à jour du thème pour le site sur GitHub :
 
 ```bash
 cd /home/user/Documents/notes-user/
-sudo pip3 install --upgrade --force-reinstall mkdocs-material 
+pip3 install --upgrade --force-reinstall mkdocs-material 
 ```
 
 Mise à jour du thème pour le site sur le QNAP :
