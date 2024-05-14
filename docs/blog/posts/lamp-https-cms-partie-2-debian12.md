@@ -40,7 +40,7 @@ Créez une clé privée contenant un MDP pour le CA :
 
 Gérez le retour ainsi :
 
-```markdown
+```markdown hl_lines="1"
 Enter PEM pass phrase: Ce que vous voulez
 Verifying - Enter PEM pass phrase:
 ```
@@ -53,7 +53,7 @@ et générez le certificat CA X.509 associé à cette clé :
 
 Gérez le retour pour le **C**ertificate **A**uthority ainsi :
 
-```markdown
+```markdown hl_lines="1"
 Enter pass ... loupvirtuel-ca.key: Votre pass phrase CA
 You are about ...
 -----
@@ -134,7 +134,7 @@ Enfin, traitez le CSR et son extension en générant un certificat CRT final sig
 
 Retour pour le certificat final _(CRT)_ :
 
-```markdown
+```markdown hl_lines="3"
 Certificate request self-signature ok
 subject=C = FR, ST = Var, L = Cuers, O = InfoLoup, OU = Blog Loup Virtuel, CN = loupvirtuel.fr, emailAddress = admin@loupvirtuel.fr
 Enter pass ... loupvirtuel-ca.key: Votre pass phrase CA 
@@ -182,7 +182,7 @@ Au préalable, demandez à Apache de prendre en compte son module ssl :
 
 Retour :
 
-```markdown
+```markdown hl_lines="7"
 Considering dependency setenvif for ssl:
 Module setenvif already enabled
 Considering dependency mime for ssl:
@@ -370,7 +370,7 @@ Editez ensuite l'hôte virtuel loupvirtuel créé ci-dessus :
 
 et modifiez sa section <VirtualHost *:443> comme suit :
 
-```markdown
+```markdown hl_lines="3 6 8"
 <VirtualHost *:443>
 
 DocumentRoot /var/www/html/dotclear/
