@@ -3,7 +3,7 @@ title: "LAMP - VBox/Deb12 2/2"
 summary: Création d’un serveur Web sous Linux avec Apache, MariaDB et PHP.
 authors: 
   - G.Leloup
-date: 2024-04-19
+date: 2024-05-14
 categories: 
   - 8 - LAMP + HTTPS + CMS
 ---
@@ -283,7 +283,7 @@ Vous devriez trouver dans le retour et dans l'ordre :
 
 Aucun message d'erreur ne doit apparaître.
 
-#### _- Tests depuis la VM srvlan ..._
+#### _- Tests depuis srvlan, etc..._
 
 La configuration actuelle exige, pour joindre le domaine loupvirtuel.fr depuis les VM srvlan et debian12-vm*, de modifier leurs fichiers DNS respectifs /etc/hosts.
 
@@ -429,12 +429,27 @@ Si tout est OK, une page titrée C'est terminé ! s'affiche :
   <figcaption>Dotclear : Panneau d'administration</figcaption>
 </figure>
 
+Le menu pour se déconnecter se situe en haut à droite.
+
+Les URL à retenir :  
+`https://loupvirtuel.fr/admin/` pour administrer le site.  
+`https://loupvirtuel.fr` pour parcourir le site.
+
+Amusez-vous maintenant avec Dotclear et créez votre propre page d'accueil.
+
+Exemple de page d'accueil :
+
+<figure markdown>
+  ![Capture - Dotclear : Page d'accueil de loupvirtuel.fr](../images/2024/04/dotclear-accueil-deb12.webp){ width="580" }
+  <figcaption>Dotclear : Page d'accueil de loupvirtuel.fr</figcaption>
+</figure>
+
 ![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
-Voilà pour la création de base d'un  
-site Web PHP MySQL. La partie 2  
-vous attend pour la création d'un  
-blog Dotclear sécurisé HTTPS.
+Voilà ! Terminé pour ce grand  
+chapitre. Le mémento 9.1 vous  
+attend pour découvrir l'usage du  
+protocole SFTP.
 
-!!! Info "Partie 2 en cours de construction"
+!!! Info "Mémento 9.1 en cours de construction"
