@@ -143,15 +143,15 @@ Exemple de lien inactif : `http://192.168.x.y:7160`
 
 ### - Cdes/Scripts et retours
 
-Cdes/Scripts _( code ```bash, text, yaml, json )_ :
+Cdes/Scripts _( code ```bash, yaml, json, etc... )_ :
 
 ```bash
 sudo nano /etc/systemd/system/networknamespace.service
 ```
 
-Retours _(code ```markdown )_ :
+Retours _(code ```markdown hl_lines="2 5" )_ :
 
-```markdown
+```markdown hl_lines="2 5"
 Client:       Podman Engine
 Version:      4.3.1
 API Version:  4.3.1
@@ -159,6 +159,11 @@ Go Version:   go1.19.8
 Built:        Thu Jan 1 01:00:00 1970
 OS/Arch:      linux/amd64
 ```
+
+L'instruction :  
+hl_lines="4" permet de surligner la ligne 4.  
+hl_lines="2 5" permet de surligner les lignes 2 et 5.  
+hl_lines="3-7" permet de surligner les lignes 3 à 7.
 
 ### **- Divers**
 
