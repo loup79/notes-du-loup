@@ -2,24 +2,24 @@
 title: Prérequis
 summary: Besoins en matériel et connaissances.
 author: G.Leloup
-date: 2019-10-30
+date: 2024-05-19
 ---
 
-## Matériel et connaissances
+## Configuration matérielle, etc...
 
-![Image - Lecteur des nouveautés](blog/images/2021/12/magicien_bis.png){ align=left }
+![Image - Lecteur des nouveautés](blog/images/2024/05/bienvenue-1.webp){ align=left }
 
 &nbsp;  
-Disposer d'un PC avec un VirtualBox  
-récent déjà installé et fonctionnel.  
+Vous devez disposer d'un PC  
+supportant un OS Windows ou Linux.  
 &nbsp;  
 &nbsp;  
 
-Le PC Windows ou Linux, hôte du réseau virtuel, doit avoir environ 200 Go d'espace de libre et de préférence être équipé des éléments suivants :
+Ce PC qui sera l'**hôte** du réseau virtuel doit avoir environ 100 Go d'espace disque de libre et de préférence être équipé des éléments suivants :
 
 | |
 | :---: |
-|1 Processeur assez puissant type Intel i3 ou i5|
+|1 Processeur assez puissant type Intel i5 ou Ryzen 5|
 |8 Go de RAM _(6 Go sont à dédier au réseau virtuel)_|
   
 Vous pourrez ainsi, la virtualisation consommant de la ressource processeur et mémoire vive, profiter d'une exploitation confortable, ce qui n'est pas négligeable.
@@ -30,11 +30,13 @@ Vous pourrez ainsi, la virtualisation consommant de la ressource processeur et m
 | :---: |
 |Les 3 serveurs _srvsec_, _srvlan_ et _srvdmz_|
 |Le switch OpenvSwitch (sur VM _ovs_)|
-|L'une des 2 VM _debian11-vm*_|
+|L'une des 2 VM _debian..-vm*_|
 |L'un des 2 conteneurs _ctn*_|
 
-Connaître un minimum les lignes de Cdes du système d'exploitation Linux est un plus mais pas indispensable pour y arriver. Tout est dans les mémentos du blog.
+Une configuration de 16 Go de RAM est parfaite.
 
-Suivez, dans l'ordre, la liste ci-dessous pour au final jouer avec un petit réseau local virtuel.
+Connaître les commandes du système d'exploitation Linux est un plus mais pas indispensable pour arriver à construire le réseau. Tout est détaillé dans les mémentos du site.
+
+Suivez, **dans l'ordre**, la liste ci-dessous pour au final jouer avec votre propre réseau local virtuel.
 
 <center>-- [LISTE DES MEMENTOS](page-liste-des-mementos.md) --</center>
