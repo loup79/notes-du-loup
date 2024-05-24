@@ -207,16 +207,13 @@ location /
     proxy_set_header Host sous-domaine.domaine.duckdns.org:7230;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto https;
     proxy_set_header REMOTE-HOST $remote_addr;
-    proxy_set_header   Upgrade          $http_upgrade;  
-    proxy_set_header   Connection       "Upgrade";
-    proxy_connect_timeout      60;   
-    proxy_send_timeout         90;   
-    proxy_read_timeout         90; 
-    proxy_buffer_size          4k; 
-    proxy_buffers              4 32k;
-    proxy_busy_buffers_size    64k;  
-    proxy_temp_file_write_size 64k;
+    client_body_buffer_size 512k;
+    proxy_read_timeout 86400s;
+    client_max_body_size 0;
+    proxy_buffers 256 16k;
+    proxy_buffer_size 16k;
     add_header X-Cache $upstream_cache_status;
 }
 ```
