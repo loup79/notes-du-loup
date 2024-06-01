@@ -460,4 +460,4 @@ chapitre. Le mémento 9.1 vous
 attend pour découvrir l'usage du  
 protocole SFTP.
 
-!!! Info "Mémento 9.1 en cours de construction"
+[Mémento 9.1](../posts/sftp-debian12.md){ .md-button .md-button--primary }
