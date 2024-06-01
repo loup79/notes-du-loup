@@ -5,7 +5,7 @@ author: G.Leloup
 date: 2018-03-02
 ---
 
-## Réseau virtuel avec VirtualBox / Debian
+## Réseau virtuel VirtualBox / Debian
 
 ![Image - Liste des mémentos](blog/images/2018/09/liste.png){ align=left }
 
@@ -48,6 +48,9 @@ local virtuel.
 ??? Info "8 - LAMP - HTTPS - CMS"
     - [x] [8.1 LAMP HTTPS CMS - VBox/Deb12 1/2](blog/posts/lamp-https-cms-partie-1-debian12.md)
     - [x] [8.1 LAMP HTTPS CMS - VBox/Deb12 2/2](blog/posts/lamp-https-cms-partie-2-debian12.md)
+
+??? Info "9 - SFTP accès CMS - FTPS"
+    - [x] [9.1 SFTP et Dotclear - VBox/Deb12 1/2](blog/posts/sftp-debian12.md)
   
 <center>*---------------------------------------------------------------*</center>
 
