@@ -478,4 +478,4 @@ mémento 9.2 vous attend pour la
 mise en place du protocole FTPS  
 avec le serveur VsFTPd. A bientôt.
 
-!!! Info "Mémento 9.2 en cours de construction"
+[Mémento 9.2](../posts/ftp-vsftpd-debian12.md){ .md-button .md-button--primary }
