@@ -343,7 +343,8 @@ et ajoutez celles-ci sous la section loggers :
      },
      
      "ddns-qualifying-suffix": "intra.loupipfire.fr",
-     "ddns-override-client-update": true
+     "ddns-override-client-update": true,
+     "ddns-update-on-renew": true
 // Ci-dessous, accolades existantes
 }
 }
