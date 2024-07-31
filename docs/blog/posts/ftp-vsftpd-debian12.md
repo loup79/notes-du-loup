@@ -960,4 +960,4 @@ Le mémento 10.1 propose de rendre
 le réseau plus cohérent avec entre  
 autres la création d'un DNS split.
 
-!!! Info "Mémento 10.1 en cours de construction"
+[Mémento 10.1](../posts/dns-split-debian12.md){ .md-button .md-button--primary }
