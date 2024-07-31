@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2024-04-10
 categories: 
-  - 7 - DNS + DHCP + DDNS
+  - 08 DNS + DHCP + DDNS
 ---
 
 <figure markdown>

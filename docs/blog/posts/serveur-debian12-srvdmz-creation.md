@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2023-08-02
 categories: 
-  - 3 - Serveur DMZ "srvdmz"
+  - 04 Serveur DMZ "srvdmz"
 ---
 
 <figure markdown>

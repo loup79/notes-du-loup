@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2024-05-31
 categories: 
-  - 9 - SFTP accès CMS - FTPS
+  - 10 SFTP accès CMS - FTPS
 ---
 
 <figure markdown>
