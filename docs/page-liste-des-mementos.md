@@ -52,6 +52,9 @@ local virtuel.
 ??? Info "9 - SFTP accès CMS - FTPS"
     - [x] [9.1 SFTP et Dotclear - VBox/Deb12](blog/posts/sftp-debian12.md)
     - [x] [9.2 FTPS avec VsFTPd - VBox/Deb12](blog/posts/ftp-vsftpd-debian12.md)
+
+??? Info "10 - DNS split et Proxy inverse"
+    - [x] [10.1 DNS split - VBox/Deb12](blog/posts/dns-split-debian12.md)
   
 <center>*---------------------------------------------------------------*</center>
 
