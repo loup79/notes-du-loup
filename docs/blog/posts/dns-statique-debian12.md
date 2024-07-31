@@ -585,7 +585,7 @@ f) Pour finir, vérifiez le chargement des zones :
 sudo named-checkconf -z   # Liste des zones chargées 
 ```
 
-### Déclaration d'un DNS externe
+### Déclaration d'un DNS externe {#dns-externe}
 
 Le DNS utilise 13 destinations de serveurs racines pour gérer les requêtes d'accès à Internet. Ces serveurs sont chargés de renvoyer lesdites requêtes vers des serveurs DNS de premier niveau appropriés _(.com, .fr, etc...)_.
 

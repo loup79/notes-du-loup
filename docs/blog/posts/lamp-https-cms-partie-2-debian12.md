@@ -153,7 +153,7 @@ Bilan des clés et certificats créés dans /etc/ssl/ :
 * loupvirtuel-ca.srl
 * loupvirtuel.crt
 
-#### _- Certificat PEM dans Firefox_
+#### _- Certificat PEM dans Firefox_ {#pem-firefox}
 
 Afin que le HTTPS fonctionne sans alerte avec un certificat CA auto-signé, il est nécessaire d'importer celui-ci dans la configuration du navigateur Web Firefox.
 
