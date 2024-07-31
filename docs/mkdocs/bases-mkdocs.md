@@ -80,7 +80,13 @@ Ajout, par exemple, de **{#titre-4}** au titre 4
 et création d'un lien au sein d'un paragraphe quelconque
 
 ```bash
-... d'une interface réseau virtuelle TAP _( [Voir le § 4](#titre-4) )_.
+d'une ... réseau virtuelle _( [Voir le § 4](#titre-4) )_.
+```
+
+ou création d'un lien depuis une autre page Web
+
+```bash
+d'une ...  réseau virtuelle _( [Voir le § 4](post-x.md#titre-4) )_.
 ```
 
 ### **- Images**
@@ -102,7 +108,9 @@ Image
 alignée  
 à gauche.
 &nbsp;  
-&nbsp;
+&nbsp;  
+&nbsp;  
+&nbsp;  
 
 ou image sans option _(Alerte markdown MD033)_
 
