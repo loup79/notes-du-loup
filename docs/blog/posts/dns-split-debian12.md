@@ -619,7 +619,7 @@ Paramétrage :
 
 ### Service DNS sur srvlan
 
-#### _- Zones de recherche intra..._
+#### _- Zones recherche intra..._
 
 Editez le fichier de configuration DNS named.conf.local :
 
@@ -951,7 +951,7 @@ Ici, des outils pour vous aider dans votre travail !
 
 Pour finir, testez de nouveau l'URL `http://192.168.3.1`.
 
-### Modification VM en zone LAN
+### Modification sur VM zone LAN
 
 \- VM `ovs`
 
@@ -1308,7 +1308,7 @@ Testez également la résolution directe et inverse :
 \- Cde 1, `srvlan` renvoie l'IP locale de `srvweb`.  
 \- Cde 2, `srvlan` renvoie l'hôte `srvdmz.loupvirtuel.fr`.
 
-### Test depuis Internet
+### Test d'accès depuis Internet
 
 Le domaine `loupvirtuel.fr` n'étant pas public, vous ne pouvez pas accéder au site Web depuis Internet en tapant simplement son URL dans le champ adresse d'un navigateur Web.
 
@@ -1394,7 +1394,7 @@ Les 2 dernières requêtes sont rejetées car, voir plus haut, la récursivité 
 
 192.168.x.w = IP carte RED du serveur IPFire.
 
-#### _- Test vers site de srvdmz_
+#### _- Test vers site web srvdmz_
 
 Testez depuis le navigateur Web du PC Windows les 2 URL suivantes :  
 `http://www.loupvirtuel.fr` et `http://loupvirtuel.fr`
@@ -1403,7 +1403,7 @@ Toutes les deux doivent basculer vers le protocole https sous réserve d'avoir a
 
 Les autres URL comme par exemple `http://google.fr` doivent rester sans réponse car la récursivité DNS est bloquée.
 
-#### _- Test vers site de srvlan_
+#### _- Test vers site web srvlan_
 
 Possible en utilisant le proxy inverse fourni par Apache.
 
