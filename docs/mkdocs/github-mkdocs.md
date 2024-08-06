@@ -47,9 +47,75 @@ Se connecter ensuite sur celui-ci et créer un dossier en utilisant l'URL : [htt
 
 Le dossier/dépôt GitHub créé avec le nom _notes-user_ inclus une branche de base appelée _main_.
 
-Cette branche contiendra ==la documentation de MkDocs== qui sera mise à jour automatiquement depuis le _VS Code Server_ installé sur la VM Debian.
+Cette branche contiendra ==la documentation de MkDocs== qui sera mise à jour depuis le _VS Code Server_ installé sur la VM Debian.
 
 Finir en modifant le contenu du fichier _README.md_, ceci en utilisant le langage _Markdown_ et terminer en cliquant sur le bouton _Commit changes_.
+
+### Authentification par jeton
+
+Cde à lancer pour lire les URL d'accès à GitHub :
+
+```bash
+git remote -v
+```
+
+Exemple de retour :
+
+```markdown
+origin  https://git@github.com/user-git/nom-depot.git (fetch)
+
+origin  https://git@github.com/user-git/nom-depot.git (push)
+```
+
+Se procurer un jeton depuis le dépôt GitHub, menu _Settings_ :  
+-> Developer Settings  
+-> Personal access tokens  
+-> Tokens (classic) .
+
+Déclarer ensuite le jeton dans l'espace de travail de VS Code Server comme suit :
+
+```bash
+git remote set-url origin https://valeur-du-token@github.com/user-git/nom-depot-git
+```
+
+Ainsi la fonction _push_ de VS Code Server vers GitHub fonctionnera sans demande de MDP.
+
+Relancer cette cde pour vérifier la prise en compte :
+
+```bash
+git remote -v
+```
+
+Retour à observer :
+
+```markdown
+origin  https://ghp_Y3PD41f...@github.com/user-git/nom-depot-git (fetch)
+
+origin  https://ghp_Y3PD41f...@github.com/user-git/nom-depot-git (push)
+```
+
+Le jeton _(token)_ a une durée de vie qui peut être renouvelée.
+
+### Renouvellement du jeton
+
+Se connecter sur le dépôt GitHub, menu _Settings_ :  
+-> Developer Settings  
+-> Personal access tokens  
+-> Tokens (classic)  
+-> Clic sur le lien du jeton existant  
+-> Bouton Regenerate Token.
+
+Enregister la valeur du nouveau token et lancer la Cde suivante depuis la VM Debian :
+
+```bash
+git remote set-url origin https://valeur-du-token@github.com/user-git/nom-depot-git
+```
+
+Vérifier le résultat comme suit :
+
+```bash
+git remote -v
+```
 
 ### Création du site Web MkDocs
 

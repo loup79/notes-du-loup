@@ -26,7 +26,9 @@ Créer ensuite un groupe de nom _admin_ :
 # pveum acl modify / -group admin -role Administrator
 ```
 
-et ajouter l'utilisateur _user-x_ au groupe _admin_ :
+La 2ème ligne gère les permissions du groupe _admin_.
+
+Ajouter l'utilisateur _user-x_ au groupe _admin_ :
 
 <!-- more -->
 
@@ -34,10 +36,23 @@ et ajouter l'utilisateur _user-x_ au groupe _admin_ :
 # pveum user modify user-x@pve -group admin
 ```
 
+Le fichier modifié _user.cfg_ se siue dans /etc/pve/.
+
 Enfin, ouvrir une session Web comme suit :  
 Nom d'utilisateur : _user-x_  
 Mot de passe : _mdp-user-x_  
 Royaume : _Proxmox VE authentication server_
+
+!!! note "Nota"
+    La création de l'utilisateur peut également être gérée depuis l'interface Web de Proxmox.
+
+#### Interface Web en français
+
+Ouvrir le fichier /etc/pve/datacenter.cfg et ajouter ceci :
+
+```markdown
+language: fr
+```
 
 ### VNC Accès externe et clavier fr
 
