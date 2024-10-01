@@ -20,13 +20,13 @@ Lancez vos VM automatiquement lors d'un redémarrage du système Windows ou Debi
 
 VirtualBox est installé par défaut dans :
 
-```bash
+```txt
 C:\Program Files\Oracle\VirtualBox\
 ```
 
 et son fichier de configuration _VirtualBox.xml_ est dans :
 
-```bash
+```txt
 C:\Utilisateurs\nom-du-user\.VirtualBox\
 ```
 
@@ -58,7 +58,7 @@ Créez au préalable la variable d'environnement Windows de nom _VBOXAUTOSTART_C
 
 La Cde ci-dessous peut être utilisée depuis le _Terminal(administrateur)_ de Windows pour créer temporairement celle-ci :
 
-```bash
+```txt
 > set VBOXAUTOSTART_CONFIG=C:\Users\nom-du-user\.VirtualBox\autostart.properties
 ```
 
@@ -88,7 +88,7 @@ HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
 
 Ensuite, activez le service de démarrage auto des VM depuis le _Terminal(administrateur)_ de Windows comme ceci :
 
-```bash
+```txt
 > cd "C:\Program Files\Oracle\VirtualBox"
 > .\VBoxAutostartSvc.exe install --user=nom-du-user
 ```
@@ -97,13 +97,13 @@ Le MDP de l'utilisateur _nom-du-user_ sera demandé.
 
 Pour info, le service peut être désactivé ainsi :
 
-```bash
+```txt
 > .\VBoxAutostartSvc.exe delete --user=nom-du-user
 ```
 
 Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_ :
 
-```bash
+```txt
 > cd "C:\Program Files\Oracle\VirtualBox"
 
 > .\VBoxManage.exe modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
@@ -139,7 +139,7 @@ C'est terminé pour Windows.
 
 Créez le fichier _/etc/default/virtualbox_ :
 
-```bash
+```txt
 sudo nano /etc/default/virtualbox
 ```
 
@@ -152,7 +152,7 @@ VBOXAUTOSTART_CONFIG=/etc/vbox/autostartvm.cfg
 
 Créez ensuite le fichier _autostartvm.cfg_ :
 
-```bash
+```txt
 sudo nano /etc/vbox/autostartvm.cfg
 ```
 
@@ -176,19 +176,19 @@ nom-du-user={allow=true startup_delau=10}
 
 Ajoutez l'utilisateur _nom-du-user_ au groupe _vboxusers_ :
 
-```bash
+```txt
 sudo usermod -aG vboxusers nom-du-user
 ```
 
 Affectez le dossier _/etc/vbox/_ au groupe _vboxusers_ :
 
-```bash
+```txt
 sudo chgrp vboxusers /etc/vbox
 ```
 
 et autorisez le groupe à écrire dans le dossier :
 
-```bash
+```txt
 sudo chmod g+w /etc/vbox
 ```
 
@@ -200,19 +200,19 @@ Virtualbox fournit dans le dossier _/lib/systemd/system/_ un service appelé _vb
 
 Commencez par autoriser le démarrage auto des VM :
 
-```bash
+```txt
 VBoxManage setproperty autostartdbpath /etc/vbox
 ```
 
 Puis stoppez les VM et listez les noms de celles-ci :
 
-```bash
+```txt
 VBoxManage list vms
 ```
 
 Enfin, accédez aux dossiers des VM et entrez pour chacune de celles-ci la Cde suivante :
 
-```bash
+```txt
 VBoxManage modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
 ```
 
