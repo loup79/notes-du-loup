@@ -34,7 +34,7 @@ C:\Utilisateurs\nom-du-user\.VirtualBox\
 
 Créez un fichier de nom _autostart.properties_ dans le dossier _\Utilisateurs\nom-du-user\\.VirtualBox\\_ et remplissez-le avec le contenu suivant :
 
-```bash
+```markdown
 # La politique par défaut est de refuser "deny" 
 # le démarrage d'une machine virtuelle, l'autre
 # option est de l'autoriser "allow".
@@ -54,7 +54,7 @@ Le service qui exploitera ce fichier s'appelle *V*irtualBox *A*utostart *S*ervic
 
 #### _- Svc VBoxAutostartSvc_
 
-Créez au préalable une variable d'environnement Windows de nom _VBOXAUTOSTART_CONFIG_.
+Créez au préalable la variable d'environnement Windows de nom _VBOXAUTOSTART_CONFIG_.
 
 La Cde ci-dessous peut être utilisée depuis le _Terminal(administrateur)_ de Windows pour créer temporairement celle-ci :
 
@@ -82,7 +82,7 @@ _C:\Users\nom-du-user\\.VirtualBox\autostart.properties_.
 
 La création de la variable _VBOXAUTOSTART_CONFIG_ peut être vérifiée depuis l'application _regedit_ en accédant à la clé _Environment_ ci-dessous :
 
-```bash
+```markdown
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
 ```
 
@@ -111,12 +111,12 @@ Finir en autorisant le démarrage automatique de chacune des VM _(VM arrêtée)_
 
 L'option _--defaultfrontend headless_ implique un mode de démarrage _sans fenêtre d'affichage graphique_, ceci dans le cas par exemple d'une utilisation d'un accès à distance sur la VM de type RDP ou VNC.
 
-Prévoir environ 60 secondes d'écart entre chaque démarrage de VM.
+Ajoutez quelques secondes d'écart entre chaque autostart-delay.
 
 Une VM déclarée en _autostart_ voit son fichier de configuration _*.vbox_ situé dans le dossier de celle-ci contenir la ligne suivante :
 
-```bash
-<Autostart enabled="true" delay="90" autostop="Disabled"/>
+```markdown
+<Autostart enabled="true" delay="30" autostop="Disabled"/>
 ```
 
 #### _- Svc VBoxSVC_
@@ -137,7 +137,7 @@ C'est terminé pour Windows.
 
 #### _- Fichier autostartvm.cfg_
 
-Ouvrez le fichier _/etc/default/virtualbox_ :
+Créez le fichier _/etc/default/virtualbox_ :
 
 ```bash
 sudo nano /etc/default/virtualbox
@@ -145,7 +145,7 @@ sudo nano /etc/default/virtualbox
 
 et ajoutez le contenu suivant :
 
-```bash
+```markdown
 VBOXAUTOSTART_DB=/etc/vbox
 VBOXAUTOSTART_CONFIG=/etc/vbox/autostartvm.cfg
 ```
@@ -156,16 +156,23 @@ Créez ensuite le fichier _autostartvm.cfg_ :
 sudo nano /etc/vbox/autostartvm.cfg
 ```
 
-et entrez le contenu suivant :
+et entrez l'un des 2 contenus suivants :
 
-```bash
+```markdown
 default_policy = deny
 nom-du-user = {
 allow = true
 startup_delay = 10
 }
-# Saut de ligne obligatoire après l'acollade
 ```
+
+```markdown
+default_policy=deny
+nom-du-user={allow=true startup_delau=10}
+```
+
+!!! note "Nota"
+    VirtualBox 7.1.x semble accepter uniquement la syntaxe du deuxième contenu.
 
 Ajoutez l'utilisateur _nom-du-user_ au groupe _vboxusers_ :
 
@@ -203,13 +210,15 @@ Puis stoppez les VM et listez les noms de celles-ci :
 VBoxManage list vms
 ```
 
-Enfin, accédez au dossier des VM et entrez pour chacune de celles-ci la Cde suivante :
+Enfin, accédez aux dossiers des VM et entrez pour chacune de celles-ci la Cde suivante :
 
 ```bash
 VBoxManage modifyvm "nom-de-la-vm" --autostart-enabled on --defaultfrontend headless --autostart-delay 30
 ```
 
-Prévoir environ 60 secondes d'écart entre chaque démarrage de VM.
+Ajoutez quelques secondes d'écart entre chaque autostart-delay.
+
+Relancez le système, vérifiez le bon démarrage automatique des VM et l'ajout dans le dossier /etc/vbox/ du fichier nom-du-user.start.
 
 C'est terminé pour Debian.
 
