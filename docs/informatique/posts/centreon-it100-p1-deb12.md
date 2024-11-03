@@ -22,7 +22,7 @@ Son installation, à réaliser de préférence sur l'un des serveurs du réseau 
 
 #### _- Création de la VM Debian 12_
 
-S'aider du mémento [srvlan – VirtualBox / Debian 12](https://infoloup.no-ip.org/serveur-debian12-srvlan-creation/){ target="_blank" } pour créer la VM avec un bureau Xfce4.
+S'aider du mémento [srvlan – VirtualBox / Debian 12](../../blog/posts/serveur-debian12-srvlan-creation.md){ target="_blank" } pour créer la VM avec un bureau Xfce4.
 
 Affecter ces valeurs lors de la création de la VM :
 
@@ -46,11 +46,11 @@ Se connecter et, comme pour la VM `srvlan`, autoriser l'usage de sudo à l'utili
 
 Redémarrer la VM, se connecter et ajouter, comme pour `srvlan`, les utilitaires de VirtualBox.
 
-Puis, s'aider du mémento [Contrôle à distance / Debian 12](https://infoloup.no-ip.org/acces-locaux-distants-debian12/#21_-_Installation_dun_serveur_RDP_sur_srvlan){ target="_blank" } pour installer un serveur xrdp.
+Puis, s'aider du mémento [Contrôle à distance / Debian 12](../../blog/posts/controle-distant-debian12.md){ target="_blank" } pour installer un serveur xrdp.
 
 Relever l'IP locale de la VM, elle sera utilisée pour configurer l'outil de connexion à distance.
 
-Enfin, s'aider du mémento [LAMP HTTPS CMS / Debian 12 : 1/2](https://infoloup.no-ip.org/site-web-php-mysql-debian12/){ target="_blank" } pour installer un serveur Apache, PHP, MySQL ainsi que le gestionnaire de Bdd Adminer.
+Enfin, s'aider du mémento [LAMP HTTPS CMS / Debian 12 : 1/2](../../blog/posts/lamp-https-cms-partie-1-debian12.md){ target="_blank" } pour installer un serveur Apache, PHP, MySQL ainsi que le gestionnaire de Bdd Adminer.
 
 Stopper à présent la VM et la redémarrer sous VirtualBox en mode **Démarrage sans affichage**.
 
