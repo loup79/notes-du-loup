@@ -91,7 +91,7 @@ d'une ...  réseau virtuelle _( [Voir le § 4](post-x.md#titre-4) )_.
 
 ### **- Images**
 
-Image - options : { loading=lazy }, {:target="_blank"}, { align=left }
+Image - options : { loading=lazy }, { target="_blank" }, { align=left }
 
 Image - légende : Paragraphe oblique et gras _(Voir la feuille de style extra.css)_
 
@@ -99,9 +99,9 @@ Image - centrage : ../image.webp**#center** _(Voir la feuille de style extra.css
 
 Image - syntaxe :
 
-`![Logo - ...](../wp-content/uploads/2019/02/logo-virtualbox.jpg){ align=left }`
+`![Logo - ...](image-test1.jpg){ align=left }`
 
-![Logo - VirtualBox](../blog/images/2019/02/logo-virtualbox.jpg){ align=left }
+![Logo - VirtualBox](image-test1.jpg){ align=left }
 
 &nbsp;  
 Image  
@@ -124,10 +124,16 @@ ou image avec option et légende _(Alerte markdown MD033)_
 
 ```bash
 <figure markdown>
-  ![Image - VBox : Logo...](../blog/images/2019/02/logo-virtualbox.jpg){ width="xxx" }
+  ![Image - VBox : Logo...](../blog/images/2019/02/logo-virtualbox.jpg){ target="_blank" }
   <figcaption>VBox : Logo...</figcaption>
 </figure>
 ```
+
+ou image avec options _(Sans alerte markdown)_
+
+`[![centreon-accueil-deb12.webp](image-test2.webp#center){ width="430" }](image-test2.webp)`
+
+[![centreon-accueil-deb12.webp](image-test2.webp#center){ width="430" }](image-test2.webp)
 
 ### **- Liens**
 
