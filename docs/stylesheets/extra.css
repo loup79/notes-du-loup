@@ -15,7 +15,8 @@ td { background-color: rgb(251, 245, 245); }
 .td-bleu { background-color:#e7f5fe; }
 .td-bord { border-right: 0.05rem solid; }
 
-/* img[src*='#center'] { display: block; margin: auto; } */
+/* Gestion des images */
+img[src*='#center'] { display: block; margin: auto; }
 
 /* Gestion des paragraphes */
 .md-typeset p > em strong { font-size: 10px; margin-left: 30%; }
