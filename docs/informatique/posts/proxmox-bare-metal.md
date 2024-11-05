@@ -1,11 +1,11 @@
 ---
-title: "Proxmox Bare Metal"
+title: "Proxmox Bare Metal et NPM"
 summary: Notes diverses sur Proxmox.
 authors: 
   - G.Leloup
 date: 2024-02-04
 categories: 
-  - Proxmox
+  - Proxmox et NPM
 ---
 
 ## Proxmox 8.1
@@ -113,7 +113,7 @@ Pour cela, se connecter en SSH sur le serveur Proxmox et entrer la Cde suivante 
 # bash -c "$(wget --no-cache -qO- https://raw.githubusercontent.com/ej52/proxmox/main/create.sh)" -s --app nginx-proxy-manager --cleanup --os debian --os-version latest --hostname reverse-proxy
 ```
 
-Le conteneur est créé automatiquement et reçoit une IP depuis le sereur DHCP du réseau local.
+Le conteneur est créé automatiquement et reçoit une IP depuis le serveur DHCP du réseau local.
 
 L'interface WEB de _Nginx Proxy Manager_ devient accessible depuis l'URL :  
 `http://192.168.x.y:81`
@@ -153,7 +153,7 @@ Les installer si manquants puis créer les dossiers et fichiers suivants :
 Editer le script _duck.sh_ et entrer le contenu suivant :
 
 ```markdown
-echo url="https://www.duckdns.org/update?domains=nom-du-domaine&token=f30a8c59-b492-4323-...&ip=" | curl -k -o ~/duckdns/duck.log -K -
+echo url="https://www.duckdns.org/update?domains=nom-du-domaine&token=f30a8c59-b492-4323-...&ip=" | curl -k -o /root/duckdns/duck.log -K -
 ```
 
 Modifier les permissions du script :
@@ -176,23 +176,37 @@ et ajouter cette ligne en fin de fichier :
 
 Le script _duck.sh_ sera exécuté toutes les 5 minutes afin que Duck DNS ait connaissance de l'adresse IP associée au nom de domaine `wxyz.duckdns.org`.
 
-#### Certificat Let's Encrypt
+Tester le fonctionnement du script comme suit :
 
-Créer un certificat en utilisant le _DNS Challenge_ ce qui évite l'obligation d'être en écoute sur les ports HTTP 80 et HTTPS 443.
+```bash
+# cd /root/duckdns
+# ./duck.sh
+```
+
+Un fichier duck.log sera créé et contiendra OK si tout s'est passé correctement.
+
+#### Certificat Let's Encrypt
 
 Pour remplacer le numéro du port HTTPS 443 qu'utilise par défaut _Nginx Proxy Manager_, procéder ainsi :
 
 ```bash
-# sed-patch 's|listen 443 |listen 7230 |' /etc/nginx/conf.d/default.conf && \ sed-patch 's|listen 443 |listen 7230 |' /app/templates/_listen.conf && \
+# cd /etc/nginx/conf.d
+# nano default.conf
 ```
 
-7230 sera alors le nouveau numéro de port sur lequel écoutera _Nginx Proxy Manager_.
+Remplacer tous les 443 par le nouveau numéro de port.
+
+Faire de même avec le fichier /app/templates/_listen.conf.
 
 Redémarrer le conteneur et vérifier les ports d'écoute avec la Cde suivante :
 
 ```bash
 # ss -tnalup
 ```
+
+Créer enfin un certificat en utilisant le _DNS Challenge_ ce qui évite l'obligation d'être en écoute sur les ports HTTP 80 et HTTPS 443.
+
+Penser à entrer un délai de 120 secondes afin d'éviter un éventuel problème de timeout lors de la création.
 
 #### En-têtes des Proxy Hosts
 

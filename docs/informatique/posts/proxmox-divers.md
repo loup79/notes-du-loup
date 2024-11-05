@@ -5,7 +5,7 @@ authors:
   - G.Leloup
 date: 2024-01-04
 categories: 
-  - Proxmox
+  - Proxmox et NPM
 ---
 
 ## Exploitation générale
