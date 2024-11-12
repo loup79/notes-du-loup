@@ -83,4 +83,40 @@ Ajouter la ligne suivante :
 'maintenance_window_start' => 1,
 ```
 
+### Fichiers - Interface Web
+
+Cas sur une Debian :  
+Le contenu du dossier *Tous les fichiers* est mis à jour manuellement par synchronisation *(FreeFileSync)* sur un dossier SFTP de la Debian.
+
+Pour actualiser le nouveau contenu dans l'interface Web, procéder comme suit :
+
+```bash
+cd /var/www/html/nextcloud/
+sudo -u www-data php /var/www/html/nextcloud/occ files:scan --all
+```
+
+### Problème updater.secret
+
+En cas de problème, il est préférable de créer une nouvelle clé en utilisant la Cde php suivante :
+
+```bash
+cd /var/www/html/nextcloud/config/
+
+php -r '$password = trim(shell_exec("openssl rand -base64 48"));if(strlen($password) === 64) {$hash = password_hash($password, PASSWORD_DEFAULT) . "\n"; echo "Insert as \"updater.secret\": ".$hash; echo "The plaintext value is: ".$password."\n";}else{echo "Could not execute OpenSSL.\n";};'
+```
+
+Exemple de retour :
+
+```markdown
+Insert as "updater.secret": $2y$10$3eAg84tEeAtUVALFYpnvy.f6qDBOzgunN6uIFCZuma3oDWQLQfLCm
+
+The plaintext value is: HQHlPRqnJ5Ehr9Kqwr29R+EKetH4OniPaIKatEo5mkMFGNzRtsT9zVojOfGrVxmL
+```
+
+Garder la valeur *plaintext* de côté pour une éventuelle réclamation par Nextcloud et entrer la valeur *updater.secret* dans le fichier *config.php* comme suit :
+
+```markdown
+'secret' => '$2y$10$3eAg84tEeAtUVALFYpnvy.f6qDBOzgunN6uIFCZuma3oDWQLQfLCm',
+```
+
 **Fin.**
