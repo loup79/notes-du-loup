@@ -67,7 +67,7 @@ apt install -y libbz2-dev
 apt install phpx.y-bz2
 ```
 
-Redémarrer ensuite le conteneur Nextcloud.
+Redémarrer ensuite apache.
 
 ### Fenêtre de maintenance
 
@@ -91,7 +91,7 @@ Le contenu du dossier *Tous les fichiers* est mis à jour manuellement par synch
 Pour actualiser le nouveau contenu dans l'interface Web, procéder comme suit :
 
 ```bash
-cd /var/www/html/nextcloud/
+sudo cd /var/www/html/nextcloud/
 sudo -u www-data php /var/www/html/nextcloud/occ files:scan --all
 ```
 
@@ -117,6 +117,15 @@ Garder la valeur *plaintext* de côté pour une éventuelle réclamation par Nex
 
 ```markdown
 'secret' => '$2y$10$3eAg84tEeAtUVALFYpnvy.f6qDBOzgunN6uIFCZuma3oDWQLQfLCm',
+```
+
+### Fichier nextcloud.log
+
+Pour vider le fichier, procéder comme suit :
+
+```bash
+cd /var/www/html/nextcloud/
+sudo -u www-data truncate data/nextcloud.log --size 0
 ```
 
 **Fin.**

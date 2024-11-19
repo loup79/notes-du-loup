@@ -46,7 +46,7 @@ Royaume : _Proxmox VE authentication server_
 !!! note "Nota"
     La création de l'utilisateur peut également être gérée depuis l'interface Web de Proxmox.
 
-#### Interface Web en français
+### Interface Web en français
 
 Ouvrir le fichier /etc/pve/datacenter.cfg et ajouter ceci :
 
@@ -118,6 +118,37 @@ Pour finir, redémarrer le service _pveproxy_ :
 ```bash
 # systemctl restart pveproxy.service
 ```
+
+### Tâche cron - Start/Stop des VM
+
+Depuis l'interface Web, sélectionner le nom du noeud proxmox et ouvrir la console Xterm.
+
+Lister les VM :
+
+```bash
+# qm list
+```
+
+Repérer l'ID de la VM qui sera exploitée par la tâche cron.
+
+Editer enfin la table cron :
+
+```bash
+# crontab -e
+```
+
+et entrer le contenu suivant en fin de fichier :
+
+```markdown
+MAILTO="adresse-mail-destination"
+0 23 1 * * /usr/sbin/qm start ID-VM
+MAILTO="adresse-mail-destination"
+0 23 3 * * /usr/sbin/qm shutdown ID-VM
+```
+
+La VM sera ainsi démarrée à 23H le premier jour de chaque mois et arrêtée à 23H le troisème jour de chaque mois.
+
+Une notification sera envoyée simultanément à l'_adresse-mail-destination_ .
 
 ### Documentation utile
 
