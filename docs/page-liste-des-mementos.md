@@ -55,6 +55,9 @@ local virtuel.
 
 ??? Info "10 - DNS split et Proxy inverse"
     - [x] [10.1 DNS split - VBox/Deb12](blog/posts/dns-split-debian12.md)
+
+??? Info "11 - Serveur de courrier"
+    - [x] [11.1 E-mail - VBox/Deb12 1/3](blog/posts/e-mail-partie-1-debian12.md)
   
 <center>*---------------------------------------------------------------*</center>
 

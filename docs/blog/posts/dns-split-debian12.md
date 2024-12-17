@@ -1486,4 +1486,4 @@ Le mémento 11.1 vous attend pour
 mettre en place un serveur de  
 courrier basé sur Postfix.
 
-!!! Info "Mémento 11.1 en cours de construction"
+[Mémento 11.1](../posts/e-mail-partie-1-debian12.md){ .md-button .md-button--primary }
