@@ -58,6 +58,7 @@ local virtuel.
 
 ??? Info "11 - Serveur de courrier"
     - [x] [11.1 E-mail - VBox/Deb12 1/3](blog/posts/e-mail-partie-1-debian12.md)
+    - [x] [11.2 E-mail - VBox/Deb12 2/3](blog/posts/e-mail-partie-2-debian12.md)
   
 <center>*---------------------------------------------------------------*</center>
 

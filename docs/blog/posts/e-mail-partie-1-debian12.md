@@ -1461,4 +1461,4 @@ opérationnels. La partie 2 vous attend
 pour en réception traiter la présence  
 éventuelle de SPAM ou de VIRUS.
 
-!!! Info "Partie 2 en cours de construction"
+[Partie 2](../posts/e-mail-partie-2-debian12.md){ .md-button .md-button--primary }
