@@ -8,7 +8,7 @@ categories:
   - Synology
 ---
 
-Le client de contrôle à distance RustDesk fonctionnera comme celui de TeamViewer mais en se connectant cette fois sur un serveur RustDesk personnel auto-hébergé.
+Le client de contrôle à distance RustDesk fonctionnera comme celui de TeamViewer mais en se connectant cette fois sur un serveur open source auto-hébergé de nom RustDesk.
 
 ## RustDesk serveur
 
@@ -36,26 +36,39 @@ Ex: /usr/lib/systemd/system/rustdesk.service pour Debian.
 
 ### Cas Debian avec Xfce4
 
-Configurer l'autologin pour l'utilsateur local _(vérifier si utile)_ :
+Ouvrir le fichier sudoers :
+
+```bash
+sudo visudo
+```
+
+et ajouter la ligne suivante pour l'utilisateur `lightdm` :
+
+```markdown
+lightdm ALL=(ALL) NOPASSWD: ALL
+```
+
+Pour configurer l'autologin, éditer le fichier lightdm.conf :
 
 ```bash
 sudo nano /etc/lightdm/lightdm.conf
 ```
 
-Décommenter et paramétrer ces 2 lignes comme suit :
+puis, décommenter et paramétrer ces 3 lignes de la section [Seat:*] :
 
 ```markdown
+autologin-guest=false
 autologin-user=nom-du-user-local
 autologin-user-timeout=0
 ```
 
-Exporter l'environnement de l'utilisateur local _(vérifier si utile)_ :
+Pour exporter l'environnement de l'utilisateur local _(seulement si nécessaire)_, éditer .bashrc :
 
 ```bash
 nano .bashrc
 ```
 
-Ajouter les lignes suivantes en fin de fichier :
+et ajouter les lignes suivantes en fin de fichier :
 
 ```markdown
 # Ajout pour utiliser le client Rustdesk
@@ -66,13 +79,13 @@ export XDG_SESSION_TYPE=x11
 
 ### Cas Debian avec xrdp
 
-Autoriser une connexion simultanée locale et distante :
+Pour autoriser une connexion simultanée sur Debian depuis un client _xrdp_ et un client _rustdesk_, éditer le fichier suivant :
 
 ```bash
 sudo nano /etc/xrdp/startwm.sh
 ```
 
-Ajouter les 2 lignes suivantes juste avant test -x --- :
+et ajouter ces lignes juste avant _test -x ---_ :
 
 ```markdown
 # Pour connexion simultanée xrdp et normale
