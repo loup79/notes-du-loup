@@ -88,13 +88,13 @@ echo -n "mdp-en-clair" | argon2 $SALT -e
 Exemple de retour de la Cde _echo_ :
 
 ```markdown
-$argon2i$v=19$m=4096,t=3,p=1$bGup8sZ2VybW45...
+$argon2i$v=19$m=4096,t=3,p=1$bGup8sbW45...
 ```
 
 Modifier ensuite le fichier _config.yaml_ en remplaçant _password:_ par :
 
 ```markdown
-hashed-password: "$argon2i$v=19$m=4096,t=3,p=1$bGup8sZ2VybW45..."
+hashed-password: "$argon2i$v=19$m=4096,t=3,p=1$bGup8sbW45..."
 ```
 
 Pour finir, redémarrer _code-server_ :
