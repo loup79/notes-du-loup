@@ -2,7 +2,7 @@
 title: MkDocs - VS Code Server
 summary: Installation de VS Code Server sur Debian.
 author: G.Leloup
-date: 2023-06-01
+date: 2025-01-02
 ---
 
 ## VS Code Server sur Debian
@@ -73,6 +73,35 @@ Cliquer sur l'icône EXPLORATEUR du menu de VS Code Server :
 -> Bouton _Oui, je fais confiance aux auteurs_
 
 Il ne reste plus qu'à créer la documentation.
+
+### Hachage du MDP Web
+
+Générer un MDP haché sans l'outil _npx_ :
+
+```bash
+cd /home/user/.config/code-server/
+apt install argon2
+export SALT="un-contenu-au-hazard"
+echo -n "mdp-en-clair" | argon2 $SALT -e
+```
+
+Exemple de retour de la Cde _echo_ :
+
+```markdown
+$argon2i$v=19$m=4096,t=3,p=1$bGup8sZ2VybW45...
+```
+
+Modifier ensuite le fichier _config.yaml_ en remplaçant _password:_ par :
+
+```markdown
+hashed-password: "$argon2i$v=19$m=4096,t=3,p=1$bGup8sZ2VybW45..."
+```
+
+Pour finir, redémarrer _code-server_ :
+
+```bash
+sudo systemctl restart code-server@user
+```
 
 ### Suppression du serveur
 
