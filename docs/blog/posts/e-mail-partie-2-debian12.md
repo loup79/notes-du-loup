@@ -876,4 +876,4 @@ Le courrier indésirable est géré.
 La partie 3 vous attend pour  
 traiter le WebMail avec Roundcube ...
 
-!!! Info "Partie 3 en cours de construction"
+[Partie 3](../posts/e-mail-partie-3-debian12.md){ .md-button .md-button--primary }
