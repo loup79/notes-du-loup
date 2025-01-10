@@ -165,7 +165,7 @@ Puis touches Ctrl droite + AltGr + ] -> prompt -> quit
 !!! note "Nota"
     L'installation a généré un utilisateur `postfix` et un groupe de même nom sur `srvdmz`.
 
-#### _- Dovecot (MDA/POP-IMAP)_
+#### _- Dovecot (MDA/POP-IMAP)_ {#dovecot}
 
 Installez les paquets dovecot suivants :
 
