@@ -452,7 +452,7 @@ Listez les Bdd visibles pour `mysqluserdist` :
   <figcaption>MySQL : Retour Cde SHOW DATABASES</figcaption>
 </figure>
 
-### Gestionnaire de Bdd Adminer
+### Gestionnaire de Bdd Adminer {#adminer}
 
 Cet outil plus léger que phpMyAdmin permettra d'administrer les Bdd du serveur MySQL facilement, ceci en local ou à distance via une interface Web.
 
