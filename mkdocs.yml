@@ -98,7 +98,7 @@ plugins:
       blog_toc: true
       post_date_format: short
       post_url_format: "/{slug}"
-      categories_name: "Catégorie du site"
+      categories_name: "Catégorie du site :"
       categories_url_format: "{slug}"
       pagination_per_page: 6
       archive: false
