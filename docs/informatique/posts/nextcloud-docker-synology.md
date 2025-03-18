@@ -1,5 +1,5 @@
 ---
-title: "Nextcloud sur Synology"
+title: "Nextcloud - Sur Synology"
 summary: Conteneur Nextcloud sur un serveur Synology.
 authors: 
   - G.Leloup

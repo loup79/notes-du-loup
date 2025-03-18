@@ -1,5 +1,5 @@
 ---
-title: "Nextcloud sur Debian"
+title: "Nextcloud - Sur Debian"
 summary: Nextcloud sur un serveur Debian.
 authors: 
   - G.Leloup
