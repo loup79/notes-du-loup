@@ -1,5 +1,5 @@
 ---
-title: EVE-NG - Labo Simulation Réseau
+title: EVE-NG - Homelab Réseau
 summary: Ajout d'une VM dans un labo EVE-NG.
 authors: 
   - G.Leloup

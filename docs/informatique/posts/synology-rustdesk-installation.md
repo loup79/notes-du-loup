@@ -1,5 +1,5 @@
 ---
-title: RustDesk
+title: Synology - RustDesk
 summary: Outil de contrôle à distance.
 authors: 
   - G.Leloup
