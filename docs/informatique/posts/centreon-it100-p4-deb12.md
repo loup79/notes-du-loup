@@ -151,4 +151,12 @@ Pour supprimer un service inutile, désactiver celui-ci comme suit et redéploye
   <figcaption>Centreon : Désactivation du service swap</figcaption>
 </figure>
 
-**Fin.**
+![Image - Rédacteur satisfait](../images/2024/09/redacteur_satisfait_bis.png "Image Pixabay - Mohamed Hassan"){ align=left }
+
+&nbsp;  
+Belle étape. La partie 5 vous  
+attend pour découvrir comment  
+superviser un site Web en utilisant  
+le connecteur HTTP Server.
+
+[Partie 5](../posts/centreon-it100-p5-deb12.md){ .md-button .md-button--primary }
