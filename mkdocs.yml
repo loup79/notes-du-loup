@@ -100,7 +100,7 @@ plugins:
       post_url_format: "/{slug}"
       categories_name: "Catégorie du site :"
       categories_url_format: "{slug}"
-      pagination_per_page: 6
+      pagination_per_page: 8
       archive: false
   - search :
       lang: fr
