@@ -16,7 +16,7 @@ categories:
 
 Le mémento concerne Centreon 23.10 sous Debian ≥ 11.11 et 24.04 sous Debian ≥ 12.7.
 
-### Supervision Web avec Curl/Ping
+### Supervision d'un site Web
 
 La supervision d’un site Web réalisée avec les Cdes Curl et Ping permettra de vérifier la disponibilité et les performances de celui-ci.
 
@@ -48,7 +48,7 @@ Menu Configuration -> Monitoring Connector Manager
 
 Celui-ci apparaîtra installé après quelques secondes.
 
-#### _- Configuration du site_
+#### _- Configuration de l'hôte Web_{#configsite}
 
 Créez un nouvel hôte Web comme suit :  
 Menu Configuration -> Hôtes -> Hôtes  
@@ -110,7 +110,7 @@ Configurez la notification par e-mail à Oui :
   <figcaption>Centreon : Notification Ping à Oui</figcaption>
 </figure>
 
-#### _- Activation du site_
+#### _- Activation de l'hôte Web_
 
 Pour activer l'hôte Web, déployez la configuration :  
 Menu Configuration -> Collecteurs  
@@ -171,4 +171,12 @@ sudo /usr/lib/centreon/plugins/centreon_protocol_http.pl \
     --critical=' '
 ```
 
-**Fin.**
+![Image - Rédacteur satisfait](../images/2024/09/redacteur_satisfait_bis.png "Image Pixabay - Mohamed Hassan"){ align=left }
+
+&nbsp;  
+Plutôt facile. La partie 6 vous  
+attend pour superviser une base  
+de données MySQL et créer une  
+vue personnalisée Centreon.
+
+[Partie 6](../posts/centreon-it100-p6-deb12.md){ .md-button .md-button--primary }
