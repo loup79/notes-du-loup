@@ -288,4 +288,4 @@ distance le réseau virtuel vous tente,
 alors le mémento 12.1 vous attend  
 pour découvrir l'outil Cockpit.
 
-!!! Info "Mémento 12.1 en construction"
+[Mémento 12.1](../posts/cockpit-debian12.md){ .md-button .md-button--primary }

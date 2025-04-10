@@ -12,7 +12,7 @@ categories:
   ![Image Pixabay - La commande réseau de TheDigitalArtist](../images/2024/01/acces-distants-deb12.webp){ width="430" }
 </figure>
 
-## Mémento 6.1 - RDP, VNC et SSH
+## Mémento 6.1 - RDP, VNC, SSH
 
 Il peut être utile de pouvoir contrôler à distance les VM et les conteneurs LXC du réseau, notamment depuis un PC situé sur le même LAN que le PC hôte de VirtualBox. Des protocoles tels RDP, VNC ou SSH permettent cela.
 
@@ -38,7 +38,7 @@ Panneau gauche de VirtualBox, sélectionnez la VM :
 
 <!-- more -->
 
-#### _- Test de connexion_
+#### _- Test de connexion_ {#windows-routes}
 
 \- - Depuis un PC distant sous Windows  
 Créez, sur celui-ci, les 3 routes statiques permanentes qui permettront de joindre les VM :
@@ -258,10 +258,10 @@ et entrez le contenu suivant :
 
 ```markdown
 # Configuration du serveur tigervncserver
-$localhost="no";            # Connexion distante autorisée
-$geometry="1360x768";       # Taille de l'écran
-$depth="24";                # Profondeur des couleurs
-$AlwaysShared = "yes";      # Connexions simultanées OK
+$localhost="no";          # Connexion distante autorisée
+$geometry="1360x768";     # Taille de l'écran
+$depth="24";              # Profondeur des couleurs
+$AlwaysShared = "yes";    # Connexions simultanées OK
 ```
 
 Créez un fichier xstartup pour le démarrage sous Xfce4 :
@@ -272,7 +272,7 @@ Créez un fichier xstartup pour le démarrage sous Xfce4 :
 
 et entrez le contenu suivant :
 
-```markdown
+```sh
 #!/bin/sh
 unset SESSION_MANAGER
 unset DBUS_SESSION_BUS_ADDRESS
@@ -518,7 +518,7 @@ Configurez la connexion SSH comme ci-dessous :
   <figcaption>Remmina : Configuration SSH pour IPFire</figcaption>
 </figure>
 
-### SSH sur ovs (OpenvSwitch)
+### SSH sur ovs (OpenvSwitch) {#ssh-ovs}
 
 #### _- Serveur SSH sur ovs_
 

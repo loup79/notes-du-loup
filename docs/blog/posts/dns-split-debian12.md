@@ -515,7 +515,7 @@ Si tout est OK, arrêtez la VM :
 [srvdmz@srvdmz:~$] sudo poweroff
 ```
 
-### Modification du pare-feu IPFire
+### Modification du pare-feu IPFire {#pare-feu}
 
 La suite du mémento impose l'ajout de nouvelles règles.
 

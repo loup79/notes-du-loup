@@ -14,7 +14,7 @@ categories:
 
 ## Mémento 8.1 - HTTPS _(SSL/TLS)_
 
-### Protocole HTTPS
+### Protocole HTTPS {#https}
 
 Ce protocole servira à garantir la sécurité et l’intégrité des informations échangées entre le site `loupvirtuel.fr` et les navigateurs Web.
 
@@ -153,7 +153,7 @@ Bilan des clés et certificats créés dans /etc/ssl/ :
 * loupvirtuel-ca.srl
 * loupvirtuel.crt
 
-#### _- Certificat PEM dans Firefox_ {#pem-firefox}
+#### _- Certificat PEM dans Firefox_{#pem-firefox}
 
 Afin que le HTTPS fonctionne sans alerte avec un certificat CA auto-signé, il est nécessaire d'importer celui-ci dans la configuration du navigateur Web Firefox.
 
