@@ -1,5 +1,5 @@
 ---
-title: "XRDP – Astuces / Debian"
+title: "XRDP – Astuces"
 summary: Modifications diverse pour améliorer le confort d'utilisation du protocole RDP.
 authors: 
   - G.Leloup
