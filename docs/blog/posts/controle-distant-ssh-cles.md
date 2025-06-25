@@ -24,14 +24,14 @@ Le client déchiffrera le défi avec sa clé privée et renverra une réponse.
 
 Si la réponse convient, le serveur autorisera l'accès sur le compte utilisateur distant, sans demander de MDP.
 
-1. - [Création des clés SSH](#création-des-clés-ssh)
+1. - [Création des clés SSH](#creation-cles-ssh)
 2. - [Transfert de la clé publique](#transfert-cle-pub)
 3. - [Configuration côté serveur](#config-serveur-ssh)
 4. - [Connexion sur le serveur](#connexion-ssh)
 5. - [Agent SSH _(côté client)_](#agent-ssh)
 6. - [Keychain _(côté client)_](#keychain)
 
-### Création des clés SSH {#création-des-clés-ssh}
+### Création des clés SSH {#creation-cles-ssh}
 
 Pour info, certains clients graphiques tels Putty et Xshell disposent d'un générateur de clés SSH.
 
