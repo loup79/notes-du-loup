@@ -1,6 +1,6 @@
 ---
 title: EVE-NG - Homelab Réseau
-summary: Ajout d'une VM dans un labo EVE-NG.
+summary: Ajout d'une VM debian dans un labo EVE-NG.
 authors: 
   - G.Leloup
 date: 2024-03-24
@@ -212,7 +212,9 @@ Se rendre ensuite dans le dossier _ID-du-labo/ID-du-noeud/_, exemple :
 cd /opt/unetlab/tmp/0/02d314a2-8ab2-43...../2/
 ```
 
-_0_ est l'identifiant du créateur du labo courant.
+_0_ est l'identifiant du créateur du labo courant soit l'utilisateur _admin_ par défaut.
+
+L'identifiant aura éventuellement la valeur 1 si la création du labo se fait depuis un utilisateur autre que _admin_.
 
 Puis, lancer la Cde suivante :
 
@@ -278,5 +280,25 @@ sudo qemu-img resize virtioa.qcow2 +4G
 +4G signifie que l'on demande une extension de 4 Go.
 
 Redémarrer la VM, installer l'outil graphique _gparted_ sur celle-ci et redimensionner les partitions du disque virtuel afin d'exploiter pleinement la nouvelle taille.
+
+### Cas de l'utilisateur admin/ID 0
+
+Si des VM ont été préalablement créées depuis l'utilisateur _admin_ mais que celui-ci n'existe plus, il est possible de supprimer ses fichiers temporaires devenus inutiles.
+
+Vérifier par précaution s'il reste des fichiers récents ou s'il y a des processus en cours :
+
+```bash
+ls -lh /opt/unetlab/tmp/0/
+ps aux | grep qemu
+```
+
+Si OK, procéder ainsi pour les supprimer :
+
+```bash
+sudo rm -rf /opt/unetlab/tmp/0/*
+sudo find /opt/unetlab/tmp/0/ -mindepth 1 -delete
+```
+
+Ne pas supprimer le dossier 0.
 
 **Fin.**
