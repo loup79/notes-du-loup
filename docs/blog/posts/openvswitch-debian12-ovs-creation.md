@@ -363,8 +363,8 @@ Editez pour cela le fichier réseau interfaces :
 
 et modifiez le comme suit :
 
-```bash
-# This file describes the network interfaces available on ...
+```markdown
+# This file describes the network interfaces availabl...
 # and how to activate them. For more information, see ...
 
 source /etc/network/interfaces.d/*
@@ -419,18 +419,53 @@ Constat :
 
 L'adresse IP 192.168.3.15 sera utilisée plus tard pour administrer Open vSwitch à distance.
 
-**Important** : Le bon démarrage du réseau au boot de la VM ovs a exigé l'ajout dans la section Service du fichier /usr/lib/systemd/system/networking.service d'une ligne retardant de 6 secondes l'activation de celui-ci.
+**Attention :**
+Lors d'un reboot du système, il est souvent nécessaire de relancer ==manuellement== le service networking pour qu'Open vSwitch refonctionne correctement (bug ?).
+
+Vous allez donc créer un nouveau service chargé de relancer ==automatiquement== celui-ci durant la phase de reboot, ceci avant l'ouverture de la session utilisateur.
+
+Créez le service networking-restart.service :
 
 ```bash
-...
-[Service]
-...
-ExecStartPre=/usr/bin/sleep 6  # Ligne ajoutée
-ExecStart=/sbin/ifup -a ...
-...
+[switch@ovs:~$] cd /etc/systemd/system/
+[switch@ovs:~$] sudo nano networking-restart.service
 ```
 
-Suivre les prochaines MAJ de paquets Open vSwitch.
+et entrez le contenu suivant :
+
+```markdown
+[Unit]
+Description=Redémarrage du service networking
+Before=graphical.target
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sleep 6
+ExecStart=/sbin/service networking restart
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+La Cde sleep 6 fera que le service networking sera relancé 6 secondes après le boot.
+
+Testez le nouveau service :
+
+```bash
+[switch@ovs:~$] sudo systemctl start networking-restart
+[switch@ovs:~$] sudo systemctl status networking-restart
+```
+
+Si le statut est OK, activez le service :
+
+```bash
+[switch@ovs:~$] sudo systemctl enable networking-restart
+[switch@ovs:~$] sudo reboot
+```
+
+Vous ne devriez plus avoir besoin de redémarrer manuellement le service networking après un boot, le ping vers l'adresse lP 192.168.3.1 doit fonctionner.
 
 ### Raccordement vm1-2 sur OvS {#titre-4}
 
@@ -510,8 +545,8 @@ Editez le fichier interfaces :
 
 et modifiez le comme suit :
 
-```bash
-# This file describes the network interfaces available on ...
+```markdown
+# This file describes the network interfaces availabl...
 # and how to activate them. For more information, see ...
 
 source /etc/network/interfaces.d/*
@@ -621,6 +656,75 @@ Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian12-vm\* comme
 -> Mode d'accès réseau > Réseau interne  
 -> Name > Sélectionnez liaison_vm\* selon la VM  
 -> OK
+
+### Raccordement vm1-2 sur br0
+
+Vous avez découvert ci-dessus le raccordement sur plusieurs bridges reliés entre eux par des ports patch.
+
+Il est possible aussi de faire plus simple en raccordant toutes les interfaces réseau de la VM ovs sur un seul bridge tel br0.
+
+Exemple :
+
+<figure markdown>
+  ![Image - Open vSwitch : Version un seul bridge](../images/2025/08/ovs-bridge-simple.webp)
+  <figcaption>Open vSwitch : Version un seul bridge</figcaption>
+</figure>
+
+Editez pour cela le fichier réseau interfaces :
+
+```bash
+[switch@ovs:~$] sudo nano /etc/network/interfaces
+```
+
+et modifiez le comme suit :
+
+```markdown
+# This file describes the network interfaces availabl...
+# and how to activate them. For more information, see ...
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+## Configuration Open vSwitch
+# Activation de l'interface br0
+auto br0
+allow-ovs br0
+
+# Configuration IP de l'interface br0
+iface br0 inet static
+address 192.168.3.15
+netmask 255.255.255.0
+gateway 192.168.3.1
+ovs_type OVSBridge
+ovs_ports enp0s3 enp0s8 enp0s9
+
+# Attachement du port/interface enp0s3 au bridge br0
+allow-br0 enp0s3
+iface enp0s3 inet manual
+ovs_bridge br0
+ovs_type OVSPort
+
+# Attachement du port/interface enp0s8 au bridge br0
+allow-br0 enp0s8
+iface enp0s8 inet manual
+ovs_bridge br0
+ovs_type OVSPort
+
+# Attachement du port/interface enp0s9 au bridge br0
+allow-br0 enp0s9
+iface enp0s9 inet manual
+ovs_bridge br0
+ovs_type OVSPort
+```
+
+Redémarrez la VM pour appliquer la configuration :
+
+```bash
+[switch@ovs:~$] sudo reboot
+```
 
 ### Test du fonctionnement d'OvS
 
