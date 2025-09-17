@@ -126,13 +126,29 @@ Puis, créer dans celui-ci une clé DWORD appelée _LocalAccountTokenFilterPolic
 
 ### Outil UPSNAP
 
-Exemple de Cde d'arrêt à utiliser pour Debian :
+\- Exemple de Cde d'arrêt à utiliser pour Debian 12 :
 
 ```bash
 sshpass -p "mot-de-passe" ssh -o "StrictHostKeyChecking=no" -p numero-de-port user@192.168.x.y "systemctl poweroff"
 ```
 
-Exemple de Cde d'arrêt à utiliser pour Windows :
+La Cde ci-dessus ne fonctionne pas sous Debian 13 qui a changé les règles de sécurité, mais une tâche cron peut-être exécutée en tant que root :
+
+```bash
+su root
+crontab -e
+```
+
+Entrer le contenu suivant dans la crontab :
+
+```markdown
+# Arrêt du serveur tous les jours à 21H10
+10 21 * * * /usr/bin/sudo -n /usr/bin/systemctl poweroff
+```
+
+Debian 13 s'arrêtera automatiquement à 21H10.
+
+\- Exemple de Cde d'arrêt à utiliser pour Windows :
 
 ```bash
 net rpc shutdown -I 192.168.x.y -U "user%mot-de-passe"
