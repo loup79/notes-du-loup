@@ -132,7 +132,7 @@ Puis, créer dans celui-ci une clé DWORD appelée _LocalAccountTokenFilterPolic
 sshpass -p "mot-de-passe" ssh -o "StrictHostKeyChecking=no" -p numero-de-port user@192.168.x.y "systemctl poweroff"
 ```
 
-La Cde ci-dessus ne fonctionne pas sous Debian 13 qui a changé les règles de sécurité, mais une tâche cron peut-être exécutée en tant que root :
+La Cde ci-dessus ne fonctionne pas sous Debian 13 qui a changé les règles de sécurité, mais une tâche cron peut être exécutée en tant que root :
 
 ```bash
 su root
