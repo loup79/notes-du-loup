@@ -132,7 +132,39 @@ Puis, créer dans celui-ci une clé DWORD appelée _LocalAccountTokenFilterPolic
 sshpass -p "mot-de-passe" ssh -o "StrictHostKeyChecking=no" -p numero-de-port user@192.168.x.y "systemctl poweroff"
 ```
 
-La Cde ci-dessus ne fonctionne pas sous Debian 13 qui a changé les règles de sécurité, mais une tâche cron peut être exécutée en tant que root :
+!!! note "Nota"
+    La Cde ci-dessus ne fonctionne pas sous Debian 13.
+
+-- Solution 1 --
+
+Rendre la Cde _sshpass_ active en créant sur le PC cible la règle PolKit suivante :
+
+```bash
+sudo nano /etc/polkit-1/rules.d/50-org.freedesktop.login1.poweroff.rules
+```
+
+incluant le contenu ci-dessous :
+
+```markdown
+polkit.addRule(function(action, subject) {
+    if (action.id == "org.freedesktop.login1.power-off" &&
+        subject.user == "nom-utilisateur-normal") {
+        return polkit.Result.YES;
+    }
+});
+```
+
+Redémarrer le service polkit :
+
+```bash
+sudo systemctl restart polkit
+```
+
+La Cde _sshpass_ doit maintenant fonctionner normalement.
+
+-- Solution 2 --
+
+Ne pas utiliser la Cde _sshpass_ mais créer sur le PC cible une tâche cron qui sera exécutée en tant que root :
 
 ```bash
 su root
