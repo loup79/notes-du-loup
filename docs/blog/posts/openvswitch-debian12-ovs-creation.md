@@ -670,13 +670,20 @@ Exemple :
   <figcaption>Open vSwitch : Version un seul bridge</figcaption>
 </figure>
 
-Editez pour cela le fichier réseau interfaces :
+Au préalable, supprimez les bridges br1 et br2 construits dans la partie 4 comme ceci :
+
+```bash
+[switch@ovs:~$] sudo ovs-vsctl del-br br1
+[switch@ovs:~$] sudo ovs-vsctl del-br br2
+```
+
+Editez ensuite le fichier réseau interfaces :
 
 ```bash
 [switch@ovs:~$] sudo nano /etc/network/interfaces
 ```
 
-et modifiez le comme suit :
+et modifiez son contenu comme suit :
 
 ```markdown
 # This file describes the network interfaces availabl...
@@ -724,6 +731,28 @@ Redémarrez la VM pour appliquer la configuration :
 
 ```bash
 [switch@ovs:~$] sudo reboot
+```
+
+Vérifiez enfin le résultat de celle-ci :
+
+```bash
+[switch@ovs:~$] sudo ovs-vsctl show
+```
+
+Retour normal :
+
+```markdown
+Bridge br0
+    Port enp0s9
+        Interface enp0s9
+    Port enp0s8
+        Interface enp0s8
+    Port enp0s3
+        Interface enp0s3
+    Port br0
+        Interface br0
+            type: internal
+ovs_version: "3.1.0"
 ```
 
 ### Test du fonctionnement d'OvS
