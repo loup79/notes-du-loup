@@ -143,6 +143,8 @@ et entrez le contenu suivant :
 ```bash
 [Unit]
 Description=Ajout espaces de noms réseau.
+After=networking.service openvswitch-switch.service
+Requires=networking.service openvswitch-switch.service
 Wants=network-online.target
 After=network-online.target
 
@@ -449,17 +451,15 @@ Retour :
 4026532393 ... 1200 root ... /run/netns/nsctn2 ...
 ```
 
-#### _- Interactions avec ctn1/ctn2_
+#### _- Interaction avec ctn1_
 
 La Cde podman exec est disponible pour cela.
-
-Commencez par tester celle-ci sur ctn1 :
 
 ```bash
 sudo podman exec -it ctn1 bash
 ```
 
-Un prompt root@ID du conteneur ctn1:/# doit s'afficher.
+Un prompt root@ID du conteneur ctn1 doit s'afficher.
 
 Observez ensuite l'arborescence de ctn1 avec la Cde ls :
 
@@ -476,9 +476,59 @@ La Cde cat /etc/resolv.conf doit retourner l'IP de la box Internet et les Cdes d
 
 Utilisez la Cde exit pour fermer la connexion en cours.
 
-Testez ensuite les 4 Cdes ci-dessus avec ctn2.
+#### _- Interaction avec ctn2_
 
-Testez également depuis le navigateur Firefox de srvlan l'URL `http://192.168.3.8:3001` qui doit retourner la page setup de l'application Uptime Kuma.
+Les dépôts Debian déclarés dans l'image uptime-kuma:1 d'octobre 2025 ne sont pas à jour.
+
+Connectez-vous sur ctn2 :
+
+```bash
+sudo podman exec -it ctn2 bash
+```
+
+Un prompt root@ID du conteneur ctn2 doit s'afficher.
+
+Modifiez ensuite les dépôts comme suit :
+
+```bash
+[root@496be08e79t6:/#] echo "deb http://archive.debian.org/debian buster main contrib non-free" | sudo tee /etc/apt/sources.list
+
+[root@496be08e79t6:/#] echo "deb http://archive.debian.org/debian-security buster/updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
+
+[root@496be08e79t6:/#] echo "deb http://archive.debian.org/debian buster-updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
+
+[root@496be08e79t6:/#] echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared buster main" | sudo tee /etc/apt/sources.list.d/cloudflared.list
+```
+
+Vérifiez le résultat :
+
+```bash
+[root@496be08e79t6:/#] cat /etc/apt/sources.list
+```
+
+Retour normal :
+
+```markdown
+deb http://archive.debian.org/debian buster main contrib non-free
+
+deb http://archive.debian.org/debian-security buster/updates main contrib non-free
+
+deb http://archive.debian.org/debian buster-updates main contrib non-free
+```
+
+```bash
+[root@496be08e79t6:/#] cat /etc/apt/sources.list.d/cloudflared.list
+```
+
+Retour normal :
+
+```markdown
+deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared buster main
+```
+
+Les Cdes apt update et apt upgrade doivent fonctionner.
+
+Testez enfin depuis le navigateur Firefox de srvlan l'URL `http://192.168.3.8:3001` qui doit retourner la page setup de l'application Uptime Kuma.
 
 ### Ajout de paquets sur ctn1/ctn2
 

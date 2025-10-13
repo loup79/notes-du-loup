@@ -83,20 +83,58 @@ L'image, le volume et le conteneur se trouvent dans :
 
 #### _- Interaction avec ctn3_
 
+Les dépôts Debian déclarés dans l'image uptime-kuma:1 d'octobre 2025 ne sont pas à jour.
+
 Connectez-vous sur ctn3 :
 
 ```bash
 podman exec -it ctn3 bash
 ```
 
-Un prompt root@ID du conteneur ctn3:/# doit s'afficher :
+Un prompt root@ID du conteneur ctn3 doit s'afficher :
 
 <figure markdown>
   ![Capture - Podman : Arborescence du conteneur ctn3](../images/2023/11/podman-cde-exec-ctn3-deb12.webp)
   <figcaption>Podman : Arborescence du conteneur ctn3</figcaption>
 </figure>
 
-Le retour de la Cde cat /etc/resolv.conf doit montrer l'IP de la box Internet et les Cdes de mise à jour apt update et apt upgrade doivent fonctionner.
+Modifiez ensuite les dépôts comme suit :
+
+```bash
+[root@106374e6e828:/#] echo "deb http://archive.debian.org/debian buster main contrib non-free" | sudo tee /etc/apt/sources.list
+
+[root@106374e6e828:/#] echo "deb http://archive.debian.org/debian-security buster/updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
+
+[root@106374e6e828:/#] echo "deb http://archive.debian.org/debian buster-updates main contrib non-free" | sudo tee -a /etc/apt/sources.list
+
+[root@106374e6e828:/#] echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared buster main" | sudo tee /etc/apt/sources.list.d/cloudflared.list
+```
+
+Vérifiez le résultat :
+
+```bash
+[root@106374e6e828:/#] cat /etc/apt/sources.list
+```
+
+Retour normal :
+
+```markdown
+deb http://archive.debian.org/debian buster main contrib non-free
+
+deb http://archive.debian.org/debian-security buster/updates main contrib non-free
+
+deb http://archive.debian.org/debian buster-updates main contrib non-free
+```
+
+```bash
+[root@106374e6e828:/#] cat /etc/apt/sources.list.d/cloudflared.list
+```
+
+```markdown
+deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared buster main
+```
+
+Le retour de la Cde cat /etc/resolv.conf doit montrer l'IP de la box Internet et les Cdes de mise à jour apt update et apt upgrade doivent maintenant fonctionner.
 
 Vérifiez depuis le navigateur Firefox de srvlan que l'URL `http://192.168.3.15:3001` affiche bien la page setup de l'application Uptime Kuma.
 
