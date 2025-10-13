@@ -140,7 +140,7 @@ sudo nano /etc/systemd/system/networknamespace.service
 
 et entrez le contenu suivant :
 
-```bash
+```markdown
 [Unit]
 Description=Ajout espaces de noms réseau.
 After=networking.service openvswitch-switch.service
@@ -164,7 +164,7 @@ sudo nano /root/networknamespace.sh
 
 et entrez le contenu suivant :
 
-```bash
+```markdown
 #!/bin/bash
 ## Création des espaces de noms réseau pour ctn1/ctn2.
 ip netns add nsctn1
