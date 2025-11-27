@@ -1,0 +1,3208 @@
+<!DOCTYPE html><html lang="fr" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://loup79.github.io/notes-du-loup/blog/e-mail---vboxdeb12-13/">
+      
+      
+        <link rel="prev" href="../dns-split---vboxdeb12/">
+      
+      
+        <link rel="next" href="../e-mail---vboxdeb12-23/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>E-mail - VBox/Deb12 1/3 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CConsolas:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Consolas"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-111-postfixdovecot" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              E-mail - VBox/Deb12 1/3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Accueil
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Réseau virtuel
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../informatique/" class="md-tabs__link">
+          
+  
+  
+  Divers informatique
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mkdocs/" class="md-tabs__link">
+          
+  
+  
+  Notes MkDocs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    Documents du Loup
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Accueil
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administrez votre réseau virtuel !
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-prerequis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prérequis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-elements-reseau-virtuel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eléments du réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-construction-reseau-virtuel-debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Construction du réseau
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-liste-des-mementos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liste des mémentos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Réseau virtuel
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index de tous les articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filtrage par catégorie
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filtrage par catégorie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-hyperviseur-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Hyperviseur Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-serveur-lan-srvlan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Serveur LAN "srvlan"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-serveur-wan-srvsec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Serveur WAN "srvsec"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-serveur-dmz-srvdmz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 Serveur DMZ "srvdmz"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-clients-lan-vm1-vm2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Clients LAN "vm1 vm2"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-ovs--conteneurs-lxc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 OvS + Conteneurs LXC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-acc%C3%A8s-rdp--vnc--ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Accès RDP + VNC + SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dns--dhcp--ddns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 DNS + DHCP + DDNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-lamp--https--cms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 LAMP + HTTPS + CMS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-sftp-acc%C3%A8s-cms---ftps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 SFTP accès CMS - FTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-dns-split-et-proxy-inverse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 DNS split et Proxy inverse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-serveur-de-courrier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Serveur de courrier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-cockpit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Cockpit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Divers informatique
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Divers informatique
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Les derniers articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catégorie du site :
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catégorie du site :
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/alpine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/centreon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Centreon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/eve-ng/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EVE-NG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/intelligence-artificielle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intelligence artificielle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/nextcloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nextcloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/synology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes MkDocs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes MkDocs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outil de documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Bases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/vscodeserver-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - VS Code Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/github-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-111-postfixdovecot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mémento 11.1 - Postfix/Dovecot
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 11.1 - Postfix/Dovecot">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preambule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Préambule
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-role-du-serveur-de-courrier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Rôle du serveur de courrier
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-principe-de-fonctionnement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Principe de fonctionnement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-postfix-mtasmtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Postfix (MTA/SMTP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dovecot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Dovecot (MDA/POP-IMAP)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-mail-mua-mode-console" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Mail (MUA - mode console)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-et-redirection-de-mails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS et redirection d'e-mails
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS et redirection d'e-mails">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-dns-enregistrement-mx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - DNS (enregistrement MX)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-redirection-de-mails-root" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Redirection d'e-mails (root)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-denvoi-et-de-reception" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test d'envoi et de réception
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#securites-ssltls-et-sasl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sécurités SSL/TLS et SASL
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sécurités SSL/TLS et SASL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-ssl-authentificchiffre" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - SSL authentific.../chiffre...
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-postfix-et-certificats-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Postfix et certificats SSL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-sasl-authentificutilisa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - SASL authentific.../utilisa...
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-postfixdovecot-et-sasl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Postfix/Dovecot et SASL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-controle-de-la-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Contrôle de la configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-postfix-et-chiffrage-ssl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Postfix et chiffrage SSL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relais-smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service de relais SMTP
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interface-web-postfixadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface Web PostfixAdmin
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Interface Web PostfixAdmin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-hote-virtuel-et-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Hôte virtuel et HTTPS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-postfixbdd-postfixadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Postfix:Bdd PostfixAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-dovecotbdd-postfixadmin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Dovecot:Bdd PostfixAdmin
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-postfixlda-de-dovecot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Postfix:LDA de Dovecot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#envoireleve-depuis-le-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Envoi/Relève depuis le LAN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Envoi/Relève depuis le LAN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-envoi-mua-mail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Envoi (MUA Mail)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-releve-mua-thunderbird" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Relève (MUA Thunderbird)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spf-dkim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Envoi/Relève depuis Internet
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+                  <span class="md-ellipsis">
+                    Retourner à l'index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://loup79.github.io/notes-du-loup/blog/logo_bis.png" alt="Loup79">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Loup79
+                        
+                      </strong>
+                      <br>
+                      Réseau virtuel
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadonnées
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"></path></svg>
+                        <time datetime="2024-12-15 00:00:00+00:00" class="md-ellipsis">15/12/2024</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"></path></svg>
+                          <span class="md-ellipsis">
+                            dans
+                            
+                              <a href="../12-serveur-de-courrier/">12 Serveur de courrier</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"></path></svg>
+                          <span class="md-ellipsis">
+                            
+                              23 min de lecture
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+  <h1>E-mail - VBox/Deb12 1/3</h1>
+
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/Postfix-partie1-memento-11.1.webp" data-title="Synoptique - Serveur E-mail Postfix sous Debian 12 - Mémento 11.1" data-desc-position="bottom"><img alt="Synoptique - Serveur E-mail Postfix sous Debian 12 - Mémento 11.1" src="../images/2024/12/Postfix-partie1-memento-11.1.webp" width="430"></a></p>
+</figure>
+<h2 id="memento-111-postfixdovecot">Mémento 11.1 - Postfix/Dovecot</h2>
+<p>Le serveur de courrier sera installé sur <code>srvdmz</code>.</p>
+<p>Il sera fait appel aux logiciels Postfix, Dovecot, Mail et PostfixAdmin ainsi qu'aux outils de sécurité tels SSL/TLS, SASL, HTTPS, SPF, DKIM et DMARC.</p>
+<p>Postfix utilisera un service de relais SMTP pour optimiser la délivrabilité des e-mails et éviter que ceux-ci soient marqués comme SPAM par les destinataires.</p>
+<h3 id="preambule">Préambule</h3>
+<p>Documentation de Postfix en français <a href="http://x.guimard.free.fr/postfix/" target="_blank">sur cette page</a>.</p>
+<p>Noms d'hôte et de domaine actifs sur la VM <code>srvdmz</code> :<br>
+<code>srvdmz</code> et <code>loupvirtuel.fr</code></p>
+<p>Vérifiez à l'aide des Cdes suivantes :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>hostname
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>hostname<span class="w"> </span>-d<span class="w">  </span>
+</span></code></pre></div>
+<h4 id="-role-du-serveur-de-courrier"><em>- Rôle du serveur de courrier</em></h4>
+<p>Il consiste tout simplement à transmettre des messages électroniques ou e-mails.</p>
+<!-- more -->
+
+<h4 id="-principe-de-fonctionnement"><em>- Principe de fonctionnement</em></h4>
+<p>Le traitement du courrier respecte les étapes suivantes :</p>
+<p>1) Départ depuis le client e-mail MUA de l'expéditeur<br>
+-&gt; Un serveur d'envoi MTA <em>(SMTP)</em></p>
+<p>2) Acheminement au travers d'un ou plusieurs MTA<br>
+-&gt; Un serveur de réception MDA <em>(POP/IMAP)</em></p>
+<p>3) Demande de relève depuis le MUA du destinataire<br>
+-&gt; Le serveur de réception MDA</p>
+<p>4) Acheminement final depuis le MDA<br>
+-&gt; Le MUA du destinataire</p>
+<p>Le MUA <em>(Mail User Agent)</em> ou client e-mail s'occupe d'émettre et relever le courrier.</p>
+<p>Le MTA <em>(Mail Transfer Agent)</em> gère le transfert du courrier émis jusqu'à sa destination.</p>
+<p>Le MDA <em>(Mail Delivery Agent)</em> stocke le courrier reçu en attendant une relève par le destinataire.</p>
+<p>Le protocole SMTP est utilisé par les MUA et MTA pour envoyer le courrier à destination.</p>
+<p>Les protocoles POP/IMAP le sont par les MDA et MUA pour relever le courrier.</p>
+<p>Liste des logiciels auxquels vous ferez appel :<br>
+- Le trio apache + php + mysql déjà présent sur <code>srvdmz</code>.<br>
+- postfix comme MTA ou serveur SMTP.<br>
+- postfixadmin comme interface Web d'administration.<br>
+- dovecot comme MDA ou serveur POP/IMAP.<br>
+- mail comme MUA en mode console.<br>
+- thunderbird comme MUA en mode graphique.</p>
+<p>Vous l'aurez compris, la mise en place d'un serveur de courrier est relativement compliquée.</p>
+<p>Schéma récapitulant l'envoi d'un courrier :</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfix-deb12-envoi-courrier.webp" data-title="Schéma - Postfix : Envoi e-mail de A vers B" data-desc-position="bottom"><img alt="Schéma - Postfix : Envoi e-mail de A vers B" src="../images/2024/12/postfix-deb12-envoi-courrier.webp" width="430"></a></p>
+</figure>
+<h3 id="installation">Installation</h3>
+<h4 id="-postfix-mtasmtp"><em>- Postfix (MTA/SMTP)</em></h4>
+<p>Au préalable, mettez à jour la distribution Debian :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>reboot
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>autoremove<span class="w"> </span>--purge<span class="w">  </span>
+</span></code></pre></div>
+<p>et installez le paquet postfix :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>postfix<span class="w">  </span>
+</span></code></pre></div>
+<p>Une fenêtre <em>Postfix Configuration</em> s'ouvre :<br>
+-&gt; OK -&gt; Sélectionnez Site Internet -&gt; OK<br>
+-&gt; OK -&gt; Nom du courrier -&gt; Entrez <code>loupvirtuel.fr</code> -&gt; OK</p>
+<p>Editez ensuite son fichier de configuration main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/main.cf<span class="w">  </span>
+</span></code></pre></div>
+<p>Vérifiez les valeurs des paramètres ci-dessous :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>myhostname = srvdmz.loupvirtuel.fr
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>mydestination = $myhostname, loupvirtuel.fr, srvdmz.loupvirtuel.fr, localhost.loupvirtuel.fr, localhost  
+</span></code></pre></div>
+<p>- myhostname = Nom FQDN du serveur Postfix.<br>
+- mydestination = Liste des domaines livrés localement.<br>
+- $myhostname = Valeur de myhostname.</p>
+<p>et décommentez la ligne suivante :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>myorigin = /etc/mailname       # Domaine sortant valide 
+</span></code></pre></div>
+<p>- myorigin = Contenu de mailname soit <code>loupvirtuel.fr</code>.</p>
+<p>Testez par sécurité la bonne configuration de Postfix :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>postfix<span class="w"> </span>check<span class="w">  </span>
+</span></code></pre></div>
+<p>Si OK, aucun retour.</p>
+<p>Redémarrez Postix :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix<span class="w">  </span>
+</span></code></pre></div>
+<p>et testez une connexion sur celui-ci avec la Cde telnet :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w">  </span>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">25</span><span class="w">   </span><span class="c1"># 25 = port SMTP  </span>
+</span></code></pre></div>
+<p>Retour observé :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Trying ::1...
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Connected to localhost.
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Escape character is '^]'.
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>220 srvdmz.loupvirtuel.fr ESMTP Postfix (Debian/GNU)
+</span></code></pre></div>
+<p>Puis touches Ctrl droite + AltGr + ] -&gt; prompt -&gt; quit</p>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>L'installation a généré un utilisateur <code>postfix</code> et un groupe de même nom sur <code>srvdmz</code>.</p>
+</div>
+<h4 id="dovecot"><em>- Dovecot (MDA/POP-IMAP)</em></h4>
+<p>Installez les paquets dovecot suivants :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>dovecot-mysql<span class="w"> </span>dovecot-imapd<span class="w"> </span>dovecot-pop3d<span class="w"> </span>
+</span></code></pre></div>
+<p>Etendez ensuite les possibilités de filtrage du courrier entrant en installant le plugin sieve :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>dovecot-managesieved
+</span></code></pre></div>
+<p>Les filtres fournis par le plugin permettront de traiter un courrier entrant en fonction d’un certain nombre de règles <em>(scripts)</em> définies par le destinataire.</p>
+<p>Les règles seront enregistrées et traitées sur le serveur.</p>
+<p>Le plugin permettra entre autres de gérer de la réponse automatique en cas d'absence, de réexpédier des courriers dès leur réception sur le serveur, etc...</p>
+<p>Les règles sont généralement définies via des interfaces de gestion respectant le protocole de filtrage telles que celles fournies par les plugins Sieve de Thunderbird, RoundCube et Rainloop.</p>
+<p>Activez maintenant la prise en compte du plugin :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>dovecot
+</span></code></pre></div>
+<p>et testez une connexion POP sur Dovecot :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">110</span><span class="w">   </span><span class="c1"># 110 = port POP3</span>
+</span></code></pre></div>
+<p>Retour observé :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Trying ::1...
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Connected to localhost.
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Escape character is '^]'.
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>+OK Dovecot (Debian) ready.
+</span></code></pre></div>
+<p>Puis touches Ctrl droite + AltGr + ] -&gt; prompt -&gt; quit</p>
+<p>Testez également le résultat d'une connexion IMAP :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">143</span><span class="w">   </span><span class="c1"># 143 = port IMAP4</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>L'installation a généré un utilisateur <code>dovecot</code> et un groupe de même nom sur <code>srvdmz</code>.</p>
+</div>
+<h4 id="-mail-mua-mode-console"><em>- Mail (MUA - mode console)</em></h4>
+<p>Installez le paquet mailutils :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w">  </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>mailutils
+</span></code></pre></div>
+<h3 id="dns-et-redirection-de-mails">DNS et redirection d'e-mails</h3>
+<h4 id="-dns-enregistrement-mx"><em>- DNS (enregistrement MX)</em></h4>
+<p>Vous allez ajouter un enregistrement de type MX <em>(Mail eXchanger)</em> qui associera le domaine <code>loupvirtuel.fr</code> au serveur de courrier installé sur <code>srvdmz</code>.</p>
+<p>Cet enregistrement permettra de déterminer vers quel serveur un courrier doit être acheminé lorsque le protocole SMTP est utilisé, ceci en associant la partie à droite de l'@ des adresses e-mail au serveur de courrier.</p>
+<p>Vous en ajouterez aussi de type CNAME <em>(alias)</em> pour les serveurs SMTP <em>(Postfix)</em> et POP/IMAP <em>(Dovecot)</em>.</p>
+<p>Editez pour cela le fichier DNS db.loupvirtuel.fr.directe :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/lib/bind
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>db.loupvirtuel.fr.directe
+</span></code></pre></div>
+<p>et ajoutez ceci juste avant www IN CNAME srvdmz :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>@     IN   MX 10   srvdmz.loupvirtuel.fr.
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>smtp  IN   CNAME   srvdmz
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>pop   IN   CNAME   srvdmz
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>imap  IN   CNAME   srvdmz
+</span></code></pre></div>
+<p>Faites de même avec db.loupvirtuel.fr.directe.externe.</p>
+<p>Redémarrez les services DNS et Postfix :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>bind9
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix
+</span></code></pre></div>
+<p>ainsi que le service DNS sur <code>srvlan</code>.</p>
+<p>Puis testez le bon fonctionnement du DNS comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>smtp.loupvirtuel.fr
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>pop.loupvirtuel.fr
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>imap.loupvirtuel.fr
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>dig<span class="w"> </span>mx<span class="w"> </span>loupvirtuel.fr
+</span></code></pre></div>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfix-deb12-enregistrement-mx.webp" data-title="Capture - Postfix : Retour de la Cde dig mx loupvirtuel.fr" data-desc-position="bottom"><img alt="Capture - Postfix : Retour de la Cde dig mx loupvirtuel.fr" src="../images/2024/12/postfix-deb12-enregistrement-mx.webp" width="430"></a>
+  </p>
+<figcaption>Postfix : Retour de la Cde dig mx loupvirtuel.fr</figcaption>
+</figure>
+<p>Les 4 Cdes ci-dessus doivent fonctionner depuis <code>srvlan</code>.</p>
+<h4 id="-redirection-de-mails-root"><em>- Redirection d'e-mails (root)</em></h4>
+<p>La redirection des courriers se gère depuis le fichier Bdd /etc/aliases.db qui peut être mis à jour depuis le ficher texte /etc/aliases.</p>
+<p>Editez ce dernier :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/aliases
+</span></code></pre></div>
+<p>et redirigez le courrier adressé à root en ajoutant ceci :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>root: srvdmz
+</span></code></pre></div>
+<p><code>srvdmz</code> étant l'utilisateur principal du serveur de courrier de nom d'hôte <code>srvdmz.loupvirtuel.fr</code>.</p>
+<p>Terminez en mettant à jour le fichier Bdd aliases.db :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>newaliases
+</span></code></pre></div>
+<h3 id="test-denvoi-et-de-reception">Test d'envoi et de réception</h3>
+<p>Dans l'immédiat, l'envoi d'un courrier vers un utilisateur quelconque tel <code>clientmail-vm1</code> nécessite la création de celui-ci comme utilisateur local sur l'hôte <code>srvdmz</code>.</p>
+<p>Créez donc un utilisateur local UNIX <code>clientmail-vm1</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>adduser<span class="w"> </span>clientmail-vm1
+</span></code></pre></div>
+<p>Puis envoyez un courrier de <code>root</code> vers <code>clientmail-vm1</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>su<span class="w"> </span>root
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="o">[</span>root@srvdmz:~$<span class="o">]</span><span class="w">  </span>mail<span class="w"> </span>clientmail-vm1@loupvirtuel.fr
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>Cc:<span class="w"> </span><span class="c1"># appuyez sur Entrée</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>Subject:<span class="w"> </span>Test<span class="w"> </span>d<span class="err">'</span>envoi<span class="w"> </span>depuis<span class="w"> </span>root<span class="w"> </span><span class="c1"># et appuyez sur Entrée</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>Texte<span class="w"> </span>de<span class="w"> </span>mon<span class="w"> </span>premier<span class="w"> </span>courrier.<span class="w"> </span>Fin.<span class="w"> </span><span class="c1"># et appuyez sur Entrée</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>CTRL+D<span class="w"> </span><span class="c1"># signifie Envoyer et quitter</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="o">[</span>root@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">exit</span>
+</span></code></pre></div>
+<p>et vérifiez la création dans /var/mail d'un fichier clientmail-vm1 stockant le contenu du courrier :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/mail
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>cat<span class="w"> </span>clientmail-vm1
+</span></code></pre></div>
+<p>Connectez-vous maintenant en tant que <code>clientmail-vm1</code> et lancez le MUA mail :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>su<span class="w"> </span>clientmail-vm1
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="o">[</span>clientmail-vm1@srvdmz:~$<span class="o">]</span><span class="w"> </span>mail
+</span></code></pre></div>
+<p>Relevez ensuite le courrier avec la Cde t 1 suivie de quit :</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfix-deb12-premier-courrier.webp" data-title="Capture - Postfix : Relève de l'e-mail n°1" data-desc-position="bottom"><img alt="Capture - Postfix : Relève de l'e-mail n°1" src="../images/2024/12/postfix-deb12-premier-courrier.webp" width="430"></a>
+  </p>
+<figcaption>Postfix : Relève de l'e-mail n°1</figcaption>
+</figure>
+<p>Reconnectez-vous en tant que <code>srvdmz</code> avec la Cde exit et vérifiez la création dans /home/clientmail-vm1 d'un fichier mbox stockant le contenu du courrier relevé.</p>
+<p>Vérifiez le vidage consécutif du contenu de ce courrier dans le fichier /var/mail/clientmail-vm1.</p>
+<p>Finissez en envoyant un e-mail depuis <code>clientmail-vm1</code> vers <code>root</code> et vérifiez la bonne redirection du courrier en relevant celui-ci depuis l'utilisateur <code>srvdmz</code>.</p>
+<h3 id="securites-ssltls-et-sasl">Sécurités SSL/TLS et SASL</h3>
+<h4 id="-ssl-authentificchiffre"><em>- SSL authentific.../chiffre...</em></h4>
+<p>- SSL/TLS<br>
+Couche Secure Sockets Layer/Transport Layer Security.</p>
+<p>Cette couche fournit des authentifications basées sur des certificats ainsi que le chiffrement des sessions de transport. Une session chiffrée protège le contenu des messages SMTP ainsi que celui des authentifications SASL.</p>
+<p>Vous utiliserez pour Postfix les certificats loupvirtuel.crt et loupvirtuel.key issus du <a href="../lamp---vboxdeb12-22/" target="_blank">mémento 8.1 - HTTPS (SSL/TLS)</a>.</p>
+<p>Ces 2 fichiers peuvent servir aux applications de <code>srvdmz</code> faisant appel au chiffrage SSL/TLS.</p>
+<h4 id="-postfix-et-certificats-ssl"><em id="certificats-ssl">- Postfix et certificats SSL</em></h4>
+<p>Indiquez le chemin des certificats en éditant main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/main.cf
+</span></code></pre></div>
+<p>et en modifiant les lignes ci-dessous comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>smtpd_tls_cert_file=/etc/ssl/loupvirtuel.crt
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>smtpd_tls_key_file=/etc/ssl/loupvirtuel.key
+</span></code></pre></div>
+<p>Activez la modification :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix
+</span></code></pre></div>
+<h4 id="-sasl-authentificutilisa"><em>- SASL authentific.../utilisa...</em></h4>
+<p>- SASL<br>
+Couche Simple Authentication and Security Layer.</p>
+<p>Cette couche, utilisable avec des protocoles fonctionnant en mode connecté comme le SMTP, permet d'authentifier les utilisateurs cherchant à envoyer des messages par le biais du serveur de courrier et ainsi éviter que celui-ci ne soit notamment exploité pour diffuser du SPAM.</p>
+<p>Installez les paquets suivants :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sasl2-bin<span class="w"> </span>db-util
+</span></code></pre></div>
+<p>Les dépendances libsasl2-2 et libsasl2-modules sont déjà présentes sur <code>srvdmz</code>.</p>
+<p>Pour activer automatiquement le service SASL au boot du système, éditez le fichier saslauthd :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/default/saslauthd
+</span></code></pre></div>
+<p>et modifiez ou ajoutez le paramètre START :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="gh"># Démarrage automatique du service saslauthd</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>START=yes
+</span></code></pre></div>
+<p>Démarrez le service :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>saslauthd
+</span></code></pre></div>
+<h4 id="-postfixdovecot-et-sasl"><em>- Postfix/Dovecot et SASL</em></h4>
+<p>Vous allez maintenant configurer le système afin que Postix utilise l'authentification SMTP en faisant appel au support SASL fourni de base avec Dovecot.</p>
+<p><strong>a)</strong> Configuration côté Dovecot</p>
+<p>Editez, le fichier 10-master.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/dovecot/conf.d
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span><span class="m">10</span>-master.conf
+</span></code></pre></div>
+<p>et modifiez la section Postfix smtp-auth comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="gh"># Postfix smtp-auth</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>unix_listener /var/spool/postfix/private/auth {
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>mode = 0666
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>user = postfix
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>group = postfix
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>}
+</span></code></pre></div>
+<p>Editez ensuite le fichier 10-auth.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span><span class="m">10</span>-auth.conf
+</span></code></pre></div>
+<p>et modifiez la valeur de auth_mechanisms comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>auth_mechanisms = plain login
+</span></code></pre></div>
+<p>Redémarrez Dovecot :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>dovecot
+</span></code></pre></div>
+<p><strong>b)</strong> Configuration côté Postfix</p>
+<p>Editez le fichier de configuration main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/main.cf
+</span></code></pre></div>
+<p>et ajoutez les lignes suivantes en fin de fichier :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="gh"># Gestion protocole SASL partie serveur SMTP de Postfix</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>smtpd_sasl_type = dovecot
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>smtpd_sasl_path = private/auth
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>smtpd_sasl_auth_enable = yes
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination
+</span></code></pre></div>
+<p>Redémarrez Postfix :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix
+</span></code></pre></div>
+<h4 id="-controle-de-la-configuration"><em>- Contrôle de la configuration</em></h4>
+<p>Vérifiez la prise en compte des 2 protocoles de sécurisation à l'aide de la Cde suivante :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>telnet<span class="w"> </span>localhost<span class="w"> </span><span class="m">25</span><span class="w">    </span><span class="c1"># 25 = n° port SMTP</span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>Trying ::1...
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>Connected to localhost.
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>Escape character is '^]'.
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>220 srvdmz.loupvirtuel.fr ESMTP Postfix (Debian/GNU)
+</span></code></pre></div>
+<p>Entrez sous la ligne 220 srvdmz... l'instruction suivante :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>ehlo<span class="w"> </span>srvdmz.loupvirtuel.fr
+</span></code></pre></div>
+<p>et observez le retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>250-srvdmz.loupvirtuel.fr
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>250-PIPELINING
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>250-SIZE 10240000
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>250-VRFY
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>250-ETRN
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="hll">250-STARTTLS
+</span></span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="hll">250-AUTH PLAIN LOGIN
+</span></span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a>250-ENHANCEDSTATUSCODES
+</span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a>250-8BITMIME
+</span><span id="__span-46-10"><a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a>250-DSN
+</span><span id="__span-46-11"><a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a>250-SMTPUTF8
+</span><span id="__span-46-12"><a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a>250 CHUNKING
+</span></code></pre></div>
+<p>Doivent être présents STARTTLS et AUTH PLAIN LOGIN.</p>
+<p>Fermez la connexion à l'aide de la Cde quit.</p>
+<h4 id="-postfix-et-chiffrage-ssl"><em>- Postfix et chiffrage SSL</em></h4>
+<p>SASL avec son MDP diffusé en clair sur le réseau, impose par sécurité, de chiffrer la phase d'authentification et également d'utiliser le port de soumission 587 à la place du port 25.</p>
+<p>Vous allez donc forcer les clients MUA du réseau comme l'application Thunderbird à établir des sessions SMTP entièrement chiffrées SSL/TLS <em>(pas uniquement l'authentification SASL)</em>.</p>
+<p>Editez pour cela le fichier de configuration master.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/master.cf
+</span></code></pre></div>
+<p>et activez le port 587 en décommentant cette ligne :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>submission inet n - y - - smtpd
+</span></code></pre></div>
+<p>Editez ensuite le fichier principal main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/main.cf
+</span></code></pre></div>
+<p>et modifiez le smtpd_tls_security_level comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>smtpd_tls_security_level = encrypt
+</span></code></pre></div>
+<p>Les échanges entre MUA et Postfix seront ainsi chiffrés.</p>
+<p>Relancez Postfix pour traiter la nouvelle configuration :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix
+</span></code></pre></div>
+<h3 id="relais-smtp">Service de relais SMTP</h3>
+<p>Le domaine <code>loupvirtuel.fr</code> n'existant pas, vous pouvez vous procurer un nom de domaine gratuit et envoyer du courrier au travers d'Internet en demandant à Postfix d'utiliser un service de relais SMTP gratuit sur lequel vous aurez enregistré le nom de domaine gratuit.</p>
+<p><strong>A)</strong> Pour un nom de domaine gratuit, vous avez le choix :<br>
+dynu.com, cloudns.net, etc... <em>(Partie offres DynDNS)</em></p>
+<p>Enregistrez par exemple sur <code>dynu.com</code> un domaine gratuit <code>zzz.freeddns.org</code> et créez un 1er enregistrement DNS de type MX contenant le même nom de domaine.</p>
+<p><strong>B)</strong> Pour un relais SMTP gratuit, vous avez le choix :<br>
+relai-smtp.com, mailjet.com, brevo.com, etc...</p>
+<p>Enregistrez par exemple sur <code>relai-smtp.com</code> un compte SMTP <code>x.y@zzz.freeddns.org</code>.</p>
+<p><strong>C)</strong> Les ouvertures de session SMTP depuis Postfix vers Internet au travers du relais SMTP seront sécurisées par authentification SASL chiffrée SSL/TLS sur le port 587.</p>
+<p>En général, les services de relais SMTP disposent dans leur documentation d'une note dédiée à Postfix pour ce type de configuration.</p>
+<p>Pour cela, commencez par créer le fichier suivant :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/postfix/sasl
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>sasl_passwd
+</span></code></pre></div>
+<p>et entrez le contenu ci-dessous sur une seule ligne :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>[<span class="nl">smtp.relai-smtp.net</span>]:<span class="na">587 x.y@zzz.freeddns.org:MDP_compte_relai-smtp</span>
+</span></code></pre></div>
+<p>Chiffrez ensuite le contenu :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>postmap<span class="w"> </span>hash:sasl_passwd
+</span></code></pre></div>
+<p>Un fichier Bdd sasl_passwd.db est alors créé.</p>
+<p>Protégez le fichier texte en modifiant ses permissions :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">600</span><span class="w"> </span>sasl_passwd
+</span></code></pre></div>
+<p>Editez maintenant le fichier main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/postfix
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>main.cf
+</span></code></pre></div>
+<p>Modifiez son paramètre relayhost comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>relayhost = [smtp.relai-smtp.net]:587
+</span></code></pre></div>
+<p>et ajoutez ces lignes à la fin du fichier :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="gh"># Gestion protocole SASL partie client SMTP de Postfix</span>
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+</span><span id="__span-58-3"><a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>smtp_sasl_auth_enable = yes
+</span><span id="__span-58-4"><a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>smtp_sasl_security_options = noanonymous
+</span><span id="__span-58-5"><a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>smtpd_client_restrictions = permit_sasl_authenticated,reject_unknown_client_hostname
+</span></code></pre></div>
+<p>Redémarrez Postfix :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix
+</span></code></pre></div>
+<p>L'envoi d'un courrier vers Internet nécessite que l'adresse d'émission contienne un nom de compte connu du relais SMTP soit <code>x.y@zzz.freeddns.org</code>.</p>
+<p>Exemple d'un envoi vers une adresse Gmail :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>mail<span class="w"> </span>-s<span class="w"> </span><span class="s2">"Test du relais SMTP"</span><span class="w"> </span>-a<span class="w"> </span><span class="s2">"From: x.y@zzz.freeddns.org"</span><span class="w"> </span>x.y@gmail.com
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>Cc:<span class="w"> </span>&lt;Entrée&gt;
+</span><span id="__span-60-3"><a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a>Test<span class="w"> </span>relayhost<span class="w"> </span>depuis<span class="w"> </span>le<span class="w"> </span>serveur<span class="w"> </span>du<span class="w"> </span>courrier<span class="w"> </span>hébergé.<span class="w"> </span>&lt;Entrée&gt;
+</span><span id="__span-60-4"><a id="__codelineno-60-4" name="__codelineno-60-4" href="#__codelineno-60-4"></a>CTRL+D
+</span><span id="__span-60-5"><a id="__codelineno-60-5" name="__codelineno-60-5" href="#__codelineno-60-5"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span>
+</span></code></pre></div>
+<p>Le courrier doit arriver à l'adresse Gmail de destination, éventuellement traité comme SPAM.</p>
+<p>La configuration pour ne pas finir traité comme SPAM est présentée au <a href="#spf-dkim">§ Envoi/Relève ...</a></p>
+<h3 id="interface-web-postfixadmin">Interface Web PostfixAdmin</h3>
+<p>L'interface Web impose de modifier la configuration des serveurs Apache-PHP, MySQL, Postfix et Dovecot.</p>
+<p>Elle permettra de gérer le domaine <code>loupvirtuel.fr</code> et les utilisateurs du serveur de courrier sans être obligé de créer sur <code>srvdmz</code> un compte Unix par utilisateur.</p>
+<p>Le domaine et les utilisateurs seront virtuels et contenus dans une Bdd.</p>
+<p>La gestion multi-domaines sera également possible.</p>
+<p>Par sécurité, la liaison entre l'interface Web et le serveur Apache sera chiffrée SSL/TLS.</p>
+<h4 id="-installation"><em id="installation-postfixadmin">- Installation</em></h4>
+<p>Rappel : Le module ssl pour Apache a été activé dans le <a href="../lamp---vboxdeb12-22/" target="_blank">mémento 8.1 - HTTPS (SSL/TLS)</a>.</p>
+<p>Installez postfixadmin comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>postfixadmin
+</span></code></pre></div>
+<p>Une fenêtre <em>Configuration de postfixadmin</em> s'ouvre :<br>
+-&gt; Faut-il configurer ... avec dbconfig-common ? -&gt; Oui<br>
+-&gt; Mot de passe ... postfixadmin : -&gt; Entrez un MDP -&gt; Ok<br>
+-&gt; Confirmation du mot de passe : -&gt; MDP -&gt; Ok  </p>
+<p>L'installation de base se termine.</p>
+<p>Ajustez les permissions sur le dossier template_C :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span>www-data:www-data<span class="w"> </span>/usr/share/postfixadmin/templates_c
+</span></code></pre></div>
+<p>Effectuez ensuite une MAJ de la Bdd postfixadmin :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>-u<span class="w"> </span>www-data<span class="w"> </span>php<span class="w"> </span>/usr/share/postfixadmin/public/upgrade.php
+</span></code></pre></div>
+<p>et vérifiez avec adminer la présence de 13 tables.</p>
+<p>Après cela, connectez-vous sur le serveur MySQL :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>mariadb<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-p
+</span></code></pre></div>
+<p>et créez l'utilisateur postfixadmin suivant :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="k">&gt; </span><span class="ge">USE postfixadmin;</span>
+</span><span id="__span-65-2"><a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a>
+</span><span id="__span-65-3"><a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a><span class="k">&gt; </span><span class="ge">CREATE USER 'postfixadmin'@'192.168.4.2' IDENTIFIED BY 'votre-mdp-user-postfixadmin';</span>
+</span><span id="__span-65-4"><a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a>
+</span><span id="__span-65-5"><a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a><span class="k">&gt; </span><span class="ge">GRANT ALL PRIVILEGES ON `postfixadmin` . * TO 'postfixadmin'@'192.168.4.2';</span>
+</span><span id="__span-65-6"><a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>
+</span><span id="__span-65-7"><a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a><span class="k">&gt; </span><span class="ge">FLUSH PRIVILEGES;</span>
+</span><span id="__span-65-8"><a id="__codelineno-65-8" name="__codelineno-65-8" href="#__codelineno-65-8"></a>
+</span><span id="__span-65-9"><a id="__codelineno-65-9" name="__codelineno-65-9" href="#__codelineno-65-9"></a><span class="k">&gt; </span><span class="ge">QUIT;</span>
+</span></code></pre></div>
+<p>L'utilisateur <code>postfixadmin</code> = lecture/écriture sur la Bdd.</p>
+<p>Enfin, créez un fichier de configuration config.local.php :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/postfixadmin
+</span><span id="__span-66-2"><a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>config.local.php
+</span></code></pre></div>
+<p>et entrez le contenu PHP suivant pour PostfixAdmin :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>&lt;?php
+</span><span id="__span-67-2"><a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>$CONF['configured'] = true;
+</span><span id="__span-67-3"><a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a>$CONF['default_language'] = 'fr';
+</span><span id="__span-67-4"><a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a>$CONF['database_type'] = 'mysqli';
+</span><span id="__span-67-5"><a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a>$CONF['database_host'] = '192.168.4.2';
+</span><span id="__span-67-6"><a id="__codelineno-67-6" name="__codelineno-67-6" href="#__codelineno-67-6"></a>$CONF['database_user'] = 'postfixadmin';
+</span><span id="__span-67-7"><a id="__codelineno-67-7" name="__codelineno-67-7" href="#__codelineno-67-7"></a>$CONF['database_password'] = 'mdp-user-postfixadmin';
+</span><span id="__span-67-8"><a id="__codelineno-67-8" name="__codelineno-67-8" href="#__codelineno-67-8"></a>$CONF['database_name'] = 'postfixadmin';
+</span><span id="__span-67-9"><a id="__codelineno-67-9" name="__codelineno-67-9" href="#__codelineno-67-9"></a>$CONF['dovecotpw'] = "/usr/bin/doveadm pw -r 5";
+</span><span id="__span-67-10"><a id="__codelineno-67-10" name="__codelineno-67-10" href="#__codelineno-67-10"></a>$CONF['admin_email'] = 'postmaster@loupvirtuel.fr';
+</span><span id="__span-67-11"><a id="__codelineno-67-11" name="__codelineno-67-11" href="#__codelineno-67-11"></a>?&gt;
+</span></code></pre></div>
+<h4 id="-hote-virtuel-et-https"><em id="hote-virtuel-https">- Hôte virtuel et HTTPS</em></h4>
+<p>La redirection HTTP du domaine <code>loupvirtuel.fr</code> vers HTTPS est assurée depuis cette section située au début du fichier /etc/apache2/sites-available/loupvirtuel.conf :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>&lt;VirtualHost *:80&gt;
+</span><span id="__span-68-2"><a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>ServerName loupvirtuel.fr
+</span><span id="__span-68-3"><a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>ServerAlias www.loupvirtuel.fr srvdmz.loupvirtuel.fr
+</span><span id="__span-68-4"><a id="__codelineno-68-4" name="__codelineno-68-4" href="#__codelineno-68-4"></a><span class="hll">Redirect permanent / https://loupvirtuel.fr/
+</span></span><span id="__span-68-5"><a id="__codelineno-68-5" name="__codelineno-68-5" href="#__codelineno-68-5"></a>&lt;/VirtualHost&gt;
+</span></code></pre></div>
+<p>Si vous avez exécuté le <a href="../lamp---vboxdeb12-22/" target="_blank">mémento 8.1</a>, les 3 URL HTTP ci-dessous seront redirigées automatiquement vers HTTPS sans faire l'objet d'une alerte de sécurité.</p>
+<p>- <code>http://loupvirtuel.fr/postfixadmin</code><br>
+- <code>http://www.loupvirtuel.fr/postfixadmin</code><br>
+- <code>http://srvdmz.loupvirtuel.fr/postfixadmin</code></p>
+<p>Editez maintenant l'hôte virtuel Apache loupvirtuel.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/apache2/sites-available
+</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>loupvirtuel.conf
+</span></code></pre></div>
+<p>et ajoutez cet alias dans la section VirtualHost *:443 :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>&lt;VirtualHost *:443&gt;
+</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>
+</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>SSLCertificateKeyFile /etc/ssl/loupvirtuel.key # existant
+</span><span id="__span-70-4"><a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a>
+</span><span id="__span-70-5"><a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a><span class="hll">Alias /postfixadmin /usr/share/postfixadmin/public
+</span></span><span id="__span-70-6"><a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a><span class="hll">
+</span></span><span id="__span-70-7"><a id="__codelineno-70-7" name="__codelineno-70-7" href="#__codelineno-70-7"></a><span class="hll">ErrorLog ${APACHE_LOG_DIR}/postfixadmin_error.log
+</span></span><span id="__span-70-8"><a id="__codelineno-70-8" name="__codelineno-70-8" href="#__codelineno-70-8"></a><span class="hll">CustomLog ${APACHE_LOG_DIR}/postfixadmin_access.log combined
+</span></span><span id="__span-70-9"><a id="__codelineno-70-9" name="__codelineno-70-9" href="#__codelineno-70-9"></a><span class="hll">
+</span></span><span id="__span-70-10"><a id="__codelineno-70-10" name="__codelineno-70-10" href="#__codelineno-70-10"></a><span class="hll">
+</span></span><span id="__span-70-11"><a id="__codelineno-70-11" name="__codelineno-70-11" href="#__codelineno-70-11"></a><span class="hll">&lt;Directory /usr/share/postfixadmin/public&gt;
+</span></span><span id="__span-70-12"><a id="__codelineno-70-12" name="__codelineno-70-12" href="#__codelineno-70-12"></a><span class="hll">Options FollowSymLinks MultiViews
+</span></span><span id="__span-70-13"><a id="__codelineno-70-13" name="__codelineno-70-13" href="#__codelineno-70-13"></a><span class="hll">AllowOverride None
+</span></span><span id="__span-70-14"><a id="__codelineno-70-14" name="__codelineno-70-14" href="#__codelineno-70-14"></a><span class="hll">Require all granted
+</span></span><span id="__span-70-15"><a id="__codelineno-70-15" name="__codelineno-70-15" href="#__codelineno-70-15"></a><span class="hll">&lt;/Directory&gt;
+</span></span><span id="__span-70-16"><a id="__codelineno-70-16" name="__codelineno-70-16" href="#__codelineno-70-16"></a>
+</span><span id="__span-70-17"><a id="__codelineno-70-17" name="__codelineno-70-17" href="#__codelineno-70-17"></a>&lt;/VirtualHost&gt; # existant
+</span></code></pre></div>
+<p>Redémarrez le serveur Web Apache :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w">  </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>apache2
+</span></code></pre></div>
+<p>Ensuite, depuis <code>srvlan</code>, lancez l'URL suivante :<br>
+<code>https://loupvirtuel.fr/postfixadmin/setup.php</code></p>
+<p>Une fois la page setup.php ouverte, actualisez-la pour obtenir le contenu ci-dessous, celui-ci précisant si toutes les dépendances sont installées et configurées :</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfixadmin-deb12-page-setup.webp" data-title="Capture - PostfixAdmin : Page setup.php" data-desc-position="bottom"><img alt="Capture - PostfixAdmin : Page setup.php" src="../images/2024/12/postfixadmin-deb12-page-setup.webp" width="430"></a>
+  </p>
+<figcaption>PostfixAdmin : Page setup.php</figcaption>
+</figure>
+<p>Fournissez, comme demandé, un Setup password :<br>
+-&gt; Entrez le MDP mdp_setup28 -&gt; Confirmez le MDP<br>
+-&gt; Cliquez sur le bouton Generate setup_password hash</p>
+<p>-&gt; La page Web s'actualise et montre le hash du MDP<br>
+-&gt; Gardez la page ouverte et notez la valeur du hash</p>
+<p>Editez à présent, sur <code>srvdmz</code>, le fichier config.local.php :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/www/html/postfixadmin
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>config.local.php
+</span></code></pre></div>
+<p>et ajoutez le paramètre ci-dessous comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>$CONF['setup_password'] = 'Entrez le hash du MDP';
+</span></code></pre></div>
+<p>Revenez sur <code>srvlan</code>, actualisez la page et créez le compte super-administrateur :<br>
+-&gt; Setup password -&gt; mdp_setup28<br>
+-&gt; Administrateur -&gt; <code>postmaster@loupvirtuel.fr</code><br>
+-&gt; Mot de passe -&gt; mdp_postmaster -&gt; Confirmez<br>
+-&gt; Cliquez sur le bouton Ajouter un administrateur</p>
+<p>Le texte de validation suivant apparaît si tout est OK :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a> L'administrateur postmaster@loupvirtuel.fr a été ajouté
+</span></code></pre></div>
+<p>Fermez la page Web et entrez maintenant l'URL :<br>
+<code>https://loupvirtuel.fr/postfixadmin/</code></p>
+<p>La page de connexion de PostfixAdmin doit s'ouvrir :<br>
+- Adresse -&gt; <code>postmaster@loupvirtuel.fr</code><br>
+- Mot de passe -&gt; mdp_postmaster -&gt; Bouton Entrer</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfixadmin-page-login-debian11.webp" data-title="Capture - PostfixAdmin : Vue de la page de connexion" data-desc-position="bottom"><img alt="Capture - PostfixAdmin : Vue de la page de connexion" src="../images/2024/12/postfixadmin-page-login-debian11.webp" width="580"></a>
+  </p>
+<figcaption>PostfixAdmin : Vue de la page de connexion</figcaption>
+</figure>
+<p>Créez maintenant le domaine virtuel <code>loupvirtuel.fr</code> :<br>
+Menu Liste des domaines<br>
+-&gt; Sélectionnez Nouveau domaine<br>
+-&gt; Domaine -&gt; <code>loupvirtuel.fr</code><br>
+-&gt; Décochez Ajouter les alias par défaut<br>
+-&gt; Bouton Ajouter un domaine</p>
+<p>Vous pouvez aussi ajouter le domaine <code>zzz.freeddns.org</code>.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfixadmin-deb12-domaine.webp" data-title="Capture - PostfixAdmin : Liste des domaines virtuels" data-desc-position="bottom"><img alt="Capture - PostfixAdmin : Liste des domaines virtuels" src="../images/2024/12/postfixadmin-deb12-domaine.webp" width="430"></a>
+  </p>
+<figcaption>PostfixAdmin : Liste des domaines virtuels</figcaption>
+</figure>
+<p>Créez ensuite ces 7 comptes courriels virtuels :<br>
+Menu Liste des virtuels<br>
+-&gt; Sélectionnez Ajouter un compte courriel<br>
+-&gt; Nom d'utilisateur -&gt; <code>clientmail-vm1</code><br>
+-&gt; Mot de passe -&gt; Votre MDP<br>
+-&gt; Mot de passe (confirmation) -&gt; Votre MDP<br>
+-&gt; Nom -&gt; debian12-vm1<br>
+-&gt; Bouton Ajouter un compte courriel</p>
+<p>Vous pouvez aussi ajouter celui pour <code>zzz.freeddns.org</code>.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfixadmin-deb12-comptes.webp" data-title="Capture - PostfixAdmin : Liste des comptes courriels virtuels" data-desc-position="bottom"><img alt="Capture - PostfixAdmin : Liste des comptes courriels virtuels" src="../images/2024/12/postfixadmin-deb12-comptes.webp" width="430"></a>
+  </p>
+<figcaption>PostfixAdmin : Liste des comptes courriels virtuels</figcaption>
+</figure>
+<p>Pour finir, créez un alias de <code>root</code> vers <code>postmaster</code> :<br>
+Menu Liste des virtuels<br>
+-&gt; Sélectionnez Ajouter un alias<br>
+-&gt; Alias = <code>root</code><br>
+-&gt; A = <code>postmaster@loupvirtuel.fr</code><br>
+-&gt; Bouton Ajouter un alias</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/postfixadmin-deb12-alias-root.webp" data-title="Capture - PostfixAdmin : Liste des alias virtuels" data-desc-position="bottom"><img alt="Capture - PostfixAdmin : Liste des alias virtuels" src="../images/2024/12/postfixadmin-deb12-alias-root.webp" width="430"></a>
+  </p>
+<figcaption>PostfixAdmin : Liste des alias virtuels</figcaption>
+</figure>
+<h4 id="-postfixbdd-postfixadmin"><em>- Postfix:Bdd PostfixAdmin</em></h4>
+<p>Revenez sur <code>srvdmz</code>.</p>
+<p>Vous allez créer un utilisateur local <code>vmail</code> qui n'aura pas de MDP associé et se verra donc interdit de connexion.</p>
+<p>Un dossier /var/mail/vmail affecté à cet utilisateur et à un groupe de même nom servira de racine aux comptes e-mail virtuels.</p>
+<p>Commencez par créer le groupe/utilisateur <code>vmail</code> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>groupadd<span class="w"> </span>-g<span class="w"> </span><span class="m">5000</span><span class="w"> </span>vmail
+</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>
+</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>useradd<span class="w"> </span>-g<span class="w"> </span>vmail<span class="w"> </span>-u<span class="w"> </span><span class="m">5000</span><span class="w"> </span>vmail<span class="w"> </span>-d<span class="w"> </span>/home/vmail<span class="w"> </span>-s<span class="w"> </span>/bin/false
+</span></code></pre></div>
+<p>GID/UID 5000 = identifiants groupe/utilisateur.</p>
+<p>et le répertoire ou seront stockés les e-mails :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>mkdir<span class="w"> </span>-p<span class="w"> </span>/var/mail/vmail
+</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/var/mail
+</span><span id="__span-76-3"><a id="__codelineno-76-3" name="__codelineno-76-3" href="#__codelineno-76-3"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>chown<span class="w"> </span>-R<span class="w"> </span><span class="m">5000</span>:5000<span class="w"> </span>vmail
+</span><span id="__span-76-4"><a id="__codelineno-76-4" name="__codelineno-76-4" href="#__codelineno-76-4"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>chmod<span class="w"> </span>-R<span class="w"> </span><span class="m">770</span><span class="w"> </span>vmail
+</span></code></pre></div>
+<p>L'utilisateur MySQL postfixadmin déclaré ci-dessus au <a href="#installation-postfixadmin">§ Installation</a> sera utilisé par Postfix pour accéder à la base de données postfixadmin.</p>
+<p>Créez le fichier qui assurera la recherche des domaines virtuels créés sous PostfixAdmin :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/postfix
+</span><span id="__span-77-2"><a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a>
+</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>mysql_virtual_mailbox_domains_maps.cf
+</span></code></pre></div>
+<p>et entrez le contenu ci-dessous :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>user = postfixadmin
+</span><span id="__span-78-2"><a id="__codelineno-78-2" name="__codelineno-78-2" href="#__codelineno-78-2"></a>password = votre-mdp-user-postfixadmin
+</span><span id="__span-78-3"><a id="__codelineno-78-3" name="__codelineno-78-3" href="#__codelineno-78-3"></a>hosts = 192.168.4.2
+</span><span id="__span-78-4"><a id="__codelineno-78-4" name="__codelineno-78-4" href="#__codelineno-78-4"></a>dbname = postfixadmin
+</span><span id="__span-78-5"><a id="__codelineno-78-5" name="__codelineno-78-5" href="#__codelineno-78-5"></a>query = SELECT domain FROM domain WHERE domain='%s' AND active = '1'
+</span></code></pre></div>
+<p>Déclarez ensuite ce fichier dans /etc/postfix/main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>sudo<span class="w"> </span>postconf<span class="w"> </span>-e<span class="w"> </span><span class="nv">virtual_mailbox_domains</span><span class="o">=</span>mysql:/etc/postfix/mysql_virtual_mailbox_domains_maps.cf
+</span></code></pre></div>
+<p>et vérifiez que <code>loupvirtuel.fr</code> existe dans PostfixAdmin :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>sudo<span class="w"> </span>postmap<span class="w"> </span>-q<span class="w"> </span>loupvirtuel.fr<span class="w"> </span>mysql:/etc/postfix/mysql_virtual_mailbox_domains_maps.cf
+</span></code></pre></div>
+<p>Si OK, la Cde retourne <code>loupvirtuel.fr</code>, sinon rien.</p>
+<p>Créez le fichier qui assurera la recherche des comptes mail virtuels créés sous PostfixAdmin :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>mysql_virtual_mailbox_maps.cf
+</span></code></pre></div>
+<p>et entrez les lignes ci-dessous :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>user = postfixadmin
+</span><span id="__span-82-2"><a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a>password = votre-mdp-user-postfixadmin
+</span><span id="__span-82-3"><a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a>hosts = 192.168.4.2
+</span><span id="__span-82-4"><a id="__codelineno-82-4" name="__codelineno-82-4" href="#__codelineno-82-4"></a>dbname = postfixadmin
+</span><span id="__span-82-5"><a id="__codelineno-82-5" name="__codelineno-82-5" href="#__codelineno-82-5"></a>query = SELECT maildir FROM mailbox WHERE username='%s' AND active = '1'
+</span></code></pre></div>
+<p>Déclarez ensuite ce fichier dans /etc/postfix/main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>sudo<span class="w"> </span>postconf<span class="w"> </span>-e<span class="w"> </span><span class="nv">virtual_mailbox_maps</span><span class="o">=</span>mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
+</span></code></pre></div>
+<p>et testez l'existence de srvlan dans PostfixAdmin :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>sudo<span class="w"> </span>postmap<span class="w"> </span>-q<span class="w"> </span>srvlan@loupvirtuel.fr<span class="w"> </span>mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
+</span></code></pre></div>
+<p>Si OK, la Cde retourne loupvirtuel.fr/srvlan/, sinon rien.</p>
+<p>Créez le fichier qui assurera la recherche des alias virtuels créés sous PostfixAdmin :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>mysql_virtual_mailbox_aliases_maps.cf
+</span></code></pre></div>
+<p>et entrez les lignes ci-dessous :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>user = postfixadmin
+</span><span id="__span-86-2"><a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>password = votre-mdp-user-postfixadmin
+</span><span id="__span-86-3"><a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a>hosts = 192.168.4.2
+</span><span id="__span-86-4"><a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a>dbname = postfixadmin
+</span><span id="__span-86-5"><a id="__codelineno-86-5" name="__codelineno-86-5" href="#__codelineno-86-5"></a>query = SELECT goto FROM alias WHERE address='%s' AND active = '1'
+</span></code></pre></div>
+<p>Déclarez ensuite ce fichier dans /etc/postfix/main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>sudo<span class="w"> </span>postconf<span class="w"> </span>-e<span class="w"> </span><span class="nv">virtual_alias_maps</span><span class="o">=</span>mysql:/etc/postfix/mysql_virtual_mailbox_aliases_maps.cf
+</span></code></pre></div>
+<p>et testez l'existence d'un alias pour <code>root</code> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>sudo<span class="w"> </span>postmap<span class="w"> </span>-q<span class="w"> </span>root@loupvirtuel.fr<span class="w"> </span>mysql:/etc/postfix/mysql_virtual_mailbox_aliases_maps.cf
+</span></code></pre></div>
+<p>Si OK, la Cde retourne <code>postmaster@loupvirtuel.fr</code>.</p>
+<p>Sécurisez les droits d'accès sur les 3 fichiers de recherche dont les MDP sont écrits en clair :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/postfix
+</span><span id="__span-89-2"><a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>chgrp<span class="w"> </span>postfix<span class="w"> </span>mysql_*.cf
+</span><span id="__span-89-3"><a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>chmod<span class="w"> </span><span class="nv">u</span><span class="o">=</span>rw,g<span class="o">=</span>r,o<span class="o">=</span><span class="w"> </span>mysql_*.cf
+</span></code></pre></div>
+<p>Editez maintenant le fichier main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/main.cf
+</span></code></pre></div>
+<p>et ajoutez ceci en fin de fichier juste au dessus des lignes déclarant les 3 fichiers de recherche :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="gh"># Paramètres utilisation domaines/utilisateurs virtuels</span>
+</span><span id="__span-91-2"><a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a>local_transport = virtual
+</span><span id="__span-91-3"><a id="__codelineno-91-3" name="__codelineno-91-3" href="#__codelineno-91-3"></a>virtual_gid_maps = static:5000
+</span><span id="__span-91-4"><a id="__codelineno-91-4" name="__codelineno-91-4" href="#__codelineno-91-4"></a>virtual_uid_maps = static:5000
+</span><span id="__span-91-5"><a id="__codelineno-91-5" name="__codelineno-91-5" href="#__codelineno-91-5"></a>virtual_mailbox_base = /var/mail/vmail
+</span><span id="__span-91-6"><a id="__codelineno-91-6" name="__codelineno-91-6" href="#__codelineno-91-6"></a>
+</span><span id="__span-91-7"><a id="__codelineno-91-7" name="__codelineno-91-7" href="#__codelineno-91-7"></a><span class="gh"># Lignes existantes déclarant les 3 fichiers de recherche</span>
+</span><span id="__span-91-8"><a id="__codelineno-91-8" name="__codelineno-91-8" href="#__codelineno-91-8"></a>virtual_mailbox_domains = mysql:/etc/postfix/mysql_virtual_mailbox_domains_maps.cf
+</span><span id="__span-91-9"><a id="__codelineno-91-9" name="__codelineno-91-9" href="#__codelineno-91-9"></a>
+</span><span id="__span-91-10"><a id="__codelineno-91-10" name="__codelineno-91-10" href="#__codelineno-91-10"></a>virtual_mailbox_maps = mysql:/etc/postfix/mysql_virtual_mailbox_maps.cf
+</span><span id="__span-91-11"><a id="__codelineno-91-11" name="__codelineno-91-11" href="#__codelineno-91-11"></a>
+</span><span id="__span-91-12"><a id="__codelineno-91-12" name="__codelineno-91-12" href="#__codelineno-91-12"></a>virtual_alias_maps = mysql:/etc/postfix/mysql_virtual_mailbox_aliases_maps.cf 
+</span></code></pre></div>
+<p>Le domaine virtuel <code>loupvirtuel.fr</code> créé dans PostfixAdmin impose de supprimer sa référence dans main.cf car un domaine virtuel ne doit jamais se trouver dans la liste du paramètre mydestination.</p>
+<p>Editez pour cela de nouveau main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/main.cf
+</span></code></pre></div>
+<p>et modifiez le paramètre mydestination comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a>mydestination = srvdmz, localhost
+</span></code></pre></div>
+<p>Terminez en redémarrant Postfix :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-94-1"><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postfix
+</span></code></pre></div>
+<h4 id="-dovecotbdd-postfixadmin"><em>- Dovecot:Bdd PostfixAdmin</em></h4>
+<p>Par défaut, Dovecot utilise les utilisateurs réels du système et non les utilisateurs virtuels.</p>
+<p>Pour corriger cela, éditez le fichier 10-auth.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-95-1"><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/dovecot
+</span><span id="__span-95-2"><a id="__codelineno-95-2" name="__codelineno-95-2" href="#__codelineno-95-2"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>conf.d/10-auth.conf
+</span></code></pre></div>
+<p>et modifiez le groupe !include comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-96-1"><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a><span class="gh">#!include auth-deny.conf.ext</span>
+</span><span id="__span-96-2"><a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a><span class="gh">#!include auth-master.conf.ext</span>
+</span><span id="__span-96-3"><a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a>
+</span><span id="__span-96-4"><a id="__codelineno-96-4" name="__codelineno-96-4" href="#__codelineno-96-4"></a><span class="gh">#!include auth-system.conf.ext  # Ligne à commenter</span>
+</span><span id="__span-96-5"><a id="__codelineno-96-5" name="__codelineno-96-5" href="#__codelineno-96-5"></a><span class="hll">!include auth-sql.conf.ext      # Ligne à décommenter
+</span></span><span id="__span-96-6"><a id="__codelineno-96-6" name="__codelineno-96-6" href="#__codelineno-96-6"></a><span class="gh">#!include auth-ldap.conf.ext</span>
+</span><span id="__span-96-7"><a id="__codelineno-96-7" name="__codelineno-96-7" href="#__codelineno-96-7"></a><span class="gh">#!include auth-passwdfile.conf.ext</span>
+</span><span id="__span-96-8"><a id="__codelineno-96-8" name="__codelineno-96-8" href="#__codelineno-96-8"></a><span class="gh">#!include auth-checkpassword.conf.ext</span>
+</span><span id="__span-96-9"><a id="__codelineno-96-9" name="__codelineno-96-9" href="#__codelineno-96-9"></a><span class="gh">#!include auth-static.conf.ext</span>
+</span></code></pre></div>
+<p>Pour l'accès aux e-mails, éditez auth-sql.conf.ext :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-97-1"><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>conf.d/auth-sql.conf.ext
+</span></code></pre></div>
+<p>Commentez la 2ème section userdb puis modifiez la 3ème section comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-98-1"><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>userdb {  
+</span><span id="__span-98-2"><a id="__codelineno-98-2" name="__codelineno-98-2" href="#__codelineno-98-2"></a>   driver = static  
+</span><span id="__span-98-3"><a id="__codelineno-98-3" name="__codelineno-98-3" href="#__codelineno-98-3"></a>   args = uid=vmail gid=vmail home=/var/mail/vmail/%d/%n  
+</span><span id="__span-98-4"><a id="__codelineno-98-4" name="__codelineno-98-4" href="#__codelineno-98-4"></a>     }
+</span></code></pre></div>
+<p>Pour l'accès à la Bdd, éditez dovecot-sql.conf.ext :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-99-1"><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>dovecot-sql.conf.ext
+</span></code></pre></div>
+<p>et ajoutez ces lignes à la fin du fichier :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-100-1"><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>driver = mysql
+</span><span id="__span-100-2"><a id="__codelineno-100-2" name="__codelineno-100-2" href="#__codelineno-100-2"></a>
+</span><span id="__span-100-3"><a id="__codelineno-100-3" name="__codelineno-100-3" href="#__codelineno-100-3"></a>connect = host=localhost dbname=postfixadmin user=postfixadmin password=votre-mdp-user-postfixadmin
+</span><span id="__span-100-4"><a id="__codelineno-100-4" name="__codelineno-100-4" href="#__codelineno-100-4"></a>
+</span><span id="__span-100-5"><a id="__codelineno-100-5" name="__codelineno-100-5" href="#__codelineno-100-5"></a>password_query = SELECT username,domain,password FROM mailbox WHERE username='%u';
+</span></code></pre></div>
+<p>Pour compléter l'accès aux e-mails, éditez 10-mail.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-101-1"><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>conf.d/10-mail.conf
+</span></code></pre></div>
+<p>et modifiez le paramètre mail_location comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-102-1"><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>mail_location = maildir:/var/mail/vmail/%d/%n/Maildir
+</span></code></pre></div>
+<p>Les e-mails sont ainsi déclarés stockés sous la forme :<br>
+/var/mail/vmail/[domaine]/[utilisateur]/Maildir</p>
+<p>Pour traiter l'authentification TLS, éditez 10-ssl.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-103-1"><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>conf.d/10-ssl.conf
+</span></code></pre></div>
+<p>et modifiez les 3 paramètres ci-dessous comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-104-1"><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>ssl = required
+</span><span id="__span-104-2"><a id="__codelineno-104-2" name="__codelineno-104-2" href="#__codelineno-104-2"></a>ssl_cert = &lt;/etc/ssl/loupvirtuel.crt
+</span><span id="__span-104-3"><a id="__codelineno-104-3" name="__codelineno-104-3" href="#__codelineno-104-3"></a>ssl_key = &lt;/etc/ssl/loupvirtuel.key
+</span></code></pre></div>
+<p>Les certificats SSL sont ceux déclarés au <a href="#certificats-ssl">§ Postfix et certificats SSL</a>.</p>
+<p>Pour compléter la partie TLS, éditez 10-auth.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-105-1"><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>conf.d/10-auth.conf
+</span></code></pre></div>
+<p>et n'autorisez le login que si la couche TLS est chargée en décommentant la ligne :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-106-1"><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a>disable_plaintext_auth = yes
+</span></code></pre></div>
+<p>Pour traiter le Local Delivery Agent, éditez 15-lda.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-107-1"><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>conf.d/15-lda.conf
+</span></code></pre></div>
+<p>Décommentez le paramètre postmaster_address puis modifiez-le comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-108-1"><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>postmaster_address = postmaster@loupvirtuel.fr
+</span></code></pre></div>
+<p>Modifiez aussi le bloc protocol lda comme ci-dessous :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-109-1"><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>protocol lda {  
+</span><span id="__span-109-2"><a id="__codelineno-109-2" name="__codelineno-109-2" href="#__codelineno-109-2"></a>     # Space separated ... to load (default is glob...).  
+</span><span id="__span-109-3"><a id="__codelineno-109-3" name="__codelineno-109-3" href="#__codelineno-109-3"></a>     mail_plugins = $mail_plugins sieve 
+</span><span id="__span-109-4"><a id="__codelineno-109-4" name="__codelineno-109-4" href="#__codelineno-109-4"></a>     }
+</span></code></pre></div>
+<p>Ceci activera le plugin de filtrage des e-mails soit sieve.</p>
+<p>Dovecot qui inclut un module de statistiques signalera une erreur si jamais celui-ci n’est pas défini dans sa configuration.</p>
+<p>Pour éviter cela, éditez le fichier 10-master.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-110-1"><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>conf.d/10-master.conf
+</span></code></pre></div>
+<p>et ajoutez ce bloc d'instructions en fin de celui-ci :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-111-1"><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>service stats {
+</span><span id="__span-111-2"><a id="__codelineno-111-2" name="__codelineno-111-2" href="#__codelineno-111-2"></a> unix_listener stats-reader {
+</span><span id="__span-111-3"><a id="__codelineno-111-3" name="__codelineno-111-3" href="#__codelineno-111-3"></a> user = vmail
+</span><span id="__span-111-4"><a id="__codelineno-111-4" name="__codelineno-111-4" href="#__codelineno-111-4"></a> group = vmail
+</span><span id="__span-111-5"><a id="__codelineno-111-5" name="__codelineno-111-5" href="#__codelineno-111-5"></a> mode = 0660
+</span><span id="__span-111-6"><a id="__codelineno-111-6" name="__codelineno-111-6" href="#__codelineno-111-6"></a> }
+</span><span id="__span-111-7"><a id="__codelineno-111-7" name="__codelineno-111-7" href="#__codelineno-111-7"></a> unix_listener stats-writer {
+</span><span id="__span-111-8"><a id="__codelineno-111-8" name="__codelineno-111-8" href="#__codelineno-111-8"></a> user = vmail
+</span><span id="__span-111-9"><a id="__codelineno-111-9" name="__codelineno-111-9" href="#__codelineno-111-9"></a> group = vmail
+</span><span id="__span-111-10"><a id="__codelineno-111-10" name="__codelineno-111-10" href="#__codelineno-111-10"></a> mode = 0660
+</span><span id="__span-111-11"><a id="__codelineno-111-11" name="__codelineno-111-11" href="#__codelineno-111-11"></a> }
+</span><span id="__span-111-12"><a id="__codelineno-111-12" name="__codelineno-111-12" href="#__codelineno-111-12"></a> }
+</span></code></pre></div>
+<p>Terminez en redémarrant Dovecot :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-112-1"><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>dovecot
+</span></code></pre></div>
+<h4 id="-postfixlda-de-dovecot"><em>- Postfix:LDA de Dovecot</em></h4>
+<p>Vous allez demander à Postfix de ne pas utiliser son propre LDA <em>(Local Delivery Agent)</em> pour trier les e-mails dans leurs dossiers de destination respectifs mais plutôt celui de Dovecot plus performant et permettant de profiter des avantages du plugin Sieve.</p>
+<p>Pour cela, éditez le fichier master.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-113-1"><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/master.cf
+</span></code></pre></div>
+<p>et ajoutez à la fin de celui-ci les lignes suivantes :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-114-1"><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a><span class="gh"># Configuration pour une utilisation du LDA de Dovecot</span>
+</span><span id="__span-114-2"><a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a>dovecot     unix     -      n     n     -     -     pipe
+</span><span id="__span-114-3"><a id="__codelineno-114-3" name="__codelineno-114-3" href="#__codelineno-114-3"></a>  flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/dovecot-lda -f ${sender} -d ${recipient}
+</span><span id="__span-114-4"><a id="__codelineno-114-4" name="__codelineno-114-4" href="#__codelineno-114-4"></a> }
+</span></code></pre></div>
+<p>Attention :<br>
+2ème ligne = tabulation entre chaque champ<br>
+3ème ligne = début indenté de 2 espaces</p>
+<p>Editez ensuite le fichier main.cf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-115-1"><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/postfix/main.cf
+</span></code></pre></div>
+<p>et ajoutez les lignes suivantes afin que Postifx exploite ce que vous venez de configurer :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-116-1"><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a><span class="gh"># Déclaration d'utilisation du LDA de Dovecot</span>
+</span><span id="__span-116-2"><a id="__codelineno-116-2" name="__codelineno-116-2" href="#__codelineno-116-2"></a>virtual_transport=dovecot
+</span><span id="__span-116-3"><a id="__codelineno-116-3" name="__codelineno-116-3" href="#__codelineno-116-3"></a>dovecot_destination_recipient_limit=1
+</span></code></pre></div>
+<p>Redémarrez à présent ``srvdmz :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-117-1"><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>reboot
+</span></code></pre></div>
+<h3 id="envoireleve-depuis-le-lan">Envoi/Relève depuis le LAN</h3>
+<h4 id="-envoi-mua-mail"><em id="envoi-mua-mail">- Envoi (MUA Mail)</em></h4>
+<p>Envoyez un mail de <code>clientmail-vm1</code> vers <code>postmaster</code> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-118-1"><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Testé et approuvé"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>mail<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-118-2"><a id="__codelineno-118-2" name="__codelineno-118-2" href="#__codelineno-118-2"></a>-s<span class="w"> </span><span class="s2">"Envoyé par clientmail-vm1"</span><span class="w"> </span>postmaster@loupvirtuel.fr<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-118-3"><a id="__codelineno-118-3" name="__codelineno-118-3" href="#__codelineno-118-3"></a>-a<span class="w"> </span>From:clientmail-vm1@loupvirtuel.fr<span class="w">  </span>
+</span></code></pre></div>
+<p>Le caractère  indique d'écrire le tout sur une seule ligne.</p>
+<p>et observez le résultat dans le journal des logs :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-119-1"><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>journalctl<span class="w"> </span>-n<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>postfix<span class="w">  </span>
+</span></code></pre></div>
+<p>Retour pour Postfix :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-120-1"><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a>postfix/pickup..9CD2.. uid=.. from=&lt;clientmail-vm1..&gt;
+</span><span id="__span-120-2"><a id="__codelineno-120-2" name="__codelineno-120-2" href="#__codelineno-120-2"></a>postfix/cleanup..9CD2.. message-id=&lt;..9CD2..@srvdmz.l..&gt;
+</span><span id="__span-120-3"><a id="__codelineno-120-3" name="__codelineno-120-3" href="#__codelineno-120-3"></a>postfix/qmgr..9CD2.. from=&lt;clientmail-vm1..&gt;.. active)
+</span><span id="__span-120-4"><a id="__codelineno-120-4" name="__codelineno-120-4" href="#__codelineno-120-4"></a><span class="hll">postfix/pipe..9CD2.. to=&lt;postmaster..&gt;.. status=sent
+</span></span><span id="__span-120-5"><a id="__codelineno-120-5" name="__codelineno-120-5" href="#__codelineno-120-5"></a>postfix/qmgr..9CD2.. removed
+</span></code></pre></div>
+<p>Pas d'erreur signalée, courrier émis (status sent).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-121-1"><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a><span class="o">[</span>srvdmz@srvdmz:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>cat<span class="w"> </span>/var/log/syslog<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>dovecot<span class="w">  </span>
+</span></code></pre></div>
+<p>Retour pour Dovecot :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-122-1"><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a>dovecot: lda(postmaster..).. msgid=&lt;..9CD2..&gt;: saved
+</span></code></pre></div>
+<p>Pas d'erreur signalée, courrier reçu et stocké (saved).</p>
+<h4 id="-releve-mua-thunderbird"><em>- Relève (MUA Thunderbird)</em></h4>
+<p>Installez sur <code>srvlan</code> le client de messagerie Thunderbird :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-123-1"><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>thunderbird
+</span><span id="__span-123-2"><a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>thunderbird-l10n-fr
+</span></code></pre></div>
+<p>Puis copiez le certificat CA /etc/ssl/loupvirtuel-ca.pem situé sur la VM <code>srvdmz</code> dans le dossier partagé par le PC hôte de VirtualBox.</p>
+<p>Lancez enfin le client Thunderbird depuis le menu Xfce.</p>
+<p>- Menu de Thunderbird <em>(Les 3 barres en haut à droite)</em><br>
+-&gt; Paramètres -&gt; Vie privée et sécurité<br>
+-&gt; Certificats -&gt; Bouton Gérer les certificats...</p>
+<p>Une fenêtre <em>Gestionnaire de certificats</em> s'ouvre :<br>
+-&gt; Onglet Autorités -&gt; Bouton Importer...<br>
+-&gt; Accédez au dossier partagé par le PC hôte<br>
+-&gt; Sélectionnez le certificat SSL loupvirtuel-ca.pem<br>
+-&gt; Bouton Ouvrir</p>
+<p>Une fenêtre <em>Téléchargement du certificat</em> s'ouvre :<br>
+-&gt; Cochez Confirmer ... AC pour identifier ... web.<br>
+-&gt; Cochez Confirmer ... AC pour identifier ... courrier.<br>
+-&gt; Bouton OK -&gt; Bouton OK</p>
+<p>Ceci évitera d'avoir à traiter une exception de sécurité due à l'usage d'un certificat auto-signé. En fait on simule un certificat vérifié par une autorité (CA) publique.</p>
+<p>- Onglet Configuration du compte<br>
+-&gt; Votre nom complet<br>
+-&gt; Entrez Le Postmaster du domaine <code>loupvirtuel.fr</code><br>
+-&gt; Adresse e-mail<br>
+-&gt; Entrez <code>postmaster@loupvirtuel.fr</code><br>
+-&gt; Mot de passe<br>
+-&gt; Entrez le mdp_postmaster Ref: <a href="#hote-virtuel-https">§ Hôte virtuel ...</a></p>
+<p>-&gt; Cliquez sur Ligne Configuration manuelle</p>
+<p>Appliquez la configuration de la capture ci-dessous :<br>
+- Nom d'hôte : Enlevez le . situé devant <code>loupvirtuel.fr</code>.<br>
+-&gt; Bouton Retester pour vérifier si tout est OK.<br>
+-&gt; Bouton Terminé pour valider et créer le compte.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/thunderbird-deb12-config-compte.webp" data-title="Capture - Thunderbird : Compte Postmaster" data-desc-position="bottom"><img alt="Capture - Thunderbird : Compte Postmaster" src="../images/2024/12/thunderbird-deb12-config-compte.webp" width="220"></a>
+  </p>
+<figcaption>Thunderbird : Compte Postmaster</figcaption>
+</figure>
+<p>Vous pouvez lire le mail de <code>clientmail-vm1</code> (Ref: <a href="#envoi-mua-mail">§ Envoi ...</a>) :</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/thunderbird-deb12-reception-courrier.webp" data-title="Capture - Thunderbird : Réception du e-mail de clientmail-vm1" data-desc-position="bottom"><img alt="Capture - Thunderbird : Réception du e-mail de clientmail-vm1" src="../images/2024/12/thunderbird-deb12-reception-courrier.webp" width="430"></a>
+  </p>
+<figcaption>Thunderbird : Réception du e-mail de clientmail-vm1</figcaption>
+</figure>
+<p>Pour aller plus loin, créez sur les VM <code>debian12-vm*</code> et <code>srvdmz</code> les comptes appropriés en ayant préalablement installé thunderbird et importer le certificat CA.</p>
+<p>Créez sur <code>srvlan</code>, en complément du compte <code>postmaster</code>, un compte <code>srvlan@loupvirtuel.fr</code>.</p>
+<p>Réalisez ensuite des tests d'envois/réceptions entre les VM pour vérifier le bon fonctionnement.</p>
+<p>Un envoi vers <code>root</code> doit parvenir à <code>postmaster</code>.</p>
+<h3 id="spf-dkim">Envoi/Relève depuis Internet</h3>
+<p>Pour ce test, vous allez de nouveau exploiter le nom de domaine <code>zzz.freeddns.org</code> et le service de relais SMTP traités ci-dessus <em>(Ref: <a href="#relais-smtp">§ Service de relais SMTP</a>)</em>.</p>
+<p>Afin d'éviter que les envois depuis Postfix finissent dans un dossier SPAM, le service de relais SMTP fournit généralement les valeurs des enregistrements DNS pour les protocoles SPF, DKIM et DMARC.</p>
+<p>Il suffit alors d'enregistrer ceux-ci chez le fournisseur de noms de domaine.</p>
+<p><strong>A)</strong> Exemple d'ajout des enregistrements sur <code>dynu.com</code>.</p>
+<p>Créez un 2ème enregistrement DNS de type TXT pour SPF comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-124-1"><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a>Sous-domaine : Laissez vide
+</span><span id="__span-124-2"><a id="__codelineno-124-2" name="__codelineno-124-2" href="#__codelineno-124-2"></a>Type : TXT
+</span><span id="__span-124-3"><a id="__codelineno-124-3" name="__codelineno-124-3" href="#__codelineno-124-3"></a>Texte : v=spf1 a mx include:spf-relai.relai-smtp.net
+</span></code></pre></div>
+<p>Le SPF <em>(Sender Policy Framework)</em> permet à un serveur qui reçoit un e-mail de s’assurer que ce dernier a bien été envoyé par un serveur qui en a le droit.</p>
+<p>A défaut, l'e-mail pourrait être considéré comme du SPAM ou rejeté avant d'arriver à destination.</p>
+<p>Créez un 3ème enregistrement DNS de type TXT pour DKIM comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-125-1"><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>Sous-domaine : relai-smtp-com._domainkey
+</span><span id="__span-125-2"><a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>Type : TXT
+</span><span id="__span-125-3"><a id="__codelineno-125-3" name="__codelineno-125-3" href="#__codelineno-125-3"></a>Texte : v=DKIM1;h=sha256;k=rsa;s=email;p=......clé dkim publique....
+</span></code></pre></div>
+<p>Le DKIM <em>(Domain Keys Identified Mail)</em> permet au destinataire de vérifier qu’un e-mail a bien été envoyé par le propriétaire du domaine de l'adresse e-mail.</p>
+<p>Créez un 4ème enregistrement DNS de type TXT pour DMARC comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-126-1"><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>Sous-domaine : _dmarc
+</span><span id="__span-126-2"><a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a>Type : TXT
+</span><span id="__span-126-3"><a id="__codelineno-126-3" name="__codelineno-126-3" href="#__codelineno-126-3"></a>Texte : v=DMARC1;p=reject; adkim=s; aspf=s
+</span></code></pre></div>
+<p>Le DMARC <em>(Domain-based Message Authentication, Reporting and Conformance)</em> indique la conduite à tenir si le mail ne répond pas aux normes SPF ou DKIM.</p>
+<p><strong>B)</strong> Créez sur Postfixadmin le domaine virtuel <code>zzz.freeddns.org</code> ainsi qu'un compte virtuel <code>x.y@zzz.freeddns.org</code> de MDP y42.</p>
+<p><strong>C)</strong> Modifiez la configuration de votre Box Internet afin d'ouvrir les ports 25, 587 et 993 vers l'IP de la carte enp0s3 de <code>srvsec</code> qui est le point d'entrée du réseau local virtuel.</p>
+<p><strong>D)</strong> Ouvrez sur le pare-feu d'IPFire le port 25 vers <code>srvdmz</code>.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/ipfire-port25-debian11.webp" data-title="Capture - IPFire : Port 25 ouvert d'Internet vers srvdmz" data-desc-position="bottom"><img alt="Capture - IPFire : Port 25 ouvert d'Internet vers srvdmz" src="../images/2024/12/ipfire-port25-debian11.webp" width="430"></a>
+  </p>
+<figcaption>IPFire : Port 25 ouvert d'Internet vers srvdmz</figcaption>
+</figure>
+<p><strong>E)</strong> Procédez de même pour les ports 587 et 993.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/ipfire-serveur-courrier-debian11.webp" data-title="Capture - IPFire : Ports 25, 587 et 993 ouverts" data-desc-position="bottom"><img alt="Capture - IPFire : Ports 25, 587 et 993 ouverts" src="../images/2024/12/ipfire-serveur-courrier-debian11.webp" width="580"></a>
+  </p>
+<figcaption>IPFire : Ports 25, 587 et 993 ouverts</figcaption>
+</figure>
+<p><strong>F)</strong> Créez ensuite sur le Thunderbird de <code>srvlan</code> un compte <code>x.y@zzz.freeddns.org</code> avec les mêmes paramètres IMAP/SMTP que le compte <code>postmaster</code>, attention :<br>
+Nom d'hôte : <code>loupvirtuel.fr</code><br>
+Nom d'utilisateur : <code>x.y@zzz.freeddns.org</code></p>
+<p><strong>G)</strong> Pour finir, envoyez un e-mail depuis le MUA de votre mobile vers l'adresse <code>x.y@zzz.freeddns.org</code> et relevez celui-ci depuis le Thunderbird de <code>srvlan</code> et inversement.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/12/thunderbird-deb12-internet.webp" data-title="Capture - Thunderbird : Envoi d'un courrier vers Internet" data-desc-position="bottom"><img alt="Capture - Thunderbird : Envoi d'un courrier vers Internet" src="../images/2024/12/thunderbird-deb12-internet.webp" width="430"></a>
+  </p>
+<figcaption>Thunderbird : Envoi d'un courrier vers Internet</figcaption>
+</figure>
+<p>Les envois depuis Postfix arriveront majoritairement à destination mais certains, en fonction de leur contenu et de la politique anti-spam du FAI destinataire, pourront encore être traités comme SPAM.</p>
+<p>Le test permet toutefois de vérifier le fonctionnement en émission/réception du serveur de courrier sur Internet.</p>
+<p>Vous pouvez tester la validité des sécurités SSL/TLS, SPF, DKIM et DMARC depuis ces 2 sites :<br>
+<a href="https://mail-tester.com" target="_blank">https://mail-tester.com</a> et <a href="https://appmaildev.com" target="_blank">https://appmaildev.com</a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2023/07/redacteur_satisfait.jpg" data-title="Image - Rédacteur satisfait" data-desc-position="bottom"><img align="left" alt="Image - Rédacteur satisfait" src="../images/2023/07/redacteur_satisfait.jpg" title="Image Pixabay - Mohamed Hassan"></a></p>
+<p>&nbsp;<br>
+Ouf, pas facile. Postfix et Dovecot sont<br>
+opérationnels. La partie 2 vous attend<br>
+pour en réception traiter la présence<br>
+éventuelle de SPAM ou de VIRUS.</p>
+<p><a class="md-button md-button--primary" href="../e-mail---vboxdeb12-23/">Partie 2</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page">
+        
+          
+          <a href="../dns-split---vboxdeb12/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: DNS split - VBox/Deb12">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                DNS split - VBox/Deb12
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../e-mail---vboxdeb12-23/" class="md-footer__link md-footer__link--next" aria-label="Suivant: E-mail - VBox/Deb12 2/3">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                E-mail - VBox/Deb12 2/3
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024 - Leloup Gérard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": false, "loop": false, "zoomable": true, "draggable": false, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "none"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

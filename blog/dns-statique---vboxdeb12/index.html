@@ -1,0 +1,2800 @@
+<!DOCTYPE html><html lang="fr" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://loup79.github.io/notes-du-loup/blog/dns-statique---vboxdeb12/">
+      
+      
+        <link rel="prev" href="../contr%C3%B4le-%C3%A0-distance---vboxdeb12/">
+      
+      
+        <link rel="next" href="../dhcp-kea---vboxdeb12/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>DNS statique - VBox/Deb12 - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CConsolas:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Consolas"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-71-dns-avec-bind-9" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DNS statique - VBox/Deb12
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Accueil
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Réseau virtuel
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../informatique/" class="md-tabs__link">
+          
+  
+  
+  Divers informatique
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mkdocs/" class="md-tabs__link">
+          
+  
+  
+  Notes MkDocs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    Documents du Loup
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Accueil
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administrez votre réseau virtuel !
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-prerequis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prérequis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-elements-reseau-virtuel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eléments du réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-construction-reseau-virtuel-debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Construction du réseau
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-liste-des-mementos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liste des mémentos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Réseau virtuel
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index de tous les articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filtrage par catégorie
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filtrage par catégorie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-hyperviseur-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Hyperviseur Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-serveur-lan-srvlan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Serveur LAN "srvlan"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-serveur-wan-srvsec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Serveur WAN "srvsec"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-serveur-dmz-srvdmz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 Serveur DMZ "srvdmz"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-clients-lan-vm1-vm2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Clients LAN "vm1 vm2"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-ovs--conteneurs-lxc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 OvS + Conteneurs LXC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-acc%C3%A8s-rdp--vnc--ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Accès RDP + VNC + SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dns--dhcp--ddns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 DNS + DHCP + DDNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-lamp--https--cms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 LAMP + HTTPS + CMS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-sftp-acc%C3%A8s-cms---ftps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 SFTP accès CMS - FTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-dns-split-et-proxy-inverse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 DNS split et Proxy inverse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-serveur-de-courrier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Serveur de courrier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-cockpit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Cockpit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Divers informatique
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Divers informatique
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Les derniers articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catégorie du site :
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catégorie du site :
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/alpine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/centreon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Centreon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/eve-ng/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EVE-NG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/intelligence-artificielle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intelligence artificielle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/nextcloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nextcloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/synology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes MkDocs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes MkDocs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outil de documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Bases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/vscodeserver-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - VS Code Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/github-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#memento-71-dns-avec-bind-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mémento 7.1 - DNS avec BIND 9
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 7.1 - DNS avec BIND 9">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preambule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Préambule
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Préambule">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-situation-actuelle-zone-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Situation actuelle zone LAN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-place-du-dns-statique" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mise en place du DNS statique
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mise en place du DNS statique">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-installation-de-bind-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Installation de bind 9
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-de-base" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration de base
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration de base">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-ajout-de-zones-de-recherche" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Ajout de zones de recherche
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-configuration-des-zones" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Configuration des zones
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-mise-a-jour-de-bind-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Mise à jour de Bind 9
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-finale-et-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration finale et tests
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration finale et tests">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-refonte-fichier-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Refonte fichier hosts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-refonte-fichier-resolvconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Refonte fichier resolv.conf
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-tests-du-dns-depuis-srvlan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Tests du DNS depuis srvlan
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-externe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Déclaration d'un DNS externe
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tests-dns-depuis-les-vmctn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tests DNS depuis les VM/CTN
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tests DNS depuis les VM/CTN">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-vm-ovs-et-ctn-ctn1ctn2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - VM ovs et CTN ctn1/ctn2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vm-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - VM debian12-vm*
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulation-de-panne" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulation de panne
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+                  <span class="md-ellipsis">
+                    Retourner à l'index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://loup79.github.io/notes-du-loup/blog/logo_bis.png" alt="Loup79">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Loup79
+                        
+                      </strong>
+                      <br>
+                      Réseau virtuel
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadonnées
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"></path></svg>
+                        <time datetime="2024-01-17 00:00:00+00:00" class="md-ellipsis">17/01/2024</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"></path></svg>
+                          <span class="md-ellipsis">
+                            dans
+                            
+                              <a href="../08-dns--dhcp--ddns/">08 DNS + DHCP + DDNS</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"></path></svg>
+                          <span class="md-ellipsis">
+                            
+                              14 min de lecture
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+  <h1>DNS statique - VBox/Deb12</h1>
+
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/01/dns-statique-deb12-memento-7.1.webp" data-title="Synoptique - DNS statique sous Debian 12 - Mémento 7.1" data-desc-position="bottom"><img alt="Synoptique - DNS statique sous Debian 12 - Mémento 7.1" src="../images/2024/01/dns-statique-deb12-memento-7.1.webp" width="430"></a></p>
+</figure>
+<h2 id="memento-71-dns-avec-bind-9">Mémento 7.1 - DNS avec BIND 9</h2>
+<p>Le service DNS statique reposera sur bind 9 qui sera installé sur srvlan pour gérer la zone LAN.</p>
+<h3 id="preambule">Préambule</h3>
+<p>Le service gérera un sous-domaine de loupipfire.fr nommé intra.loupipfire.fr. Le nom de ce sous-domaine sera associé aux adresses IP de la zone LAN.</p>
+<p>La VM srvlan doit conserver son IP fixe 192.168.3.1.</p>
+<p>Commencez par une MAJ des CTN de la zone LAN :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>sudo<span class="w"> </span>podman<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ctn1<span class="w"> </span>ou<span class="w"> </span><span class="m">2</span><span class="w"> </span>bash<span class="w">   </span><span class="c1"># Conteneurs rootfull</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="c1"># apt update</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># apt upgrade</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># exit</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>podman<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ctn3<span class="w"> </span>bash<span class="w">             </span><span class="c1"># Conteneur rootless</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c1"># apt update</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># apt upgrade</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="c1"># exit </span>
+</span></code></pre></div>
+<p>et ensuite celle des VM de la zone LAN :</p>
+<!-- more -->
+
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>upgrade
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>sudo<span class="w"> </span>apt<span class="w"> </span>dist-upgrade
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>sudo<span class="w"> </span>reboot
+</span></code></pre></div>
+<p>VM = Machine virtuelle et CTN = Conteneur Podman</p>
+<h4 id="-situation-actuelle-zone-lan"><em>- Situation actuelle zone LAN</em></h4>
+<p>a) Une IP fixe et un nom d'hôte pour chaque VM/CTN.<br>
+Ex : IP fixe 192.168.3.2 pour l'hôte debian12-vm1</p>
+<p>Cde utile pour découvrir les adresses IP :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="o">[</span>user@hostname:~$<span class="o">]</span><span class="w"> </span>ip<span class="w"> </span>address
+</span></code></pre></div>
+<p>Cdes utiles pour découvrir les noms d'hôtes :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>user@hostname:~$<span class="o">]</span><span class="w"> </span>cat<span class="w"> </span>/etc/hostname
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="o">[</span>user@hostname:~$<span class="o">]</span><span class="w"> </span>cat<span class="w"> </span>/etc/hosts<span class="w">               </span><span class="c1"># Ligne 127.0.1.1</span>
+</span></code></pre></div>
+<p>b) Une Box Internet déclarée comme serveur DNS.</p>
+<p>Cde utile pour découvrir les serveurs DNS exploités :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="o">[</span>user@hostname:~$<span class="o">]</span><span class="w"> </span>cat<span class="w"> </span>/etc/resolv.conf
+</span></code></pre></div>
+<p>c) Des pings qui émis depuis le LAN montrent un retour :<br>
+- Positif sur un nom de domaine Internet<br>
+Ex : ping <code>www.google.fr</code></p>
+<p>- Positif sur leur propre nom d'hôte<br>
+Ex : ping debian12-vm1 depuis la VM debian12-vm1</p>
+<p>- Négatif sur les autres noms d'hôtes de la zone LAN</p>
+<p>Exemple de retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>client-linux@debian12-vm1:~$ ping srvlan
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>ping: srvlan: Nom ou service inconnu
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>client-linux@debian12-vm1:~$
+</span></code></pre></div>
+<p>Un serveur DNS local solutionnera le retour négatif.</p>
+<h3 id="mise-en-place-du-dns-statique">Mise en place du DNS statique</h3>
+<p>Le système fournit bind 9 et unbound soit les 2 serveurs DNS les plus utilisés sous Debian.</p>
+<p>Le choix se portera sur bind 9 qui contrairement à unbound peut être utilisé à la fois comme serveur de noms récursif et serveur de noms faisant autorité.</p>
+<p>Un serveur DNS récursif recherchera le résultat d'une requête DNS dans son cache ou à défaut interrogera un serveur DNS faisant autorité pour obtenir le résultat.</p>
+<p>Un serveur DNS faisant autorité contiendra le résultat, il n'interrogera pas d'autres serveurs et sera l’autorité finale contenant tous les noms d'hôtes et adresses IP d'une zone donnée.</p>
+<p>Le service DNS sera statique car les données seront pour l'instant renseignées manuellement.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2024/01/dns-recursif.webp" data-title="Synoptique - DNS : Fonctionnement de la récursion DNS" data-desc-position="bottom"><img alt="Synoptique - DNS : Fonctionnement de la récursion DNS" src="../images/2024/01/dns-recursif.webp" width="430"></a>
+  </p>
+<figcaption>DNS : Fonctionnement de la récursion DNS</figcaption>
+</figure>
+<h4 id="-installation-de-bind-9"><em>- Installation de bind 9</em></h4>
+<p>Installez le paquet bind9 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>bind9
+</span></code></pre></div>
+<p>et vérifiez le démarrage de celui-ci :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>bind9
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>● named.service - BIND Domain Name Server
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>   Loaded: loaded (/lib/systemd/system/named.ser...
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>     Active: active (running) since Thu 2024-01-...
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>       Docs: man:named(8)
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>   Main PID: 3234 (named)
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>     Status: "running"
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>      Tasks: 4 (limit: 1077)
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>     Memory: 33.0M
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        CPU: 87ms
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>     CGroup: /system.slice/named.service
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        └─3234 /usr/sbin/named -f -u bind
+</span></code></pre></div>
+<p>Vérifiez son lancement automatique au boot de la VM :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>systemctl<span class="w"> </span>is-enabled<span class="w"> </span>named
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>enabled
+</span></code></pre></div>
+<p>Vérifiez la version installée :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>named<span class="w"> </span>-v
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>BIND 9.18.19...-Debian (Extended Support V...) &lt;id:&gt;
+</span></code></pre></div>
+<p>Vérifiez l'utilisation des ports TCP/UDP 53 et 953 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ss<span class="w"> </span>-tulpn<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>named
+</span></code></pre></div>
+<p>Retour partiel :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>udp UNC... 0 0        192.168.3.1:53   ..."named"...      
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>udp UNC... 0 0        192.168.2.2:53   ..."named"...      
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>udp UNC... 0 0          127.0.0.1:53   ..."named"...      
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>udp UNC... 0 0              [::1]:53   ..."named"...      
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>udp UNC... 0 0   [fe80::...enp0s3:53   ..."named"...     
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>udp UNC... 0 0   [fe80::...enp0s8:53   ..."named"...      
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>tcp LIS... 0 10       192.168.3.1:53   ..."named"...      
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>tcp LIS... 0 10       192.168.2.2:53   ..."named"...      
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>tcp LIS... 0 10         127.0.0.1:53   ..."named"...      
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>tcp LIS... 0 5         127.0.0.1:953   ..."named"...      
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>tcp LIS... 0 10             [::1]:53   ..."named"...      
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>tcp LIS... 0 10  [fe80::...enp0s3:53   ..."named"...      
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>tcp LIS... 0 10  [fe80::...enp0s8:53   ..."named"...      
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>tcp LIS... 0 5             [::1]:953   ..."named"...
+</span></code></pre></div>
+<p>53 = Port DNS TCP/UDP par défaut<br>
+953 = Port des Cdes rndc pour gérer le démon named</p>
+<p>Vérifiez l'activation de l'outil associé rndc :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>rndc<span class="w"> </span>status<span class="w"> </span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>version: BIND 9.18...-Debian (Extended Supp...
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>running on localhost: Linux x86_64 6...-amd...
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>boot time: Thu, 11 Jan 2024 12:17:15 GMT
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>last configured: Thu, 11 Jan 2024 12:17:15 GMT
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>configuration file: /etc/bind/named.conf
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>CPUs found: 2
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>worker threads: 2
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>UDP listeners per interface: 2
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>number of zones: 102 (97 automatic)
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>debug level: 0
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>xfers running: 0
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>xfers deferred: 0
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>soa queries in progress: 0
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>query logging is OFF
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>recursive clients: 0/900/1000
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>tcp clients: 0/150
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>TCP high-water: 0
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a>server is up and running
+</span></code></pre></div>
+<p>L'interface en ligne de Cde rndc permet de gérer le démon named localement ou à distance.</p>
+<p>Pour finir, observez les fichiers de configuration DNS présents dans les dossiers suivants :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ls<span class="w"> </span>/etc/bind
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ls<span class="w"> </span>/var/cache/bind<span class="w">    </span>
+</span></code></pre></div>
+<h3 id="configuration-de-base">Configuration de base</h3>
+<h4 id="-ajout-de-zones-de-recherche"><em>- Ajout de zones de recherche</em></h4>
+<p>Une zone de recherche directe permet à un service DNS interrogé de renvoyer une adresse IP associée à un nom alors qu'une zone de recherche inverse fera le contraire.</p>
+<p>Le fichier named.conf.local contient la configuration locale du serveur DNS bind9, vous y déclarerez donc les zones de recherche pour intra.loupipfire.fr.</p>
+<p>Editez le fichier de configuration named.conf.local :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/bind/named.conf.local<span class="w">    </span>
+</span></code></pre></div>
+<p>et ajoutez les lignes suivantes à la fin de celui-ci :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Zone ou Domaine intra.loupipfire.fr</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="c1"># Définition des zones de recherche directe et inverse</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="c1"># Serveur DNS maître pour le domaine (type)</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Fichiers de zones associés dans /etc/bind (file)</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># MAJ dynamique des fichiers de zones &gt; none (allow-update)  </span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># zone de recherche directe</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>zone<span class="w"> </span><span class="s2">"intra.loupipfire.fr"</span><span class="w"> </span><span class="o">{</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="nb">type</span><span class="w"> </span>master<span class="p">;</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>file<span class="w"> </span><span class="s2">"/etc/bind/db.intra.loupipfire.fr.directe"</span><span class="p">;</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>allow-update<span class="w"> </span><span class="o">{</span><span class="w"> </span>none<span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="o">}</span><span class="p">;</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="c1"># zone de recherche inverse</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="c1"># Le réseau 192.168.3.0 aura pour adresse inverse </span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="c1"># 3.168.192.in-addr.arpa </span>
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>zone<span class="w"> </span><span class="s2">"3.168.192.in-addr.arpa"</span><span class="w"> </span><span class="o">{</span>
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="nb">type</span><span class="w"> </span>master<span class="p">;</span>
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>file<span class="w"> </span><span class="s2">"/etc/bind/db.intra.loupipfire.fr.inverse"</span><span class="p">;</span>
+</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>allow-update<span class="w"> </span><span class="o">{</span><span class="w"> </span>none<span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="o">}</span><span class="p">;</span><span class="w">    </span>
+</span></code></pre></div>
+<h4 id="-configuration-des-zones"><em>- Configuration des zones</em></h4>
+<p>Les fichiers de zones de recherche contiendront les directives et enregistrements de ressources pour le domaine intra.loupipfire.fr.</p>
+<p>Créez le fichier pour la zone directe :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/bind
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>db.intra.loupipfire.fr.directe<span class="w">    </span>
+</span></code></pre></div>
+<p>et insérez les lignes suivantes :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">;</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="p">;</span><span class="w"> </span>DNS<span class="w"> </span>-<span class="w"> </span>Fichier<span class="w"> </span>de<span class="w"> </span>zone<span class="w"> </span>pour<span class="w"> </span>la<span class="w"> </span>résolution<span class="w"> </span>directe
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="p">;</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="nv">$TTL</span><span class="w"> </span><span class="m">86400</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>@<span class="w">   </span>IN<span class="w">   </span>SOA<span class="w">   </span>srvlan.intra.loupipfire.fr.<span class="w"> </span>root.intra.loupipfire.fr.<span class="w"> </span><span class="o">(</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="m">1</span><span class="w">                             </span><span class="p">;</span><span class="w"> </span>Serial
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="m">604800</span><span class="w">                  </span><span class="p">;</span><span class="w"> </span>Refresh<span class="w"> </span>-<span class="w"> </span>1w<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>semaine<span class="o">)</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="m">84600</span><span class="w">                    </span><span class="p">;</span><span class="w"> </span>Retry<span class="w"> </span>-<span class="w"> </span>1d<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>jour<span class="o">)</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="m">2419200</span><span class="w">               </span><span class="p">;</span><span class="w"> </span>Expire<span class="w"> </span>-<span class="w"> </span>4w<span class="w"> </span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="m">604800</span><span class="w"> </span><span class="o">)</span><span class="w">               </span><span class="p">;</span><span class="w"> </span>Negative<span class="w"> </span>Cache<span class="w"> </span>TTL<span class="w"> </span>-<span class="w"> </span>1w
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="p">;</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>@<span class="w">       </span>IN<span class="w">     </span>NS<span class="w">     </span>srvlan.intra.loupipfire.fr.
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>srvlan<span class="w">       </span>IN<span class="w">     </span>A<span class="w">     </span><span class="m">192</span>.168.3.1
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>ovs<span class="w">       </span>IN<span class="w">     </span>A<span class="w">     </span><span class="m">192</span>.168.3.15
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>debian12-vm1<span class="w">       </span>IN<span class="w">     </span>A<span class="w">     </span><span class="m">192</span>.168.3.2
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>debian12-vm2<span class="w">       </span>IN<span class="w">     </span>A<span class="w">     </span><span class="m">192</span>.168.3.4
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a>ctn1<span class="w">       </span>IN<span class="w">     </span>A<span class="w">     </span><span class="m">192</span>.168.3.6
+</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>ctn2<span class="w">       </span>IN<span class="w">     </span>A<span class="w">     </span><span class="m">192</span>.168.3.8<span class="w">    </span>
+</span></code></pre></div>
+<p>- Détail des paramètres -<br>
+a) Directives SOA (Start of Authority) :</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="td-bord" style="text-align: left;">@</td>
+<td class="td-bord" style="text-align: left;">Représente le nom de domaine de la zone soit intra.loupipfire.fr</td>
+</tr>
+<tr>
+<td class="td-bord" style="text-align: left;">IN SOA</td>
+<td class="td-bord" style="text-align: left;">Désigne srvlan comme autorité pour la zone intra.loupipfire.fr</td>
+</tr>
+<tr>
+<td class="td-bord" style="text-align: left;">1</td>
+<td class="td-bord" style="text-align: left;">N° de série du fichier, à changer à chaque modification de celui-ci</td>
+</tr>
+<tr>
+<td class="td-bord" style="text-align: left;">604800</td>
+<td class="td-bord" style="text-align: left;">Un DNS esclave attendra 1w avant de rafraichir ses données</td>
+</tr>
+<tr>
+<td class="td-bord" style="text-align: left;">84600</td>
+<td class="td-bord" style="text-align: left;">Si échec, il réessaiera 1d après</td>
+</tr>
+<tr>
+<td class="td-bord" style="text-align: left;">2419200</td>
+<td class="td-bord" style="text-align: left;">Si échec durant 4w, il cessera de répondre en tant qu'autorité</td>
+</tr>
+<tr>
+<td class="td-bord" style="text-align: left;">604800</td>
+<td class="td-bord" style="text-align: left;">Mise en cache des réponses négatives durant 1w</td>
+</tr>
+</tbody>
+</table>
+<p>Le n° de série peut être une date suivie d'un n° d'ordre :<br>
+Ex : AAAAMMJJxx</p>
+<p>b) Enregistrements de type NS et A :</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="td-bord" style="text-align: left;">IN NS</td>
+<td class="td-bord" style="text-align: left;">Indique le nom du serveur DNS pour la zone</td>
+</tr>
+<tr>
+<td class="td-bord" style="text-align: left;">IN A</td>
+<td class="td-bord" style="text-align: left;">Relie un nom d’hôte (domaine - s/domaine) à une adresse IPv4</td>
+</tr>
+</tbody>
+</table>
+<p>Créez maintenant le fichier pour la zone inverse :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/bind
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>db.intra.loupipfire.fr.inverse<span class="w">    </span>
+</span></code></pre></div>
+<p>et insérez les lignes suivantes :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">;</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="p">;</span><span class="w">  </span>DNS<span class="w"> </span>-<span class="w"> </span>Fichier<span class="w"> </span>de<span class="w"> </span>zone<span class="w"> </span>pour<span class="w"> </span>la<span class="w"> </span>résolution<span class="w"> </span>inverse
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="p">;</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="nv">$TTL</span><span class="w"> </span><span class="m">86400</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>@<span class="w">   </span>IN<span class="w">   </span>SOA<span class="w">   </span>srvlan.intra.loupipfire.fr.<span class="w"> </span>root.intra.loupipfire.fr.<span class="w"> </span><span class="o">(</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="m">1</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>1w
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>1d
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>4w
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a>1w<span class="w"> </span><span class="o">)</span>
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="p">;</span>
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>@<span class="w">       </span>IN<span class="w">     </span>NS<span class="w">     </span>srvlan.intra.loupipfire.fr.
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="m">1</span><span class="w">       </span>IN<span class="w">     </span>PTR<span class="w">     </span>srvlan.intra.loupipfire.fr.
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="m">15</span><span class="w">       </span>IN<span class="w">     </span>PTR<span class="w">     </span>ovs.intra.loupipfire.fr.<span class="w"> </span>
+</span><span id="__span-23-15"><a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a><span class="m">2</span><span class="w">       </span>IN<span class="w">     </span>PTR<span class="w">     </span>debian12-vm1.intra.loupipfire.fr.<span class="w"> </span>
+</span><span id="__span-23-16"><a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="m">4</span><span class="w">       </span>IN<span class="w">     </span>PTR<span class="w">     </span>debian12-vm2.intra.loupipfire.fr.
+</span><span id="__span-23-17"><a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="m">6</span><span class="w">       </span>IN<span class="w">     </span>PTR<span class="w">     </span>ctn1.intra.loupipfire.fr.
+</span><span id="__span-23-18"><a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="m">8</span><span class="w">       </span>IN<span class="w">     </span>PTR<span class="w">     </span>ctn2.intra.loupipfire.fr.<span class="w">    </span>
+</span></code></pre></div>
+<p>- Détail des paramètres -<br>
+a) Directives SOA (Start of Authority) :<br>
+Idem fichier de zone pour la résolution directe.</p>
+<p>b) Enregistrements de type PTR :</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="td-bord" style="text-align: left;">IN PTR</td>
+<td class="td-bord" style="text-align: left;">Relie une adresse IP à un nom d'hôte</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Nota</p>
+<p>Le conteneur sécurisé rootless ctn3 n'a pas été traité, le service réseau slirp4netns qui lui est associé manque de certaines fonctionnalités notamment celle de ne pas donner au conteneur une adresse IP routable.</p>
+</div>
+<h4 id="-mise-a-jour-de-bind-9"><em>- Mise à jour de Bind 9</em></h4>
+<p>Redémarrez le service DNS :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>bind9<span class="w">    </span>
+</span></code></pre></div>
+<h3 id="configuration-finale-et-tests">Configuration finale et tests</h3>
+<h4 id="-refonte-fichier-hosts"><em>- Refonte fichier hosts</em></h4>
+<p>Editez le fichier DNS hosts :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/hosts<span class="w">    </span>
+</span></code></pre></div>
+<p>et ajoutez le FQDN de srvlan (<mark>nom d'hôte + nom de domaine</mark>) comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="m">127</span>.0.0.1<span class="w">        </span>localhost
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="m">127</span>.0.1.1<span class="w">        </span>srvlan
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="m">192</span>.168.3.1<span class="w">    </span>srvlan.intra.loupipfire.fr<span class="w"> </span>srvlan<span class="w">   </span>
+</span></code></pre></div>
+<p>Ce fichier est consulté avant l'accès au serveur bind et peut donc être utilisé pour un minimum de résolution de noms en cas de panne du serveur DNS.</p>
+<p>N'effacez pas le groupe de lignes dédié à l'IPv6.</p>
+<h4 id="-refonte-fichier-resolvconf"><em>- Refonte fichier resolv.conf</em></h4>
+<p>Vous allez modifier ce fichier actuellement traité dynamiquement par l'outil NetworkManager et qui indique à srvlan quel serveur DNS interroger.</p>
+<p>Faites un clic droit sur l'applet réseau NetworkManager :<br>
+-&gt; Modifier les connexions...</p>
+<p>Une fenêtre Connexions réseau s'ouvre :<br>
+-&gt; Sélectionnez la Connexion carte 2<br>
+-&gt; Cliquez sur la roue dentée située en bas à gauche</p>
+<p>Une fenêtre Modification de la Connexion ... s'ouvre :<br>
+-&gt; Onglet Paramètres IPv4</p>
+<p>Modifiez ensuite la valeur des champs suivants :<br>
+-&gt; Serveurs DNS &gt; 192.168.3.1<br>
+-&gt; Domaines de recherche &gt; intra.loupipfire.fr<br>
+-&gt; Bouton Enregistrer<br>
+-&gt; Authentifiez-vous si une demande est affichée</p>
+<p>Modifiez ensuite la Connexion carte 1 en effaçant le contenu du champ Serveurs DNS.</p>
+<p>Puis redémarrez le réseau pour une MAJ des nouveaux paramètres nameserver et search :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>NetworkManager<span class="w">  </span>
+</span></code></pre></div>
+<p>Affichez pour finir le contenu du fichier resolv.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>cat<span class="w"> </span>/etc/resolv.conf<span class="w"> </span>
+</span></code></pre></div>
+<p>qui doit montrer ceci :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gh"># Generated by NetworkManager</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>search intra.loupipfire.fr
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>nameserver 192.168.3.1
+</span></code></pre></div>
+<h4 id="-tests-du-dns-depuis-srvlan"><em>- Tests du DNS depuis srvlan</em></h4>
+<p>a) Vérifiez la syntaxe du fichier /etc/bind/named.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>named-checkconf<span class="w"> </span>
+</span></code></pre></div>
+<p>Sont inclus dans la vérification les fichiers DNS :<br>
+- named.conf.options<br>
+- named.conf.local<br>
+- named.conf.default-zones<br>
+Aucune erreur ne sera retournée en cas de résultat OK.</p>
+<p>b) Vérifiez la validité du fichier de zone directe :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/bind
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>named-checkzone<span class="w"> </span>-d<span class="w"> </span>intra.loupipfire.fr<span class="w"> </span>db.intra.loupipfire.fr.directe<span class="w"> </span>
+</span></code></pre></div>
+<p>La Cde retourne normalement :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>loading "intra.loupipfire.fr" from "db.intra.loupipfire.fr.directe" class "IN"
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>zone intra.loupipfire.fr/IN: loaded serial 1
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>OK 
+</span></code></pre></div>
+<p>c) Vérifiez la validité du fichier de zone inverse :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="o">[</span>srlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>named-checkzone<span class="w"> </span>-d<span class="w"> </span><span class="m">3</span>.168.192.in-addr.arpa<span class="w">  </span>db.intra.loupipfire.fr.inverse<span class="w">   </span>
+</span></code></pre></div>
+<p>La Cde retourne normalement :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>loading "3.168.192.in-addr.arpa" from "db.intra.loupipfire.fr.inverse" class "IN"
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>zone 3.168.192.in-addr.arpa/IN: loaded serial 1
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>OK
+</span></code></pre></div>
+<p>d) Testez les outils de vérification host et dig :<br>
+Ceux-ci peuvent aider à détecter des problèmes dans la résolution de noms.</p>
+<p>La Cde host est incluse dans le paquet bind9-host installé de base :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>host<span class="w"> </span>-v<span class="w"> </span>srvlan.intra.loupipfire.fr<span class="w">  </span>
+</span></code></pre></div>
+<p>Celle-ci retourne normalement :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>Trying "srvlan.intra.loupipfire.fr"
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 9400
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>;; QUESTION SECTION:
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>;srvlan.intra.loupipfire.fr. IN A
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>;; ANSWER SECTION:
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>srvlan.intra.loupipfire.fr. 86400 IN A 192.168.3.1
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>Received 60 bytes from 192.168.3.1#53 in 16 ms
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a>Trying "srvlan.intra.loupipfire.fr"
+</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 64294
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a>;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 0
+</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a>
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a>;; QUESTION SECTION:
+</span><span id="__span-36-17"><a id="__codelineno-36-17" name="__codelineno-36-17" href="#__codelineno-36-17"></a>;srvlan.intra.loupipfire.fr. IN AAAA
+</span><span id="__span-36-18"><a id="__codelineno-36-18" name="__codelineno-36-18" href="#__codelineno-36-18"></a>
+</span><span id="__span-36-19"><a id="__codelineno-36-19" name="__codelineno-36-19" href="#__codelineno-36-19"></a>;; AUTHORITY SECTION:
+</span><span id="__span-36-20"><a id="__codelineno-36-20" name="__codelineno-36-20" href="#__codelineno-36-20"></a>intra.loupipfire.fr. 86400 IN SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. 1 604800 84600 2419200 604800
+</span><span id="__span-36-21"><a id="__codelineno-36-21" name="__codelineno-36-21" href="#__codelineno-36-21"></a>
+</span><span id="__span-36-22"><a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a>Received 85 bytes from 192.168.3.1#53 in 0 ms
+</span><span id="__span-36-23"><a id="__codelineno-36-23" name="__codelineno-36-23" href="#__codelineno-36-23"></a>Trying "srvlan.intra.loupipfire.fr"
+</span><span id="__span-36-24"><a id="__codelineno-36-24" name="__codelineno-36-24" href="#__codelineno-36-24"></a>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 51406
+</span><span id="__span-36-25"><a id="__codelineno-36-25" name="__codelineno-36-25" href="#__codelineno-36-25"></a>;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 0
+</span><span id="__span-36-26"><a id="__codelineno-36-26" name="__codelineno-36-26" href="#__codelineno-36-26"></a>
+</span><span id="__span-36-27"><a id="__codelineno-36-27" name="__codelineno-36-27" href="#__codelineno-36-27"></a>;; QUESTION SECTION:
+</span><span id="__span-36-28"><a id="__codelineno-36-28" name="__codelineno-36-28" href="#__codelineno-36-28"></a>;srvlan.intra.loupipfire.fr IN MX
+</span><span id="__span-36-29"><a id="__codelineno-36-29" name="__codelineno-36-29" href="#__codelineno-36-29"></a>
+</span><span id="__span-36-30"><a id="__codelineno-36-30" name="__codelineno-36-30" href="#__codelineno-36-30"></a>;; AUTHORITY SECTION:
+</span><span id="__span-36-31"><a id="__codelineno-36-31" name="__codelineno-36-31" href="#__codelineno-36-31"></a>intra.loupipfire.fr. 86400 IN SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. 1 604800 84600 2419200 604800
+</span><span id="__span-36-32"><a id="__codelineno-36-32" name="__codelineno-36-32" href="#__codelineno-36-32"></a>
+</span><span id="__span-36-33"><a id="__codelineno-36-33" name="__codelineno-36-33" href="#__codelineno-36-33"></a>Received 85 bytes from 192.168.3.1#53 in 0 ms
+</span></code></pre></div>
+<p>La Cde dig est incluse dans le paquet bind9-dnsutils installé de base :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>dig<span class="w"> </span>SOA<span class="w"> </span>srvlan.intra.loupipfire.fr<span class="w">  </span>
+</span></code></pre></div>
+<p>Celle-ci retourne normalement :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>; &lt;&lt;&gt;&gt; DiG 9.18.19-1~deb12u1-Debian &lt;&lt;&gt;&gt; SOA srvlan.intra.loupipfire.fr
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>;; global options: +cmd
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>;; Got answer:
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 26365
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>;; flags: qr aa rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>;; OPT PSEUDOSECTION:
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>; EDNS: version: 0, flags:; udp: 1232
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>; COOKIE: ce938125a123e1bd0100000065a1... (good)
+</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a>;; QUESTION SECTION:
+</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a>;srvlan.intra.loupipfire.fr. IN SOA
+</span><span id="__span-38-12"><a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a>
+</span><span id="__span-38-13"><a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a>;; AUTHORITY SECTION:
+</span><span id="__span-38-14"><a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a>intra.loupipfire.fr. 86400 IN SOA srvlan.intra.loupipfire.fr. root.intra.loupipfire.fr. 1 604800 84600 2419200 604800
+</span><span id="__span-38-15"><a id="__codelineno-38-15" name="__codelineno-38-15" href="#__codelineno-38-15"></a>
+</span><span id="__span-38-16"><a id="__codelineno-38-16" name="__codelineno-38-16" href="#__codelineno-38-16"></a>;; Query time: 0 msec
+</span><span id="__span-38-17"><a id="__codelineno-38-17" name="__codelineno-38-17" href="#__codelineno-38-17"></a>;; SERVER: 192.168.3.1#53(192.168.3.1) (UDP)
+</span><span id="__span-38-18"><a id="__codelineno-38-18" name="__codelineno-38-18" href="#__codelineno-38-18"></a>;; WHEN: Fri Jan 12 17:26:23 CET 2024
+</span><span id="__span-38-19"><a id="__codelineno-38-19" name="__codelineno-38-19" href="#__codelineno-38-19"></a>;; MSG SIZE  rcvd: 124  
+</span></code></pre></div>
+<p>e) Testez la résolution DNS interne et externe :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>debian12-vm1
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>debian12-vm2.intra.loupipfire.fr
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>srvlan
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>srvlan.intra.loupipfire.fr
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>ctn2
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>lemonde.fr<span class="w">  </span>
+</span></code></pre></div>
+<p>Le ping srvlan renvoie 127.0.1.1.<br>
+Le ping srvlan.intra.loupipfire.fr renvoie 192.168.3.1.</p>
+<p>f) Pour finir, vérifiez le chargement des zones :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>sudo<span class="w"> </span>named-checkconf<span class="w"> </span>-z<span class="w">   </span><span class="c1"># Liste des zones chargées </span>
+</span></code></pre></div>
+<h3 id="dns-externe">Déclaration d'un DNS externe</h3>
+<p>Le DNS utilise 13 destinations de serveurs racines pour gérer les requêtes d'accès à Internet. Ces serveurs sont chargés de renvoyer lesdites requêtes vers des serveurs DNS de premier niveau appropriés <em>(.com, .fr, etc...)</em>.</p>
+<p>Le résolveur bind9 exploite par défaut le fichier /usr/share/dns/root.hints pour interroger ces serveurs racines <em>(adresses de a.root-servers.net à m.root-servers.net)</em> et obtenir les réponses aux requêtes d'accès à Internet.</p>
+<p>Actuellement bind9 traite les requêtes locales <em>(Ex : ping debian12-vm1.intra.loupipfire.fr)</em> ainsi que les requêtes d'accès à Internet <em>(Ex : ping lemonde.fr)</em> et construit son cache en fonction.</p>
+<p>Test d'une requête locale :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>nslookup<span class="w"> </span>ovs.intra.loupipfire.fr<span class="w"> </span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>Server: 192.168.3.1 (IP serveur DNS soit srvlan)
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>Address:    192.168.3.1#53
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>Name: ovs.intra.loupipfire.fr
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>Address: 192.168.3.15
+</span></code></pre></div>
+<p>La VM srvlan est l'autorité pour la réponse.</p>
+<p>Test d'une requête d'accès à Internet :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>nslookup<span class="w"> </span>mappy.fr
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>Server:     192.168.3.1 (IP serveur DNS soit srvlan)
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>Address:    192.168.3.1#53
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>Non-authoritative answer:
+</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>Name:    mappy.fr
+</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>Address: 193.203.32.57
+</span></code></pre></div>
+<p>Constat, srvlan n'est plus l'autorité pour la réponse.</p>
+<p>Vous allez à présent, pour alléger le travail de srvlan, demander que les requêtes d'accès à Internet <em>(les demandes de résolutions externes)</em> soient dorénavant traitées par les serveurs DNS de Google.</p>
+<p>Editez pour cela le fichier DNS named.conf.options :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/bind/named.conf.options
+</span></code></pre></div>
+<p>et modifiez celui-ci afin qu'il contienne ces lignes :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>options<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">     </span>directory<span class="w"> </span><span class="s2">"/var/cache/bind"</span><span class="p">;</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="w">     </span>dnssec-validation<span class="w"> </span>auto<span class="p">;</span><span class="w">      </span>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="w">     </span>//<span class="w"> </span>Limiter<span class="w"> </span>les<span class="w"> </span>réponses<span class="w"> </span>récursives<span class="w"> </span>aux
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="w">     </span>//<span class="w"> </span>réseaux/IP<span class="w"> </span>des<span class="w"> </span>interfaces<span class="w"> </span>du<span class="w"> </span>serveur<span class="w"> </span>DNS<span class="w"> </span>srvlan
+</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">     </span>allow-recursion<span class="w"> </span><span class="o">{</span><span class="w"> </span>localnets<span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span><span class="w"> </span>
+</span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a>
+</span><span id="__span-46-10"><a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="w">     </span>//<span class="w"> </span>Pour<span class="w"> </span>les<span class="w"> </span>autres<span class="w"> </span>réseaux/IP,
+</span><span id="__span-46-11"><a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="w">     </span>//<span class="w"> </span>transfert<span class="w"> </span>des<span class="w"> </span>requêtes<span class="w"> </span>DNS<span class="w"> </span>vers<span class="w"> </span>Internet.
+</span><span id="__span-46-12"><a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a><span class="w">     </span>//<span class="w"> </span>Adresses<span class="w"> </span>IPv4<span class="w"> </span>des<span class="w"> </span>serveurs<span class="w"> </span>DNS<span class="w"> </span>de<span class="w"> </span>Google.
+</span><span id="__span-46-13"><a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a><span class="w">     </span>forward<span class="w"> </span>only<span class="p">;</span>
+</span><span id="__span-46-14"><a id="__codelineno-46-14" name="__codelineno-46-14" href="#__codelineno-46-14"></a><span class="w">     </span>forwarders<span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="m">8</span>.8.8.8<span class="p">;</span><span class="w"> </span><span class="m">8</span>.8.4.4<span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span><span class="w"> </span>
+</span><span id="__span-46-15"><a id="__codelineno-46-15" name="__codelineno-46-15" href="#__codelineno-46-15"></a>
+</span><span id="__span-46-16"><a id="__codelineno-46-16" name="__codelineno-46-16" href="#__codelineno-46-16"></a><span class="w">     </span>listen-on-v6<span class="w"> </span><span class="o">{</span><span class="w"> </span>any<span class="p">;</span><span class="w"> </span><span class="o">}</span><span class="p">;</span>
+</span><span id="__span-46-17"><a id="__codelineno-46-17" name="__codelineno-46-17" href="#__codelineno-46-17"></a><span class="o">}</span><span class="p">;</span><span class="w">    </span>
+</span></code></pre></div>
+<p>Redémarrez maintenant le service bind9 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>bind9<span class="w"> </span>
+</span></code></pre></div>
+<p>et testez une requête d'accès à Internet :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>nslookup<span class="w"> </span>yahoo.fr<span class="w"> </span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>Server: 192.168.3.1
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>Address: 192.168.3.1#53
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>Non-authoritative answer:
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>Name: yahoo.fr
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>Address: 44.228.206.170
+</span><span id="__span-49-7"><a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a>Name: yahoo.fr
+</span><span id="__span-49-8"><a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a>Address: 34.213.101.254
+</span><span id="__span-49-9"><a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a>Name: yahoo.fr
+</span><span id="__span-49-10"><a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a>Address: 13.50.184.192
+</span><span id="__span-49-11"><a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a>Name: yahoo.fr
+</span><span id="__span-49-12"><a id="__codelineno-49-12" name="__codelineno-49-12" href="#__codelineno-49-12"></a>Address: 13.251.69.97
+</span><span id="__span-49-13"><a id="__codelineno-49-13" name="__codelineno-49-13" href="#__codelineno-49-13"></a>...
+</span></code></pre></div>
+<p>La résolution externe se fait toujours mais utilisez-vous les DNS de Google ?</p>
+<p>Pour le savoir, remplacez les IP du paramètre forwarders par des IP quelconques, redémarrez le service bind9 afin de vider le cache DNS actif et relancez la requête :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>nslookup<span class="w"> </span>yahoo.fr<span class="w">  </span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>;; communications error to 192.168.3.1#53: timed out
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>Server: 192.168.3.1
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>Address: 192.168.3.1#53
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a>
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a>** server can't find yahoo.fr: SERVFAIL 
+</span></code></pre></div>
+<p>La résolution externe ne fonctionne plus, vous utilisiez bien les DNS de Google.</p>
+<p>Remettez maintenant les bonnes adresses IP er redémarrez le service bind9.</p>
+<h3 id="tests-dns-depuis-les-vmctn">Tests DNS depuis les VM/CTN</h3>
+<h4 id="-vm-ovs-et-ctn-ctn1ctn2"><em>- VM ovs et CTN ctn1/ctn2</em></h4>
+<p>Se connecter en SSH sur la VM ovs <em>(<a href="../contr%C3%B4le-%C3%A0-distance---vboxdeb12/" target="_blank">voir Mémento 6.1</a>)</em>.</p>
+<p>Editez ensuite son fichier DNS resolv.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="o">[</span>switch@ovs:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/resolv.conf<span class="w">  </span>
+</span></code></pre></div>
+<p>et remplacez le contenu existant par celui-ci :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="c1"># Fichier resolv.conf - Client DNS</span>
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>
+</span><span id="__span-53-3"><a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a><span class="c1"># Nom du domaine local</span>
+</span><span id="__span-53-4"><a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a>domain<span class="w"> </span>intra.loupipfire.fr<span class="w"> </span>
+</span><span id="__span-53-5"><a id="__codelineno-53-5" name="__codelineno-53-5" href="#__codelineno-53-5"></a>
+</span><span id="__span-53-6"><a id="__codelineno-53-6" name="__codelineno-53-6" href="#__codelineno-53-6"></a><span class="c1"># Ajout auto du nom de domaine local aux</span>
+</span><span id="__span-53-7"><a id="__codelineno-53-7" name="__codelineno-53-7" href="#__codelineno-53-7"></a><span class="c1"># noms d'hôtes non pleinement qualifiés</span>
+</span><span id="__span-53-8"><a id="__codelineno-53-8" name="__codelineno-53-8" href="#__codelineno-53-8"></a>search<span class="w"> </span>intra.loupipfire.fr
+</span><span id="__span-53-9"><a id="__codelineno-53-9" name="__codelineno-53-9" href="#__codelineno-53-9"></a>
+</span><span id="__span-53-10"><a id="__codelineno-53-10" name="__codelineno-53-10" href="#__codelineno-53-10"></a><span class="c1"># Adresses IP du ou des serveurs DNS à interroger</span>
+</span><span id="__span-53-11"><a id="__codelineno-53-11" name="__codelineno-53-11" href="#__codelineno-53-11"></a>nameserver<span class="w"> </span><span class="m">192</span>.168.3.1<span class="w">  </span>
+</span></code></pre></div>
+<p>Rebootez la VM :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="o">[</span>switch@ovs:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>reboot<span class="w"> </span>
+</span></code></pre></div>
+<p>Puis, utilisez cette Cde pour interagir avec ctn1/ctn2 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="o">[</span>switch@ovs:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>podman<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>ctn1<span class="w"> </span>ou<span class="w"> </span><span class="m">2</span><span class="w"> </span>bash<span class="w"> </span>
+</span></code></pre></div>
+<p>et contrôlez le contenu des 2 fichiers resolv.conf qui doivent montrer ceci :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>search intra.loupipfire.fr
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>nameserver 192.168.3.1 
+</span></code></pre></div>
+<p>Celui-ci a été mis à jour automatiquement lors de la reconstruction des 2 conteneurs Podman.</p>
+<p>Vérifiez l'ID du Name Server pour intra.loupipfire.fr :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="o">[</span>switch@ovs:~$<span class="o">]</span><span class="w"> </span>dig<span class="w"> </span>NS<span class="w"> </span>intra.loupipfire.fr<span class="w"> </span>+short<span class="w">  </span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>srvlan.intra.loupipfire.fr.  
+</span></code></pre></div>
+<p>Pour finir, depuis les 3 systèmes, pinguez les VM suivantes et observez les FQDN retournés :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>ping<span class="w"> </span>srvlan
+</span><span id="__span-59-2"><a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>ping<span class="w"> </span>debian12-vm1.intra.loupipfire.fr
+</span><span id="__span-59-3"><a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a>ping<span class="w"> </span>debian12-vm2<span class="w">  </span>
+</span></code></pre></div>
+<p>FQDN = nom_hôte.nom_domaine</p>
+<h4 id="vm-debian"><em>- VM debian12-vm*</em></h4>
+<p>Idem srvlan.</p>
+<p>Faites un clic droit sur l'applet réseau NetworkManager :<br>
+-&gt; Modifier les connexions...</p>
+<p>Une fenêtre Connexions réseau s'ouvre :<br>
+-&gt; Sélectionnez la connexion réseau affichée<br>
+-&gt; Cliquez sur la roue dentée située en bas à gauche</p>
+<p>Une fenêtre Modification de la Connexion ... s'ouvre :<br>
+-&gt; Onglet Paramètres IPv4</p>
+<p>Modifiez ensuite la valeur des champs suivants :<br>
+-&gt; Serveurs DNS &gt; 192.168.3.1<br>
+-&gt; Domaines de recherche &gt; intra.loupipfire.fr<br>
+-&gt; Bouton Enregistrer<br>
+-&gt; Authentifiez-vous si une demande est affichée</p>
+<p>Puis effectuez une MAJ des paramètres nameserver et search du fichier DNS /etc/resolv.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="o">[</span>client-linux@debian12-vm*:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>NetworkManager
+</span></code></pre></div>
+<p>Installez le paquet incluant la Cde DNS nslookup :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="o">[</span>client-linux@debian12-vm*:~$<span class="o">]</span><span class="w">  </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>dnsutils
+</span></code></pre></div>
+<p>et vérifiez l'IP du Name Server pour intra.loupipfire.fr :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="o">[</span>client-linux@debian12-vm*:~$<span class="o">]</span><span class="w"> </span>nslookup<span class="w"> </span>ovs.intra.loupipfire.fr
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>Server: 192.168.3.1
+</span><span id="__span-63-2"><a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>Address: 192.168.3.1#53
+</span><span id="__span-63-3"><a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a>
+</span><span id="__span-63-4"><a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a>Name: ovs.intra.loupipfire.fr
+</span><span id="__span-63-5"><a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a>Address: 192.168.3.15
+</span></code></pre></div>
+<p>Pinguez les VM suivantes et observez les FQDN retournés :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="o">[</span>client-linux@debian12-vm*:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>srvlan.intra.loupipfire.fr
+</span><span id="__span-64-2"><a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a><span class="o">[</span>client-linux@debian12-vm*:~$<span class="o">]</span><span class="w"> </span>ping<span class="w"> </span>ovs
+</span></code></pre></div>
+<p>Pour terminer, lancez le navigateur Web et vérifiez le bon accès à Internet.</p>
+<h3 id="simulation-de-panne">Simulation de panne</h3>
+<p>Arrêtez le service DNS fourni par srvlan :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="o">[</span>srvlan@srvlan:~$<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>bind9
+</span></code></pre></div>
+<p>Redémarrez les clients debian12-vm* et ovs afin de vider leurs caches DNS.</p>
+<p>Les pings du <a href="#vm-debian">§ VM debian12-vm*</a> lancés depuis les VM debian12-vm* devraient échouer.</p>
+<p>Redémarrez le service DNS et vérifiez que les pings fonctionnent à nouveau.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2023/07/redacteur_satisfait.jpg" data-title="Image - Rédacteur satisfait" data-desc-position="bottom"><img align="left" alt="Image - Rédacteur satisfait" src="../images/2023/07/redacteur_satisfait.jpg" title="Image Pixabay - Mohamed Hassan"></a></p>
+<p>&nbsp;<br>
+Voilà, c'est fini pour le DNS statique.<br>
+Le mémento 7.2 vous attend à<br>
+présent pour installer un<br>
+serveur DHCP.</p>
+<p><a class="md-button md-button--primary" href="../dhcp-kea---vboxdeb12/">Mémento 7.2</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page">
+        
+          
+          <a href="../contr%C3%B4le-%C3%A0-distance---vboxdeb12/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Contrôle à distance - VBox/Deb12">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                Contrôle à distance - VBox/Deb12
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../dhcp-kea---vboxdeb12/" class="md-footer__link md-footer__link--next" aria-label="Suivant: DHCP Kea - VBox/Deb12">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                DHCP Kea - VBox/Deb12
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024 - Leloup Gérard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": false, "loop": false, "zoomable": true, "draggable": false, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "none"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
