@@ -16,7 +16,7 @@ Les modèles téléchargés peuvent être personnalisés et affinés afin de ré
 
 ### Base de travail
 
-Un CPU AMD Ryzen 7500U, 32 Go de RAM et une puce graphique intégrée _(iGPU)_ AMD Radeon Vega 8.
+Un CPU AMD Ryzen 7500U, 32 Go de RAM et une puce graphique intégrée _(iGPU)_ AMD Radeon Vega 8 offrant 3Go de VRAM max.
 
 L'**A**rchitecture de **M**émoire **U**nifiée est activée dans le BIOS, l'iGPU et le CPU partagent ainsi le même espace RAM ce qui augmente l'efficacité de traitement des grandes quantités de données exigée par l'utilisation de l'**I**ntelligence **A**rtificielle.
 
@@ -259,6 +259,9 @@ root@ubuntu-ollama:~# conda activate ollamaenv
 
 Le prompt change, gardez l'environnement Python ouvert.
 
+!!! note "Nota"
+    Utilisez la Cde "conda deactivate" pour quitter un environnement python.
+
 #### _- ROCm™_
 
 **1)** ROCm™ _(Radeon Open Compute)_ est nécessaire pour tirer parti des capacités de calcul du GPU AMD et doit être installé dans le conteneur.
@@ -437,14 +440,45 @@ Cdes Ollama utiles :
 - ollama stop `nom-du-modele` _(arrêt)_
 - ollama rm `nom-du-modele` _(suppression)_
 
+#### _- Optimisation d'Ollama_
+
+Créez le fichier suivant si inexistant :
+
+```bash
+(base) root@ubuntu-ollama:~# mkdir /etc/ollama/config.yaml
+```
+
+et entrez ce contenu :
+
+```markdown
+gpu:
+  layers: -1      # utiliser toutes les couches possibles sur GPU
+  memory: 2900    # limite stricte VRAM en Mo (évite les plantages ROCm OOM)
+  power: full     # kernels GPU agressifs
+
+server:
+  context_length: 2048
+  num_batch: 1    # impératif pour stabilité AMD VRAM faible
+```
+
+Redémarrez le service ollama :
+
+```bash
+(base) root@ubuntu-ollama:~# systemctl daemon-reload
+(base) root@ubuntu-ollama:~# systemctl restart ollama
+```
+
 #### _- Mise à jour d'Ollama_
 
 Procédez ainsi :
 
 ```bash
 (ollamaenv) root@ubuntu-ollama:~# cd /root
+(ollamaenv) root@ubuntu-ollama:~# rm -rf /usr/lib/ollama
 (ollamaenv) root@ubuntu-ollama:~# curl -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz
 (ollamaenv) root@ubuntu-ollama:~# tar -C /usr -xzf ollama-linux-amd64.tgz
+(ollamaenv) root@ubuntu-ollama:~# systemctl restart ollama
+(ollamaenv) root@ubuntu-ollama:~# ollama -v
 ```
 
 #### _- Installation d'Open WebUI_
@@ -593,5 +627,106 @@ open-webui==0.5.x
 ```
 
 Une fois terminé, pensez à vider les caches de votre navigateur Web _(Cookies et données de sites)_ avant de vous connecter sur la page d'Open WebUI.
+
+### Notes pour le script ollama.sh
+
+Celui-ci est plus récent que le script de _tteck_ ci-dessus.
+
+-- **Changement** partie _Création_ --  
+Conteneur Ubuntu 24.04 créé en utilisant la Cde suivante :
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/ollama.sh)"
+```
+
+L'ID observée du groupe _render_ peut être différente de celle observée sur l'hôte Proxmox.
+
+-- **Changement** partie _Ollama et Python_ --  
+Environnement Python créé dans la même version que celle installée sur l'hôte Proxmox.
+
+-- **Changement** partie _ROCm™_ --  
+ROCm installé en version plus récente _(7.1.70100-1)_.
+
+Pour le GPU Passthrough, procédez comme suit :
+
+```bash
+proxmox:~# nano /etc/pve/lxc/id-du-conteneur.conf
+```
+
+Modifiez le contenu comme suit, n'ajoutez rien d'autre :
+
+```markdown
+arch: amd64
+cores: 4
+dev0: /dev/kfd
+dev1: /dev/dri/renderD128
+features: nesting=1
+hostname: ubuntu-ollama
+memory: 6144
+nameserver: 192.152.7.1
+net0: name=eth0,bridge=vmbr0,hwaddr=BC:27:BA:C9:38:21,ip=dhcp,type=veth
+onboot: 1
+ostype: ubuntu
+rootfs: local-lvm:vm-xx-disk-0,size=80G
+swap: 2048
+tags: ai;community-script
+lxc.cgroup2.devices.allow: a
+lxc.cap.drop: 
+lxc.cgroup2.devices.allow: c 188:* rwm
+lxc.cgroup2.devices.allow: c 189:* rwm
+lxc.cgroup2.devices.allow: c 226:* rwm
+```
+
+Ajustez les valeurs de _cores_, _memory_, _nameserver_, _hwaddr_ et _size_ selon votre configuration.
+
+Fixez la taille du swap à 2Go minimum.
+
+-- **Changement** partie _Installation d'Ollama_ --  
+Ollama est installé automatiquement depuis le script.
+
+Vérifiez le ainsi :
+
+```bash
+(base) root@ubuntu-ollama:~# ollama -v
+```
+
+Ensuite modifiez le fichier /etc/systemd/system/ollama.service comme suit :
+
+```markdown
+[Unit]
+Description=Ollama Service
+After=network-online.target
+
+[Service]
+Type=exec
+ExecStart=/usr/local/bin/ollama serve
+Environment=HOME=/root
+#Environment=OLLAMA_INTEL_GPU=true
+#Environment=OLLAMA_HOST=0.0.0.0
+Environment=OLLAMA_NUM_GPU=999
+Environment=SYCL_CACHE_PERSISTENT=1
+Environment=ZES_ENABLE_SYSMAN=1
+# Lignes ajoutées par G.leloup
+# CPUQuota à 280% = 70% max de 4 VCPU
+CPUQuota=280%
+Environment="PATH=/root/miniconda3/envs/ollamaenv/bin:/root/miniconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:"
+Environment="OLLAMA_HOST=0.0.0.0"
+Environment="HSA_OVERRIDE_GFX_VERSION=9.0.0"
+Environment="ROCM_PATH=/opt/rocm"
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+```
+
+-- **Changement** partie _Mise à jour d'Ollama_ --  
+Aucun
+
+Pas de changement pour toute la partie Open WebUI sauf l'utilisation de python 3.12.12.
+
+Au final, que ce soit le script de _tteck_ ou celui-ci, l'iGPU gfx900 AMD Radeon sera très peu ou pas sollicité du tout mais les modèles d'IA 4B q4_K_M tourneront correctement sur une quantité de RAM de 6 ou 8 Go allouée à Ollama.
+
+Des modèles 3B q5_K_M donneront également de bons résultats, q5_K_M offrant une quantification meilleure que q4_K_M.
 
 **Fin.**
