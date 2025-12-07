@@ -3,20 +3,22 @@ title: IA - Ollama sur Proxmox
 summary: Intelligence artificielle, gestion des modèles LLM avec Ollama et Open WebUI.
 authors: 
   - G.Leloup
-date: 2025-02-03
+date: 2025-12-07
 categories: 
   - Intelligence artificielle
 ---
 
 ## Intelligence Artificielle
 
-L'outil Ollama démocratise l'accès aux modèles de langage de grande taille _(LLMs)_ en permettant aux utilisateurs de les exécuter localement.
+L'outil **Ollama** démocratise l'accès aux modèles de langage de grande taille _(LLMs)_ en permettant aux utilisateurs de les exécuter localement.
 
-Les modèles téléchargés peuvent être personnalisés et affinés afin de répondre à des objectifs précis.
+Les modèles téléchargés peuvent être personnalisés et affinés afin de répondre à des objectifs précis, mais ceci exige une configuration matérielle solide.
+
+La configuration matérielle présentée ci-dessous permettra d'exploiter des modèles de petites tailles _(SLMs)_ de l'ordre de 4B à 7B mais pas de personnaliser ceux-ci.
 
 ### Base de travail
 
-Un CPU AMD Ryzen 7500U, 32 Go de RAM et une puce graphique intégrée _(iGPU)_ AMD Radeon Vega 8 offrant 3Go de VRAM max.
+Un mini PC équipé d'un CPU AMD Ryzen 7500U, 32 Go de RAM et une puce graphique intégrée _(iGPU)_ AMD Radeon Vega 8 offrant 3 Go de VRAM max.
 
 L'**A**rchitecture de **M**émoire **U**nifiée est activée dans le BIOS, l'iGPU et le CPU partagent ainsi le même espace RAM ce qui augmente l'efficacité de traitement des grandes quantités de données exigée par l'utilisation de l'**I**ntelligence **A**rtificielle.
 
@@ -24,7 +26,7 @@ Système d'exploitation **Proxmox** 8.3.3 incluant un noyau linux 6.8.12.8-pve.
 
 Ci-dessous, quelques Cdes utiles pour appréhender la suite :
 
--\ Cdes pour obtenir les informations d'un iGPU AMD :
+-\ Cdes pour obtenir les informations de l'iGPU :
 
 ```bash
 proxmox:~# apt install rocminfo
@@ -116,7 +118,7 @@ Python 3.11.2
 
 ### Conteneur LXC ubuntu-ollama
 
-#### _- Création_
+#### _- Création (script ubuntu.sh)_
 
 Accédez à l'interface Web de Proxmox et créez le conteneur en exécutant le script [tteck](https://github.com/tteck/Proxmox/tree/main/ct/ubuntu.sh){ target="_blank" } suivant depuis la console du noeud Proxmox :
 
@@ -131,10 +133,10 @@ Un menu dédié au script s'ouvre, accédez au mode avancé puis _Sélectionnez_
 \- L'ID du conteneur _Ex: 112_  
 \- Le nom d'hôte _Ex: ubuntu-ollama_  
 \- La taille du disque dur _Ex: 120 Go_  
-\- Le nombre de coeurs alloué au conteneur _Ex: 10_  
-\- La taille de la RAM _Ex: 6000 Mo_  
+\- Le nombre de coeurs alloué au conteneur _Ex: 4_  
+\- La taille de la RAM _Ex: 8000 Mo_  
 \- Le bridge réseau vmbr0  
-\- Une adresse IP statique de la forme 192.168.x.y/24  
+\- Une adresse IP statique ou dynamique  
 \- L'IP de la gateway  _Ex: 192.168.x.z_  
 \- La désactivation de l'IPV6  
 \- L'IP de votre serveur DNS local _Ex: 192.168.x.z_  
@@ -194,11 +196,119 @@ video:x:44
 render:x:108
 ```
 
+#### _- Création (script ollama.sh)_
+
+Ce script plus récent que ci-dessus installe une base sous l'OS Ubuntu 24.04 :
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/ollama.sh)"
+```
+
+Pour les entrées du script à gérer, voir la section ci-dessus.
+
+Changements par rapport aux sections ci-dessous :
+
+-- Section _Ollama et Python_ --  
+Environnement Python créé dans la même version que celle installée sur l'hôte Proxmox.
+
+-- Section _ROCm™_ --  
+ROCm non installé car non fonctionnel avec un conteneur LXC et iGPU.
+
+Editez la configuration du conteneur créé :
+
+```bash
+proxmox:~# nano /etc/pve/lxc/id-du-conteneur.conf
+```
+
+et modifiez son contenu comme suit, n'ajoutez rien d'autre :
+
+```markdown
+#<div align='center'>
+Gardez le contenu intérieur de la balise DIV
+#</div>
+arch: amd64
+cores: 4
+features: nesting=1
+hostname: ubuntu-ollama
+memory: 8192
+nameserver: 192.168.x.z
+net0: name=eth0,bridge=vmbr0,hwaddr=BC:27:BA:C9:38:21,ip=dhcp,type=veth
+onboot: 1
+ostype: ubuntu
+rootfs: local-lvm:vm-<id-du-conteneur>-disk-0,size=120G
+swap: 2048
+tags: ai;community-script
+lxc.cgroup2.cpuset.cpus: 0-15 
+lxc.apparmor.profile: unconfined
+```
+
+Ajustez les valeurs de _cores_, _memory_, _nameserver_, _hwaddr_, _size_ et _lxc.cgroup2.cpuset.cpus_ selon votre configuration.
+
+Fixez la taille du swap à 2Go minimum.
+
+La ligne _lxc.cgroup2.cpuset.cpus: 0-15_ est importante. Elle implique que les 4 coeurs sur les 16 du CPU Ryzen 7 qui seront attribués aléatoirement aux conteneur LXC seront pleinement exploités par Ollama.
+
+-- Section _Installation d'Ollama_ --  
+Ollama est installé automatiquement depuis le script.
+
+Vérifiez le ainsi :
+
+```bash
+(base) root@ubuntu-ollama:~# ollama -v
+```
+
+Ensuite modifiez le fichier /etc/systemd/system/ollama.service comme suit :
+
+```markdown
+[Unit]
+Description=Ollama Service
+After=network-online.target
+
+[Service]
+Type=exec
+ExecStart=/usr/local/bin/ollama serve
+# CPUQuota à 280% = 70% max de 4 VCPU
+CPUQuota=280%
+Environment=HOME=/root
+Environment=OLLAMA_CONFIG_DIR=/etc/ollama
+Environment="PATH=/root/miniconda3/envs/ollamaenv/bin:/root/miniconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:"
+Environment="OLLAMA_HOST=0.0.0.0"
+# Forcer l'utilisation maximale des threads CPU
+Environment=OMP_NUM_THREADS=4
+Environment=MKL_NUM_THREADS=4
+Environment=OPENBLAS_NUM_THREADS=4
+Environment=NUMEXPR_NUM_THREADS=4
+# Délai d'inactivité avant arrêt du modèle
+Environment=OLLAMA_KEEP_ALIVE="5m"
+# Relancer automatiquement si plantage
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+```
+
+-- Section _Mise à jour d'Ollama_ --  
+Aucun changement.
+
+-- Section _Installation d'Open WebUI_ --  
+Pas de changement pour toute la partie Open WebUI sauf l'utilisation de python 3.12.12 à la place de python 3.11.2.
+
+-- Section _Ajout de modèles d'IA_ --  
+Aucun changement.
+
+-- Section _Mise à jour d'Oen WebUI_ --  
+Aucun changement.
+
+Au final, que ce soit le script de _tteck_ ou celui-ci, les modèles d'IA 4B q4_K_M tourneront correctement sur une quantité de RAM 8 Go allouée à Ollama.
+
+Des modèles 3B q5_K_M donneront également de bons résultats, q5_K_M offrant une quantification meilleure que q4_K_M.
+
 #### _- Ollama et Python_
 
 Ollama offre une suite d’outils compatibles avec Python et une API étendue, ce qui permet de créer, gérer et déployer des modèles d’IA.
 
-Site de référence : [Anaconda](https://www.anaconda.com/docs/getting-started/miniconda/install#macos-linux-installation){ target="_blank" }
+Site de référence pour la suite : [Anaconda](https://www.anaconda.com/docs/getting-started/miniconda/install#macos-linux-installation){ target="_blank" }
 
 Installez Miniconda, outil qui permettra de créer l'environnement virtuel Python dédié à Ollama :
 
@@ -264,9 +374,13 @@ Le prompt change, gardez l'environnement Python ouvert.
 
 #### _- ROCm™_
 
-**1)** ROCm™ _(Radeon Open Compute)_ est nécessaire pour tirer parti des capacités de calcul du GPU AMD et doit être installé dans le conteneur.
+L'installation de ROCm est montrée à titre indicatif car dans le cas d'un conteneur LXC créé sur un hôte avec **iGPU** celle-ci s'avère inutile, l'iGPU ne sera pas pleinement exploité.
 
-Site de référence : [ROCm](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html){ target="_blank" }
+Ollama peut fonctionner sans problème sur CPU seule.
+
+**1)** ROCm™ _(Radeon Open Compute)_ est nécessaire pour tirer parti des capacités de calcul d'un GPU AMD _(pas d'un iGPU)_ et doit être installé dans le conteneur.
+
+Site de référence pour la suite : [ROCm](https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html){ target="_blank" }
 
 Installez celui-ci à l'aide du script _amdgpu-install_ :
 
@@ -298,25 +412,32 @@ et ajoutez ce contenu en fin de fichier :
 export HSA_OVERRIDE_GFX_VERSION=9.0.0
 ```
 
-**3)** L'accès direct aux ressources du GPU physique de l'hôte Proxmox nécessite de gérer le GPU _Passthrough_.
-
-Depuis Proxmox, éditez la configuration du conteneur :
+**3)** Ci-dessous, pour info, un exemple de configuration de conteneur LXC inluant le montage des périphériques nécessaires à ROCm.
 
 ```bash
-proxmox:~# nano /etc/pve/lxc/id-du-conteneur.conf
+proxmox:~# cat /etc/pve/lxc/id-du-conteneur.conf
 ```
-
-et ajoutez sous la ligne _cores: 10_ le contenu suivant :
 
 ```markdown
-...
-cores: 10
-dev0: /dev/kfd,gid=44,uid=0
-dev1: /dev/dri/renderD128,gid=108,uid=0
-...
-```
+arch: amd64
+cores: 4
+memory: 8192
+swap: 2048
+rootfs: local-lvm:vm-<ID_CT>-disk-0,size=32G
+ostype: ubuntu
+hostname: ubuntu-ollama
+unprivileged: 0
 
-Sur l'interface graphique de Proxmox, les nouveaux paramètres apparaissent dans les _Ressources_ du conteneur.
+# Réseau
+net0: name=eth0,bridge=vmbr0,hwaddr=BC:27:BA:C9:38:21,ip=dhcp,type=veth
+
+# Montage des périphériques pour ROCm
+lxc.cgroup2.devices.allow: c 195:* rwm
+lxc.mount.entry: /dev/kfd dev/kfd none bind,optional,create=file
+lxc.cgroup2.devices.allow: c 226:* rwm
+lxc.mount.entry: /dev/dri/renderD128 dev/dri/renderD128 none bind,optional,create=file
+lxc.mount.entry: /dev/dri/card0 dev/dri/card0 none bind,optional,create=file
+```
 
 Pour finir, redémarrez le conteneur `ubuntu-ollama`.
 
@@ -339,11 +460,11 @@ Installez le paquet radeontop et testez son fonctionnement :
 (ollamaenv) root@ubuntu-ollama:~# radeontop
 ```
 
-Touches CTRL+C pour quitter.
+Touches CTRL+C pour quitter radeontop.
 
 #### _- Installation d'Ollama_
 
-Site de référence : [Ollama](https://github.com/ollama/ollama/blob/main/docs/linux.md){ target="_blank" }
+Site de référence pour la suite : [Ollama](https://github.com/ollama/ollama/blob/main/docs/linux.md){ target="_blank" }
 
 Installation manuelle :
 
@@ -402,14 +523,25 @@ After=network-online.target
 
 [Service]
 ExecStart=/usr/bin/ollama serve
-User=ollama
-Group=ollama
-Restart=always
-RestartSec=3
+# CPUQuota à 280% = 70% max de 4 VCPU
+CPUQuota=280%
+Environment=HOME=/root
+Environment=OLLAMA_CONFIG_DIR=/etc/ollama
 Environment="PATH=/root/miniconda3/envs/ollamaenv/bin:/root/miniconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:"
 Environment="OLLAMA_HOST=0.0.0.0"
-Environment="HSA_OVERRIDE_GFX_VERSION=9.0.0"
-Environment="ROCM_PATH=/opt/rocm"
+# Forcer l'utilisation maximale des threads CPU
+Environment=OMP_NUM_THREADS=4
+Environment=MKL_NUM_THREADS=4
+Environment=OPENBLAS_NUM_THREADS=4
+Environment=NUMEXPR_NUM_THREADS=4
+# Délai d'inactivité avant arrêt du modèle
+Environment=OLLAMA_KEEP_ALIVE="5m"
+# Seulement si utilisation GPU
+#Environment="HSA_OVERRIDE_GFX_VERSION=9.0.0"
+#Environment="ROCM_PATH=/opt/rocm"
+# Relancer automatiquement si plantage GPU
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=default.target
@@ -428,45 +560,16 @@ Puis, redémarrez le conteneur et vérifiez le statut d'Ollama :
 (base) root@ubuntu-ollama:~# systemctl status ollama
 ```
 
-Résultat OK si apparaît le nom du GPU soit _gfx90c_.
-
 Cdes Ollama utiles :
 
 - ollama serve _(démarrage du serveur Ollama)_
 - ollama --version  
 - ollama pull `nom-du-modele` _(téléchargement)_
 - ollama list _(liste des modèles installés)_
+- ollama show `nom-du-modele` _(détail)_
 - ollama run `nom-du-modele` _(démarrage)_  
 - ollama stop `nom-du-modele` _(arrêt)_
 - ollama rm `nom-du-modele` _(suppression)_
-
-#### _- Optimisation d'Ollama_
-
-Créez le fichier suivant si inexistant :
-
-```bash
-(base) root@ubuntu-ollama:~# mkdir /etc/ollama/config.yaml
-```
-
-et entrez ce contenu :
-
-```markdown
-gpu:
-  layers: -1      # utiliser toutes les couches possibles sur GPU
-  memory: 2900    # limite stricte VRAM en Mo (évite les plantages ROCm OOM)
-  power: full     # kernels GPU agressifs
-
-server:
-  context_length: 2048
-  num_batch: 1    # impératif pour stabilité AMD VRAM faible
-```
-
-Redémarrez le service ollama :
-
-```bash
-(base) root@ubuntu-ollama:~# systemctl daemon-reload
-(base) root@ubuntu-ollama:~# systemctl restart ollama
-```
 
 #### _- Mise à jour d'Ollama_
 
@@ -477,6 +580,7 @@ Procédez ainsi :
 (ollamaenv) root@ubuntu-ollama:~# rm -rf /usr/lib/ollama
 (ollamaenv) root@ubuntu-ollama:~# curl -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz
 (ollamaenv) root@ubuntu-ollama:~# tar -C /usr -xzf ollama-linux-amd64.tgz
+(ollamaenv) root@ubuntu-ollama:~# systemctl daemon-reload
 (ollamaenv) root@ubuntu-ollama:~# systemctl restart ollama
 (ollamaenv) root@ubuntu-ollama:~# ollama -v
 ```
@@ -590,13 +694,12 @@ Téléchargez par exemple le modèle Mistral 7B comme suit :
 (base) root@ubuntu-ollama:~# ollama list
 ```
 
-Les modèles sont installés dans le dossier _/usr/share/ollama/.ollama/models/blobs/_.
+Les modèles sont installés dans le dossier _/root/.ollama/models/_.
 
 Ouvrez ensuite la pabe Web d'Open WebUI et jouez en testant le modèle de Mistral.
 
 D'autres modèles peuvent être installés et testés, tels :
 
-- falcon2 11b, quantization Q4_0, _Technology Innovation Institute_
 - llama3 8b, quantization Q4_0, _Meta_  
 - llava-llama3 8b, quantization Q4_K_M, _XTuner_
 - gemma2 2b, quantization Q4_0, _Google_  
@@ -627,106 +730,5 @@ open-webui==0.5.x
 ```
 
 Une fois terminé, pensez à vider les caches de votre navigateur Web _(Cookies et données de sites)_ avant de vous connecter sur la page d'Open WebUI.
-
-### Notes pour le script ollama.sh
-
-Celui-ci est plus récent que le script de _tteck_ ci-dessus.
-
--- **Changement** partie _Création_ --  
-Conteneur Ubuntu 24.04 créé en utilisant la Cde suivante :
-
-```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/ollama.sh)"
-```
-
-L'ID observée du groupe _render_ peut être différente de celle observée sur l'hôte Proxmox.
-
--- **Changement** partie _Ollama et Python_ --  
-Environnement Python créé dans la même version que celle installée sur l'hôte Proxmox.
-
--- **Changement** partie _ROCm™_ --  
-ROCm installé en version plus récente _(7.1.70100-1)_.
-
-Pour le GPU Passthrough, procédez comme suit :
-
-```bash
-proxmox:~# nano /etc/pve/lxc/id-du-conteneur.conf
-```
-
-Modifiez le contenu comme suit, n'ajoutez rien d'autre :
-
-```markdown
-arch: amd64
-cores: 4
-dev0: /dev/kfd
-dev1: /dev/dri/renderD128
-features: nesting=1
-hostname: ubuntu-ollama
-memory: 6144
-nameserver: 192.152.7.1
-net0: name=eth0,bridge=vmbr0,hwaddr=BC:27:BA:C9:38:21,ip=dhcp,type=veth
-onboot: 1
-ostype: ubuntu
-rootfs: local-lvm:vm-xx-disk-0,size=80G
-swap: 2048
-tags: ai;community-script
-lxc.cgroup2.devices.allow: a
-lxc.cap.drop: 
-lxc.cgroup2.devices.allow: c 188:* rwm
-lxc.cgroup2.devices.allow: c 189:* rwm
-lxc.cgroup2.devices.allow: c 226:* rwm
-```
-
-Ajustez les valeurs de _cores_, _memory_, _nameserver_, _hwaddr_ et _size_ selon votre configuration.
-
-Fixez la taille du swap à 2Go minimum.
-
--- **Changement** partie _Installation d'Ollama_ --  
-Ollama est installé automatiquement depuis le script.
-
-Vérifiez le ainsi :
-
-```bash
-(base) root@ubuntu-ollama:~# ollama -v
-```
-
-Ensuite modifiez le fichier /etc/systemd/system/ollama.service comme suit :
-
-```markdown
-[Unit]
-Description=Ollama Service
-After=network-online.target
-
-[Service]
-Type=exec
-ExecStart=/usr/local/bin/ollama serve
-Environment=HOME=/root
-#Environment=OLLAMA_INTEL_GPU=true
-#Environment=OLLAMA_HOST=0.0.0.0
-Environment=OLLAMA_NUM_GPU=999
-Environment=SYCL_CACHE_PERSISTENT=1
-Environment=ZES_ENABLE_SYSMAN=1
-# Lignes ajoutées par G.leloup
-# CPUQuota à 280% = 70% max de 4 VCPU
-CPUQuota=280%
-Environment="PATH=/root/miniconda3/envs/ollamaenv/bin:/root/miniconda3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:"
-Environment="OLLAMA_HOST=0.0.0.0"
-Environment="HSA_OVERRIDE_GFX_VERSION=9.0.0"
-Environment="ROCM_PATH=/opt/rocm"
-Restart=always
-RestartSec=3
-
-[Install]
-WantedBy=multi-user.target
-```
-
--- **Changement** partie _Mise à jour d'Ollama_ --  
-Aucun
-
-Pas de changement pour toute la partie Open WebUI sauf l'utilisation de python 3.12.12.
-
-Au final, que ce soit le script de _tteck_ ou celui-ci, l'iGPU gfx900 AMD Radeon sera très peu ou pas sollicité du tout mais les modèles d'IA 4B q4_K_M tourneront correctement sur une quantité de RAM de 6 ou 8 Go allouée à Ollama.
-
-Des modèles 3B q5_K_M donneront également de bons résultats, q5_K_M offrant une quantification meilleure que q4_K_M.
 
 **Fin.**
