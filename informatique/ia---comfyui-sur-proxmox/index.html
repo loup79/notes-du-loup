@@ -1,0 +1,2497 @@
+<!DOCTYPE html><html lang="fr" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Notes techniques du Loup">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://loup79.github.io/notes-du-loup/informatique/ia---comfyui-sur-proxmox/">
+      
+      
+        <link rel="prev" href="../centreon---addendum/">
+      
+      
+        <link rel="next" href="../wake-on-lan/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>IA - ComfyUI sur Proxmox - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CConsolas:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Consolas"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#intelligence-artificielle" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              IA - ComfyUI sur Proxmox
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Accueil
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../blog/" class="md-tabs__link">
+          
+  
+  
+  Réseau virtuel
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Divers informatique
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mkdocs/" class="md-tabs__link">
+          
+  
+  
+  Notes MkDocs
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    Documents du Loup
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Accueil
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administrez votre réseau virtuel !
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-prerequis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prérequis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-elements-reseau-virtuel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eléments du réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-construction-reseau-virtuel-debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Construction du réseau
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-liste-des-mementos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liste des mémentos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Réseau virtuel
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index de tous les articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filtrage par catégorie
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Filtrage par catégorie
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/01-hyperviseur-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Hyperviseur Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/02-serveur-lan-srvlan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Serveur LAN "srvlan"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/03-serveur-wan-srvsec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Serveur WAN "srvsec"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/04-serveur-dmz-srvdmz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 Serveur DMZ "srvdmz"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/05-clients-lan-vm1-vm2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Clients LAN "vm1 vm2"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/06-ovs--conteneurs-lxc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 OvS + Conteneurs LXC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/07-acc%C3%A8s-rdp--vnc--ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Accès RDP + VNC + SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/08-dns--dhcp--ddns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 DNS + DHCP + DDNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/09-lamp--https--cms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 LAMP + HTTPS + CMS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/10-sftp-acc%C3%A8s-cms---ftps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 SFTP accès CMS - FTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/11-dns-split-et-proxy-inverse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 DNS split et Proxy inverse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/12-serveur-de-courrier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Serveur de courrier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/13-cockpit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Cockpit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Divers informatique
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Divers informatique
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Les derniers articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catégorie du site :
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catégorie du site :
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../alpine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../centreon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Centreon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../eve-ng/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EVE-NG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../intelligence-artificielle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intelligence artificielle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../nextcloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nextcloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../synology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Synology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes MkDocs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes MkDocs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outil de documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Bases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/vscodeserver-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - VS Code Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/github-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#intelligence-artificielle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intelligence Artificielle
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Intelligence Artificielle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#base-de-travail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Base de travail
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conteneur-lxc-ubuntu-comfyui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conteneur LXC ubuntu-comfyui
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conteneur LXC ubuntu-comfyui">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Création
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-comfyui-et-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - ComfyUI et Python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-rocmtm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - ROCm™
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-pytorch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - PyTorch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-installation-de-comfyui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Installation de ComfyUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-comfyui-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - ComfyUI Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-mise-a-jour-de-comfyui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Mise à jour de ComfyUI
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#glances-sur-proxmox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glances sur Proxmox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remarques-diverses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Remarques diverses
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+                  <span class="md-ellipsis">
+                    Retourner à l'index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://loup79.github.io/notes-du-loup/blog/logo_bis.png" alt="Loup79">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Loup79
+                        
+                      </strong>
+                      <br>
+                      Réseau virtuel
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadonnées
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"></path></svg>
+                        <time datetime="2025-02-27 00:00:00+00:00" class="md-ellipsis">27/02/2025</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"></path></svg>
+                          <span class="md-ellipsis">
+                            dans
+                            
+                              <a href="../intelligence-artificielle/">Intelligence artificielle</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"></path></svg>
+                          <span class="md-ellipsis">
+                            
+                              11 min de lecture
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+  <h1>IA - ComfyUI sur Proxmox</h1>
+
+<h2 id="intelligence-artificielle">Intelligence Artificielle</h2>
+<p>ComfyUI offre une interface utilisateur servant à générer des images à partir d'un texte.</p>
+<p>Les utilisateurs peuvent créer des flux de travail complexes en utilisant différents nœuds personnalisés et modèles d'IA.</p>
+<h3 id="base-de-travail">Base de travail</h3>
+<p>Un CPU AMD Ryzen 7500U, 32 Go de RAM et une puce graphique intégrée <em>(iGPU)</em> AMD Radeon Vega 8.</p>
+<p>L'<strong>A</strong>rchitecture de <strong>M</strong>émoire <strong>U</strong>nifiée est activée dans le BIOS, l'iGPU et le CPU partagent ainsi le même espace RAM ce qui augmente l'efficacité de traitement des grandes quantités de données exigée par l'utilisation de l'<strong>I</strong>ntelligence <strong>A</strong>rtificielle.</p>
+<p>Système d'exploitation <strong>Proxmox</strong> 8.3.3 incluant un noyau linux 6.8.12.8-pve.</p>
+<p>Ci-dessous, quelques Cdes utiles pour appréhender la suite :</p>
+<p>- Cdes pour obtenir les informations d'un iGPU AMD :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>proxmox:~#<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>rocminfo
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>proxmox:~#<span class="w"> </span>rocminfo
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>...
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Agent 2
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>*******
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="hll">  Name:                    gfx90c
+</span></span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  Uuid:                    GPU-XX
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  Marketing Name:          AMD Radeon Graphics
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  Vendor Name:             AMD
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>...
+</span></code></pre></div>
+<p>L'étiquette <mark>gfx90c</mark> désigne l'iGPU AMD Radeon Vega 8.</p>
+<!-- more -->
+
+<p>- Cdes pour observer l'activité en temps réel d'un iGPU AMD :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>proxmox:~#<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>radeontop
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>proxmox:~#<span class="w"> </span>radeontop
+</span></code></pre></div>
+<p>Touches CTRL+C pour quitter.</p>
+<p>- Cdes pour obtenir des informations sur la mémoire vidéo :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>proxmox:~#<span class="w"> </span>cat<span class="w"> </span>/sys/class/drm/card1/device/mem_info_vram_total
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>proxmox:~#<span class="w"> </span>cat<span class="w"> </span>/sys/class/drm/card1/device/mem_info_vram_used
+</span></code></pre></div>
+<p>Retours :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>3221225472  # 3 Go de VRAM alloué
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>154243072   # 150 Mo de VRAM utilisé
+</span></code></pre></div>
+<p>- Cde pour obtenir le nom du pilote graphique exploité :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>proxmox:~#<span class="w"> </span>lspci<span class="w"> </span>-k<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="s2">"VGA"</span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>04:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Lucienne (rev c1)
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>  Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Lucienne
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="hll">  Kernel driver in use: amdgpu
+</span></span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>  Kernel modules: amdgpu
+</span></code></pre></div>
+<p>Les firmwares des GPU de marque AMD sont stockés dans le dossier <em>/lib/firmware/amdgpu/</em>.</p>
+<p>- Cdes pour obtenir les ID des groupes <em>video</em> et <em>render</em> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>proxmox:~#<span class="w"> </span>cat<span class="w"> </span>/etc/group<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>video
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>proxmox:~#<span class="w"> </span>cat<span class="w"> </span>/etc/group<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>render
+</span></code></pre></div>
+<p>Retours :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>44
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>104
+</span></code></pre></div>
+<p>- Cde pour obtenir la version courante de Python :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>proxmox:~#<span class="w"> </span>python3<span class="w"> </span>--version
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Python 3.11.2
+</span></code></pre></div>
+<h3 id="conteneur-lxc-ubuntu-comfyui">Conteneur LXC ubuntu-comfyui</h3>
+<div class="admonition warning">
+<p class="admonition-title">Attention aux tailles des disques</p>
+<p>Prévoir une taille de disque dur supérieure de 20 Go par rapport à celle du conteneur Ollama soit 140 Go.</p>
+</div>
+<h4 id="-creation"><em>- Création</em></h4>
+<p>Accédez à l'interface Web de Proxmox et créez le conteneur en exécutant le script <a href="https://github.com/tteck/Proxmox/tree/main/ct/ubuntu.sh" target="_blank">tteck</a> suivant depuis la console du noeud Proxmox :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>wget<span class="w"> </span>-qLO<span class="w"> </span>-<span class="w"> </span>https://github.com/tteck/Proxmox/raw/main/ct/ubuntu.sh<span class="k">)</span><span class="s2">"</span>
+</span></code></pre></div>
+<p>Un menu dédié au script s'ouvre, accédez au mode avancé puis <em>Sélectionnez</em> ou <em>Entrez</em> :<br>
+- L'OS Ubuntu 22.04 Jammy<br>
+- Un conteneur LXC privilégié<br>
+- Le MDP de l'utilisateur <em>root</em><br>
+- L'ID du conteneur <em>Ex: 113</em><br>
+- Le nom d'hôte <em>Ex: ubuntu-comfyui</em><br>
+- La taille du disque dur <em>Ex: 140 Go</em><br>
+- Le nombre de coeurs alloué au conteneur <em>Ex: 6</em><br>
+- La taille de la RAM <em>Ex: 10000 Mo</em><br>
+- Le bridge réseau vmbr0<br>
+- Une adresse IP statique de la forme 192.168.x.y/24<br>
+- L'IP de la gateway <em>Ex: 192.168.x.z</em><br>
+- La désactivation de l'IPV6<br>
+- L'IP de votre serveur DNS local <em>Ex: 192.168.x.z</em><br>
+- La validation d'un accès SSH en tant que <em>root</em><br>
+- Le mode verbeux pour suivre la création du conteneur</p>
+<p>Si tout se passe bien :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>...
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Lecture des informations d'état... Fait      
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a> ✓ Cleaned
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a> ✓ Completed Successfully!
+</span></code></pre></div>
+<p>Lancez ensuite une connexion SSH sur le conteneur et mettez à jour le système Ubuntu :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span>apt<span class="w"> </span>update
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>root@ubuntu-comfyui:~#<span class="w"> </span>apt<span class="w"> </span>upgrade
+</span></code></pre></div>
+<p>Vérifiez la version du noyau linux de l'hôte Proxmox :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span>uname<span class="w"> </span>-r
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>6.8.12-8-pve
+</span></code></pre></div>
+<p>Contrôlez la version courante de Python :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span>python3<span class="w"> </span>--version
+</span></code></pre></div>
+<p>Retour possible :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Python 3.12.8
+</span></code></pre></div>
+<p>Vérifiez pour finir les ID des groupes <em>video</em> et <em>render</em> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span>cat<span class="w"> </span>/etc/group<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-w<span class="w"> </span><span class="s1">'render\|\video'</span>
+</span></code></pre></div>
+<p>retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>video:x:44
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>render:x:108
+</span></code></pre></div>
+<h4 id="-comfyui-et-python"><em>- ComfyUI et Python</em></h4>
+<p>Python est essentiel pour ComfyUI en raison de sa capacité à automatiser, étendre et simplifier l'exécution des flux de travail.</p>
+<p>Site de référence : <a href="https://www.anaconda.com/docs/getting-started/miniconda/install#macos-linux-installation" target="_blank">Anaconda</a></p>
+<p>Installez Miniconda, outil qui permettra de créer l'environnement virtuel Python dédié à ComfyUI :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>~#<span class="w"> </span>mkdir<span class="w"> </span>miniconda3
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>miniconda3
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>~#<span class="w"> </span>wget<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>~#<span class="w"> </span>mv<span class="w"> </span>Miniconda3-latest-Linux-x86_64.sh<span class="w"> </span>miniconda.sh
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>~#<span class="w"> </span>bash<span class="w"> </span>miniconda.sh<span class="w"> </span>-b<span class="w"> </span>-u<span class="w"> </span>-p<span class="w"> </span>/root/miniconda3
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>~#<span class="w"> </span>rm<span class="w"> </span>miniconda.sh
+</span></code></pre></div>
+<p>Editez ensuite le fichier <em>.bashrc</em> de l'utilisateur <em>root</em> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>root@ubuntu-comfyui:~#<span class="w"> </span>nano<span class="w"> </span>.bashrc
+</span></code></pre></div>
+<p>et ajoutez en fin de celui-ci le chemin vers la Cde conda :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="gh"># Ajout du chemin d'accès au programme conda</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>export PATH=/root/miniconda3/bin:$PATH
+</span></code></pre></div>
+<p>Fermez la connexion SSH courante afin de tester la modification, ouvrez en une autre, puis :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span>conda<span class="w"> </span>--version
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>conda 25.1.1
+</span></code></pre></div>
+<p>Enfin, créez l'environnement dans une version Python compatible avec ComfyUI telle la 3.12 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root/miniconda3/bin
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>root@ubuntu-comfyui:~#<span class="w"> </span>conda<span class="w"> </span>create<span class="w"> </span>--prefix<span class="w"> </span>/root/miniconda3/envs/comfyenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>root@ubuntu-comfyui:~#<span class="w"> </span>conda<span class="w"> </span>init<span class="w"> </span>--all
+</span></code></pre></div>
+<p>La dernière Cde modifie automatiquement le fichier <em>.bashrc</em> et il est possible de retirer les 2 lignes ajoutées précédemment.</p>
+<p>Fermez de nouveau la connexion SSH courante, ouvrez en une autre, puis activez le nouvel environnement :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>root@ubuntu-comfyui:~#<span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>comfyenv
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#
+</span></code></pre></div>
+<p>Le prompt change, gardez l'environnement Python ouvert.</p>
+<h4 id="-rocmtm"><em>- ROCm™</em></h4>
+<p><strong>1)</strong> ROCm™ <em>(Radeon Open Compute)</em> est nécessaire pour tirer parti des capacités de calcul du GPU AMD et doit être installé dans le conteneur.</p>
+<p>Site de référence : <a href="https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-radeon.html" target="_blank">ROCm</a></p>
+<p>Installez celui-ci à l'aide du script <em>amdgpu-install</em> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>wget<span class="w"> </span>https://repo.radeon.com/amdgpu-install/6.3.2/ubuntu/jammy/amdgpu-install_6.3.60302-1_all.deb
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>dpkg<span class="w"> </span>-i<span class="w"> </span>amdgpu-install_6.3.60302-1_all.deb
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>amdgpu-install<span class="w"> </span>--no-dkms<span class="w"> </span>--usecase<span class="o">=</span>graphics,rocm,opencl<span class="w"> </span>-y
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>rm<span class="w"> </span>amdgpu-install_6.3.60302-1_all.deb
+</span></code></pre></div>
+<p>L'installation de ROCm 6.3.2 doit se dérouler sans échec.</p>
+<p>Le flag <em>--no-dkms</em> évite d'installer les pilotes du noyau linux, car ceux-ci sont déjà installés sur l'hôte Proxmox.</p>
+<p><strong>2)</strong> Le bon fonctionnement de ROCm nécessite de définir une variable d'environnement.</p>
+<p>Pour cela, éditez le fichier <em>.bashrc</em> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>nano<span class="w"> </span>/root/.bashrc
+</span></code></pre></div>
+<p>et ajoutez ce contenu en fin de fichier :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="gh"># Gestion du GPU gfx90c</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>export HSA_OVERRIDE_GFX_VERSION=9.0.0
+</span></code></pre></div>
+<p><strong>3)</strong> L'accès direct aux ressources du GPU physique de l'hôte Proxmox nécessite de gérer le GPU <em>Passthrough</em>.</p>
+<p>Depuis Proxmox, éditez la configuration du conteneur :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>proxmox:~#<span class="w"> </span>nano<span class="w"> </span>/etc/pve/lxc/id-du-conteneur.conf
+</span></code></pre></div>
+<p>et ajoutez sous la ligne <em>cores: 10</em> le contenu suivant :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>...
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>cores: 10
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>dev0: /dev/kfd,gid=44,uid=0
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>dev1: /dev/dri/renderD128,gid=108,uid=0
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>...
+</span></code></pre></div>
+<p>Sur l'interface graphique de Proxmox, les nouveaux paramètres apparaissent dans les <em>Ressources</em> du conteneur.</p>
+<p>Pour finir, redémarrez le conteneur <code>ubuntu-comfyui</code>.</p>
+<p><strong>4)</strong> Contrôles</p>
+<p>Ouvrez une connexion SSH et testez les Cdes suivantes :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>comfyenv
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>python3<span class="w"> </span>--version
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>rocminfo
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>rocm-smi
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>clinfo
+</span></code></pre></div>
+<p>Installez le paquet radeontop et testez son fonctionnement :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>radeontop
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>radeontop
+</span></code></pre></div>
+<p>Touches CTRL+C pour quitter.</p>
+<h4 id="-pytorch"><em>- PyTorch</em></h4>
+<p>PyTorch permet entres autres d'exécuter des calculs intensifs sur les GPU, ce qui est crucial pour des tâches comme la génération d'images à partir de modèles de diffusion.</p>
+<p>Sans PyTorch, ces calculs seraient bien plus lents, car ils se feraient uniquement sur le CPU.</p>
+<p>Site de référence : <a href="https://rocm.docs.amd.com/projects/radeon/en/latest/docs/install/native_linux/install-pytorch.html" target="_blank">PyTorch</a></p>
+<p>Le bon fonctionnement de Pytorch nécessite de définir une variable d'environnement.</p>
+<p>Pour cela, éditez le fichier <em>.bashrc</em> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>nano<span class="w"> </span>/root/.bashrc
+</span></code></pre></div>
+<p>et ajoutez ceci sous <em>export ..._GFX_VERSION=9.0.0</em> :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="gh"># Gestion du GPU gfx90c</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>export HSA_OVERRIDE_GFX_VERSION=9.0.0
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="hll">export PYTORCH_ROCM_ARCH=gfx900 
+</span></span></code></pre></div>
+<p>Fermez la connexion SSH courante, ouvrez en une autre, puis installez PyTorch comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>comfyenv
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>wget<span class="w"> </span>https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torch-2.4.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>wget<span class="w"> </span>https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchvision-0.19.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>wget<span class="w"> </span>https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/pytorch_triton_rocm-3.0.0%2Brocm6.3.2.75cc27c26a-cp312-cp312-linux_x86_64.whl
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a>
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>wget<span class="w"> </span>https://repo.radeon.com/rocm/manylinux/rocm-rel-6.3.2/torchaudio-2.4.0%2Brocm6.3.2-cp312-cp312-linux_x86_64.whl
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>pip3<span class="w"> </span>uninstall<span class="w"> </span>torch<span class="w"> </span>torchvision<span class="w"> </span>torchaudio<span class="w"> </span>pytorch-triton-rocm
+</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>torch-2.4.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl<span class="w"> </span>torchvision-0.19.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl<span class="w"> </span>torchaudio-2.4.0+rocm6.3.2-cp312-cp312-linux_x86_64.whl<span class="w"> </span>pytorch_triton_rocm-3.0.0+rocm6.3.2.75cc27c26a-cp312-cp312-linux_x86_64.whl
+</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a>
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>rm<span class="w"> </span>*.whl
+</span></code></pre></div>
+<p>L'installation doit se dérouler sans échec.</p>
+<p>Testez l'installation de PyTorch à l'aide du script ci-dessous :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@debian-comfyui:~#<span class="w"> </span>python3
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>&gt;&gt;&gt;<span class="w"> </span>import<span class="w"> </span>torch
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>&gt;&gt;&gt;<span class="w"> </span>print<span class="o">(</span>torch.cuda.is_available<span class="o">())</span>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>&gt;&gt;&gt;<span class="w"> </span>print<span class="o">(</span>torch.cuda.get_device_name<span class="o">(</span>torch.cuda.current_device<span class="o">()))</span>
+</span></code></pre></div>
+<p>Les <em>print</em> renvoient <em>True</em> et le <em>nom du GPU</em> situé sur l'hôte.<br>
+CTRL+D pour quitter Python.  </p>
+<p>Tests complémentaires :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@debian-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@debian-comfyui:~#<span class="w"> </span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s1">'import torch'</span><span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">'Success'</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s1">'Failure'</span>
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>Success
+</span></code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@debian-comfyui:~#<span class="w"> </span>pip<span class="w"> </span>show<span class="w"> </span>torch
+</span></code></pre></div>
+<p>Retour :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>Name: torch
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>Version: 2.4.0+rocm6.3.2
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>Summary: Tensors and Dynamic neural networks in Python with strong GPU acceleration
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>Home-page: https://pytorch.org/
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>Author: PyTorch Team
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>Author-email: packages@pytorch.org
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>License: BSD-3
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>Location: /root/miniconda3/envs/comfyenv/lib/python3.12/site-packages
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>Requires: filelock, fsspec, jinja2, networkx, pytorch-triton-rocm, setuptools, sympy, typing-extensions
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>Required-by: torchaudio, torchvision
+</span></code></pre></div>
+<h4 id="-installation-de-comfyui"><em>- Installation de ComfyUI</em></h4>
+<p>Installez si besoin le paquet <em>git</em> et clonez le dépot suivant :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/comfyanonymous/ComfyUIls
+</span></code></pre></div>
+<p>Puis, installez ComfyUI comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root/ComfyUI
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</span></code></pre></div>
+<p>Ajoutez ensuite l'utilisateur <em>root</em> aux groupes <em>video</em> et <em>render</em>.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>root@ubuntu-comfyui:~#<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>video<span class="w"> </span>root
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>root@ubuntu-comfyui:~#<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>render<span class="w"> </span>root
+</span></code></pre></div>
+<p>Lancez enfin le serveur ComfyUI comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root/ComfyUI
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="o">(</span>comfyenv<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nv">HSA_OVERRIDE_GFX_VERSION</span><span class="o">=</span><span class="m">9</span>.0.0<span class="w"> </span>python<span class="w"> </span>main.py<span class="w"> </span>--listen<span class="w"> </span><span class="m">0</span>.0.0.0
+</span></code></pre></div>
+<p>et ouvrez depuis un navigateur Web local l'URL <code>http://ip-ubuntu-comfyui:8188</code>.</p>
+<p>Redémarrez le conteneur depuis Proxmox et créez le fichier suivant qui sera utilisé par la suite pour démarrer automatiquement le serveur de ComfyUI :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/root
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>nano<span class="w"> </span>start_comfyui.sh
+</span></code></pre></div>
+<p>Entrez le contenu suivant :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="gh">#!/bin/bash</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="gh"># Activation de l'environnement conda de nom comfyenv</span>
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>source /root/miniconda3/etc/profile.d/conda.sh
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>conda activate /root/miniconda3/envs/comfyenv
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>
+</span><span id="__span-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="gh"># Démarrage du serveur ComfyUI</span>
+</span><span id="__span-47-8"><a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>export GIT_PYTHON_GIT_EXECUTABLE=/usr/bin/git
+</span><span id="__span-47-9"><a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>cd /root/ComfyUI
+</span><span id="__span-47-10"><a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a>HSA_OVERRIDE_GFX_VERSION=9.0.0 python main.py --listen 0.0.0.0
+</span></code></pre></div>
+<p>Puis, rendez le fichier exécutable :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>start_comfyui.sh
+</span></code></pre></div>
+<p>Créez un fichier de service Systemd pour ComfyUI :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>nano<span class="w"> </span>/etc/systemd/system/comfyui.service
+</span></code></pre></div>
+<p>et entrez le contenu suivant :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>[Unit]
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>Description=ComfyUI Service
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>After=network.target
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>[Service]
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>Environment=PATH=/root/miniconda3/bin
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a>ExecStart=/root/start_comfyui.sh
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>WorkingDirectory=/root/ComfyUI
+</span><span id="__span-50-9"><a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a>StandardOutput=inherit
+</span><span id="__span-50-10"><a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a>StandardError=inherit
+</span><span id="__span-50-11"><a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a>Restart=always
+</span><span id="__span-50-12"><a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a>User=root
+</span><span id="__span-50-13"><a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a>
+</span><span id="__span-50-14"><a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a>[Install]
+</span><span id="__span-50-15"><a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a>WantedBy=multi-user.target
+</span></code></pre></div>
+<p>Démarrez le service :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>comfyui
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>comfyui
+</span></code></pre></div>
+<p>Si le statut est bon, validez le démarrage automatique :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>comfyui
+</span></code></pre></div>
+<p>Pour finir, redémarrez le conteneur et testez de nouveau l'URL <code>http://ip-ubuntu-comfyui:8188</code>.</p>
+<p>L'interface graphique affiche alors un flux de travail par défaut nommé <em>Unsave Workflow</em>.</p>
+<h4 id="-comfyui-manager"><em>- ComfyUI Manager</em></h4>
+<p>ComfyUI Manager offre une interface conviviale pour gérer les nœuds personnalisés, les modèles, les MAJ, etc...</p>
+<p>Installez ce noeud personnalisé comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>ComfyUI/custom_nodes
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>root@ubuntu-comfyui:~#<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ltdrdata/ComfyUI-Manager<span class="w"> </span>comfyui-manager
+</span></code></pre></div>
+<p>Puis, redémarrez le conteneur et vérifiez la présence de ComfyUI Manager dans la barre de menus de l'interface Web de ComfyUI.</p>
+<p>Pour info, l'un de mes flux de travail a nécessité pour interagir avec les modèles d'Ollama d'installer depuis le ComfyUI Manager les éléments suivants :</p>
+<p>Noeuds personnalisés :<br>
+- ComfyUI-Easy-Use<br>
+- ComfyUI-IF_AI_tools<br>
+- comfyui-ollama</p>
+<p>Modèle :<br>
+- v1-5-pruned-emaonly.ckpt</p>
+<h4 id="-mise-a-jour-de-comfyui"><em>- Mise à jour de ComfyUI</em></h4>
+<p>La mise à jour peut s'effectuer en cliquant directement sur le bouton <em>Update ComfyUI</em> du ComfyUI Manager.</p>
+<h3 id="glances-sur-proxmox">Glances sur Proxmox</h3>
+<p>Glances peut afficher en temps réel l'utilisation des CPU et GPU, l'utilisation des mémoires système et GPU ainsi que les températures des uns et des autres, le tout sur une seule page accessible depuis un navigateur Web.</p>
+<p>Avant de l'installer, vérifiez la présence sur l'hôte Proxmox des paquets <em>psutils</em> et <em>lm-sensors</em>, à défaut ajoutez les.</p>
+<p>Puis, procédez ainsi pour installer Glances :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>proxmox:~#<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>wget<span class="w"> </span>-qLO<span class="w"> </span>-<span class="w"> </span>https://github.com/community-scripts/ProxmoxVE/raw/main/misc/glances.sh<span class="k">)</span><span class="s2">"</span>
+</span></code></pre></div>
+<p>Le même script peut-être lancé pour désinstaller Glances par la suite.</p>
+<p>Une fois installé, ouvrez le port 61208 sur Proxmox et testez l'URL <code>http://ip-proxmox:61208</code>.</p>
+<p>Testez la Cde suivante :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>proxmox:~#<span class="w"> </span>glances<span class="w"> </span>-V
+</span></code></pre></div>
+<p>Celle-ci doit retourner le chemin du fichier <em>glances.log</em>.</p>
+<p>Copiez le fichier /usr/local/share/doc/glances/glances.conf dans /etc/glances :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>proxmox:~#<span class="w"> </span>mkdir<span class="w"> </span>/etc/glances
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>proxmox:~#<span class="w"> </span>cp<span class="w"> </span>/usr/local/share/doc/glances/glances.conf<span class="w"> </span>/etc/glances/
+</span></code></pre></div>
+<p>Editez ensuite la configuration :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>proxmox:~#<span class="w"> </span>nano<span class="w"> </span>/etc/glances/glances.conf
+</span></code></pre></div>
+<p>et modifiez la ligne suivante :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a> # Available stats are: cpu,mem,load,swap
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a><span class="hll"> list=cpu,mem,load
+</span></span></code></pre></div>
+<p>comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a> # Available stats are: cpu,mem,load,swap
+</span><span id="__span-59-2"><a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a><span class="hll"> list=cpu,mem,load,swap
+</span></span></code></pre></div>
+<p>Redémarrez le service glances et observez le résulat dans la page Web de Glances.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>proxmox:~#<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>glances
+</span></code></pre></div>
+<p>Quelques remarques concernant le tableau de bord affiché :</p>
+<p>- Composite, Sensor 1,2 et 8 = Températures du dique nvme-pci<br>
+- Tctl = Température du CPU Ryzen <em>(k10temp-pci-00c3)</em><br>
+- edge = temperature du GPU</p>
+<h3 id="remarques-diverses">Remarques diverses</h3>
+<p>ComfyUI peut se connecter sur des modèles LLM d'Ollama comme Gemma, Llama et LLaVa en exploitant le noeud personnalisé ComfyUI-IF_AI_tools.</p>
+<p>Ci-dessous, chemins du menu contextuel pour ajouter des noeuds personnalisés dans l'espace workflow de ComfyUI :</p>
+<p>- Ajout du noeud <em>IF Prompt Maker</em> :<br>
+=&gt; Add Node =&gt; ImpactFrames =&gt; IF_tools<br>
+=&gt; IF Prompt Maker <em>(Remplace le IF Prompt to Prompt)</em></p>
+<p>Le noeud IF Prompt Maker est un outil de génération de prompts pour Stable Diffusion, permettant d'améliorer la composition et l'exactitude des prompts.</p>
+<p>- Ajout du noeud <em>Point de contrôle</em> :<br>
+=&gt; Add Node =&gt; Chargeurs =&gt; Charger Point de Contrôle</p>
+<p>Le noeud Point de contrôle est un modèle essentiel utilisé par Stable Diffusion pour générer des images.</p>
+<p>- Ajout du noeud <em>Charger VAE</em> :<br>
+=&gt; Add Node =&gt; Chargeurs =&gt; Charger VAE</p>
+<p>Le noeud VAE <em>(Variational AutoEncoder)</em> encode les images en représentations latentes, permettant une compression efficace des caractéristiques visuelles.</p>
+<p>- Ajout du noeud <em>IF Save Text</em> :<br>
+=&gt; Add Node =&gt; ImpactFrames =&gt; IF_tools =&gt; IF Save Text</p>
+<p>Le noeud IF Save Text permet de sauvegarder du texte dans différents formats <em>(CSV, TXT, JSON)</em> selon le mode de sauvegarde choisi.</p>
+<p>- Ajout du noeud <em>KSampler</em> :<br>
+=&gt; Add Node =&gt; échantillonage =&gt; KSampler</p>
+<p>Le noeud KSampler est essentiel pour l'échantillonnage dans la génération d'images, permettant d'affiner progressivement la qualité des images à travers plusieurs étapes.</p>
+<p>- Ajout du noeud <em>CLIP Text Encode</em> :<br>
+=&gt; Add Node =&gt; conditionnement =&gt; CLIP Text Encode</p>
+<p>Le nœud CLIPTextEncode encode les entrées textuelles en utilisant un modèle CLIP, facilitant la transformation du texte en vecteurs pour le conditionnement des modèles génératifs.</p>
+<p>Options Clic droit sur le noeud :<br>
+=&gt; menu contextuel =&gt; Colors<br>
+=&gt; Convert Widget to Input =&gt; Convert text to input</p>
+<p>- Ajout du noeud <em>Image Latente Vide</em> :<br>
+=&gt; Add Node =&gt; latent =&gt; Image Latente Vide</p>
+<p>Le noeud Image Latente Vide sert de point de départ pour la génération et la manipulation d'images dans l'espace latent.</p>
+<p>- Ajout du noeud <em>VAE Decode</em> :<br>
+=&gt; Add Node =&gt; latent =&gt; VAE Decode</p>
+<p>Le nœud VAE Decode transforme les représentations latentes en images, permettant ainsi de visualiser les données encodées.</p>
+<p>- Ajout du noeud <em>Enregistrer Image</em> :<br>
+=&gt; Add Node =&gt; image =&gt; Enregistrer Image</p>
+<p>Le nœud Enregistrer Image permet d'enregistrer des images générées dans le dossier <em>ComfyUI/output/</em>.</p>
+<p>D'autres noeuds peuvent être ajoutés dans le flux de travail permettant ainsi d'obtenir le résultat souhaité en matière de génération d'images depuis un texte.</p>
+<p><strong>Fin.</strong></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page">
+        
+          
+          <a href="../centreon---addendum/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: Centreon - Addendum">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                Centreon - Addendum
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../wake-on-lan/" class="md-footer__link md-footer__link--next" aria-label="Suivant: Wake On LAN">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                Wake On LAN
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2024 - Leloup Gérard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": false, "loop": false, "zoomable": true, "draggable": false, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "none"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
