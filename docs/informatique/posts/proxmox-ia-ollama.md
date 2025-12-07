@@ -279,7 +279,7 @@ Environment=MKL_NUM_THREADS=4
 Environment=OPENBLAS_NUM_THREADS=4
 Environment=NUMEXPR_NUM_THREADS=4
 # Délai d'inactivité avant arrêt du modèle
-Environment=OLLAMA_KEEP_ALIVE="5m"
+Environment=OLLAMA_KEEP_ALIVE=5m
 # Relancer automatiquement si plantage
 Restart=always
 RestartSec=3
@@ -535,7 +535,7 @@ Environment=MKL_NUM_THREADS=4
 Environment=OPENBLAS_NUM_THREADS=4
 Environment=NUMEXPR_NUM_THREADS=4
 # Délai d'inactivité avant arrêt du modèle
-Environment=OLLAMA_KEEP_ALIVE="5m"
+Environment=OLLAMA_KEEP_ALIVE=5m
 # Seulement si utilisation GPU
 #Environment="HSA_OVERRIDE_GFX_VERSION=9.0.0"
 #Environment="ROCM_PATH=/opt/rocm"
