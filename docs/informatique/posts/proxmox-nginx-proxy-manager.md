@@ -8,7 +8,9 @@ categories:
   - Proxmox
 ---
 
-## Proxmox 8.1
+## Proxmox 9.x
+
+Mise à jour le : 09/01/2026
 
 ### RDP Copier/Coller
 
@@ -135,37 +137,161 @@ tmpdir: /tmp
 ### Nginx Proxy Manager
 
 Lien utile :  
-[proxmox-scripts](https://community-scripts.github.io/ProxmoxVE/){ target="_blank" }
+[Documentation](https://nginxproxymanager.com/guide/){ target="_blank" }
 
 #### Création du conteneur
 
-Le conteneur LXC contenant l'application _Nginx Proxy Manager_ servira de _reverse proxy_ pour l'ensemble des VM/CTN de Proxmox.
+Le conteneur Proxmox 9.x contenant l'application _Nginx Proxy Manager_ servira de _reverse proxy_ pour l'ensemble des VM/CTN de Proxmox.
 
-Se connecter en tant que _root_ et en SSH sur le serveur Proxmox puis entrer la Cde suivante :
+Depuis l'interface Web de Proxmox :  
+&rarr; Stockage local &rarr; Modèles de conteneurs  
+&rarr; Bouton _Modèles_
+
+Télécharger le modèle _debian-13-standard_.
+
+Ensuite cliquer sur le bouton bleu _Créer un conteneur_ :  
+-- Onglet Général  
+Nom d'hôte : Ex _npmloup_  
+Mot de passe : Entrer le MDP pour _root_  
+Confirmer le mot de passe
+
+-- Onglet Modèle  
+Choisir le modèle _debian-13-standard_
+
+-- Onglet Disques  
+Stockage : local-lvm  
+Taille du disque : 8 Go
+
+-- Onglet Processeur  
+Coeurs : 2 si possible
+
+-- Onglet Mémoire  
+Mémoire : 1024  
+Espace d'échange : 512
+
+-- Onglet Réseau  
+Pont : vmbr0  
+IPv4 : DHCP  
+IPv6 : DHCP
+
+-- Onglet DNS  
+DNS : utiliser les valeurs de l'hôte
+
+-- Onglet Confirmation  
+Vérifier la configuration et cliquer sur le bouton _Terminer_.
+
+Le conteneur est crée et apparaît dans le panneau de gauche.
+
+#### Installation de docker
+
+Sélectionner le conteneur _npmloup_ et démarrer celui-ci.
+
+&rarr; Bouton _Console_ et se connecter en tant que _root_.
+
+Mettre à jour Debian et installer les paquets suivants :
 
 ```bash
-# bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/ct/nginxproxymanager.sh)"
+apt update
+apt upgrade
+apt install -y curl gnupg
 ```
 
-Une fenêtre s'ouvre, entrer dans le mode avancé et configurer les paramètres proposés.
-
-Une fois fait, le conteneur est créé automatiquement.
-
-La Cde ci-dessus peut être réutilisée à l'intérieur du conteneur créé pour effectuer les MAJ.
-
-L'interface WEB de _Nginx Proxy Manager_ devient accessible depuis l'URL :  
-`http://192.168.x.y:81`
-
-Login et MDP par défaut :  
-Login : `admin@example.com`  
-MDP : changeme
-
-Commencer par changer le Login et MDP une fois rentré dans l'interface WEB.
-
-Vérifier par curiosité le statut du service _Nginx Proxy Manager_ :
+Télécharger ensuite la clé gpg pour Docker :
 
 ```bash
-# systemctl status npm
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+```
+
+Puis déclarer le dépôt qui sera utilisé pour son installation :
+
+```bash
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+$(. /etc/os-release && echo $VERSION_CODENAME) stable" \
+> /etc/apt/sources.list.d/docker.list
+```
+
+Installer Docker :
+
+```bash
+apt update
+apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+```
+
+et vérifier son son numéro de version :
+
+```bash
+docker --version
+```
+
+#### Installation de NPM
+
+Au préalable, relever l'ID du conteneur _npmloup_ _(Ex : 109)_ et depuis le shell du noeud Proxmox :
+
+```bash
+cd /etc/pve/lxc/
+nano 109.conf
+```
+
+Ajouter les 3 lignes suivantes en fin de fichier :
+
+```markdown
+lxc.apparmor.profile: unconfined
+lxc.cap.drop:
+lxc.cgroup2.devices.allow: a
+```
+
+Puis redémarrer le conteneur pour la suite et retourner dans celui-ci.
+
+Créer ensuite le dossier suivant :
+
+```bash
+mkdir -p /opt/nginx-proxy-manager
+cd /opt/nginx-proxy-manager
+```
+
+et créer un fichier _docker-compose.yml_ :
+
+```bash
+cat > docker-compose.yml << 'EOF'
+version: "3"
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+EOF
+```
+
+Il peut être nécessaire selon la configuration future de modifier le port d'écoute 443 côté externe.  
+Dans ce cas, remplacer - "443:443" par Ex : - "78xx:443".
+
+Lancer enfin l'installation de NPM :
+
+```bash
+docker compose up -d
+```
+
+L'interface WEB de _Nginx Proxy Manager_ devient accessible depuis l'URL :  
+`http://ip-de-npmloup:81`
+
+Entrer une adresse mail et un MDP pour ouvrir l'interface WEB de NPM.
+
+#### Mise à jour de NPM
+
+Pour effectuer les mises à jour, procéder ainsi :
+
+```bash
+cd /opt/nginx-proxy-manager
+docker compose pull
+docker compose up -ds
 ```
 
 #### Nom de domaine et DynDNS
@@ -193,6 +319,8 @@ Editer le script _duck.sh_ et entrer le contenu suivant :
 ```markdown
 echo url="https://www.duckdns.org/update?domains=nom-du-domaine&token=f30a8c59-b492-4323-...&ip=" | curl -k -o /root/duckdns/duck.log -K -
 ```
+
+Ex : nom-du-domaine = wxyz pour wxyz.duckdns.org.
 
 Modifier les permissions du script :
 
@@ -227,30 +355,9 @@ La même opération peut par précaution être réalisée à l'intérieur du con
 
 #### Certificat Let's Encrypt
 
-Pour remplacer le numéro du port HTTPS 443 qu'utilise par défaut _Nginx Proxy Manager_, procéder ainsi à l'intérieur du conteneur :
+Créer un certificat en utilisant le _DNS Challenge_ ce qui évite l'obligation d'être en écoute sur les ports HTTP 80 et HTTPS 443.
 
-```bash
-# cd /etc/nginx/conf.d
-# nano default.conf
-```
-
-Remplacer tous les 443 par le nouveau numéro de port.
-
-Faire de même avec le fichier /app/templates/_listen.conf.
-
-Redémarrer le conteneur et vérifier les ports d'écoute avec la Cde suivante :
-
-```bash
-# ss -tnalup
-```
-
-Installer le plugin certbot pour le fournisseur DuckDNS :
-
-```bash
-# pip install certbot_dns_duckdns
-```
-
-Créer enfin un certificat en utilisant le _DNS Challenge_ ce qui évite l'obligation d'être en écoute sur les ports HTTP 80 et HTTPS 443.
+Le token de duckdns.org sera demandé lors de la procédure.
 
 Penser à entrer un délai de 120 secondes afin d'éviter un éventuel problème de timeout lors de la création.
 
@@ -258,13 +365,15 @@ Penser à entrer un délai de 120 secondes afin d'éviter un éventuel problème
 
 Certains _Proxy Hosts_ peuvent nécessiter d'ajouter dans leur configuration des en-têtes HTTP.
 
-Dans ce cas, ajouter le contenu suivant dans l'onget _Advanced_ de l'hôte en zone _Custom Nginx Configuration_ :
+Dans ce cas, ajouter le contenu suivant dans l'onget _Advanced_ de l'hôte en zone _Configuration_ :
 
 ```markdown
 location /
 {
     proxy_pass http://IP-du-conteneur:8080;
     proxy_set_header Host sous-domaine.domaine.duckdns.org:7230;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto https;
