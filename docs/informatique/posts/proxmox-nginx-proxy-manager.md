@@ -291,7 +291,7 @@ Pour effectuer les mises à jour, procéder ainsi :
 ```bash
 cd /opt/nginx-proxy-manager
 docker compose pull
-docker compose up -ds
+docker compose up -d
 ```
 
 #### Nom de domaine et DynDNS
