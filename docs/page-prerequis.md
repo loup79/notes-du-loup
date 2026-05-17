@@ -39,4 +39,6 @@ Connaître les commandes du système d'exploitation Linux est un plus mais pas i
 
 Suivez, **dans l'ordre**, la liste ci-dessous pour au final jouer avec votre propre réseau local virtuel.
 
-<center>-- [LISTE DES MEMENTOS](page-liste-des-mementos.md) --</center>
+||
+|:---:|
+|[**LISTE DES MEMENTOS**](page-liste-des-mementos.md)|
