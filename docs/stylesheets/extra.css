@@ -46,6 +46,11 @@ div.language-bash.highlight code, div.language-markdown.highlight code, div.lang
 .md-typeset h3, .md-typeset h4 { font-size: 12px; }
 }
 
+/* Élargissement la zone de contenu */
+.md-grid {
+  max-width: 1360px;
+}
+
 /* Gestion format téléphone Galaxy S10 */
 @media (min-width: 360px) and (max-width: 768px) {
 /* Gestion des blocs paragraphes, liens, préformatés et codes */
@@ -57,5 +62,4 @@ div.language-bash.highlight code, div.language-markdown.highlight code, div.lang
 .md-typeset h2 { font-size: 20px; }
 .md-typeset h3 { font-size: 18px; }
 .md-typeset h4 { font-size: 16px; }
-
 }
