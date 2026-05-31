@@ -33,7 +33,9 @@ nav:
     - mkdocs/bases-mkdocs.md
     - mkdocs/debian-mkdocs.md
     - mkdocs/vscodeserver-mkdocs.md
-    - mkdocs/github-mkdocs.md  
+    - mkdocs/github-mkdocs.md
+  - Notes Zensical :
+    - zensical/installation.md  
   # Fin de la navigation
 
 ### Configuration du thème
