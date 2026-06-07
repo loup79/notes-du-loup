@@ -1,5 +1,5 @@
 ---
-title: Wake On LAN
+title: Debian - Wake On LAN
 summary: Démarrage à distance au travers d'une carte réseau.
 authors: 
   - G.Leloup
