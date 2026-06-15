@@ -495,7 +495,7 @@ git commit -m "initial nixos config"
 
 On peut voir dans la dernière Cde l'inclusion des 3 fichiers de configuration.
 
-#### - Verrouiller les dépendances
+#### - Verrouillage dépendances
 
 ```bash
 nix --extra-experimental-features "nix-command flakes" flake lock
