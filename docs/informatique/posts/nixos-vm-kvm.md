@@ -104,7 +104,7 @@ Cdes pour copier le disque QCOW2 et le fichier xml sur un autre disque :
 
 ```bash
 sudo cp /var/lib/libvirt/images/nom-vm/nom-vm.qcow2 /mnt/ssd-interne/QCOW2-U59/
-virsh dumpxml nom-vm > /mnt/ssd-interne/QCOW2-U59/nom-vm.xml
+sudo virsh dumpxml nom-vm > /mnt/ssd-interne/QCOW2-U59/nom-vm.xml
 ```
 
 ### - _Fichiers importants de KVM_
@@ -145,6 +145,26 @@ sudo virt-install \
   --noautoconsole
 ```
 
+ou
+
+```bash
+sudo virt-install \
+  --name nixos-loup \
+  --ram 8192 \
+  --vcpus 2 \
+  --cpu host-passthrough \
+  --disk path=/var/lib/libvirt/images/bureautix.qcow2,size=40,format=qcow2,bus=virtio \
+  --os-variant nixos-unstable \
+  --network bridge=br0,model=virtio \
+  --graphics spice \
+  --cdrom /home/user-x/test-nixos/images/latest-nixos-minimal-x86_64-linux.iso \
+  --boot loader=/usr/share/OVMF/OVMF_CODE_4M.fd,loader.readonly=yes,loader.type=pflash,loader.secure=no \
+  --tpm backend.type=emulator,backend.version=2.0,model=tpm-crb \
+  --noautoconsole
+```
+
+Le verrou du Secure Boot est débloqué sur la ligne --boot...
+
 La VM est normalement créée dans le dossier /var/lib/libvirt/images/ sous le nom de nixos-loup.qcow2.
 
 Vérifier si la VM nixos-loup apparaît bien dans la liste des VM existantes :
@@ -158,7 +178,7 @@ Ensuite ouvir la console de la VM nixos-loup depuis l'outil graphique Virtual Ma
 Passer le clavier en azerty :
 
 ```bash
-sudo loadkeys.fr # Attention à la lettre a
+sudo loadkeys fr # Attention à la lettre a
 ```
 
 Affecter un MDP à root :
@@ -189,7 +209,7 @@ Tester ensuite une connexion SSH depuis le PC hôte ou un PC distant situé sur 
 sshpass -p 'mdp-habituel' ssh -o StrictHostKeyChecking=no root@ip-vm-nixos-loup
 ```
 
-La connexion doit s'établir.
+La connexion doit s'établir en tant que root.
 
 ### Configuration
 
@@ -264,6 +284,48 @@ nixos-loup = Nom d'hôte de la VM
     };
   };
 }
+```
+
+Exemple de création d'un partitionnement GPT _(UEFI)_ manuel suivi d'un formatage à défaut du fichier :
+
+Créer le label :
+
+```bash
+su - root
+sudo parted /dev/vda -- mklabel gpt
+```
+
+Créer la partition EFI (513 Mo) :
+
+```bash
+sudo parted /dev/vda -- mkpart ESP fat32 1MiB 513MiB
+sudo parted /dev/vda -- set 1 esp on
+```
+
+Créer la partition Swap (de 513 Mo à 4 Go) :
+
+```bash
+sudo parted /dev/vda -- mkpart primary linux-swap 513MiB 4609MiB
+```
+
+Créer la partition racine / (le reste du disque) :
+
+```bash
+sudo parted /dev/vda -- mkpart primary ext4 4609MiB 100%
+```
+
+Contrôler le résultat avec la Cde lsblk.
+
+Puis effectuer le formatage :
+
+```bash
+mkfs.fat -F32 /dev/vda1
+mkswap /dev/vda2
+mkfs.ext4 /dev/vda3
+swapon /dev/vda2
+mount /dev/vda3 /mnt
+mkdir -p /mnt/boot
+mount /dev/vda1 /mnt/boot
 ```
 
 \- Fichier configuration.nix
@@ -611,6 +673,61 @@ Retour normal :
 fr_FR.UTF-8
 ```
 
+Vérifier le boot :
+
+```bash
+bootctl status
+```
+
+Retour normal :
+
+```markdown
+System:
+      Firmware: UEFI 2.70 (Debian distribution of EDK II 1.00)
+ Firmware Arch: x64
+   Secure Boot: disabled (unsupported)
+  TPM2 Support: yes
+  Measured UKI: no
+  Boot into FW: supported
+
+Current Boot Loader:
+       Product: systemd-boot 260.1
+     Features: ✓ Boot counting
+               ✓ Menu timeout control
+               ✓ One-shot menu timeout control
+               ✓ Default entry control
+               ✓ One-shot entry control
+               ✓ Support for XBOOTLDR partition
+               ✓ Support for passing random seed to OS
+               ✓ Load drop-in drivers
+               ✓ Support Type #1 sort-key field
+               ✓ Support @saved pseudo-entry
+               ✓ Support Type #1 devicetree field
+               ✓ Enroll SecureBoot keys
+               ✓ Retain SHIM protocols
+               ✓ Menu can be disabled
+               ✓ Multi-Profile UKIs are supported
+               ✓ Loader reports network boot URL
+               ✓ Support Type #1 uki field
+               ✓ Support Type #1 uki-url field
+               ✓ Loader reports active TPM2 PCR banks
+     Partition: /dev/disk/by-partuuid/caf71cd0-18c0-4b0e-8ec1-79e60db7fc54
+        Loader: └─/boot//EFI/BOOT/BOOTX64.EFI
+ Current Entry: nixos-generation-2.conf
+
+Random Seed:
+ System Token: set
+       Exists: yes
+
+Available Boot Loaders on ESP:
+          ESP: /boot (/dev/disk/by-partuuid/caf71cd0-18c0-4b0e-8ec1-79e60db7fc54)
+         File: ├─/boot//EFI/systemd/systemd-bootx64.efi (systemd-boot 260.1)
+               └─/boot//EFI/BOOT/BOOTX64.EFI (systemd-boot 260.1)
+
+Boot Loaders Listed in EFI Variables:
+        Title: Linux Boot Manager
+```
+
 ## Modification déclarative
 
 Si l'on modifie par exemple le fichier configuration.nix il est nécessaire de reconstruire NixOS comme suit :
@@ -656,5 +773,16 @@ sudo nixos-rebuild switch --rollback
 Le rollback réactive l'ancienne génération à chaud, sans reboot.
 
 Modifier le fichier configuration.nix afin d'éviter de retrouver le même problème.
+
+## Cdes diverses
+
+Pour installer un paquet si la ligne 'nix.settings.experimental-features = [ "nix-command" "flakes" ];' n'est pas présente dans le fichier configuration.nix :
+
+```bash
+cd /home/nixos
+nix --extra-experimental-features 'nix-command flakes' profile add nixpkgs#nano
+```
+
+La Cde which permet de découvrir le chemin d'un paquet installé.
 
 **Fin.**
