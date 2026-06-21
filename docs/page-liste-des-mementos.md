@@ -36,7 +36,7 @@ local virtuel.
 
 ??? Info "5 - Open vSwitch + Conteneurs LXC"
     - [x] [5.1 Open vSwitch - VBox/Deb12](blog/posts/openvswitch-debian-ovs-creation.md)
-    - [x] [5.2 Podman - VBox/Deb12: 1/2](blog/posts/podman-debian-lxc-partie-1.md)
+    - [x] [5.2 Podman - VBox/Deb12: 1/2](blog/posts/podman-debian12-lxc-partie-1.md)
     - [x] [5.2 Podman - VBox/Deb12: 2/2](blog/posts/podman-debian12-lxc-partie-2.md)
 
 ??? Info "6 - Accès distants : Protocoles RDP, VNC, SSH"
