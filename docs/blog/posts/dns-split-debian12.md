@@ -1478,7 +1478,7 @@ Vous pouvez à présent désactiver ou non la règle de pare-feu "HTTP vers serv
 
 Enfin, pensez à remettre en place sur le PC Windows la configuration initiale IPv4 et IPv6.
 
-![Image - Rédacteur satisfait](../images/2026/01/redacteur.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
+![Image - Rédacteur satisfait](../images/2023/07/redacteur_satisfait.jpg "Image Pixabay - Mohamed Hassan"){ align=left }
 
 &nbsp;  
 Voilà, c'est terminé pour le DNS split.  

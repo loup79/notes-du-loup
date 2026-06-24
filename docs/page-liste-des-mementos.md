@@ -23,19 +23,19 @@ local virtuel.
     - [x] [VirtualBox – Start auto des VM](blog/posts/virtualbox-demarrage-auto-vm.md)
 
 ??? Info "1 - Serveur LAN Debian : srvlan"
-    - [x] [1.1 srvlan – VBox/Deb12](blog/posts/serveur-debian-srvlan-creation.md)
+    - [x] [1.1 srvlan – VBox/Deb12](blog/posts/serveur-debian12-srvlan-creation.md)
 
 ??? Info "2 - Serveur WAN IPFire : srvsec"
     - [x] [2.1 srvsec – VBox/IPFire](blog/posts/serveur-ipfire-srvsec-creation.md)
 
 ??? Info "3 - Serveur DMZ Debian : srvdmz"
-    - [x] [3.1 srvdmz - VBox/Deb12](blog/posts/serveur-debian-srvdmz-creation.md)
+    - [x] [3.1 srvdmz - VBox/Deb12](blog/posts/serveur-debian12-srvdmz-creation.md)
 
 ??? Info "4 - Clients LAN Debian : vm1 et vm2"
-    - [x] [4.1 vm1 et 2 - VBox/Deb12](blog/posts/clients-debian-vm1-vm2-creation.md)
+    - [x] [4.1 vm1 et 2 - VBox/Deb12](blog/posts/clients-debian12-vm1-vm2-creation.md)
 
 ??? Info "5 - Open vSwitch + Conteneurs LXC"
-    - [x] [5.1 Open vSwitch - VBox/Deb12](blog/posts/openvswitch-debian-ovs-creation.md)
+    - [x] [5.1 Open vSwitch - VBox/Deb12](blog/posts/openvswitch-debian12-ovs-creation.md)
     - [x] [5.2 Podman - VBox/Deb12: 1/2](blog/posts/podman-debian12-lxc-partie-1.md)
     - [x] [5.2 Podman - VBox/Deb12: 2/2](blog/posts/podman-debian12-lxc-partie-2.md)
 
