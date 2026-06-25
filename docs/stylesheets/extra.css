@@ -28,7 +28,7 @@ img[src*='#center'] { display: block; margin: auto; }
 div.language-bash.highlight span { color: inherit !important; } 
 div.language-bash.highlight code { background-color:#000;  color:#fff; font-size: 13px; font-family: var(--md-text-font-family); border-radius: .5rem; }
 div.language-text.highlight code { background-color:#e4e959;  color:#000; font-size: 13px; font-family: var(--md-text-font-family); }
-div.language-markdown.highlight code, div.language-json.highlight code, div.language-sh.highlight code { background-color: #f5f5f5;  color: #000066; font-size: 13px; font-family: Consolas; }
+div.language-markdown.highlight code, div.language-json.highlight code, div.language-sh.highlight code { background-color: #fff;  color: #000066; font-size: 13px; font-family: Consolas; border: 0.1rem solid; border-radius: .5rem; }
 
 /* Bouton copier */
 .md-code__nav {
@@ -92,7 +92,7 @@ div.language-bash.highlight code, div.language-markdown.highlight code, div.lang
 p, li { font-size: 12px; }
 div.language-bash.highlight code, div.language-markdown.highlight code, div.language-json.highlight code, div.language-sh.highlight code { font-size: 12px; }
 
-/* Gestion des titres */
+/* Gestion des titres*/
 .md-typeset h1 { font-size: 22px; }
 .md-typeset h2 { font-size: 20px; }
 .md-typeset h3 { font-size: 18px; }
