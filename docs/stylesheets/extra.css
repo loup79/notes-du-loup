@@ -69,6 +69,9 @@ nav.md-post__action a { color: #772307; font-weight: bold; }
 /* Gestion des boutons suivant et précédent */
 .md-footer__inner { display: none ! important }
 
+/* Gestion des colonnes gauche et droite */
+.md-nav { font-size: 13px; }
+
 /* Gestion format téléphone Galaxy S5 */
 @media (max-width: 360px) {
 /* Gestion des blocs paragraphes, liens, préformatés et codes */
