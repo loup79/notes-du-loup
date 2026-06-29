@@ -1,0 +1,103 @@
+/* Gestion des titres */
+.md-typeset h2, .md-typeset h3 a  { color: #D93F0C; }
+.md-typeset h2, .md-typeset h3 { font-weight: bold; }
+.md-typeset h2 a { color: #5a5959; }
+.md-typeset h4 a, .md-typeset h5 a  { color: #000; }
+.md-typeset h5 { text-transform: none; font-size: .7rem; }
+
+/* Gestion des tableaux */
+.md-typeset__table { table-layout: fixed; min-width: 100%; }
+.md-typeset table:not([class]) { display: table; border: 0.05rem solid; }
+
+table { background-color: rgb(251, 245, 245); }
+th { display: none; }
+td { background-color: rgb(251, 245, 245); }
+.td-bleu { background-color:#e7f5fe; }
+.td-bord { border-right: 0.05rem solid; }
+
+/* Gestion des images */
+img[src*='#center'] { display: block; margin: auto; }
+
+/* Gestion des paragraphes */
+.md-typeset p > em strong { font-size: 10px; margin-left: 30%; }
+
+/* Gestion des légendes */
+.md-typeset figcaption  { font-size: 13px; font-family: var(--md-text-font-family); }
+
+/* Gestion des blocs code */
+div.language-bash.highlight span { color: inherit !important; } 
+div.language-bash.highlight code { background-color:#000;  color:#fff; font-size: 13px; font-family: var(--md-text-font-family); border-radius: .5rem; }
+div.language-text.highlight code { background-color:#e4e959;  color:#000; font-size: 13px; font-family: var(--md-text-font-family); }
+div.language-markdown.highlight code, div.language-json.highlight code, div.language-sh.highlight code { background-color: #fff;  color: #000066; font-size: 13px; font-family: Consolas; border: 0.1rem solid; border-radius: .5rem; }
+
+/* Bouton copier */
+.md-code__nav {
+	background-color: transparent;
+	border-radius: .2rem;
+	display: flex;
+	gap: .2rem;
+	padding: .1rem;
+	transition: none !important;
+	position: absolute;
+	right: .30em;
+	top: .30em;
+	z-index: 1;
+}
+
+:hover>.md-code__nav {
+  background-color: transparent;
+}
+
+.md-code__button {
+	color:  orange;
+	cursor: pointer;
+	display: block;
+	height: 1.5em;
+	outline-color: var(--md-accent-fg-color);
+	outline-offset: .1rem;
+	transition: none !important;
+	width: 1.5em;
+}
+
+.md-code__button:hover {
+  color:green;
+}
+
+/* Gestion du lien continuer à lire */
+nav.md-post__action a { color: #772307; font-weight: bold; }
+
+/* Gestion des boutons suivant et précédent */
+.md-footer__inner { display: none ! important }
+
+/* Gestion des colonnes gauche et droite */
+.md-nav { font-size: 13px; }
+
+/* Gestion format téléphone Galaxy S5 */
+@media (max-width: 360px) {
+/* Gestion des blocs paragraphes, liens, préformatés et codes */
+p, li {font-size: 12px;}
+div.language-bash.highlight code, div.language-markdown.highlight code, div.language-json.highlight code, div.language-sh.highlight code { font-size: 12px; }
+
+/* Gestion des titres */
+.md-typeset h1 { font-size: 17px; }
+.md-typeset h2 { font-size: 16px; }
+.md-typeset h3, .md-typeset h4 { font-size: 12px; }
+}
+
+/* Élargissement la zone de contenu */
+.md-grid {
+  max-width: 1360px;
+}
+
+/* Gestion format téléphone Galaxy S10 */
+@media (min-width: 360px) and (max-width: 768px) {
+/* Gestion des blocs paragraphes, liens, préformatés et codes */
+p, li { font-size: 12px; }
+div.language-bash.highlight code, div.language-markdown.highlight code, div.language-json.highlight code, div.language-sh.highlight code { font-size: 12px; }
+
+/* Gestion des titres*/
+.md-typeset h1 { font-size: 22px; }
+.md-typeset h2 { font-size: 20px; }
+.md-typeset h3 { font-size: 18px; }
+.md-typeset h4 { font-size: 16px; }
+}
