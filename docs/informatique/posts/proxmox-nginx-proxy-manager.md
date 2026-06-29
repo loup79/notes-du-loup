@@ -253,9 +253,8 @@ cd /opt/nginx-proxy-manager
 
 et créer un fichier _docker-compose.yml_ :
 
-```bash
+```markdown
 cat > docker-compose.yml << 'EOF'
-version: "3"
 services:
   app:
     image: jc21/nginx-proxy-manager:latest
@@ -292,6 +291,12 @@ Pour effectuer les mises à jour, procéder ainsi :
 cd /opt/nginx-proxy-manager
 docker compose pull
 docker compose up -d
+```
+
+Penser ensuite à supprimer d'éventuelles anciennes images de NPM :
+
+```bash
+docker image prune -a
 ```
 
 #### Nom de domaine et DynDNS
