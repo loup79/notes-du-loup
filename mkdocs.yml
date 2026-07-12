@@ -2,6 +2,7 @@
 ### Configuration minimale
 site_name: Documents du Loup
 site_url: https://loup79.github.io/notes-du-loup/
+site_dir: '../../../../var/www/html/mkdocs/'
 
 ### Configuration du dépôt
 # Ajoute en haut à droite de chaque page du site, icône, nom et lien vers le dépot GitHub du projet.

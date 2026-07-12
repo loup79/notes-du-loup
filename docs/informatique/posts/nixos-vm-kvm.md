@@ -1,5 +1,5 @@
 ---
-title: VM KMV NixOS
+title: NixOS - VM KMV 
 summary: Installation du système Linux NixOS.
 authors: 
   - G.Leloup
