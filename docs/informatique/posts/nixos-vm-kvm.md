@@ -8,7 +8,7 @@ categories:
   - NixOS
 ---
 
-Voir par la suite Securix et Bureautix de l'ANSSI.
+Voir par lalaka suite Securix et Bureautix de l'ANSSI.
 
 Liens utiles :  
 [Linuxtricks.fr](https://www.linuxtricks.fr/wiki/nixos-installer-nixos-facilement-depuis-l-image-minimale){ target="_blank" }
