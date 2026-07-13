@@ -1,11 +1,11 @@
 ---
-title: NixOS - VM KMV 
+title: VM KMV - NixOS
 summary: Installation du système Linux NixOS.
 authors: 
   - G.Leloup
 date: 2026-05-24
 categories: 
-  - NixOS
+  - VM KVM
 ---
 
 Voir par la suite Securix et Bureautix de l'ANSSI.
