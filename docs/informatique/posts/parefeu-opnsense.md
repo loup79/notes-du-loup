@@ -392,7 +392,7 @@ Soit une température de 57° centigrade.
 
 #### Sauvegarde de la configuration
 
--> Système > Configuration > Sauvegardes  
+-> Système -> Configuration -> Sauvegardes  
 \- Téléchargement : Ne pas sauvegarder les données RRD
 
 Penser à chiffrer le fichier de configuration avec un MDP.
