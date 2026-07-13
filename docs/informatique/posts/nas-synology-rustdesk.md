@@ -1,11 +1,11 @@
 ---
-title: Synology - RustDesk
+title: NAS - Synology et RustDesk
 summary: Outil de contrôle à distance.
 authors: 
   - G.Leloup
 date: 2024-07-25
 categories: 
-  - Synology
+  - NAS
 ---
 
 Le client de contrôle à distance RustDesk fonctionnera comme celui de TeamViewer mais en se connectant cette fois sur un serveur open source auto-hébergé de nom RustDesk.
@@ -28,6 +28,8 @@ Forwarder les ports TCP/UDP 21115 à 21119 depuis la box Internet vers le NAS Sy
 ## RustDesk client
 
 ### Installation du client
+
+<!-- more -->
 
 Télécharger le client approprié sur le site de RustDesk, fichier **.deb** pour Debian et **.msi** pour Windows 11.
 
