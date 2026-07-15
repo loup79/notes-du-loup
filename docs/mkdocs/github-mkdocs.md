@@ -11,7 +11,9 @@ Tuto pour installer MkDocs sur GitHub.
 
 ### Situation de base
 
-MkDocs, Git et VS Code Server installés sur une VM Debian.
+MkDocs _(serveur de production)_, Git et VS Code Server installés dans un conteneur _(CTN)_ Qnap supportant Debian.
+
+MkDocs est situé dans le dossier /var/www/html/mkdocs/.
 
 Configurer le _user.name_ et le _user.email_ de git ainsi :
 
@@ -47,13 +49,15 @@ Se connecter ensuite sur celui-ci et créer un dossier en utilisant l'URL : [htt
 
 Le dossier/dépôt GitHub créé avec le nom _notes-user_ inclus une branche de base appelée _main_.
 
-Cette branche contiendra ==la documentation de MkDocs== qui sera mise à jour depuis le _VS Code Server_ installé sur la VM Debian.
+Cette branche contiendra ==la documentation de MkDocs== qui sera mise à jour depuis le _VS Code Server_ installé sur le CTN Debian.
 
 Finir en modifant le contenu du fichier _README.md_, ceci en utilisant le langage _Markdown_ et terminer en cliquant sur le bouton _Commit changes_.
 
 ### Authentification par jeton
 
-Cde à lancer pour lire les URL d'accès à GitHub :
+Le jeton _(token)_  remplace complètement l’authentification SSH, donc pas besoin d'un agent SSH.
+
+Cde à lancer depuis le CTN Debian pour lire les URL d'accès à GitHub :
 
 ```bash
 git remote -v
@@ -105,7 +109,7 @@ Se connecter sur le dépôt GitHub, menu _Settings_ :
 -> Clic sur le lien du jeton existant  
 -> Bouton Regenerate Token.
 
-Enregister la valeur du nouveau token et lancer la Cde suivante depuis la VM Debian :
+Enregister la valeur du nouveau token et lancer la Cde suivante depuis le CTN Debian :
 
 ```bash
 git remote set-url origin https://valeur-du-token@github.com/user-git/nom-depot-git
@@ -115,6 +119,51 @@ Vérifier le résultat comme suit :
 
 ```bash
 git remote -v
+```
+
+### Option agent SSH
+
+Git, si utilisation de la Cde _git@github.com:..._, a besoin d’une clé SSH privée pour prouver à GitHub son identité.
+
+L’agent SSH du CTN Debian :
+
+- Chargera la clé privée SSH en mémoire
+
+- Répondra aux demandes d’authentification SSH
+
+- Permettra à Git de pousser vers GitHub _( git@github.com:... )_
+
+- Permettra le déploiement du serveur de production
+
+- Evitera d'avoir à taper le MDP ou la passphrase à chaque opération
+
+- Protègera la clé privée en ne la divulguant jamais
+
+Clés ssh créées dans le /home/user/.ssh du conteneur.  
+Clé privée ajoutée à l'agent ssh, Cde _ssh-add_.  
+Clé privée incluant une phrase secrète _(passphrase)_.  
+Clé publique ajoutée sur le compte GitHub _(Settings)_.
+
+Lignes ajoutées dans le fichier _/home/user/.bashrc_ :
+
+```markdown
+# Gestion clé SSH pour GitHub
+eval `ssh-agent`
+ssh-add /home/user/.ssh/nom-cle-privee-ssh
+```
+
+La _passphrase_ est demandée à chaque ouverture de session SSH.
+
+Si OK, la Cde _ssh-add -l_ doit montrer ceci :
+
+```markdown
+256 SHA256:DyVA8KvbmJdRqp... name-user-mail@xxx.com (ED25519)
+```
+
+Pour tester une connexion sur GitHub, procéder comme suit :
+
+```bash
+ssh -vT git@gitub.com
 ```
 
 ### Création du site Web MkDocs
@@ -136,7 +185,7 @@ La suite suppose qu'un fichier _mkdocs.yml_ soit présent dans le dossier de pre
 
 Pour cela, ajouter ceux-ci en cliquant sur le bouton _Add file_ et sélectionner _Upload files_
 
-Faire glisser le contenu du dossier _/home/user/Documents/notes-user/_ de la VM Debian qui contient au départ un dossier de nom _docs_ et un fichier de nom _mkdocs.yml_.
+Faire glisser le contenu du dossier _/home/user/Documents/notes-user/_ du CTN Debian qui contient au départ un dossier de nom _docs_ et un fichier de nom _mkdocs.yml_.
 
 3 - Dans la zone _Build and deployment_, sous _Source_, sélectionner _Deploy from a branch_.
 
@@ -176,7 +225,7 @@ jobs:
       - run: mkdocs gh-deploy --force
 ```
 
-[Référence du code ci-dessus](https://squidfunk.github.io/mkdocs-material/publishing-your-site/){ target="_blank" }
+[Lien](https://squidfunk.github.io/mkdocs-material/publishing-your-site/){ target="_blank" } vers la référence du code entré ci-dessus.
 
 -> Cliquer ensuite sur le bouton _Commit changes..._  
 -> Vérifier le contenu de la fenêtre popup  
@@ -196,7 +245,7 @@ Déployer ou publier le site comme suit :
 
 4 - Cliquer sur le bouton _Save_.
 
-### Cdes Git depuis la VM Debian
+### Cdes Git depuis le CTN Debian
 
 Se rendre au préalable dans le dossier _/home/user/Documents/notes-user/_.
 
