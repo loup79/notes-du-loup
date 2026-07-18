@@ -97,7 +97,7 @@ plugins:
       archive: false
   - blog:
       blog_dir: informatique
-      blog_toc: true
+      #blog_toc: true
       post_date_format: short
       post_url_format: "/{slug}"
       categories_name: "Catégorie du site :"
