@@ -92,7 +92,7 @@ plugins:
       blog_dir: blog
       post_date_format: short
       post_url_format: "/{slug}"
-      categories_name: Filtrage par catégorie
+      categories_name: "Catégories :"
       categories_url_format: "{slug}"
       archive: false
   - blog:
@@ -100,7 +100,7 @@ plugins:
       #blog_toc: true
       post_date_format: short
       post_url_format: "/{slug}"
-      categories_name: "Catégorie du site :"
+      categories_name: "Catégories :"
       categories_url_format: "{slug}"
       pagination_per_page: 20
       archive: false
