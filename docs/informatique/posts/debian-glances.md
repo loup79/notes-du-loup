@@ -8,7 +8,7 @@ categories:
   - Debian
 ---
 
-## Supervision avec Glances
+## Supervision avec Glancesdfg
 
 Glances sur GitHub :  
 [https://github.com/nicolargo/glances](https://github.com/nicolargo/glances){ target = "_blank" }
