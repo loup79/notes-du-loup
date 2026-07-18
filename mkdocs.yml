@@ -97,12 +97,12 @@ plugins:
       archive: false
   - blog:
       blog_dir: informatique
-      #blog_toc: true
+      blog_toc: true
       post_date_format: short
       post_url_format: "/{slug}"
       categories_name: "Catégories :"
       categories_url_format: "{slug}"
-      pagination_per_page: 20
+      pagination_per_page: 15
       archive: false
   - search :
       lang: fr
