@@ -10,6 +10,14 @@ categories:
 
 ## Supervision avec Glances
 
+Glances sur GitHub :  
+[https://github.com/nicolargo/glances](https://github.com/nicolargo/glances){ target = "_blank" }
+
+Documentation :  
+[https://glances.readthedocs.io/en/latest/](https://glances.readthedocs.io/en/latest/){ target = "_blank" }
+
+Glances est installé sur les 2 serveurs Proxmox.
+
 Glances peut afficher en temps réel le % d'utilisation des CPU et GPU, le % d'utilisation des mémoires système et GPU ainsi que les températures des différents périphériques, le tout sur une page accessible depuis un navigateur Web.
 
 Avant de l'installer, vérifier la présence sur l'hôte Debian des paquets _psutils_ et _lm-sensors_, à défaut les ajouter.
@@ -155,3 +163,5 @@ Quelques remarques concernant le tableau de bord affiché :
 \- Composite, Sensor 1,2 = Températures du dique nvme-pci  
 \- Tctl = Température du CPU Ryzen _(k10temp-pci-00c3)_  
 \- edge = temperature du GPU
+
+**Fin.**

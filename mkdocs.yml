@@ -1,13 +1,9 @@
 # Fichier de configuration du site
 ### Configuration minimale
 site_name: Documents du Loup
-site_url: https://loup79.github.io/notes-du-loup/
-
-### Configuration du dépôt
-# Ajoute en haut à droite de chaque page du site, icône, nom et lien vers le dépot GitHub du projet.
-repo_url: https://github.com/loup79/notes-du-loup
-repo_name: 'Dépot du Loup'
-edit_uri: edit/main/docs/
+site_url: https://apache.proxloup79.duckdns.org:9442/mkdocs/
+#dev_addr: '0.0.0.0:8000'
+site_dir: '../../../../var/www/html/mkdocs/'
 
 ### Configuration des métadonnées
 site_description: Notes techniques du Loup
@@ -27,7 +23,7 @@ nav:
   - Réseau virtuel:
     - blog/index.md
   - Divers informatique :
-    - informatique/index.md 
+    - informatique/index.md
   - Notes MkDocs :
     - mkdocs/index.md 
     - mkdocs/bases-mkdocs.md
@@ -35,7 +31,7 @@ nav:
     - mkdocs/vscodeserver-mkdocs.md
     - mkdocs/github-mkdocs.md
   - Notes Zensical :
-    - zensical/installation.md  
+    - zensical/installation.md
   # Fin de la navigation
 
 ### Configuration du thème
@@ -43,6 +39,9 @@ theme:
   name: material
   language: fr
   logo: logo.png
+  palette:
+    primary: teal
+    accent: amber
   font:
     text: Roboto
     code: Consolas
@@ -100,9 +99,9 @@ plugins:
       blog_toc: true
       post_date_format: short
       post_url_format: "/{slug}"
-      categories_name: "Catégorie du site :"
+      categories_name: "Catégories du site :"
       categories_url_format: "{slug}"
-      pagination_per_page: 8
+      pagination_per_page: 20
       archive: false
   - search :
       lang: fr

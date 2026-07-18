@@ -90,6 +90,30 @@ Arrêt de la VM Debian :
 wsl --shutdown Debian
 ```
 
+Pour voir la liste des distributions Linux disponibles, entrer la Cde suivante :
+
+```bash
+wsl --list --online
+```
+
+Pour installer une distribution Linux, entrer la Cde suivante :
+
+```bash
+wsl --install -d Nom de la distribution Linux
+```
+
+Pour mettre à jour le noyau WSL :
+
+```bash
+wsl --update
+```
+
+Pour lire la version courante de WSL :
+
+```bash
+wsl --version
+```
+
 ### Xfce4 - Installation
 
 Lancer depuis le menu de **Windows Terminal** la **console** Debian.
@@ -116,7 +140,7 @@ et lancer les Cdes suivantes :
 Pour terminer, éditer le fichier de **xrdp** suivant :
 
 ```bash
-sudo nano /etc/xrdp/startwm.sh`
+sudo nano /etc/xrdp/startwm.sh
 ```  
 
 Commenter ces 2 lignes _(# en début de ligne)_ :
@@ -126,12 +150,19 @@ test -x /etc/X11/Xsession && exec /etc/X11/Xsession
 exec /bin/sh /etc/X11/Xsession
 ```  
 
-et ajouter celles-ci :
+et ajouter celles-ci _(WSL étant en version 2.7.10.0 - 2026 )_ :
 
 ```markdown
-# xfce
-startxfce4
+# Force XFCE en X11 pour XRDP/WSL
+unset WAYLAND_DISPLAY
+export GDK_BACKEND=x11
+export QT_QPA_PLATFORM=xcb
+export XDG_SESSION_TYPE=x11
+
+exec startxfce4
 ```
+
+La ligne importante étant `unset WAYLAND_DISPLAY`, ceci pour éviter un conflit entre WSLg et XRDP qui utilise X11.
 
 Démarrer ensuite le serveur **xrdp** :
 
@@ -294,11 +325,11 @@ xhost **-** le réactive.
 
 Installer depuis **synaptic** les paquets **firefox-esr** et **firefox-esr-i10n-fr**.
 
-### Debian - Dossier utilisateur
+### Debian - Démarrage
 
 La VM démarre et présente malheureusement par défaut un dossier de Windows.
 
-Pour changer de dossier, éditer le fichier Windows d'extension **.json** suivant :
+Pour ouvrir un dossier Linux, éditer le fichier Windows d'extension **.json** suivant :
 
 ```bash
 C:\Users\Gerard\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
@@ -307,15 +338,46 @@ C:\Users\Gerard\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\L
 et ajouter un **startingDirectory** dans la section contenant **"name": "Debian"** :
 
 ```markdown
+{
  "guid": "{58ad8b0c-3e.......................}",
  "hidden": false,
- "name": "Debian",
+ "name": "Debian d\u00e9marrage",
  "source": "Windows.Terminal.Wsl",
  "startingDirectory": "//wsl$/Debian/home/utilisateur/"
  },
 ```
 
 Le fichier **.json** est aussi accessible depuis le menu de **Terminal Windows** dans **Paramètres**.
+
+### Debian - Arrêt et Sauvegarde
+
+Le fichier settings.json peut être complété ainsi :
+
+```markdown
+{
+"commandline": "wsl --shutdown Debian",
+"guid": "{3fdcace8-379f-498c-9da2-969d9e321ebc}",
+"hidden": false,
+"icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
+"name": "Debian arr\u00eat"
+},
+{
+"closeOnExit": "never",
+"commandline": "wsl --export Debian D:\\Images_WSL2\\DebianBackup.tar",
+"guid": "{b5a43fde-52bb-430c-8707-e79eab3c50f0}",
+"hidden": false,
+"icon": "ms-appx:///ProfileIcons/{9acb9455-ca41-5af7-950f-6bca1bc9722f}.png",
+"name": "Debian sauvegarde"
+},
+```
+
+L'arrêt et la sauvegarde pourront ainsi être lancé depuis le menu du terminal Windows.
+
+Les guid peuvent être créés avec la Cde suivante depuis le terminal Windows lancé en tant qu'administrateur :  
+
+```text
+[guid]::NewGuid()
+```
 
 ### Explorer Windows - Fichiers Linux
 
