@@ -292,6 +292,39 @@ Pour corriger la divergence indiquée ci-dessus :
 git pull origin gh-pages --rebase
 ```
 
+Pour récupérer le fichier mkdocs.yml écrasé par erreur, entrer la Cde suivante :
+
+```bash
+git log -- mkdocs.yml
+```
+
+Exemple de retour :
+
+```markdown hl_lines="7 9"
+commit e7cf2cd5f4bf8ecb4b55487ca402fd1ae53f969d (HEAD -> main, origin/main, origin/HEAD)
+Author: Gerard Leloup <gerard_leloup@orange.fr>
+Date:   Sat Jul 18 13:10:58 2026 +0000
+
+            modified:   mkdocs.yml
+
+commit 045960912e5cf3ccccd3f7f70203e313d78d904b
+Author: Gerard Leloup <gerard_leloup@orange.fr>
+Date:   Sat Jul 18 12:17:47 2026 +0000
+
+            modified:   mkdocs.yml
+
+commit 0ff7646b1fb66bdba77d0db6ed841411673b12b9
+...
+```
+
+Pour restaurer la version de 12H17 :
+
+```bash
+git restore --source=0459609 mkdocs.yml
+```
+
+Entrer pour la source les 7 premiers caractères du commit concerné.
+
 ### Copie du site Web sur le QNAP
 
 Générer une copie du site comme suit :
