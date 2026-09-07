@@ -26,7 +26,7 @@ La construction de la maquette est issue de l'hyperviseur de type 2 [VirtualBox]
 Maquette de base du réseau virtuel :
 
 <figure markdown>
-  ![Synoptique - Réseau virtuel : Flux ICMP (ping)](blog/images/2018/05/maquette-base-ipfire.png){ width="430" }
+  ![Synoptique - Réseau virtuel : Flux ICMP (ping)](blog/images/2026/01/maquette-base-ipfire.png){ width="430" }
   <figcaption>Réseau virtuel : Flux ICMP (ping))</figcaption>
 </figure>
 
