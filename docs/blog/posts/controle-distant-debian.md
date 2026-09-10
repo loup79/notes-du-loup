@@ -96,7 +96,7 @@ Ceci permet notamment d'éviter un refus de connexion lié à des problèmes de 
 
 Cela ne concerne pas les VM non graphiques telles IPFire, OpenvSwitch et les conteneurs LXC.
 
-#### _- Serveur RDP sur VM srvlan_
+#### _- Serveur RDP sur VM srvlan_ {#rdp-srvlan}
 
 Installez le serveur RDP de nom xrdp :
 
