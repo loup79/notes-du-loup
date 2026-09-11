@@ -12,7 +12,7 @@ categories:
 
 **Mai 2024.**
 
-Alpine Linux Wine est une distribution **légère** qui est essentiellement utilisée sur les systèmes embarqués, les conteneurs et les machines virtuelles.
+Alpine Linux Wines est une distribution **légère** qui est essentiellement utilisée sur les systèmes embarqués, les conteneurs et les machines virtuelles.
 
 Elle utilise **apk** comme gestionnaire de paquets et **OpenRC** comme gestionnaire de services.
 
