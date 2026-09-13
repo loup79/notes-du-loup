@@ -279,7 +279,7 @@ Environment=MKL_NUM_THREADS=4
 Environment=OPENBLAS_NUM_THREADS=4
 Environment=NUMEXPR_NUM_THREADS=4
 # Délai d'inactivité avant arrêt du modèle
-Environment=OLLAMA_KEEP_ALIVE=5m
+Environment=OLLAMA_KEEP_ALIVE="5m"
 # Relancer automatiquement si plantage
 Restart=always
 RestartSec=3
@@ -474,6 +474,9 @@ Installation manuelle :
 (ollamaenv) root@ubuntu-ollama:~# tar -C /usr -xzf ollama-linux-amd64.tgz
 ```
 
+!!! note "Nota"
+    En 2026, utilisez cette Cde pour installer Ollama : curl -fsSL https://ollama.com/install.sh | sh
+
 Démarrez le serveur Ollama :
 
 ```bash
@@ -489,7 +492,7 @@ Ouvrez une seconde connexion SSH et vérifiez la version :
 retour :
 
 ```markdown
-ollama version is 0.5.12
+ollama version is 0.34.0
 ```
 
 Créez un utilisateur et un groupe pour Ollama :
@@ -522,7 +525,7 @@ Description=Ollama Service
 After=network-online.target
 
 [Service]
-ExecStart=/usr/bin/ollama serve
+ExecStart=/usr/local/bin/ollama serve
 # CPUQuota à 280% = 70% max de 4 VCPU
 CPUQuota=280%
 Environment=HOME=/root
@@ -535,7 +538,7 @@ Environment=MKL_NUM_THREADS=4
 Environment=OPENBLAS_NUM_THREADS=4
 Environment=NUMEXPR_NUM_THREADS=4
 # Délai d'inactivité avant arrêt du modèle
-Environment=OLLAMA_KEEP_ALIVE=5m
+Environment=OLLAMA_KEEP_ALIVE="5m"
 # Seulement si utilisation GPU
 #Environment="HSA_OVERRIDE_GFX_VERSION=9.0.0"
 #Environment="ROCM_PATH=/opt/rocm"
@@ -584,6 +587,9 @@ Procédez ainsi :
 (ollamaenv) root@ubuntu-ollama:~# systemctl restart ollama
 (ollamaenv) root@ubuntu-ollama:~# ollama -v
 ```
+
+!!! note "Nota"
+    En 2026, utilisez cette Cde pour installer Ollama : curl -fsSL https://ollama.com/install.sh | sh
 
 #### _- Installation d'Open WebUI_
 
