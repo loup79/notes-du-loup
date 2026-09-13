@@ -1,0 +1,3037 @@
+<!DOCTYPE html><html lang="fr" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Installation et configuration d'un switch virtuel Open vSwitch.">
+      
+      
+        <meta name="author" content="Gérard Leloup">
+      
+      
+        <link rel="canonical" href="https://loup79.github.io/notes-du-loup/blog/open-vswitch---virtualbox--debian/">
+      
+      
+        <link rel="prev" href="../xrdp--astuces/">
+      
+      
+        <link rel="next" href="../ssh--cl%C3%A9s-publique-et-priv%C3%A9e/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Open vSwitch - VirtualBox / Debian - Documents du Loup</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CConsolas:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Consolas"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#memento-51-switch-virtuel-ovs" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Documents du Loup" class="md-header__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Documents du Loup
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Open vSwitch - VirtualBox / Debian
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Accueil
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  Réseau virtuel
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../informatique/" class="md-tabs__link">
+          
+  
+  
+  Divers informatique
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../mkdocs/" class="md-tabs__link">
+          
+  
+  
+  Notes MkDocs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../zensical/installation/" class="md-tabs__link">
+          
+  
+  
+  Notes Zensical
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden="">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Documents du Loup" class="md-nav__button md-logo" aria-label="Documents du Loup" data-md-component="logo">
+      
+  <img src="../../logo.png" alt="logo">
+
+    </a>
+    Documents du Loup
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/loup79/notes-du-loup" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    Dépot du Loup
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Accueil
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Administrez votre réseau virtuel !
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-prerequis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prérequis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-elements-reseau-virtuel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Eléments du réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-construction-reseau-virtuel-debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Construction du réseau
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../page-liste-des-mementos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Liste des mémentos
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Réseau virtuel
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Réseau virtuel
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index de tous les articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catégories :
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catégories :
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-hyperviseur-virtualbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01 Hyperviseur Virtualbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-serveur-lan-srvlan/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02 Serveur LAN "srvlan"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-serveur-wan-srvsec/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03 Serveur WAN "srvsec"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-serveur-dmz-srvdmz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04 Serveur DMZ "srvdmz"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-clients-lan-vm1-vm2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05 Clients LAN "vm1 vm2"
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-ovs--conteneurs-lxc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06 OvS + Conteneurs LXC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-acc%C3%A8s-rdp--vnc--ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07 Accès RDP + VNC + SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-dns--dhcp--ddns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08 DNS + DHCP + DDNS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-lamp--https--cms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09 LAMP + HTTPS + CMS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-sftp-acc%C3%A8s-cms---ftps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    10 SFTP accès CMS - FTPS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-dns-split-et-proxy-inverse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    11 DNS split et Proxy inverse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../12-serveur-de-courrier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    12 Serveur de courrier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../13-cockpit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    13 Cockpit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Divers informatique
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Divers informatique
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index de tous les articles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2">
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catégories :
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Catégories :
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/alpine/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Alpine
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/centreon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Centreon
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/debian/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/eve-ng/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EVE-NG
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/intelligence-artificielle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intelligence artificielle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/nas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/nextcloud/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Nextcloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/pare-feu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pare-feu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/proxmox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proxmox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/vm-kvm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VM KVM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../informatique/windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes MkDocs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes MkDocs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Outil de documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/bases-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Bases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/debian-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur Debian
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/vscodeserver-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - VS Code Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs/github-mkdocs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MkDocs - Site Web sur GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notes Zensical
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notes Zensical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../zensical/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Zensical - Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#memento-51-switch-virtuel-ovs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mémento 5.1 - Switch virtuel OvS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mémento 5.1 - Switch virtuel OvS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#construction-de-la-vm-ovs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Construction de la VM ovs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Construction de la VM ovs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-creation-et-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Création et configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-installation-de-los-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Installation de l'OS Debian
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation-configuration-dovs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation-Configuration d'OvS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation-Configuration d'OvS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-reseau-de-la-vm-ovs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Intégration réseau de la VM ovs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Intégration réseau de la VM ovs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-reglages-sur-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Réglages sur VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-reglages-sur-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Réglages sur Debian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-declaration-du-serveur-dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Déclaration du serveur DNS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#titre-4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liaisons des vm1/2 sur br2/3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Liaisons des vm1/2 sur br2/3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#-creation-des-bridges-ports" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Création des bridges-ports
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-reglages-reseau-debian" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Réglages réseau Debian
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-reglages-reseau-virtualbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        - Réglages réseau VirtualBox
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#liaisons-des-vm12-sur-br0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Liaisons des vm1/2 sur br0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-de-fonctionnement-dovs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test de fonctionnement d'OvS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+                  <span class="md-ellipsis">
+                    Retourner à l'index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://loup79.github.io/notes-du-loup/blog/logo_bis.png" alt="Loup79">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Loup79
+                        
+                      </strong>
+                      <br>
+                      Réseau virtuel
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadonnées
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"></path></svg>
+                        <time datetime="2026-06-15 00:00:00+00:00" class="md-ellipsis">15/06/2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"></path></svg>
+                          <span class="md-ellipsis">
+                            dans
+                            
+                              <a href="../06-ovs--conteneurs-lxc/">06 OvS + Conteneurs LXC</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"></path></svg>
+                          <span class="md-ellipsis">
+                            
+                              17 min de lecture
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+  <h1>Open vSwitch - VirtualBox / Debian</h1>
+
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2026/01/openvswitch.webp" data-title="Image Pixabay - Switch informatique de Bru-nO" data-desc-position="bottom"><img alt="Image Pixabay - Switch informatique de Bru-nO" src="../images/2026/01/openvswitch.webp" width="430"></a></p>
+</figure>
+<h2 id="memento-51-switch-virtuel-ovs">Mémento 5.1 - Switch virtuel OvS</h2>
+<p>Open vSwitch <em>(OvS)</em> se comportera comme un véritable switch physique en proposant la gestion des adresses MAC tel un switch L2 ainsi que celle des adresses IP pour le routage des paquets IP tel un switch L3.</p>
+<p>Le switch virtuel sera, contrairement à une architecture standard, installé sur une VM et non sur le PC hôte de l'hyperviseur VirtualBox.</p>
+<p>Le moyen d'approcher une architecture standard sera de créer un conteneur à l'intérieur de la VM et de connecter celui-ci sur OvS à l'aide d'une interface réseau virtuelle Veth <em>(Mémento suivant)</em>.</p>
+<p>Le raccordement externe des clients LAN Debian sur OvS se fera aux travers de bridges créés sur celui-ci.</p>
+<p>La gestion possible de VLAN ne sera pas traitée ici.</p>
+<h3 id="construction-de-la-vm-ovs">Construction de la VM ovs</h3>
+<p>L'utilisation de VirtualBox est considérée acquise.</p>
+<!-- more -->
+
+<p>A défaut, référez-vous aux mémentos suivants :<br>
+<a href="../virtualbox---installation/" target="_blank">VirtualBox - Installation</a></p>
+<p><a href="../virtualbox---acc%C3%A8s-r%C3%A9seau-par-pont/" target="_blank">VirtualBox - Mode d’accès réseau par pont</a></p>
+<h4 id="-creation-et-configuration"><em>- Création et configuration</em></h4>
+<p>Le PC hôte doit être un PC&nbsp;64 bits, courant de nos jours.  </p>
+<p>Téléchargez l'ISO debian-z.x.y-amd64-netinst.iso :<br>
+<a href="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/" target="_blank">https://cdimage.debian.org/.../current/amd64/iso-cd/</a>  </p>
+<p>- Démarrez ensuite l'application VirtualBox 7.2.x, puis :<br>
+- - Menu de VirtualBox -&gt; Machine -&gt; Nouvelle...</p>
+<p>Selon la version de l'hyperviseur, l'interface est en franglais.<br>
+-&gt; Virtual machine name and operating system<br>
+-&gt; VM Name : ovs<br>
+-&gt; VM Folder : Sélectionnez le dossier de stockage des VM<br>
+-&gt; ISO Image : Sélectionnez l'ISO téléchargée ci-dessus<br>
+-&gt; Décochez : Proceed with Unattended Installation <em>(important)</em><br>
+-&gt; OS : Linux -&gt; OS Distribution : Debian<br>
+-&gt; OS Version : Debian (64-bit)</p>
+<p>-&gt; Specify virtual hardware<br>
+-&gt; Base Memory : 1024 MB<br>
+-&gt; Number of CPUs : 2 CPU si possible</p>
+<p>-&gt; Specify virtual hard disk<br>
+-&gt; Create a Virtual Hard Disk : Ajustez à 12 Go</p>
+<p>-&gt; Bouton Finish</p>
+<p>La VM créée s'affiche dans le panneau gauche de VirtualBox.  </p>
+<p>- Sélectionnez maintenant la nouvelle VM, puis :<br>
+- - Clic droit -&gt; Configuration...<br>
+- - - Onglet Général<br>
+-&gt; Features -&gt; Shared Clipboard -&gt; Bidirectionnel</p>
+<p>- - - Onglet System<br>
+-&gt; Carte mère -&gt; Boot Device Order -&gt; Décochez Disquette<br>
+-&gt; Processeur -&gt; Cochez PAE/NX</p>
+<p>-&gt; OK</p>
+<p>Les autres paramètres peuvent rester inchangés.</p>
+<h4 id="-installation-de-los-debian"><em>- Installation de l'OS Debian</em></h4>
+<p>Conseil pratique avant de démarrer la nouvelle VM :<br>
+Si le curseur de la souris disparait lors d'un clic dans la fenêtre de la VM, celui-ci peut être récupéré par le PC hôte à l'aide de la touche CTRL située à droite de la barre d'espace du clavier.  </p>
+<p>- Sélectionnez la VM, puis :<br>
+-&gt; Clic droit -&gt; Démarrer<br>
+-&gt; Start with GUI <em>(La VM s'exécute)</em></p>
+<p>Sélectionnez Graphical Install et appliquez ce qui suit :<br>
+- Language -&gt; Français<br>
+- Pays (territoire ou région) -&gt; France<br>
+- Disposition de clavier à utiliser -&gt; Français<br>
+- Nom de machine -&gt; ovs<br>
+- Domaine -&gt; Laissez le champ vide<br>
+- MDP du super utilisateur root -&gt; Votre MDP pour root<br>
+- Confirmation du MDP -&gt; Votre MDP pour root<br>
+- Nom complet du nouvel utilisateur -&gt; Ex: switch<br>
+- Identifiant pour le compte utilisateur -&gt; switch<br>
+- MDP pour le nouvel utilisateur -&gt; Votre MDP pour switch<br>
+- Confirmation du MDP -&gt; Votre MDP pour switch<br>
+- Méthode de partitionnement -&gt; Assisté - utili... entier<br>
+- Disque à partitionner -&gt; Celui proposé de 12 Go<br>
+- Schéma de partitionnement -&gt; Tout ... seule partition<br>
+- Table des partitions -&gt; Terminer le partitionnement ...<br>
+- Faut-il appliquer les changements … disques ? -&gt; Oui  </p>
+<p>L'installation de base commence :<br>
+- Faut-il analyser d'autres supports ... ? -&gt; Non<br>
+- Pays du miroir de l'archive Debian -&gt; France<br>
+- Miroir de l'archive Debian -&gt; deb.debian.org<br>
+- Mandataire HTTP (lais...) -&gt; Laissez vide  </p>
+<p>L'installation continue :<br>
+- Souhaitez-vous participer à l'étude statistique... -&gt; Non<br>
+- Logiciels à installer<br>
+-&gt; Décochez environnement de bureau Debian<br>
+-&gt; Décochez ... GNOME<br>
+-&gt; Décochez serveur SSH<br>
+-&gt; Conservez utilitaires usuels du système</p>
+<p>L'installation se termine :<br>
+- Installer ... de démarrage GRUB sur le secteur ... -&gt; Oui<br>
+- Périphérique ... programme de démarrage -&gt; /dev/sda<br>
+- Installation terminée -&gt; Continuer <em>(sans retrait du CD)</em>  </p>
+<p>Le système reboot et une fenêtre de connexion s'ouvre :<br>
+-&gt; ovs login : Entrez switch<br>
+-&gt; Password : Entrez Votre MDP pour switch</p>
+<p>Si tout est OK, affichage du prompt switch@ovs :</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2026/01/ovs-deb13-premier-demarrage.webp" data-title="Capture - Open vSwitch : Premier démarrage de la VM ovs" data-desc-position="bottom"><img alt="Capture - Open vSwitch : Premier démarrage de la VM ovs" src="../images/2026/01/ovs-deb13-premier-demarrage.webp"></a>
+  </p>
+<figcaption>Open vSwitch : Premier démarrage de la VM ovs</figcaption>
+</figure>
+<p>Autorisez ensuite l'usage de la Cde sudo à l'utilisateur switch :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>su<span class="w"> </span>root
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Mot<span class="w"> </span>de<span class="w"> </span>passe<span class="w"> </span>:<span class="w"> </span>Votre<span class="w"> </span>MDP<span class="w"> </span>pour<span class="w"> </span>root
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="o">[</span>root@ovs<span class="o">]</span><span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>sudo
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="o">[</span>root@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>sudo<span class="w"> </span>switch
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="o">[</span>root@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>reboot
+</span></code></pre></div>
+<p>et reconnectez-vous en tant qu'utilisateur switch.  </p>
+<p>Pour info, la VM ovs peut être arrêtée de 2 façons :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>poweroff<span class="w">  </span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>shutdown<span class="w"> </span>-h<span class="w"> </span>now
+</span></code></pre></div>
+<h3 id="installation-configuration-dovs">Installation-Configuration d'OvS</h3>
+<p>Au préalable, observez la configuration réseau active avec la Cde ip a.</p>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    inet 127.0.0.1/8 scope host lo
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    inet6 ::1/128 scope host noprefixroute
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="hll">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+</span></span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    link/ether 08:00:27:fe:80:16 brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    altname enx080027fe8016
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="hll">    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s3
+</span></span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>       valid_lft 84380sec preferred_lft 73580sec
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    inet6 fd17:625c:f037:2:a00:27ff:fefe:8016/64 scope global dynamic mngtmpaddr proto kernel_ra
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>       valid_lft 86116sec preferred_lft 14116sec
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    inet6 fd17:625c:f037:2:bb8c:8c1b:8a05:1029/64 scope global dynamic mngtmpaddr noprefixroute
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>       valid_lft 86116sec preferred_lft 14116sec
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    inet6 fe80::3d78:ac2d:6974:6111/64 scope link
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>       valid_lft forever preferred_lft forever
+</span></code></pre></div>
+<h4 id="-installation"><em>- Installation</em></h4>
+<p>Installez le paquet openvswitch-switch :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>openvswitch-switch
+</span></code></pre></div>
+<p>Les paquets concernant les dépendances manquantes sont ajoutés automatiquement.</p>
+<p>Affichez maintenant la version d'Open vSwitch <em>(OvS)</em> :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>show
+</span></code></pre></div>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>c4707bd2-c54e-49de-8a30-9f0eaf0b47f6
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="hll">    ovs_version: "3.5.0"
+</span></span></code></pre></div>
+<p>Listez les informations du module d'Open vSwitch intégré dans le noyau linux :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>modinfo<span class="w"> </span>openvswitch
+</span></code></pre></div>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="hll">filename:       /lib/modules/6.12.63+deb13-amd64/kernel/net/openvswitch/openvswitch.ko.xz
+</span></span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>alias:          net-pf-16-proto-16-family-ovs_ct_limit
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>alias:          net-pf-16-proto-16-family-ovs_meter
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>alias:          net-pf-16-proto-16-family-ovs_packet
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>alias:          net-pf-16-proto-16-family-ovs_flow
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>alias:          net-pf-16-proto-16-family-ovs_vport
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>alias:          net-pf-16-proto-16-family-ovs_datapath
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>license:        GPL
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>description:    Open vSwitch switching datapath
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>depends:        nf_conncount,nf_conntrack,libcrc32c,nsh,nf_nat,psample
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>intree:         Y
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="hll">name:           openvswitch
+</span></span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>retpoline:      Y
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>vermagic:       6.12.63+deb13-amd64 SMP preempt mod_unload modversions
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>sig_id:         PKCS#7
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>signer:         Build time autogenerated kernel key
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>sig_key:        6A:D9:B3:...
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>sig_hashalgo:   sha256
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>signature:      30:65:02:...
+</span></code></pre></div>
+<p>Contrôlez enfin le bon chargement du module openvswitch.ko.xz :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>lsmod<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>openvswitch
+</span></code></pre></div>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="hll">openvswitch           221184  0
+</span></span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>nsh                    12288  1 openvswitch
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>nf_conncount           24576  1 openvswitch
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>nf_nat                 65536  1 openvswitch
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>nf_conntrack          204800  3 nf_nat,openvswitch,nf_conncount
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>psample                16384  1 openvswitch
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>libcrc32c              12288  3 nf_conntrack,nf_nat,openvswitch
+</span></code></pre></div>
+<p>- - Liste des <a href="../images/2026/01/openvswitch-composants.webp" target="_blank">principaux composants</a> OvS installés - -</p>
+<p>- /usr/sbin/ovs-vswitchd :<br>
+Le service de commutation <em>(compatible OpenFlow)</em>.  </p>
+<p>- /usr/bin/ovs-appctl :<br>
+Dialogue CLI <em>(Command Line Interface)</em> avec le service.  </p>
+<p>- /usr/bin/ovs-vsctl :<br>
+Configuration CLI du service via le serveur de Bdd.  </p>
+<p>- /usr/sbin/ovsdb-server :<br>
+Le serveur de Bdd contenant la configuration du service.  </p>
+<p>- /usr/bin/ovsdb-client :<br>
+Dialogue CLI avec le serveur de Bdd <em>(backup, etc...)</em>.  </p>
+<p>- /usr/bin/ovsdb-tool :<br>
+Configuration CLI des fichiers de la Bdd <em>(création, etc...)</em>.  </p>
+<p>- /usr/bin/ovs-dpctl :<br>
+Configuration CLI des datapaths du noyau d'OvS.  </p>
+<p>- /usr/bin/ovs-ofctl :<br>
+Configuration CLI de la partie OpenFlow d'OvS.  </p>
+<p>La Bdd conf.db se situe dans /etc/openvswitch/.<br>
+Les logs se situent dans /var/log/openvswitch/.</p>
+<p>Contrôlez l'activation du service openvswitch-switch :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>openvswitch-switch
+</span></code></pre></div>
+<p>Reour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>● openvswitch-switch.service - Open vSwitch
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="hll">     Loaded: loaded (/usr/lib/systemd/system/openvswitch-switch.service; enabled; preset: enabled)
+</span></span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="hll">     Active: active (exited) since Mon 2026-01-26 17:58:30 CET; 1h 10min ago
+</span></span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a> Invocation: 32e26d4ac24846cd8a808dde0d57deee
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    Process: 1441 ExecStart=/bin/true (code=exited, status=0/SUCCESS)
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>   Main PID: 1441 (code=exited, status=0/SUCCESS)
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>   Mem peak: 1.8M
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        CPU: 10ms
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>janv. 26 17:58:30 ovs systemd[1]: Starting openvswitch-switch.service - Open vSwitch...
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>janv. 26 17:58:30 ovs systemd[1]: Finished openvswitch-switch.service - Open vSwitch.
+</span></code></pre></div>
+<p>ainsi que celle des 2 services suivants :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ovsdb-server
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>ovs-vswitchd
+</span></code></pre></div>
+<h4 id="-configuration"><em>- Configuration</em></h4>
+<p>Commencez par créer un bridge <em>(switch)</em> de nom br0 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br0<span class="w">   </span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>show
+</span></code></pre></div>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>c4707bd2-c54e-49de-8a30-9f0eaf0b47f6
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="hll">    Bridge br0
+</span></span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="hll">        Port br0
+</span></span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="hll">            Interface br0
+</span></span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>                type: internal
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    ovs_version: "3.5.0"
+</span></code></pre></div>
+<p>Un port et une interface virtuels de même nom ont été associés au bridge.</p>
+<p>Utilisez la Cde del-br pour détruire un bridge existant.</p>
+<p>Vérifiez les infos détaillées du bridge br0 comme suit :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>list<span class="w"> </span>br<span class="w"> </span>br0
+</span></code></pre></div>
+<p>ainsi que la création de l'interface br0 avec la Cde ip a :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>    inet 127.0.0.1/8 scope host lo
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    inet6 ::1/128 scope host noprefixroute
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    link/ether 08:00:27:fe:80:16 brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    altname enx080027fe8016
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s3
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>       valid_lft 85883sec preferred_lft 75083sec
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>    inet6 fd17:625c:f037:2:a00:27ff:fefe:8016/64 scope global dynamic mngtmpaddr proto kernel_ra
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>       valid_lft 86372sec preferred_lft 14372sec
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    inet6 fd17:625c:f037:2:bb8c:8c1b:8a05:1029/64 scope global dynamic mngtmpaddr noprefixroute
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>       valid_lft 86372sec preferred_lft 14372sec
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    inet6 fe80::3d78:ac2d:6974:6111/64 scope link
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-16-18"><a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="hll">3: ovs-system: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN group default qlen 1000
+</span></span><span id="__span-16-19"><a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    link/ether ee:ac:78:26:28:9f brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-16-20"><a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a><span class="hll">4: br0: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN group default qlen 1000
+</span></span><span id="__span-16-21"><a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>    link/ether 7e:a5:a8:b4:3f:40 brd ff:ff:ff:ff:ff:ff
+</span></code></pre></div>
+<p>Testez l'interface enp0s3 avec un ping vers yahoo.fr, celui-ci doit recevoir une réponse positive.</p>
+<p>Rattachez à présent l'interface enp0s3 au bridge br0 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br0<span class="w"> </span>enp0s3<span class="w">  </span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>show
+</span></code></pre></div>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>c4707bd2-c54e-49de-8a30-9f0eaf0b47f6
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    Bridge br0
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>        Port br0
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>            Interface br0
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>                type: internal
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="hll">        Port enp0s3
+</span></span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="hll">            Interface enp0s3
+</span></span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    ovs_version: "3.5.0"
+</span></code></pre></div>
+<p>Le port virtuel enp0s3 et l'interface virtuelle enp0s3 ne font qu'un.</p>
+<p>Utilisez la Cde del-port pour détruire un port existant.</p>
+<p>Observez de nouveau le retour de la Cde ip a :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    inet 127.0.0.1/8 scope host lo
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>    inet6 ::1/128 scope host noprefixroute
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="hll">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000
+</span></span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="hll">    link/ether 08:00:27:fe:80:16 brd ff:ff:ff:ff:ff:ff
+</span></span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>    altname enx080027fe8016
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic noprefixroute enp0s3
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>       valid_lft 85883sec preferred_lft 75083sec
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    inet6 fe80::3d78:ac2d:6974:6111/64 scope link
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>3: ovs-system: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN group default qlen 1000
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>    link/ether ee:ac:78:26:28:9f brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="hll">4: br0: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN group default qlen 1000
+</span></span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="hll">    link/ether 08:00:27:fe:80:16 brd ff:ff:ff:ff:ff:ff
+</span></span></code></pre></div>
+<p>La carte virtuelle br0 possède à présent la même adresse MAC <em>(link/ether)</em> que la carte virtuelle enp0s3.</p>
+<h3 id="integration-reseau-de-la-vm-ovs">Intégration réseau de la VM ovs</h3>
+<h4 id="-reglages-sur-virtualbox"><em>- Réglages sur VirtualBox</em></h4>
+<p>Stoppez la VM :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>poweroff
+</span></code></pre></div>
+<p>Sélectionnez ensuite celle-ci dans VirtualBox, puis :<br>
+- - Menu de VirtualBox -&gt; Machine -&gt; Configuration...<br>
+- - - Onglet Réseau<br>
+-&gt; Adapter 1 -&gt; Attached to -&gt; Sélectionnez Réseau interne<br>
+-&gt; Name -&gt; Sélectionnez switch_interne<br>
+-&gt; Promiscuous Mode -&gt; Sélectionnez Allow VMs</p>
+<p>-&gt; Adapter 2<br>
+-&gt; Cochez Activer l'interface réseau<br>
+-&gt; Attached to -&gt; Sélectionnez Réseau interne<br>
+-&gt; Name -&gt; Sélectionnez liaison_vm1<br>
+-&gt; Promiscuous Mode -&gt; Sélectionnez Allow VMs</p>
+<p>-&gt; Adapter 3<br>
+-&gt; Cochez Activer l'interface réseau<br>
+-&gt; Attached to -&gt; Sélectionnez Réseau interne<br>
+-&gt; Name -&gt; Sélectionnez liaison_vm2<br>
+-&gt; Promiscuous Mode -&gt; Sélectionnez Allow VMs</p>
+<p>-&gt; OK</p>
+<p>Redémarrez la VM.</p>
+<p>VirtualBox ne permet pas d’utiliser, pour les interfaces réseau 2 et 3 de la VM Debian, un mode d’accès basé sur des interfaces réseau virtuelles <strong>TAP</strong> comme le ferait Open vSwitch <em>( <a href="#titre-4">Voir le § 4</a> )</em>.</p>
+<p>C'est donc le type Réseau interne qui sera utilisé.  </p>
+<p>Le mode promiscuité Allow VMs permettra à la VM ovs de travailler tel un switch et traiter ainsi tout le trafic réseau à destination et en provenance d'autres VM.  </p>
+<p>Il est nécessaire, dans une infrastructure virtualisée telle Open vSwitch installé sur une VM, d'appliquer le mode promiscuité à une interface réseau devant agir comme un pont <em>(bridge)</em>.</p>
+<h4 id="-reglages-sur-debian"><em>- Réglages sur Debian</em></h4>
+<p>Vous allez à présent configurer OvS au boot de la VM.</p>
+<p>Editez pour cela le fichier réseau interfaces :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/network/interfaces
+</span></code></pre></div>
+<p>et modifiez le comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="gh"># This file describes the network interfaces availabl...</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="gh"># and how to activate them. For more information, see ...</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>source /etc/network/interfaces.d/*
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="gh"># The loopback network interface</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>auto lo
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>iface lo inet loopback
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a><span class="gh"># The primary network interface</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="gh"># Mettre un # devant les 2 lignes ci-dessous</span>
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a><span class="gh">#allow-hotplug enp0s3</span>
+</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="gh">#iface enp0s3 inet dhcp</span>
+</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="gh"># This is an autoconfigured IPv6 interface</span>
+</span><span id="__span-22-15"><a id="__codelineno-22-15" name="__codelineno-22-15" href="#__codelineno-22-15"></a><span class="gh"># Mettre un # devant la ligne ci-dessous</span>
+</span><span id="__span-22-16"><a id="__codelineno-22-16" name="__codelineno-22-16" href="#__codelineno-22-16"></a><span class="gh">#iface enp0s3 inet6 auto</span>
+</span><span id="__span-22-17"><a id="__codelineno-22-17" name="__codelineno-22-17" href="#__codelineno-22-17"></a>
+</span><span id="__span-22-18"><a id="__codelineno-22-18" name="__codelineno-22-18" href="#__codelineno-22-18"></a><span class="gu">## Configuration Open vSwitch</span>
+</span><span id="__span-22-19"><a id="__codelineno-22-19" name="__codelineno-22-19" href="#__codelineno-22-19"></a><span class="gh"># Activation de l'interface br0</span>
+</span><span id="__span-22-20"><a id="__codelineno-22-20" name="__codelineno-22-20" href="#__codelineno-22-20"></a>auto br0
+</span><span id="__span-22-21"><a id="__codelineno-22-21" name="__codelineno-22-21" href="#__codelineno-22-21"></a>allow-ovs br0
+</span><span id="__span-22-22"><a id="__codelineno-22-22" name="__codelineno-22-22" href="#__codelineno-22-22"></a>
+</span><span id="__span-22-23"><a id="__codelineno-22-23" name="__codelineno-22-23" href="#__codelineno-22-23"></a><span class="gh"># Configuration IP de l'interface br0</span>
+</span><span id="__span-22-24"><a id="__codelineno-22-24" name="__codelineno-22-24" href="#__codelineno-22-24"></a>iface br0 inet static
+</span><span id="__span-22-25"><a id="__codelineno-22-25" name="__codelineno-22-25" href="#__codelineno-22-25"></a>address 192.168.3.15
+</span><span id="__span-22-26"><a id="__codelineno-22-26" name="__codelineno-22-26" href="#__codelineno-22-26"></a>netmask 255.255.255.0
+</span><span id="__span-22-27"><a id="__codelineno-22-27" name="__codelineno-22-27" href="#__codelineno-22-27"></a>gateway 192.168.3.1
+</span><span id="__span-22-28"><a id="__codelineno-22-28" name="__codelineno-22-28" href="#__codelineno-22-28"></a>ovs_type OVSBridge
+</span><span id="__span-22-29"><a id="__codelineno-22-29" name="__codelineno-22-29" href="#__codelineno-22-29"></a>ovs_ports enp0s3
+</span><span id="__span-22-30"><a id="__codelineno-22-30" name="__codelineno-22-30" href="#__codelineno-22-30"></a>
+</span><span id="__span-22-31"><a id="__codelineno-22-31" name="__codelineno-22-31" href="#__codelineno-22-31"></a><span class="gh"># Attachement du port/interface enp0s3 au bridge br0</span>
+</span><span id="__span-22-32"><a id="__codelineno-22-32" name="__codelineno-22-32" href="#__codelineno-22-32"></a>allow-br0 enp0s3
+</span><span id="__span-22-33"><a id="__codelineno-22-33" name="__codelineno-22-33" href="#__codelineno-22-33"></a>iface enp0s3 inet manual
+</span><span id="__span-22-34"><a id="__codelineno-22-34" name="__codelineno-22-34" href="#__codelineno-22-34"></a>ovs_bridge br0
+</span><span id="__span-22-35"><a id="__codelineno-22-35" name="__codelineno-22-35" href="#__codelineno-22-35"></a>ovs_type OVSPort
+</span></code></pre></div>
+<p>Redémarrez ensuite le service networking.service :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>networking
+</span></code></pre></div>
+<p>et contrôlez le résultat avec la Cde ip a :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="hll">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+</span></span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>    inet 127.0.0.1/8 scope host lo
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>    inet6 ::1/128 scope host noprefixroute 
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="hll">2: enp0s3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel master ovs-system state UP group ...
+</span></span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>    link/ether 08:00:27:fe:80:16 brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>    altname enx080027fe8016
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>    inet6 fe80::3d78:ac2d:6974:6111/64 scope link 
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-24-12"><a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a><span class="hll">3: enp0s8: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN group default qlen 1000
+</span></span><span id="__span-24-13"><a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a>    link/ether 08:00:27:f9:76:d7 brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-24-14"><a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a>    altname enx080027f976d7
+</span><span id="__span-24-15"><a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a><span class="hll">4: enp0s9: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN group default qlen 1000
+</span></span><span id="__span-24-16"><a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a>    link/ether 08:00:27:88:34:6e brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-24-17"><a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>    altname enx08002788346e
+</span><span id="__span-24-18"><a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a><span class="hll">5: ovs-system: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc noop state DOWN group default qlen 1000
+</span></span><span id="__span-24-19"><a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a>    link/ether ee:ac:78:26:28:9f brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-24-20"><a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a><span class="hll">6: br0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UNKNOWN group default qlen 1000
+</span></span><span id="__span-24-21"><a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a>    link/ether 08:00:27:fe:80:16 brd ff:ff:ff:ff:ff:ff
+</span><span id="__span-24-22"><a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a><span class="hll">    inet 192.168.3.15/24 brd 192.168.3.255 scope global br0
+</span></span><span id="__span-24-23"><a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a>       valid_lft forever preferred_lft forever
+</span><span id="__span-24-24"><a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a>    inet6 fe80::a00:27ff:fefe:8016/64 scope link proto kernel_ll 
+</span><span id="__span-24-25"><a id="__codelineno-24-25" name="__codelineno-24-25" href="#__codelineno-24-25"></a>       valid_lft forever preferred_lft forever
+</span></code></pre></div>
+<p>Constat :<br>
+- 2 nouvelles interfaces réseau enp0s8 et enp0s9<br>
+- L'interface br0 a la même adresse MAC que enp0s3<br>
+- L'interface br0 possède l'adresse IP 192.168.3.15<br>
+- Le ping vers l'adresse lP 192.168.3.1 fonctionne</p>
+<p>L'adresse IP 192.168.3.15 sera utilisée plus tard pour administrer Open vSwitch à distance.</p>
+<p><strong>Attention, constaté avec Debian 12 :</strong>
+Lors d'un reboot du système, il est souvent nécessaire de relancer <mark>manuellement</mark> le service networking pour qu'Open vSwitch refonctionne correctement (bug ?).</p>
+<p>Vous allez donc, seulement si vous rencontrez ce problème, créer un nouveau service chargé de relancer <mark>automatiquement</mark> celui-ci durant la phase de reboot, ceci avant l'ouverture de la session utilisateur.</p>
+<p>Créez le service networking-restart.service :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/etc/systemd/system/
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>networking-restart.service
+</span></code></pre></div>
+<p>et entrez le contenu suivant :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>[Unit]
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>Description=Redémarrage du service networking
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>Before=graphical.target
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>After=network.target
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>[Service]
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>Type=oneshot
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="hll">ExecStart=/bin/sleep 6
+</span></span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>ExecStart=/sbin/service networking restart
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>RemainAfterExit=true
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>[Install]
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>WantedBy=multi-user.target
+</span></code></pre></div>
+<p>La Cde sleep 6 fera que le service networking sera relancé 6 secondes après le boot.</p>
+<p>Testez le nouveau service :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>daemon-reload
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>networking-restart
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>networking-restart
+</span></code></pre></div>
+<p>Si le statut est OK, activez le service :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>networking-restart
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>reboot
+</span></code></pre></div>
+<p>Vous ne devriez plus avoir besoin de redémarrer manuellement le service networking après un boot, le ping vers l'adresse lP 192.168.3.1 doit fonctionner.</p>
+<h4 id="-declaration-du-serveur-dns"><em>- Déclaration du serveur DNS</em></h4>
+<p>Editez ou créez le fichier DNS resolv.conf :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/resolv.conf
+</span></code></pre></div>
+<p>et ajoutez le contenu suivant en fin de fichier :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="gh"># Déclaration du serveur DNS à utiliser</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>nameserver ip-votre-box-internet
+</span></code></pre></div>
+<p>Vous pourrez ainsi effectuer des pings sur des noms de domaine comme google.fr et mettre à jour le système Debian sous réserve que srvlan et srvsec soient démarrés.</p>
+<h3 id="titre-4">Liaisons des vm1/2 sur br2/3</h3>
+<p>Open vSwitch est généralement installé sur le PC hôte de l'hyperviseur. Un bridge tel br0 utilise alors les interfaces réseau physiques du PC hôte pour l'accès à Internet et des interfaces réseau virtuelles <strong>TAP</strong> de niveau L2 pour l'accès aux VM.</p>
+<p>Dans le cas présent, Open vSwitch est installé sur une VM de VirtualBox.</p>
+<p>Vous allez donc raccorder les 2 clients Debian sur les interfaces réseau enp0s8/9 de la VM ovs, interfaces qui seront rattachées à des bridges de nom br1/2.</p>
+<p>Vous lierez les 3 bridges à l'aide de ports patch :</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2026/01/ovs-patch-bridges.webp" data-title="Capture - Open vSwitch : Bridges montés en cascade" data-desc-position="bottom"><img alt="Capture - Open vSwitch : Bridges montés en cascade" src="../images/2026/01/ovs-patch-bridges.webp"></a>
+  </p>
+<figcaption>Open vSwitch : Bridges montés en cascade</figcaption>
+</figure>
+<p>L'ensemble des bridges rattachés avec des ports patch (ports de brassage) peut être vu comme un seul pont.  </p>
+<p>La création de VLAN et le routage de paquets IP entre ceux-ci restent possibles.</p>
+<h4 id="-creation-des-bridges-ports"><em>- Création des bridges-ports</em></h4>
+<p>Créez les bridges br1 et br2 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br1<span class="w">  </span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>add-br<span class="w"> </span>br2
+</span></code></pre></div>
+<p>Rattachez les interfaces enp0s8/9 aux bridges br1/2 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br1<span class="w"> </span>enp0s8<span class="w">  </span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>add-port<span class="w"> </span>br2<span class="w"> </span>enp0s9
+</span></code></pre></div>
+<p>Reliez maintenant br0 avec br1 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>--<span class="w"> </span>add-port<span class="w"> </span>br0<span class="w"> </span>br0-patch0<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>br0-patch0<span class="w"> </span><span class="nv">type</span><span class="o">=</span>patch<span class="w"> </span>options:peer<span class="o">=</span>br1-patch0
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>--<span class="w"> </span>add-port<span class="w"> </span>br1<span class="w"> </span>br1-patch0<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>br1-patch0<span class="w"> </span><span class="nv">type</span><span class="o">=</span>patch<span class="w"> </span>options:peer<span class="o">=</span>br0-patch0<span class="w">&nbsp; </span>
+</span></code></pre></div>
+<p>Le caractère&nbsp;\&nbsp;indique d'écrire le tout sur une seule ligne.  </p>
+<p>puis br1 avec br2 :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>--<span class="w"> </span>add-port<span class="w"> </span>br1<span class="w"> </span>br1-patch1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>br1-patch1<span class="w"> </span><span class="nv">type</span><span class="o">=</span>patch<span class="w"> </span>options:peer<span class="o">=</span>br2-patch0<span class="w"> </span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>--<span class="w"> </span>add-port<span class="w"> </span>br2<span class="w"> </span>br2-patch0<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>--<span class="w"> </span><span class="nb">set</span><span class="w"> </span>interface<span class="w"> </span>br2-patch0<span class="w"> </span><span class="nv">type</span><span class="o">=</span>patch<span class="w"> </span>options:peer<span class="o">=</span>br1-patch1
+</span></code></pre></div>
+<p>Contrôlez la prise en compte de la configuration :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w">  </span>show
+</span></code></pre></div>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>c4707bd2-c54e-49de-8a30-9f0eaf0b47f6
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="hll">    Bridge br2
+</span></span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>        Port br2
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>            Interface br2
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>                type: internal
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>        Port enp0s9
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>            Interface enp0s9
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>        Port br2-patch0
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="hll">            Interface br2-patch0
+</span></span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>                type: patch
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>                options: {peer=br1-patch1}
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a><span class="hll">    Bridge br1
+</span></span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>        Port br1-patch1
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a><span class="hll">            Interface br1-patch1
+</span></span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a>                type: patch
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a>                options: {peer=br2-patch0}
+</span><span id="__span-36-17"><a id="__codelineno-36-17" name="__codelineno-36-17" href="#__codelineno-36-17"></a>        Port br1-patch0
+</span><span id="__span-36-18"><a id="__codelineno-36-18" name="__codelineno-36-18" href="#__codelineno-36-18"></a><span class="hll">            Interface br1-patch0
+</span></span><span id="__span-36-19"><a id="__codelineno-36-19" name="__codelineno-36-19" href="#__codelineno-36-19"></a>                type: patch
+</span><span id="__span-36-20"><a id="__codelineno-36-20" name="__codelineno-36-20" href="#__codelineno-36-20"></a>                options: {peer=br0-patch0}
+</span><span id="__span-36-21"><a id="__codelineno-36-21" name="__codelineno-36-21" href="#__codelineno-36-21"></a>        Port br1
+</span><span id="__span-36-22"><a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a>            Interface br1
+</span><span id="__span-36-23"><a id="__codelineno-36-23" name="__codelineno-36-23" href="#__codelineno-36-23"></a>                type: internal
+</span><span id="__span-36-24"><a id="__codelineno-36-24" name="__codelineno-36-24" href="#__codelineno-36-24"></a>        Port enp0s8
+</span><span id="__span-36-25"><a id="__codelineno-36-25" name="__codelineno-36-25" href="#__codelineno-36-25"></a>            Interface enp0s8
+</span><span id="__span-36-26"><a id="__codelineno-36-26" name="__codelineno-36-26" href="#__codelineno-36-26"></a><span class="hll">    Bridge br0
+</span></span><span id="__span-36-27"><a id="__codelineno-36-27" name="__codelineno-36-27" href="#__codelineno-36-27"></a>        Port enp0s3
+</span><span id="__span-36-28"><a id="__codelineno-36-28" name="__codelineno-36-28" href="#__codelineno-36-28"></a>            Interface enp0s3
+</span><span id="__span-36-29"><a id="__codelineno-36-29" name="__codelineno-36-29" href="#__codelineno-36-29"></a>        Port br0
+</span><span id="__span-36-30"><a id="__codelineno-36-30" name="__codelineno-36-30" href="#__codelineno-36-30"></a>            Interface br0
+</span><span id="__span-36-31"><a id="__codelineno-36-31" name="__codelineno-36-31" href="#__codelineno-36-31"></a>                type: internal
+</span><span id="__span-36-32"><a id="__codelineno-36-32" name="__codelineno-36-32" href="#__codelineno-36-32"></a>        Port br0-patch0
+</span><span id="__span-36-33"><a id="__codelineno-36-33" name="__codelineno-36-33" href="#__codelineno-36-33"></a><span class="hll">            Interface br0-patch0
+</span></span><span id="__span-36-34"><a id="__codelineno-36-34" name="__codelineno-36-34" href="#__codelineno-36-34"></a>                type: patch
+</span><span id="__span-36-35"><a id="__codelineno-36-35" name="__codelineno-36-35" href="#__codelineno-36-35"></a>                options: {peer=br1-patch0}
+</span><span id="__span-36-36"><a id="__codelineno-36-36" name="__codelineno-36-36" href="#__codelineno-36-36"></a>    ovs_version: "3.5.0"
+</span></code></pre></div>
+<h4 id="-reglages-reseau-debian"><em>- Réglages réseau Debian</em></h4>
+<p>Editez le fichier interfaces :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/network/interfaces
+</span></code></pre></div>
+<p>et modifiez le comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="gh"># This file describes the network interfaces availabl...</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="gh"># and how to activate them. For more information, see ...</span>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>source /etc/network/interfaces.d/*
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="gh"># The loopback network interface</span>
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>auto lo
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>iface lo inet loopback
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a>
+</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="gh"># The primary network interface</span>
+</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a><span class="gh"># Mettre un # devant les 2 lignes ci-dessous</span>
+</span><span id="__span-38-12"><a id="__codelineno-38-12" name="__codelineno-38-12" href="#__codelineno-38-12"></a><span class="gh">#allow-hotplug enp0s3</span>
+</span><span id="__span-38-13"><a id="__codelineno-38-13" name="__codelineno-38-13" href="#__codelineno-38-13"></a><span class="gh">#iface enp0s3 inet dhcp</span>
+</span><span id="__span-38-14"><a id="__codelineno-38-14" name="__codelineno-38-14" href="#__codelineno-38-14"></a><span class="gh"># This is an autoconfigured IPv6 interface</span>
+</span><span id="__span-38-15"><a id="__codelineno-38-15" name="__codelineno-38-15" href="#__codelineno-38-15"></a><span class="gh"># Mettre un # devant la ligne ci-dessous</span>
+</span><span id="__span-38-16"><a id="__codelineno-38-16" name="__codelineno-38-16" href="#__codelineno-38-16"></a><span class="gh">#iface enp0s3 inet6 auto</span>
+</span><span id="__span-38-17"><a id="__codelineno-38-17" name="__codelineno-38-17" href="#__codelineno-38-17"></a>
+</span><span id="__span-38-18"><a id="__codelineno-38-18" name="__codelineno-38-18" href="#__codelineno-38-18"></a><span class="gu">## Configuration Open vSwitch</span>
+</span><span id="__span-38-19"><a id="__codelineno-38-19" name="__codelineno-38-19" href="#__codelineno-38-19"></a><span class="gh"># Activation de l'interface br0</span>
+</span><span id="__span-38-20"><a id="__codelineno-38-20" name="__codelineno-38-20" href="#__codelineno-38-20"></a>auto br0
+</span><span id="__span-38-21"><a id="__codelineno-38-21" name="__codelineno-38-21" href="#__codelineno-38-21"></a>allow-ovs br0
+</span><span id="__span-38-22"><a id="__codelineno-38-22" name="__codelineno-38-22" href="#__codelineno-38-22"></a>
+</span><span id="__span-38-23"><a id="__codelineno-38-23" name="__codelineno-38-23" href="#__codelineno-38-23"></a><span class="gh"># Configuration IP de l'interface br0</span>
+</span><span id="__span-38-24"><a id="__codelineno-38-24" name="__codelineno-38-24" href="#__codelineno-38-24"></a>iface br0 inet static
+</span><span id="__span-38-25"><a id="__codelineno-38-25" name="__codelineno-38-25" href="#__codelineno-38-25"></a>address 192.168.3.15
+</span><span id="__span-38-26"><a id="__codelineno-38-26" name="__codelineno-38-26" href="#__codelineno-38-26"></a>netmask 255.255.255.0
+</span><span id="__span-38-27"><a id="__codelineno-38-27" name="__codelineno-38-27" href="#__codelineno-38-27"></a>gateway 192.168.3.1
+</span><span id="__span-38-28"><a id="__codelineno-38-28" name="__codelineno-38-28" href="#__codelineno-38-28"></a>ovs_type OVSBridge
+</span><span id="__span-38-29"><a id="__codelineno-38-29" name="__codelineno-38-29" href="#__codelineno-38-29"></a>ovs_ports enp0s3 br0-patch0
+</span><span id="__span-38-30"><a id="__codelineno-38-30" name="__codelineno-38-30" href="#__codelineno-38-30"></a>
+</span><span id="__span-38-31"><a id="__codelineno-38-31" name="__codelineno-38-31" href="#__codelineno-38-31"></a><span class="gh"># Attachement du port/interface enp0s3 au bridge br0</span>
+</span><span id="__span-38-32"><a id="__codelineno-38-32" name="__codelineno-38-32" href="#__codelineno-38-32"></a>allow-br0 enp0s3
+</span><span id="__span-38-33"><a id="__codelineno-38-33" name="__codelineno-38-33" href="#__codelineno-38-33"></a>iface enp0s3 inet manual
+</span><span id="__span-38-34"><a id="__codelineno-38-34" name="__codelineno-38-34" href="#__codelineno-38-34"></a>ovs_bridge br0
+</span><span id="__span-38-35"><a id="__codelineno-38-35" name="__codelineno-38-35" href="#__codelineno-38-35"></a>ovs_type OVSPort
+</span><span id="__span-38-36"><a id="__codelineno-38-36" name="__codelineno-38-36" href="#__codelineno-38-36"></a>
+</span><span id="__span-38-37"><a id="__codelineno-38-37" name="__codelineno-38-37" href="#__codelineno-38-37"></a><span class="gh"># Liaison patch br0 vers br1</span>
+</span><span id="__span-38-38"><a id="__codelineno-38-38" name="__codelineno-38-38" href="#__codelineno-38-38"></a>allow-br0 br0-patch0
+</span><span id="__span-38-39"><a id="__codelineno-38-39" name="__codelineno-38-39" href="#__codelineno-38-39"></a>iface br0-patch0 inet manual
+</span><span id="__span-38-40"><a id="__codelineno-38-40" name="__codelineno-38-40" href="#__codelineno-38-40"></a>ovs_bridge br0
+</span><span id="__span-38-41"><a id="__codelineno-38-41" name="__codelineno-38-41" href="#__codelineno-38-41"></a>ovs_type OVSPatchPort
+</span><span id="__span-38-42"><a id="__codelineno-38-42" name="__codelineno-38-42" href="#__codelineno-38-42"></a>ovs_patch_peer br1-patch0  
+</span><span id="__span-38-43"><a id="__codelineno-38-43" name="__codelineno-38-43" href="#__codelineno-38-43"></a> &nbsp;
+</span><span id="__span-38-44"><a id="__codelineno-38-44" name="__codelineno-38-44" href="#__codelineno-38-44"></a><span class="gh"># Configuration du bridge br1</span>
+</span><span id="__span-38-45"><a id="__codelineno-38-45" name="__codelineno-38-45" href="#__codelineno-38-45"></a>auto br1
+</span><span id="__span-38-46"><a id="__codelineno-38-46" name="__codelineno-38-46" href="#__codelineno-38-46"></a>allow-ovs br1
+</span><span id="__span-38-47"><a id="__codelineno-38-47" name="__codelineno-38-47" href="#__codelineno-38-47"></a>iface br1 inet manual
+</span><span id="__span-38-48"><a id="__codelineno-38-48" name="__codelineno-38-48" href="#__codelineno-38-48"></a>ovs_type OVSBridge
+</span><span id="__span-38-49"><a id="__codelineno-38-49" name="__codelineno-38-49" href="#__codelineno-38-49"></a>ovs_ports enp0s8 br1-patch0 br1-patch1
+</span><span id="__span-38-50"><a id="__codelineno-38-50" name="__codelineno-38-50" href="#__codelineno-38-50"></a> &nbsp;
+</span><span id="__span-38-51"><a id="__codelineno-38-51" name="__codelineno-38-51" href="#__codelineno-38-51"></a>allow-br1 enp0s8
+</span><span id="__span-38-52"><a id="__codelineno-38-52" name="__codelineno-38-52" href="#__codelineno-38-52"></a>iface enp0s8 inet manual
+</span><span id="__span-38-53"><a id="__codelineno-38-53" name="__codelineno-38-53" href="#__codelineno-38-53"></a>ovs_bridge br1
+</span><span id="__span-38-54"><a id="__codelineno-38-54" name="__codelineno-38-54" href="#__codelineno-38-54"></a>ovs_type OVSPort
+</span><span id="__span-38-55"><a id="__codelineno-38-55" name="__codelineno-38-55" href="#__codelineno-38-55"></a>
+</span><span id="__span-38-56"><a id="__codelineno-38-56" name="__codelineno-38-56" href="#__codelineno-38-56"></a><span class="gh"># Liaisons patch br1 vers br0 et br2 </span>
+</span><span id="__span-38-57"><a id="__codelineno-38-57" name="__codelineno-38-57" href="#__codelineno-38-57"></a>allow-br1 br1-patch0
+</span><span id="__span-38-58"><a id="__codelineno-38-58" name="__codelineno-38-58" href="#__codelineno-38-58"></a>iface br1-patch0 inet manual
+</span><span id="__span-38-59"><a id="__codelineno-38-59" name="__codelineno-38-59" href="#__codelineno-38-59"></a>ovs_bridge br1
+</span><span id="__span-38-60"><a id="__codelineno-38-60" name="__codelineno-38-60" href="#__codelineno-38-60"></a>ovs_type OVSPatchPort
+</span><span id="__span-38-61"><a id="__codelineno-38-61" name="__codelineno-38-61" href="#__codelineno-38-61"></a>ovs_patch_peer br0-patch0
+</span><span id="__span-38-62"><a id="__codelineno-38-62" name="__codelineno-38-62" href="#__codelineno-38-62"></a>
+</span><span id="__span-38-63"><a id="__codelineno-38-63" name="__codelineno-38-63" href="#__codelineno-38-63"></a>allow-br1 br1-patch1
+</span><span id="__span-38-64"><a id="__codelineno-38-64" name="__codelineno-38-64" href="#__codelineno-38-64"></a>iface br1-patch1 inet manual
+</span><span id="__span-38-65"><a id="__codelineno-38-65" name="__codelineno-38-65" href="#__codelineno-38-65"></a>ovs_bridge br1
+</span><span id="__span-38-66"><a id="__codelineno-38-66" name="__codelineno-38-66" href="#__codelineno-38-66"></a>ovs_type OVSPatchPort
+</span><span id="__span-38-67"><a id="__codelineno-38-67" name="__codelineno-38-67" href="#__codelineno-38-67"></a>ovs_patch_peer br2-patch0
+</span><span id="__span-38-68"><a id="__codelineno-38-68" name="__codelineno-38-68" href="#__codelineno-38-68"></a>
+</span><span id="__span-38-69"><a id="__codelineno-38-69" name="__codelineno-38-69" href="#__codelineno-38-69"></a><span class="gh"># Configuration du bridge br2</span>
+</span><span id="__span-38-70"><a id="__codelineno-38-70" name="__codelineno-38-70" href="#__codelineno-38-70"></a>auto br2
+</span><span id="__span-38-71"><a id="__codelineno-38-71" name="__codelineno-38-71" href="#__codelineno-38-71"></a>allow-ovs br2
+</span><span id="__span-38-72"><a id="__codelineno-38-72" name="__codelineno-38-72" href="#__codelineno-38-72"></a>iface br2 inet manual
+</span><span id="__span-38-73"><a id="__codelineno-38-73" name="__codelineno-38-73" href="#__codelineno-38-73"></a>ovs_type OVSBridge
+</span><span id="__span-38-74"><a id="__codelineno-38-74" name="__codelineno-38-74" href="#__codelineno-38-74"></a>ovs_ports enp0s9 br2-patch0
+</span><span id="__span-38-75"><a id="__codelineno-38-75" name="__codelineno-38-75" href="#__codelineno-38-75"></a> &nbsp;
+</span><span id="__span-38-76"><a id="__codelineno-38-76" name="__codelineno-38-76" href="#__codelineno-38-76"></a>allow-br2 enp0s9
+</span><span id="__span-38-77"><a id="__codelineno-38-77" name="__codelineno-38-77" href="#__codelineno-38-77"></a>iface enp0s9 inet manual
+</span><span id="__span-38-78"><a id="__codelineno-38-78" name="__codelineno-38-78" href="#__codelineno-38-78"></a>ovs_bridge br2
+</span><span id="__span-38-79"><a id="__codelineno-38-79" name="__codelineno-38-79" href="#__codelineno-38-79"></a>ovs_type OVSPort
+</span><span id="__span-38-80"><a id="__codelineno-38-80" name="__codelineno-38-80" href="#__codelineno-38-80"></a>
+</span><span id="__span-38-81"><a id="__codelineno-38-81" name="__codelineno-38-81" href="#__codelineno-38-81"></a><span class="gh"># Liaison patch br2 vers br1</span>
+</span><span id="__span-38-82"><a id="__codelineno-38-82" name="__codelineno-38-82" href="#__codelineno-38-82"></a>allow-br2 br2-patch0
+</span><span id="__span-38-83"><a id="__codelineno-38-83" name="__codelineno-38-83" href="#__codelineno-38-83"></a>iface br2-patch0 inet manual
+</span><span id="__span-38-84"><a id="__codelineno-38-84" name="__codelineno-38-84" href="#__codelineno-38-84"></a>ovs_bridge br2
+</span><span id="__span-38-85"><a id="__codelineno-38-85" name="__codelineno-38-85" href="#__codelineno-38-85"></a>ovs_type OVSPatchPort
+</span><span id="__span-38-86"><a id="__codelineno-38-86" name="__codelineno-38-86" href="#__codelineno-38-86"></a>ovs_patch_peer br1-patch1
+</span></code></pre></div>
+<p>Redémarrez la VM pour appliquer la configuration :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>reboot
+</span></code></pre></div>
+<p>puis contrôlez le statut du service réseau :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>networking
+</span></code></pre></div>
+<p>ainsi que le contenu de la Bdd d'Open vSwitch :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>show
+</span></code></pre></div>
+<h4 id="-reglages-reseau-virtualbox"><em>- Réglages réseau VirtualBox</em></h4>
+<p>Sans stopper les VM, modifiez l'onglet réseau des 2 clients debian-vm* comme suit :<br>
+-&gt; Adapter 1<br>
+-&gt; Attached to -&gt; Sélectionnez Réseau interne<br>
+-&gt; Name -&gt; Sélectionnez liaison_vm* selon la VM<br>
+-&gt; OK</p>
+<p>Les Cdes ping des debian-vm* vers srvlan et inversement doivent maintenant fonctionner, ceci au travers d'OpenvSwitch.</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2026/02/openvswitch-configuration.webp" data-title="Sunoptique - Open vSwitch : Bridges montés en cascade" data-desc-position="bottom"><img alt="Sunoptique - Open vSwitch : Bridges montés en cascade" src="../images/2026/02/openvswitch-configuration.webp" width="430"></a>
+  </p>
+<figcaption>Open vSwitch : Bridges montés en cascade</figcaption>
+</figure>
+<h3 id="liaisons-des-vm12-sur-br0">Liaisons des vm1/2 sur br0</h3>
+<p>Vous avez découvert ci-dessus le raccordement sur plusieurs bridges reliés entre eux par des ports patch.</p>
+<p>Il est possible aussi de faire plus simple en raccordant toutes les interfaces réseau de la VM ovs sur un seul bridge tel br0.</p>
+<p>Exemple :</p>
+<figure>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2026/01/ovs-bridge-simple.webp" data-title="Image - Open vSwitch : Version un seul bridge" data-desc-position="bottom"><img alt="Image - Open vSwitch : Version un seul bridge" src="../images/2026/01/ovs-bridge-simple.webp"></a>
+  </p>
+<figcaption>Open vSwitch : Version un seul bridge</figcaption>
+</figure>
+<p>Au préalable, supprimez les bridges br1 et br2 construits dans la partie 4 comme ceci :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>del-br<span class="w"> </span>br1
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>del-br<span class="w"> </span>br2
+</span></code></pre></div>
+<p>Editez ensuite le fichier réseau interfaces :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/network/interfaces
+</span></code></pre></div>
+<p>et modifiez son contenu comme suit :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="gh"># This file describes the network interfaces availabl...</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="gh"># and how to activate them. For more information, see ...</span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>source /etc/network/interfaces.d/*
+</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>
+</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a><span class="gh"># The loopback network interface</span>
+</span><span id="__span-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a>auto lo
+</span><span id="__span-44-8"><a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>iface lo inet loopback
+</span><span id="__span-44-9"><a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a>
+</span><span id="__span-44-10"><a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a><span class="gu">## Configuration Open vSwitch</span>
+</span><span id="__span-44-11"><a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="gh"># Activation de l'interface br0</span>
+</span><span id="__span-44-12"><a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a>auto br0
+</span><span id="__span-44-13"><a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a>allow-ovs br0
+</span><span id="__span-44-14"><a id="__codelineno-44-14" name="__codelineno-44-14" href="#__codelineno-44-14"></a>
+</span><span id="__span-44-15"><a id="__codelineno-44-15" name="__codelineno-44-15" href="#__codelineno-44-15"></a><span class="gh"># Configuration IP de l'interface br0</span>
+</span><span id="__span-44-16"><a id="__codelineno-44-16" name="__codelineno-44-16" href="#__codelineno-44-16"></a>iface br0 inet static
+</span><span id="__span-44-17"><a id="__codelineno-44-17" name="__codelineno-44-17" href="#__codelineno-44-17"></a>address 192.168.3.15
+</span><span id="__span-44-18"><a id="__codelineno-44-18" name="__codelineno-44-18" href="#__codelineno-44-18"></a>netmask 255.255.255.0
+</span><span id="__span-44-19"><a id="__codelineno-44-19" name="__codelineno-44-19" href="#__codelineno-44-19"></a>gateway 192.168.3.1
+</span><span id="__span-44-20"><a id="__codelineno-44-20" name="__codelineno-44-20" href="#__codelineno-44-20"></a>ovs_type OVSBridge
+</span><span id="__span-44-21"><a id="__codelineno-44-21" name="__codelineno-44-21" href="#__codelineno-44-21"></a>ovs_ports enp0s3 enp0s8 enp0s9
+</span><span id="__span-44-22"><a id="__codelineno-44-22" name="__codelineno-44-22" href="#__codelineno-44-22"></a>
+</span><span id="__span-44-23"><a id="__codelineno-44-23" name="__codelineno-44-23" href="#__codelineno-44-23"></a><span class="gh"># Attachement du port/interface enp0s3 au bridge br0</span>
+</span><span id="__span-44-24"><a id="__codelineno-44-24" name="__codelineno-44-24" href="#__codelineno-44-24"></a>allow-br0 enp0s3
+</span><span id="__span-44-25"><a id="__codelineno-44-25" name="__codelineno-44-25" href="#__codelineno-44-25"></a>iface enp0s3 inet manual
+</span><span id="__span-44-26"><a id="__codelineno-44-26" name="__codelineno-44-26" href="#__codelineno-44-26"></a>ovs_bridge br0
+</span><span id="__span-44-27"><a id="__codelineno-44-27" name="__codelineno-44-27" href="#__codelineno-44-27"></a>ovs_type OVSPort
+</span><span id="__span-44-28"><a id="__codelineno-44-28" name="__codelineno-44-28" href="#__codelineno-44-28"></a>
+</span><span id="__span-44-29"><a id="__codelineno-44-29" name="__codelineno-44-29" href="#__codelineno-44-29"></a><span class="gh"># Attachement du port/interface enp0s8 au bridge br0</span>
+</span><span id="__span-44-30"><a id="__codelineno-44-30" name="__codelineno-44-30" href="#__codelineno-44-30"></a>allow-br0 enp0s8
+</span><span id="__span-44-31"><a id="__codelineno-44-31" name="__codelineno-44-31" href="#__codelineno-44-31"></a>iface enp0s8 inet manual
+</span><span id="__span-44-32"><a id="__codelineno-44-32" name="__codelineno-44-32" href="#__codelineno-44-32"></a>ovs_bridge br0
+</span><span id="__span-44-33"><a id="__codelineno-44-33" name="__codelineno-44-33" href="#__codelineno-44-33"></a>ovs_type OVSPort
+</span><span id="__span-44-34"><a id="__codelineno-44-34" name="__codelineno-44-34" href="#__codelineno-44-34"></a>
+</span><span id="__span-44-35"><a id="__codelineno-44-35" name="__codelineno-44-35" href="#__codelineno-44-35"></a><span class="gh"># Attachement du port/interface enp0s9 au bridge br0</span>
+</span><span id="__span-44-36"><a id="__codelineno-44-36" name="__codelineno-44-36" href="#__codelineno-44-36"></a>allow-br0 enp0s9
+</span><span id="__span-44-37"><a id="__codelineno-44-37" name="__codelineno-44-37" href="#__codelineno-44-37"></a>iface enp0s9 inet manual
+</span><span id="__span-44-38"><a id="__codelineno-44-38" name="__codelineno-44-38" href="#__codelineno-44-38"></a>ovs_bridge br0
+</span><span id="__span-44-39"><a id="__codelineno-44-39" name="__codelineno-44-39" href="#__codelineno-44-39"></a>ovs_type OVSPort
+</span></code></pre></div>
+<p>Redémarrez la VM pour appliquer la configuration :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>reboot
+</span></code></pre></div>
+<p>Vérifiez enfin le résultat de celle-ci :</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="o">[</span>switch@ovs<span class="o">]</span><span class="w"> </span>sudo<span class="w"> </span>ovs-vsctl<span class="w"> </span>show
+</span></code></pre></div>
+<p>Retour normal :</p>
+<div class="language-markdown highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>c4707bd2-c54e-49de-8a30-9f0eaf0b47f6
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>    Bridge br0
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>        Port enp0s3
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>            Interface enp0s3
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>        Port enp0s8
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>            Interface enp0s8
+</span><span id="__span-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a>        Port enp0s9
+</span><span id="__span-47-8"><a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>            Interface enp0s9
+</span><span id="__span-47-9"><a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>        Port br0
+</span><span id="__span-47-10"><a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a>            Interface br0
+</span><span id="__span-47-11"><a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a>                type: internal
+</span><span id="__span-47-12"><a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a>    ovs_version: "3.5.0"
+</span></code></pre></div>
+<h3 id="test-de-fonctionnement-dovs">Test de fonctionnement d'OvS</h3>
+<p>Vérifiez à l'aide de la Cde ping la conformité des résultats avec ceux indiqués sur la <a href="../images/2026/01/maquette-base-ipfire.png" target="_blank">maquette</a> réseau local virtuel.</p>
+<p>Stoppez ensuite la VM ovs support d'Open vSwitch et assurez-vous que les 2 clients Debian ne peuvent plus communiquer entre eux.</p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../images/2026/01/redacteur.jpg" data-title="Image - Rédacteur satisfait" data-desc-position="bottom"><img align="left" alt="Image - Rédacteur satisfait" src="../images/2026/01/redacteur.jpg" title="Image Pixabay - Mohamed Hassan"></a></p>
+<p>&nbsp;<br>
+Voilà, c'est terminé !<br>
+Le réseau virtuel de base est créé.<br>
+Le mémento 5.2 vous attend pour<br>
+découvrir les conteneurs.</p>
+<p><a class="md-button md-button--primary" href="../podman---virtualbox--debian-12/">Mémento 5.2</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Pied de page">
+        
+          
+          <a href="../xrdp--astuces/" class="md-footer__link md-footer__link--prev" aria-label="Précédent: XRDP – Astuces">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Précédent
+              </span>
+              <div class="md-ellipsis">
+                XRDP – Astuces
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ssh--cl%C3%A9s-publique-et-priv%C3%A9e/" class="md-footer__link md-footer__link--next" aria-label="Suivant: SSH – Clés publique et privée">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Suivant
+              </span>
+              <div class="md-ellipsis">
+                SSH – Clés publique et privée
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2026 - Leloup Gérard
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": false, "loop": false, "zoomable": true, "draggable": false, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "none"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
