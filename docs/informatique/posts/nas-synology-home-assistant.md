@@ -3,7 +3,7 @@ title: "NAS - Synology et Home Assistant"
 description: Installation de Home Assistant sur le Synology.  
 authors:   
   - G.Leloup  
-date: 2025-06-29 
+date: 2026-09-23 
 categories:  
   - NAS
 ---
@@ -51,6 +51,9 @@ ip_ban_enabled: false
 Vérifier la configuration et si OK _(vert)_ redémarrer HA.
 
 Vérifier pour finir dans HA -> Paramètres -> Système -> Réseau que l'accès externe est activé pour la partie Réseau.
+
+!!! note "Nota"
+    En 2026, la configuration réseau ci-dessus ne se gère depuis le fichier configuration.yaml, suivre dorénavent le menu Paramètres -> Système -> Réseau.
 
 ### HACS
 
