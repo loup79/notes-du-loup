@@ -34,6 +34,7 @@ nav:
     - mkdocs/debian-mkdocs.md
     - mkdocs/vscodeserver-mkdocs.md
     - mkdocs/github-mkdocs.md
+    - mkdocs/migration-debian-mkdocs.md
   - Notes Zensical :
     - zensical/installation.md  
   # Fin de la navigation
