@@ -123,7 +123,7 @@ ou image sans option _(Provoque une alerte markdown MD033)_
 </figure>
 ```
 
-ou image avec option et légende _(provoque uen alerte markdown MD033)_
+ou image avec option et légende _(provoque une alerte markdown MD033)_
 
 ```markdown
 <figure markdown>
@@ -188,6 +188,11 @@ Paragraphe - surlignage : ==texte-surligné==  (== de chaque côté du texte)
 
 Extraits - longueur : Inclure le séparateur `<!-- more -->` dans les articles.
 
+Flèche vers la droite :  
+Le code html `&rarr;` donne &rarr;
+
+Un appui sur la touche "Windows" du clavier + la touche ";" ouvre une fenêtre de nom Emoji et plus.
+
 ### **- Fenêtres spéciales**
 
 !!! note "Nota"
@@ -235,8 +240,5 @@ Expéditeur attendu par le relais SMTP (relayhost) : `userx@mail.relais.smtp.yz`
 
 Fin des documents :  
 `**Fin.**`
-
-Flèche vers la droite :  
-`Le code html &rarr;` donne &rarr;
 
 **Fin.**
